@@ -201,3 +201,23 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .app-style-controls .theme-switch{flex:none}
 .font-setting-group{padding:12px 0 4px}
 .font-setting-group>span{display:block;color:var(--muted);font-size:13px;font-weight:600}
+
+/* Compact, uncluttered Edit Profile dialog */
+.edit-profile-dialog{width:min(100% - 28px,440px);padding:20px;border-radius:22px}
+.edit-profile-dialog .modal-header{margin-bottom:16px;align-items:center}
+.edit-profile-dialog .modal-header h2{font-size:20px;margin:0}
+.edit-profile-dialog .profile-form{gap:12px}
+.edit-profile-dialog .profile-edit-avatar-row{display:flex;align-items:center;gap:12px;padding:2px 0 5px}
+.edit-profile-dialog .profile-edit-avatar-row .avatar-large{width:60px;height:60px;border-radius:50%;overflow:hidden;flex:none}
+.edit-profile-dialog .profile-edit-avatar-row .avatar-large img{width:100%;height:100%;object-fit:cover}
+.edit-profile-dialog .upload-avatar{display:inline-flex;align-items:center;gap:7px;color:#6757e8;font-size:13px;font-weight:600;cursor:pointer}
+.edit-profile-dialog .upload-avatar input{display:none}
+.edit-profile-dialog .profile-edit-name,.edit-profile-dialog .profile-edit-username,.edit-profile-dialog .profile-edit-bio{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600}
+.edit-profile-dialog .profile-edit-name input,.edit-profile-dialog .profile-edit-username .username-input input,.edit-profile-dialog .profile-edit-bio textarea{width:100%;min-width:0;box-sizing:border-box;padding:10px 11px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:14px}
+.edit-profile-dialog .profile-edit-username .username-input{display:flex;align-items:center}
+.edit-profile-dialog .profile-edit-username .username-input span{padding:10px 9px;border:1px solid var(--border);border-right:0;border-radius:10px 0 0 10px;background:var(--app-bg);color:var(--muted)}
+.edit-profile-dialog .profile-edit-username .username-input input{border-radius:0 10px 10px 0}
+.edit-profile-dialog .profile-edit-bio textarea{min-height:72px;resize:vertical}
+.edit-profile-dialog .primary-button{width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2px}
+.edit-profile-dialog .form-message{font-size:12px;margin:10px 0 0}
+@media(max-width:480px){.edit-profile-dialog{padding:18px;width:calc(100% - 28px);max-height:calc(100dvh - 40px);overflow:auto}.edit-profile-dialog .profile-form{gap:11px}.edit-profile-dialog .profile-edit-avatar-row .avatar-large{width:56px;height:56px}}
