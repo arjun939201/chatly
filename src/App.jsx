@@ -112,7 +112,13 @@ export default function App() {
   }, [session]);
   const [chatTarget, setChatTarget] = useState(null);
   const [requestedProfile, setRequestedProfile] = useState(null);
-  function openPublicProfile(person) { setRequestedProfile(person); setTab("search"); }
+  const [viewedProfile, setViewedProfile] = useState(null);
+  function openPublicProfile(person) {
+    if (!person?.id) return;
+    if (person.id === session?.user?.id) { setTab("profile"); return; }
+    setViewedProfile(person);
+    setTab("public-profile");
+  }
   const [globalVideo, setGlobalVideo] = useState(null);
   const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);
   const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
