@@ -1555,3 +1555,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 2 */
  .comments-modal .comments-dialog-header{flex-shrink:0} .comments-modal .comment-list{min-height:0} .comments-modal .comments-dialog-header h2{line-height:1.2} .comments-modal .comments-dialog-header p{letter-spacing:.01em} .comments-modal .comments-dialog-header button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
+
+
+/* Comment UX refinement 3 */
+ .comments-modal .post-comment-body{box-shadow:0 1px 2px rgba(20,20,40,.025)} .comments-modal .post-comment-body p{word-break:normal} .comments-modal .post-comment-body a{color:#6f5fe0} .comments-modal .post-comment-body p::selection{background:rgba(129,114,233,.2)} .comments-modal .post-comment{animation:comment-row-in .18s ease-out both}@keyframes comment-row-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
