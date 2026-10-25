@@ -759,3 +759,24 @@ body{overflow-x:hidden}
  .settings-subpage-header>button{width:38px!important;height:38px!important;min-width:38px!important}
  .settings-subpage-header h2{font-size:17px!important}
 }
+
+/* Destination surfaces: consistent page rhythm, readable headers, and compact responsive spacing. */
+.destination-page{width:min(980px,calc(100% - 40px));margin:24px auto 36px;min-width:0}
+.destination-page-header{display:flex;align-items:center;gap:14px;padding:20px 22px;margin-bottom:18px;border:1px solid var(--border,#e4e4e9);border-radius:18px;background:var(--surface,#fff);color:var(--text,#17171b)}
+.destination-page-header>svg{flex:none;color:#6757e8}
+.destination-page-header>div{min-width:0}
+.destination-page-header h2{margin:0;font-size:20px;line-height:1.3;font-weight:700}
+.destination-page-header p{margin:5px 0 0;color:var(--muted,#888894);font-size:13px;line-height:1.5}
+.destination-page .settings-section{min-width:0;padding:20px;border:1px solid var(--border,#e4e4e9);border-radius:18px;background:var(--surface,#fff)}
+.destination-page .settings-category-label,.destination-page .account-options-label{letter-spacing:.075em;font-size:11px}
+.destination-page .style-expander{min-height:54px}
+.destination-page button:focus-visible,.destination-page input:focus-visible,.destination-page textarea:focus-visible{outline:2px solid #8c80f0;outline-offset:2px}
+@media(max-width:760px){
+ .destination-page{width:calc(100% - 24px);margin:14px auto 24px}
+ .destination-page-header{padding:16px;border-radius:15px;gap:11px;margin-bottom:12px}
+ .destination-page-header h2{font-size:18px}
+ .destination-page .settings-section{padding:15px;border-radius:15px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
