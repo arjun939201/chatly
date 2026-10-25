@@ -1575,3 +1575,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 7 */
  .comments-modal .comments-empty-state>span{box-shadow:0 6px 20px rgba(129,114,233,.1)} .comments-modal .comments-empty-state h3{letter-spacing:-.02em} .comments-modal .comments-empty-state p{line-height:1.65} .comments-modal .comments-dialog-header p{font-variant-numeric:tabular-nums} .comments-modal .comment-character-count{white-space:nowrap}
+
+
+/* Comment UX refinement 8 */
+ @media(max-width:380px){.comments-modal .post-comment{grid-template-columns:1fr;gap:7px}.comments-modal .comment-author-profile{padding-inline:2px}.comments-modal .post-comment-body{margin-left:4px}.comments-modal .comment-composer{gap:6px}.comments-modal .comment-composer>button{padding-inline:11px}} @media(max-width:600px){.comments-modal .comment-list{overscroll-behavior-y:contain}.comments-modal .comment-composer textarea{width:100%}}
