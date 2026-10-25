@@ -2047,3 +2047,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile: lift identity and stats below the shared destination bar */
 .profile-page{padding-top:0!important}.profile-page-head{margin:0 0 8px!important;padding:0 0 8px!important;border:0!important}.profile-summary{margin-top:0!important;padding-top:8px!important;padding-bottom:8px!important}
+
+
+/* Profile section boundaries use compact spacing instead of extra rules */
+.profile-page hr,.profile-page .profile-divider,.profile-page .profile-grid-heading{border-top:0!important}.profile-grid-heading{margin:12px 0 8px!important;padding:0!important}
