@@ -46,6 +46,8 @@ export default function App() {
     return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
+  const [myPosts, setMyPosts] = useState([]);
+  const [myPostsLoading, setMyPostsLoading] = useState(false);
   useEffect(() => {
     let cancelled = false;
     async function loadProfileStats() {
