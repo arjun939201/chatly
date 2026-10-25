@@ -1975,3 +1975,7 @@ img,video,iframe{max-width:100%}
 
 /* Public profile details avoid oversized nested headings */
 .search-page .public-profile-header{margin-bottom:12px}.search-page .public-profile-bio{margin:8px 0;line-height:1.55}
+
+
+/* Chat conversation header is compact */
+.chat-page{padding-top:0}.chat-page .conversation-header{min-height:54px}.chat-page .conversation-header h2{margin:0;font-size:16px}
