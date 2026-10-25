@@ -117,7 +117,7 @@ export default function NotificationsDestination({ session }) {
                     {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}
                     {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
-                </article>;
+                </article></React.Fragment>;
               })}
             </div>
           ) : (
