@@ -2003,3 +2003,7 @@ img,video,iframe{max-width:100%}
 
 /* Followed authors have clear state feedback in the post menu */
 .post-options-menu button:disabled{opacity:.55;cursor:wait}.post-options-menu button:focus-visible{outline:2px solid #8172e9;outline-offset:1px}
+
+
+/* Post menu stays aligned with author identity on small screens */
+.post-card .post-options-wrap{margin-left:auto;flex:0 0 auto}.post-card .post-options-trigger{cursor:pointer}.post-card .post-options-trigger:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
