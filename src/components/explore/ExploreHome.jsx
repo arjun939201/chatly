@@ -23,7 +23,7 @@ export default function ExploreHome({ onSearch }) {
         .select("id,user_id,body,created_at")
         .order("created_at", { ascending: false })
         .limit(8);
-      if (postsError) throw postsError;
+      if (postsError) throw postsError;\n      if (request !== requestId.current) return;
       const rows = (Array.isArray(data) ? data : []).filter(post => post && post.id != null);
       const authorIds = [...new Set(rows.map(post => post.user_id).filter(id => typeof id === "string" && id.length > 0))];
       const { data: profiles, error: profilesError } = authorIds.length
