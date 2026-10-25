@@ -2087,3 +2087,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile content starts directly under the destination title */
 .profile-page{padding-top:8px!important}.profile-page-head{margin:0 0 10px!important;padding:0 0 8px!important;border-bottom:0!important}.profile-summary{margin:0!important;padding:8px 0!important}.profile-grid-heading{margin:12px 0 8px!important;border:0!important}
+
+
+/* Explore compact intro and search */
+.search-people{padding-top:8px!important}.search-people>h1{margin:0 0 4px!important;font-size:22px!important;line-height:1.3}.search-people>p{margin:0 0 12px!important;font-size:14px!important}.search-page-input{min-height:50px!important;margin:0 0 12px!important;border-radius:12px!important}.search-start-prompt{margin:12px 0 0!important;padding:20px 14px!important;min-height:0!important}
