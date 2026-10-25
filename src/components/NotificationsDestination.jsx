@@ -30,7 +30,22 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
-  const [visibleCount, setVisibleCount] = useState(20);\n  const unreadCount = items.filter(item => !item.read_at).length;\n\n  const markRead = useCallback(async (id) => {\n    const { error: updateError } = await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("id", id).eq("recipient_id", session.user.id).is("read_at", null);\n    if (updateError) { setError(updateError.message || "Could not mark notification as read."); return; }\n    setItems(current => current.map(item => item.id === id ? { ...item, read_at: new Date().toISOString() } : item));\n  }, [session?.user?.id]);\n\n  const markAllRead = useCallback(async () => {\n    if (!session?.user?.id || !unreadCount) return;\n    const timestamp = new Date().toISOString();\n    const { error: updateError } = await supabase.from("notifications").update({ read_at: timestamp }).eq("recipient_id", session.user.id).is("read_at", null);\n    if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }\n    setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: timestamp }));\n  }, [session?.user?.id, unreadCount]);
+  const [visibleCount, setVisibleCount] = useState(20);
+  const unreadCount = items.filter(item => !item.read_at).length;
+
+  const markRead = useCallback(async (id) => {
+    const { error: updateError } = await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("id", id).eq("recipient_id", session.user.id).is("read_at", null);
+    if (updateError) { setError(updateError.message || "Could not mark notification as read."); return; }
+    setItems(current => current.map(item => item.id === id ? { ...item, read_at: new Date().toISOString() } : item));
+  }, [session?.user?.id]);
+
+  const markAllRead = useCallback(async () => {
+    if (!session?.user?.id || !unreadCount) return;
+    const timestamp = new Date().toISOString();
+    const { error: updateError } = await supabase.from("notifications").update({ read_at: timestamp }).eq("recipient_id", session.user.id).is("read_at", null);
+    if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }
+    setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: timestamp }));
+  }, [session?.user?.id, unreadCount]);
   const filteredItems = items.filter(item => filter === "all" || item.type === filter);
 
   const loadNotifications = useCallback(async () => {
