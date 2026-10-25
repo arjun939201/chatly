@@ -1903,7 +1903,7 @@ img,video,iframe{max-width:100%}
 
 
 /* Floating plus is the single post-entry point */
-.floating-create{width:52px;height:52px;border-radius:16px;box-shadow:0 5px 16px #6757e830}.create-menu-wrap,.create-menu{display:none!important}
+.floating-create{width:52px;height:52px;border-radius:16px;box-shadow:0 5px 16px #6757e830}.create-menu{display:none!important}.create-menu-wrap{display:block!important}
 
 
 /* Reduce excess whitespace on smaller screens */
@@ -1920,3 +1920,6 @@ img,video,iframe{max-width:100%}
 
 /* Settings: flatten excess panels and tighten section rhythm */
 .app-settings-destination-page .settings-section{box-shadow:none;margin-bottom:10px;padding:14px;border-radius:13px}.app-settings-destination-page .account-option-row{min-height:44px}
+
+/* Restore the floating create control as a visible, usable feed action */
+.feed-page .create-menu-wrap{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:calc(82px + env(safe-area-inset-bottom));z-index:35}.feed-page .floating-create{display:grid;place-items:center;background:var(--accent,#8172e9);color:#fff;border:0;cursor:pointer}
