@@ -2063,3 +2063,7 @@ img,video,iframe{max-width:100%}
 
 /* Settings rows remain tappable while wasting less vertical space */
 .settings-page .settings-accordion,.settings-page .settings-row{min-height:54px!important;padding:12px!important}.settings-page .settings-accordion-content{padding:8px 12px!important}
+
+
+/* Chat destination: use available height without oversized exterior margins */
+.chat-layout{margin:8px auto!important;height:calc(100dvh - 88px)!important;border-radius:14px!important}.conversation-header{height:58px!important;padding:0 14px!important}.message-list{padding:14px!important}.composer{padding:10px 12px!important}
