@@ -43,17 +43,17 @@ export default function NotificationsDestination({ session }) {
       ];
       if (!activity.length) { setItems([]); return; }
 
-      const actorIds = [...new Set(activity.map(item => item.user_id))];
+      // Collapse likes for the same post into one activity row, retaining actor identities.\n      const grouped = new Map();\n      activity.forEach(item => {\n        if (item.type !== "like") { grouped.set(item.id || `${item.type}-${item.user_id}-${item.created_at}`, item); return; }\n        const key = `like-${item.post_id}`;\n        const group = grouped.get(key) || { ...item, id: key, actors: [], created_at: item.created_at };\n        group.actors.push(item.user_id);\n        if (new Date(item.created_at || 0) > new Date(group.created_at || 0)) group.created_at = item.created_at;\n        grouped.set(key, group);\n      });\n      const displayActivity = [...grouped.values()];\n      const actorIds = [...new Set(displayActivity.flatMap(item => item.actors || [item.user_id]))];
       const [{ data: profiles, error: profileError }] = await Promise.all([
         supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds)
       ]);
       if (profileError) throw profileError;
       const profileMap = Object.fromEntries((profiles || []).map(person => [person.id, person]));
       const postMap = Object.fromEntries(postRows.map(post => [post.id, post]));
-      setItems(activity.map((item, index) => ({
+      setItems(displayActivity.map((item, index) => ({
         ...item,
         id: item.id || `${item.type}-${item.post_id}-${item.user_id}-${index}`,
-        actor: profileMap[item.user_id] || {},
+        actor: profileMap[item.user_id] || {},\n        actors: (item.actors || [item.user_id]).map(id => profileMap[id]).filter(Boolean),
         post: postMap[item.post_id] || {}
       })).sort((a, b) => new Date(b.created_at || b.post.created_at) - new Date(a.created_at || a.post.created_at)));
     } catch (err) {
