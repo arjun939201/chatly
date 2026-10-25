@@ -61,8 +61,13 @@ export default function App() {
       supabase.from("posts").select("id,body,created_at").eq("user_id", session.user.id).order("created_at", { ascending: false }).limit(100),
       supabase.from("posts").select("id", { count: "exact", head: true }).eq("user_id", session.user.id)
     ]);
-    if (error) { console.error("Profile posts refresh failed:", error); return; }
+    if (error) {
+      console.error("Profile posts refresh failed:", error);
+      setMyPostsError("Your posts could not be refreshed. Please try again.");
+      return;
+    }
     setMyPosts(data || []);
+    setMyPostsError("");
     setProfileStats(current => ({ ...current, posts: countResult.error ? (data?.length || 0) : (countResult.count || 0) }));
   }
   useEffect(() => {
