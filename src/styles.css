@@ -1551,3 +1551,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 1 */
  .post-actions button[aria-controls^="comments-"]{transition:background .16s,color .16s,transform .16s;border-radius:12px;padding-inline:12px} .post-actions button[aria-controls^="comments-"]:hover{background:color-mix(in srgb,#8172e9 10%,transparent);color:#6f5fe0} .post-actions button[aria-controls^="comments-"][aria-expanded="true"]{background:color-mix(in srgb,#8172e9 13%,transparent);color:#6f5fe0} .post-actions button[aria-controls^="comments-"]:active{transform:scale(.97)} .post-actions button:focus-visible{outline:2px solid #9183ed;outline-offset:2px}
+
+
+/* Comment UX refinement 2 */
+ .comments-modal .comments-dialog-header{flex-shrink:0} .comments-modal .comment-list{min-height:0} .comments-modal .comments-dialog-header h2{line-height:1.2} .comments-modal .comments-dialog-header p{letter-spacing:.01em} .comments-modal .comments-dialog-header button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
