@@ -1276,3 +1276,8 @@ img,video,iframe{max-width:100%}
   .profile-stats{gap:6px 9px}
   .profile-actions button{font-size:12px;padding-inline:9px}
 }
+
+
+/* Chat composer supports multiline drafts while keeping the send action aligned. */
+.composer textarea{flex:1;min-width:0;min-height:42px;max-height:140px;resize:vertical;border:0;outline:none;background:transparent;color:inherit;font:inherit;padding:10px 12px;line-height:1.4}
+.composer textarea::placeholder{color:var(--muted,#888)}
