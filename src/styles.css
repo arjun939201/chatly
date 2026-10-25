@@ -1991,3 +1991,7 @@ img,video,iframe{max-width:100%}
 
 /* Destination headers share a compact baseline */
 .destination-topline{min-height:52px;padding:0 14px}.destination-current-title{line-height:1.25}.page-back-to-feed{flex:0 0 40px}
+
+
+/* Destination pages prevent horizontal overflow */
+.profile-page,.search-page,.destination-page,.chat-page{box-sizing:border-box;max-width:100%;min-width:0}@media(max-width:600px){.destination-topline{padding-inline:12px}.destination-current-title{font-size:18px}.profile-page{padding-bottom:84px}}
