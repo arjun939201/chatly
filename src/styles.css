@@ -3909,3 +3909,10 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-feed-heading h2{font-size:13px;letter-spacing:.055em}
 .notification-activity-list{border-radius:16px;box-shadow:0 1px 3px rgba(20,20,30,.035)}
 .notification-activity-item{min-height:76px}
+
+/* Notification UI pass 2: consistent filter chips */
+.notification-filter-row{display:flex;align-items:center;gap:7px;overflow-x:auto;padding:2px 1px 12px;scrollbar-width:none}
+.notification-filter-row::-webkit-scrollbar{display:none}
+.notification-filter-row button{flex:0 0 auto;min-height:34px;padding:7px 13px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--muted);font:inherit;font-size:12px;font-weight:600;white-space:nowrap}
+.notification-filter-row button.active{border-color:var(--text);background:var(--text);color:var(--surface)}
+.notification-filter-row button:focus-visible{outline:2px solid #7667df;outline-offset:2px}
