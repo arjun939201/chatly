@@ -2059,3 +2059,7 @@ img,video,iframe{max-width:100%}
 
 /* Settings: tighten accordion sections and remove excess top whitespace */
 .settings-page{padding-top:8px!important}.settings-page .settings-section{margin:12px 0!important;padding-top:0!important}.settings-page .account-options-label{margin:14px 0 6px!important;padding-bottom:5px!important}.settings-page .destination-page-header{margin-bottom:12px!important}
+
+
+/* Settings rows remain tappable while wasting less vertical space */
+.settings-page .settings-accordion,.settings-page .settings-row{min-height:54px!important;padding:12px!important}.settings-page .settings-accordion-content{padding:8px 12px!important}
