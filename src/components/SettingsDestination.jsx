@@ -43,7 +43,8 @@ export default function SettingsDestination({ onSubpageChange = () => {}, theme 
   const [deleteInfoOpen, setDeleteInfoOpen] = useState(false);
   const [message, setMessage] = useState("");
   const title = groups.flatMap(group => group.items).find(item => item.id === view)?.title || "Settings";
-  const preferenceDefaults = { readReceipts: true, privateProfile: false, messageRequests: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, enterToSend: false, mediaPreview: true, autoDownloadMedia: true };\n  const safePrefs = { ...preferenceDefaults, ...(chatPrefs || {}) };\n  const pref = (key, value) => setChatPrefs(current => ({ ...preferenceDefaults, ...(current || {}), [key]: value }));
+  const preferenceDefaults = { readReceipts: true, privateProfile: false, messageRequests: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, enterToSend: false, mediaPreview: true, autoDownloadMedia: true };
+  const safePrefs = { ...preferenceDefaults, ...(chatPrefs || {}) };\n  const pref = (key, value) => setChatPrefs(current => ({ ...preferenceDefaults, ...(current || {}), [key]: value }));
   const back = () => { if (view !== "home") window.history.back(); };
 
   function detailContent() {
