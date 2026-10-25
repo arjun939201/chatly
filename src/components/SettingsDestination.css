@@ -10,3 +10,5 @@
 .st-pref-row input:focus-visible{outline:2px solid #7566e8;outline-offset:3px}
 
 .st-nav-row:hover,.st-detail-row:hover{background:color-mix(in srgb,var(--surface) 90%,var(--text) 10%)}
+
+.st-search input::placeholder{color:var(--muted);opacity:.9}.st-search input:hover{border-color:color-mix(in srgb,var(--border) 55%,var(--text) 45%)}
