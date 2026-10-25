@@ -2075,3 +2075,7 @@ img,video,iframe{max-width:100%}
 
 /* Global spacing rhythm */
 :root{--space-page:clamp(12px,2.4vw,24px);--space-section:16px;--space-control:10px;--radius-card:14px;--radius-control:10px}.destination-page,.search-page,.profile-page{padding-inline:var(--space-page)}
+
+
+/* Compact destination bar */
+.destination-topline{height:56px;min-height:56px;padding:0 var(--space-page);gap:12px}.destination-current-title{font-size:18px;line-height:1.25;font-weight:650;letter-spacing:-.025em}.page-back-to-feed{width:40px;height:40px;min-width:40px;border-radius:11px}
