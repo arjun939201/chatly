@@ -3018,3 +3018,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   }
 }
 
+
+
+/* Feed UI refinement 01 — canvas and spacing */
+.feed-page{background:linear-gradient(180deg,#f8f8fc 0%,#f3f4fa 100%);padding:28px 20px 112px}.feed-column{width:min(700px,100%)}.feed-heading-row{margin-bottom:20px}.feed-heading-row h1{font-size:clamp(22px,3vw,27px);font-weight:750;letter-spacing:-.8px}.feed-heading-row p{font-size:13px}
