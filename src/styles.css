@@ -2539,3 +2539,14 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     font-size: 11px;
   }
 }
+
+
+/* Chat mobile navigation: make the conversation return action explicit and keyboard-visible. */
+@media(max-width:700px){
+ .chat-layout .conversation-close{flex:0 0 38px;width:38px;height:38px;border:1px solid var(--border,#e5e5ec);border-radius:11px;background:var(--app-bg,#f7f7fa);color:var(--text,#24243a)}
+ .chat-layout .conversation-close:hover{background:var(--chatly-brand-soft,#f0edff);color:var(--chatly-brand,#6757e8)}
+ .chat-layout .conversation-header .chat-avatar-profile-link{flex:0 0 auto}
+ .chat-layout .conversation-header>div{min-width:0;overflow:hidden}
+ .chat-layout .conversation-header>div strong,.chat-layout .conversation-header>div small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+.chat-layout button:focus-visible,.chat-layout [role=button]:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:2px}
