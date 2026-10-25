@@ -47,19 +47,19 @@ export default function ExploreHome({ onSearch }) {
       <div><h2>Discover on Chatly</h2><p>Find conversations and people beyond your feed.</p></div>
     </div>
     <div className="explore-topic-discovery" aria-label="Explore topics">
-      <h3><Hash size={16} /> Browse topics</h3>
+      <h3><Hash size={16} /> Explore by interest <span>Choose a topic to find related conversations</span></h3>
       <div className="explore-discovery-actions">
         {["Technology", "Gaming", "Music", "Learning", "Art", "Sports", "Books", "Fitness"].map(topic => <button key={topic} type="button" onClick={() => onSearch(topic)}>{topic}</button>)}
       </div>
     </div>
     <div className="explore-home-section-heading">
-      <h3><TrendingUp size={17} /> Recent conversations</h3>
+      <h3><TrendingUp size={17} /> Fresh from the community <span>Recent public posts</span></h3>
       <button type="button" onClick={loadRecentPosts} disabled={loading} aria-label="Refresh recent posts"><RefreshCw size={15} /></button>
     </div>
     {loading ? <p role="status" className="explore-home-status">Loading recent posts…</p>
       : error ? <div className="explore-home-status" role="alert">{error}<button type="button" onClick={loadRecentPosts}>Retry</button></div>
       : posts.length ? <div className="explore-home-posts">{posts.map(post => <article className="explore-home-post" key={post.id}>
-          <div className="explore-home-post-author">{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <span> @{post.author.username}</span> : null}</div>
+          <div className="explore-home-post-author"><span className="explore-home-post-avatar">{(post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
           <p>{post.body}</p>
           <time dateTime={post.created_at || undefined}>{post.created_at ? new Date(post.created_at).toLocaleDateString(undefined, { dateStyle: "medium" }) : "Recently"}</time>
         </article>)}</div>
