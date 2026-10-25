@@ -3157,3 +3157,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .youtube-result small{font-size:11px;color:#9292a6}
 .explore-load-more{justify-self:center;border:1px solid #e4e2f6;border-radius:999px;padding:9px 16px;background:#faf9ff;color:#6256d5;font-size:12px}
 @media(max-width:600px){.search-person{padding:10px}.youtube-result img{width:94px}.search-post{padding:12px}}
+
+
+@media(max-width:760px){.explore-home{gap:17px}.explore-home-heading h2{font-size:21px}.explore-home-heading p{font-size:12px}.explore-topic-discovery{padding:15px}.explore-home-post p{overflow-wrap:anywhere}.search-kind-tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}.search-kind-tabs::-webkit-scrollbar{display:none}.search-page-input{min-height:48px}.explore-result-section{margin-bottom:18px}}
+@media(max-width:420px){.explore-home-heading{align-items:flex-start}.explore-home-heading p{max-width:260px}.explore-discovery-actions button{padding:7px 10px}.explore-home-post-author{font-size:12px}.youtube-result{gap:9px;padding:8px}.youtube-result img{width:86px}.youtube-result b{font-size:11px}}
