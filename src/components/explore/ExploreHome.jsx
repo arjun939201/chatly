@@ -38,10 +38,7 @@ export default function ExploreHome({ onSearch }) {
       <span className="explore-home-icon"><Compass size={21} /></span>
       <div><h2>Discover on Chatly</h2><p>Find conversations and people beyond your feed.</p></div>
     </div>
-    <div className="explore-discovery-actions">
-      {["People", "Posts", "Rooms", "Songs"].map((category) => <button key={category} type="button" onClick={() => onSearch(category.toLowerCase())}>{category}</button>)}
-    </div>
-    <div className="explore-home-section-heading">
+    <div className="explore-topic-discovery" aria-label="Explore topics">\n      <h3><Hash size={16} /> Browse topics</h3>\n      <div className="explore-discovery-actions">\n        {["Technology", "Gaming", "Music", "Learning", "Art", "Sports", "Books", "Fitness"].map(topic => <button key={topic} type="button" onClick={() => onSearch(topic)}>{topic}</button>)}\n      </div>\n    </div>\n    <div className="explore-home-section-heading">
       <h3><TrendingUp size={17} /> Recent conversations</h3>
       <button type="button" onClick={loadRecentPosts} disabled={loading} aria-label="Refresh recent posts"><RefreshCw size={15} /></button>
     </div>
