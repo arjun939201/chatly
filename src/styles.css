@@ -1587,3 +1587,27 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 10 */
  @media(hover:none){.comments-modal .comment-author-profile:hover{color:inherit}.comments-modal .comments-dialog-header button:hover{transform:none}} @media(prefers-reduced-motion:reduce){.comments-modal .post-comment{animation:none}.post-actions button[aria-controls^="comments-"]{transition:none}} .comments-modal button{touch-action:manipulation} .comments-modal textarea{touch-action:pan-y} .comments-modal [aria-live]{overflow-wrap:anywhere}
+
+
+/* Rebuilt comment thread: identity and message share one predictable column */
+.comments-modal .comment-list{display:flex;flex-direction:column;gap:0;padding:22px 24px}
+.comments-modal .comment-item{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;align-items:start;padding:0 0 22px;margin:0;animation:none}
+.comments-modal .comment-item+.comment-item{padding-top:2px}
+.comments-modal .comment-avatar-link{display:block;width:42px;height:42px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer}
+.comments-modal .comment-avatar-link .mini-avatar{display:flex;width:42px;height:42px;overflow:hidden;border:1px solid var(--border,#e4e4e9);border-radius:50%}
+.comments-modal .comment-avatar-link .mini-avatar img{width:100%;height:100%;object-fit:cover}
+.comments-modal .comment-avatar-link:focus-visible{outline:2px solid #8172e9;outline-offset:3px}
+.comments-modal .comment-content{min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:7px}
+.comments-modal .comment-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 7px;min-width:0;min-height:22px;line-height:1.4}
+.comments-modal .comment-name{display:inline;padding:0;border:0;background:none;color:var(--text,#17171b);font-size:13px;font-weight:750;line-height:1.4;text-align:left;cursor:pointer}
+.comments-modal .comment-name:hover{color:#7060dc}
+.comments-modal .comment-name:focus-visible{outline:2px solid #8172e9;outline-offset:2px;border-radius:3px}
+.comments-modal .comment-username,.comments-modal .comment-meta time{color:var(--muted,#888894);font-size:11px;line-height:1.4}
+.comments-modal .comment-meta-dot{color:var(--muted,#888894);font-size:11px}
+.comments-modal .comment-you-label{padding:2px 7px;border-radius:5px;background:color-mix(in srgb,#8172e9 13%,var(--surface,#fff));color:#7162d8;font-size:10px;font-weight:700}
+.comments-modal .comment-message{width:100%;min-width:0;padding:0;border:0;border-radius:0;background:transparent;color:var(--text,#24242b);box-shadow:none}
+.comments-modal .comment-message p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.65}
+.comments-modal .comment-item-own .comment-message{padding:11px 14px;border:1px solid color-mix(in srgb,#8172e9 22%,var(--border,#e4e4e9));border-radius:4px 14px 14px 14px;background:color-mix(in srgb,#8172e9 7%,var(--surface,#fff))}
+.comments-modal .comment-item-own .comment-message p{font-size:14px}
+@media(max-width:600px){.comments-modal .comment-list{padding:18px 16px;gap:0}.comments-modal .comment-item{grid-template-columns:36px minmax(0,1fr);gap:10px;padding-bottom:20px}.comments-modal .comment-avatar-link,.comments-modal .comment-avatar-link .mini-avatar{width:36px;height:36px}.comments-modal .comment-content{gap:5px}.comments-modal .comment-meta{gap:4px 6px}.comments-modal .comment-name{font-size:12px}.comments-modal .comment-username,.comments-modal .comment-meta time{font-size:10px}.comments-modal .comment-message p{font-size:13px;line-height:1.6}}
+@media(prefers-color-scheme:dark){.comments-modal .comment-message{color:var(--text,#f0f0f4)}.comments-modal .comment-name{color:var(--text,#f0f0f4)}}
