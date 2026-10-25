@@ -1904,3 +1904,7 @@ img,video,iframe{max-width:100%}
 
 /* Floating plus is the single post-entry point */
 .floating-create{width:52px;height:52px;border-radius:16px;box-shadow:0 5px 16px #6757e830}.create-menu-wrap,.create-menu{display:none!important}
+
+
+/* Reduce excess whitespace on smaller screens */
+@media(max-width:600px){.feed-page{padding:14px 12px 88px}.feed-column{width:100%}.post-card{padding:14px;border-radius:12px}.posts-list{gap:10px}}
