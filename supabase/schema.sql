@@ -111,3 +111,43 @@ begin
   end if;
 end
 $$;
+
+
+-- Community feed: posts and reactions.
+create table if not exists public.posts (
+  id bigint generated always as identity primary key,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  body text not null check (char_length(body) between 1 and 5000),
+  created_at timestamptz not null default now()
+);
+create index if not exists posts_created_at_idx on public.posts (created_at desc);
+
+create table if not exists public.post_likes (
+  post_id bigint not null references public.posts(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+
+alter table public.posts enable row level security;
+alter table public.post_likes enable row level security;
+
+drop policy if exists "Authenticated users can read posts" on public.posts;
+create policy "Authenticated users can read posts" on public.posts
+  for select to authenticated using (true);
+drop policy if exists "Users can create their own posts" on public.posts;
+create policy "Users can create their own posts" on public.posts
+  for insert to authenticated with check (auth.uid() = user_id);
+drop policy if exists "Users can delete their own posts" on public.posts;
+create policy "Users can delete their own posts" on public.posts
+  for delete to authenticated using (auth.uid() = user_id);
+
+drop policy if exists "Authenticated users can read post likes" on public.post_likes;
+create policy "Authenticated users can read post likes" on public.post_likes
+  for select to authenticated using (true);
+drop policy if exists "Users can like as themselves" on public.post_likes;
+create policy "Users can like as themselves" on public.post_likes
+  for insert to authenticated with check (auth.uid() = user_id);
+drop policy if exists "Users can remove their own likes" on public.post_likes;
+create policy "Users can remove their own likes" on public.post_likes
+  for delete to authenticated using (auth.uid() = user_id);
