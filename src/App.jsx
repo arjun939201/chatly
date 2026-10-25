@@ -6,7 +6,7 @@ import Chat from "./components/Chat.jsx";
 import Feed from "./components/Feed.jsx";
 import SearchPeople from "./components/SearchPeople.jsx";
 
-const initialProfile = { display_name: "", username: "", avatar_url: "" };
+const initialProfile = { display_name: "", username: "", avatar_url: "", bio: "" };
 
 export default function App() {
   const [session, setSession] = useState(null);
@@ -46,7 +46,7 @@ export default function App() {
       const metadata = user.user_metadata || {};
       const fallbackName = metadata.display_name || metadata.full_name || user.email?.split("@")[0] || "Chatly user";
       const { data, error } = await supabase.from("profiles")
-        .select("id, username, display_name, avatar_url").eq("id", user.id).maybeSingle();
+        .select("id, username, display_name, avatar_url, bio").eq("id", user.id).maybeSingle();
       if (cancelled) return;
       if (error) {
         console.error("Profile load failed:", error);
@@ -55,9 +55,9 @@ export default function App() {
       }
       let next = data;
       if (!next) {
-        const seed = { id: user.id, username: metadata.username || null, display_name: fallbackName, avatar_url: metadata.avatar_url || null };
+        const seed = { id: user.id, username: metadata.username || null, display_name: fallbackName, avatar_url: metadata.avatar_url || null, bio: metadata.bio || "" };
         const { data: inserted, error: insertError } = await supabase.from("profiles")
-          .upsert(seed, { onConflict: "id" }).select("id, username, display_name, avatar_url").single();
+          .upsert(seed, { onConflict: "id" }).select("id, username, display_name, avatar_url, bio").single();
         if (cancelled) return;
         if (insertError) {
           console.error("Profile create failed:", insertError);
@@ -66,7 +66,7 @@ export default function App() {
         } else next = inserted;
       }
       setProfile(next);
-      setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "" });
+      setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "", bio: next.bio || "" });
     }
     loadProfile();
     return () => { cancelled = true; };
@@ -87,18 +87,18 @@ export default function App() {
       }
       const username = form.username.trim().toLowerCase() || null;
       if (username && !/^[a-z0-9_]{3,20}$/.test(username)) throw new Error("Username must be 3–20 characters: letters, numbers, or underscores.");
-      const payload = { id: session.user.id, display_name: form.display_name.trim() || "Chatly user", username, avatar_url };
+      const payload = { id: session.user.id, display_name: form.display_name.trim() || "Chatly user", username, avatar_url, bio: form.bio.trim() };
       const { data: saved, error } = await supabase.from("profiles")
         .upsert(payload, { onConflict: "id" })
-        .select("id, username, display_name, avatar_url").single();
+        .select("id, username, display_name, avatar_url, bio").single();
       if (error) throw error;
       // Keep Auth metadata in sync as a fallback, while the profiles row remains authoritative.
       const { error: metadataError } = await supabase.auth.updateUser({
-        data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url }
+        data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url, bio: saved.bio }
       });
       if (metadataError) console.warn("Auth metadata sync failed:", metadataError.message);
       setProfile(saved);
-      setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "" });
+      setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "", bio: saved.bio || "" });
       setAvatarFile(null);
       setNotice("Profile saved successfully.");
     } catch (error) { setNotice(error.message || "Could not save profile."); }
@@ -141,6 +141,7 @@ export default function App() {
           </div>
           <label>Display name<input value={form.display_name} maxLength={40} onChange={e => setForm(f => ({...f, display_name:e.target.value}))} placeholder="Your name" required/></label>
           <label>Username <span className="field-hint">Optional · 3–20 letters, numbers, underscores</span><div className="username-input"><span>@</span><input value={form.username} maxLength={20} onChange={e => setForm(f => ({...f, username:e.target.value}))} placeholder="yourusername"/></div></label>
+          <label>Bio <span className="field-hint">Up to 160 characters</span><textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
           <label>Email address<input value={session.user.email || ""} readOnly/></label>
           <button className="primary-button" disabled={saving}>{saving ? "Saving…" : <><Save size={16}/> Save profile</>}</button>
         </form>
