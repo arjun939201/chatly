@@ -1931,3 +1931,7 @@ img,video,iframe{max-width:100%}
 
 /* Keep timeline posts visible in the unified feed */
 .feed-page .posts-list{display:grid;grid-template-columns:minmax(0,1fr);visibility:visible;opacity:1}
+
+
+/* Ensure post cards retain their content layout */
+.feed-page .post-card{display:block;min-width:0;visibility:visible;background:var(--surface,#fff);color:var(--text,#202033)}
