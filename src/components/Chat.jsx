@@ -81,21 +81,33 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     load();
     const channel = supabase.channel(`chat-${[session.user.id, active.id].sort().join("-")}`)
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, payload => {
+        if (!alive) return;
         const m = payload.new;
-        if ((m.sender_id === session.user.id && m.recipient_id === active.id) || (m.sender_id === active.id && m.recipient_id === session.user.id)) {
-          setMessages(current => current.some(item => item.id === m.id) ? current : [...current, m]);
-        }
+        const isThisConversation = (m.sender_id === session.user.id && m.recipient_id === active.id) || (m.sender_id === active.id && m.recipient_id === session.user.id);
         const peer = m.sender_id === session.user.id ? m.recipient_id : m.sender_id;
-        if (peer === active.id) {
-          setRecentMessages(current => current.some(item => item.id === m.id) ? current : [m, ...current].slice(0, 250));
-          setLastMessages(current => ({ ...current, [peer]: m }));
+        setRecentMessages(current => current.some(item => item.id === m.id) ? current : [m, ...current].slice(0, 250));
+        setLastMessages(current => {
+          const previous = current[peer];
+          return !previous || new Date(m.created_at) >= new Date(previous.created_at) ? { ...current, [peer]: m } : current;
+        });
+        if (isThisConversation) {
+          setMessages(current => {
+            if (current.some(item => item.id === m.id)) return current;
+            return [...current, m].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+          });
         }
       })
       .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, payload => {
+        if (!alive) return;
         const removed = payload.old;
-        if ((removed.sender_id === session.user.id && removed.recipient_id === active.id) || (removed.sender_id === active.id && removed.recipient_id === session.user.id)) {
-          setMessages(current => current.filter(item => item.id !== removed.id));
-        }
+        const isThisConversation = (removed.sender_id === session.user.id && removed.recipient_id === active.id) || (removed.sender_id === active.id && removed.recipient_id === session.user.id);
+        if (isThisConversation) setMessages(current => current.filter(item => item.id !== removed.id));
+        setRecentMessages(current => current.filter(item => item.id !== removed.id));
+        setLastMessages(current => {
+          if (current[active.id]?.id !== removed.id) return current;
+          const fallback = recentMessages.find(item => item.id !== removed.id && (item.sender_id === active.id || item.recipient_id === active.id));
+          return { ...current, [active.id]: fallback || null };
+        });
       }).subscribe();
     return () => { alive = false; supabase.removeChannel(channel); };
   }, [active, session.user.id]);
