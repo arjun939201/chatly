@@ -216,7 +216,9 @@ export default function App() {
         const { error: uploadError } = await supabase.storage.from("avatars").upload(path, avatarFile, { upsert: true, contentType: avatarFile.type });
         if (uploadError) throw uploadError;
         const { data } = supabase.storage.from("avatars").getPublicUrl(path);
-        avatar_url = data.publicUrl;
+        // Replacing the same storage path can leave mobile browsers showing a cached avatar.
+        const cacheKey = Date.now();
+        avatar_url = `${data.publicUrl}${data.publicUrl.includes("?") ? "&" : "?"}v=${cacheKey}`;
       }
       const username = form.username.trim().toLowerCase() || null;
       if (username && !/^[a-z0-9_]{3,20}$/.test(username)) throw new Error("Username must be 3–20 characters: letters, numbers, or underscores.");
