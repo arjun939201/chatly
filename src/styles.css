@@ -3025,3 +3025,6 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed UI refinement 02 — post card surfaces */
 .post-card{border:1px solid #e8e8f1;border-radius:18px;padding:20px 21px;box-shadow:0 5px 22px rgba(39,35,83,.035);transition:border-color .18s ease,box-shadow .18s ease}.post-card:hover{border-color:#dedcf0;box-shadow:0 8px 28px rgba(39,35,83,.065)}.posts-list{display:grid;gap:14px}
+
+/* Feed UI refinement 03 — author identity */
+.post-author{gap:12px}.post-author-profile{min-width:0;gap:11px}.post-author b{font-size:13.5px;font-weight:700;letter-spacing:-.1px}.post-author small{font-size:11px;line-height:1.5}.post-author .mini-avatar{width:42px;height:42px;flex:none}.post-follow-button{border:1px solid #e4e1fa;border-radius:999px;background:#f7f5ff;color:#6354c7;padding:7px 13px;font-size:12px;font-weight:650;transition:background .16s ease}.post-follow-button:hover:not(:disabled){background:#ece8ff}.post-follow-button.is-following{background:#fff;border-color:#e7e7ee;color:#77778b}
