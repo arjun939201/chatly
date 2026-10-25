@@ -1967,3 +1967,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile grid avoids overflow */
 .profile-post-tile{min-height:150px;display:flex;flex-direction:column;justify-content:space-between;padding:12px}.profile-post-tile p{margin:0;overflow-wrap:anywhere}.profile-post-tile small{margin-top:18px}@media(max-width:600px){.profile-post-tile{min-height:124px;padding:10px}}
+
+
+/* Explore starts with compact spacing */
+.search-page{padding-top:8px}.search-page .search-section-title{margin:14px 0 8px}.search-page .search-start-prompt{padding:22px 14px}
