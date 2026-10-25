@@ -136,7 +136,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                   </div>
                 </article></React.Fragment>;
               })}
-              {filteredItems.length > visibleCount && <button type="button" className="notification-load-more" onClick={() => setVisibleCount(count => count + 20)}>Load more activity</button>}
+              {filteredItems.length > visibleCount && <button type="button" className="notification-load-more" onClick={() => setVisibleCount(count => count + 20)} aria-label={`Load ${Math.min(20, filteredItems.length - visibleCount)} more notifications`}>Load more activity</button>}
             </div>
           ) : (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>You’re all caught up</h3><p>When someone likes or comments on your posts, or follows you, you’ll see it here.</p></div>
