@@ -2279,3 +2279,11 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .profile-post-skeleton span:nth-child(3) { width: 48%; }
 @keyframes profile-skeleton-pulse { from { opacity: .45; } to { opacity: .95; } }
 @media (prefers-reduced-motion: reduce) { .profile-post-skeleton span { animation: none; } }
+
+/* Profile identity and avatar editor refinements */
+.profile-handle { display: block; margin-top: 3px; color: var(--muted, #888894); font-size: .9rem; }
+.profile-edit-avatar-row { align-items: center; flex-wrap: wrap; gap: 12px; }
+.profile-edit-avatar-row .text-button { border: 0; background: transparent; color: var(--muted, #888894); font: inherit; font-size: .86rem; cursor: pointer; padding: 7px 4px; }
+.profile-edit-avatar-row .text-button:hover { color: var(--text, #17171b); text-decoration: underline; }
+.profile-edit-username input { min-width: 0; }
+@media (max-width: 520px) { .profile-edit-avatar-row { justify-content: flex-start; } .profile-edit-avatar-row .upload-avatar { min-height: 40px; } }
