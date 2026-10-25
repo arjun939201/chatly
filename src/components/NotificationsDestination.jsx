@@ -65,6 +65,17 @@ export default function NotificationsDestination({ session }) {
 
   useEffect(() => { loadNotifications(); }, [loadNotifications]);
 
+  // Refresh activity when likes, comments, or follows change in Supabase.
+  useEffect(() => {
+    if (!session?.user?.id) return undefined;
+    const channel = supabase.channel(`notifications-${session.user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "post_likes" }, loadNotifications)
+      .on("postgres_changes", { event: "*", schema: "public", table: "post_comments" }, loadNotifications)
+      .on("postgres_changes", { event: "*", schema: "public", table: "user_follows" }, loadNotifications)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [session?.user?.id, loadNotifications]);
+
   return (
     <section className="destination-page notification-destination-page" aria-label="Notification activity">
       <div className="notification-content">
