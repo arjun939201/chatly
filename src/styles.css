@@ -2974,3 +2974,47 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   font-weight: 700;
 }
 
+
+
+/* Explore UI pass 10: compact screens, safe-area padding, and touch targets. */
+@media (max-width: 600px) {
+  .search-page .explore-home {
+    gap: 14px;
+  }
+  .search-page .explore-topic-discovery {
+    padding: 13px;
+  }
+  .search-page .explore-discovery-actions {
+    gap: 7px;
+  }
+  .search-page .explore-discovery-actions button {
+    min-height: 38px;
+  }
+  .search-page .explore-home-post,
+  .search-page .search-post {
+    padding: 13px;
+  }
+  .search-page .search-person {
+    padding: 11px;
+  }
+  .search-page .explore-home-heading {
+    align-items: flex-start;
+  }
+}
+@media (max-width: 360px) {
+  .search-page .search-person-action {
+    min-width: 34px;
+    padding: 7px;
+  }
+  .search-page .search-post-body,
+  .search-page .explore-home-post p {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .search-page .search-page-input,
+  .search-page .youtube-result {
+    transition: none;
+  }
+}
+
