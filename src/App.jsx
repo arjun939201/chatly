@@ -44,7 +44,9 @@ export default function App() {
       if (!event.target.closest(".global-profile-menu, .profile-page-head")) setProfileMenuOpen(false);
     }
     document.addEventListener("pointerdown", closeOnOutsideClick);
-    return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+    function closeOnEscape(event) { if (event.key === "Escape") setProfileMenuOpen(false); }
+    document.addEventListener("keydown", closeOnEscape);
+    return () => { document.removeEventListener("pointerdown", closeOnOutsideClick); document.removeEventListener("keydown", closeOnEscape); };
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [myPosts, setMyPosts] = useState([]);
