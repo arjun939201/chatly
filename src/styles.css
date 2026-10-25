@@ -1884,3 +1884,7 @@ img,video,iframe{max-width:100%}
   white-space: nowrap;
   flex: none;
 }
+
+
+/* Simplify feed: remove empty top-control spacing after feed filters/composer are removed */
+.feed-page{padding-top:20px}.feed-column{max-width:680px}.feed-top-controls{display:none}.feed-composer{display:none}
