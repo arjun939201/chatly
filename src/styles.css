@@ -2123,3 +2123,7 @@ img,video,iframe{max-width:100%}
 
 /* Skeleton shimmer respects reduced-motion settings */
 .post-skeleton .skeleton-author>i,.post-skeleton .skeleton-author>span i,.post-skeleton .skeleton-line,.post-skeleton .skeleton-actions i{background:linear-gradient(100deg,#eeedf4 20%,#f8f7fb 42%,#eeedf4 64%);background-size:220% 100%;animation:chatly-skeleton-shimmer 1.35s ease-in-out infinite}@keyframes chatly-skeleton-shimmer{to{background-position-x:-220%}}@media(prefers-reduced-motion:reduce){.post-skeleton *{animation:none!important}}
+
+
+/* Global keyboard focus standard */
+:where(button,a,input,textarea,select,[tabindex]):focus-visible{outline:2px solid #7868e8;outline-offset:2px}:where(button,a):focus:not(:focus-visible){outline:none}
