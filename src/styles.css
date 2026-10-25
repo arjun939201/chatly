@@ -1474,3 +1474,10 @@ img,video,iframe{max-width:100%}
 .post-author-profile>span{min-width:0}
 .post-author small{display:block;line-height:1.5;overflow-wrap:anywhere}
 .post-body{letter-spacing:-.08px}
+
+
+/* 3. Feed scope controls */
+.feed-scope-tabs{padding:4px;background:#fff;border:1px solid #e6e5ef;border-radius:16px;gap:4px}
+.feed-scope-tabs button{min-height:44px;border-radius:12px;color:#858599;transition:background .15s,color .15s,box-shadow .15s}
+.feed-scope-tabs button.active{background:#f2f1f8;color:#27273a;box-shadow:0 1px 4px #2520440b}
+.feed-scope-tabs button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
