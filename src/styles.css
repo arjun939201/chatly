@@ -39,3 +39,11 @@
 /* Header logo scale and notifications screen */
 .brand{font-size:40px;line-height:1;color:#111}.header-notifications{margin-left:auto;border:0;background:transparent;color:#171717;padding:8px;display:grid;place-items:center}.notifications-page{flex:1;width:min(760px,100%);margin:0 auto;padding:0 18px 100px;color:#20202a}.notifications-page>header{height:58px;display:flex;align-items:center;border-bottom:1px solid #e8e8e8}.notifications-page h2{font-size:20px;margin:0}.notifications-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:48vh;color:#777}.notifications-empty h3{color:#222;margin:16px 0 6px}.notifications-empty p{font-size:14px;line-height:1.5}.topbar{justify-content:flex-start}.account{display:none!important}
 @media(max-width:760px){.brand{font-size:38px}.topbar{gap:12px}.header-notifications svg{width:28px;height:28px}}
+
+/* Feed-only navigation, anchored viewport controls, balanced wordmark */
+.topbar{padding-left:clamp(28px,6vw,64px);padding-right:clamp(18px,3vw,36px)}
+.brand{font-size:42px;line-height:1;letter-spacing:-1.5px}
+.bottom-tabs{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(100%,780px);z-index:20;padding-bottom:env(safe-area-inset-bottom);margin:0}
+.floating-create{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));z-index:21}
+.app-shell{min-height:100dvh}
+@media(max-width:760px){.topbar{padding-left:30px;padding-right:18px}.brand{font-size:40px}.bottom-tabs{left:0;transform:none;width:100%}}
