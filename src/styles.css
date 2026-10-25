@@ -2776,3 +2776,42 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   font-weight: 700;
 }
 
+
+
+/* Explore UI pass 4: topic shortcuts read as compact discovery chips. */
+.search-page .explore-topic-discovery {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border, #e9e8f1);
+  border-radius: 15px;
+  background: var(--surface, #fff);
+}
+.search-page .explore-topic-discovery h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--text, #34334a);
+  font-size: 14px;
+}
+.search-page .explore-discovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.search-page .explore-discovery-actions button {
+  min-height: 36px;
+  padding: 8px 13px;
+  border: 1px solid var(--border, #e6e5ef);
+  border-radius: 999px;
+  background: var(--app-bg, #f8f7fc);
+  color: var(--text, #45445c);
+  font-size: 12px;
+  font-weight: 600;
+}
+.search-page .explore-discovery-actions button:hover {
+  border-color: var(--chatly-brand, #6757e8);
+  background: var(--chatly-brand-soft, #f0edff);
+  color: var(--chatly-brand, #6757e8);
+}
+
