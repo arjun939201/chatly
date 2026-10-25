@@ -3031,3 +3031,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed UI refinement 04 — post text legibility */
 .post-body{font-size:14px;line-height:1.78;letter-spacing:.005em;color:#3f4057;margin:17px 0 19px;white-space:pre-wrap;overflow-wrap:anywhere}.post-body a{color:#6558d8;text-decoration:underline;text-underline-offset:2px}
+/* Explore UI pass 11 — shared surface and text tokens */
+.search-page{--explore-border:var(--border,#e7e6ef);--explore-surface:var(--surface,#fff);--explore-muted:var(--muted,#85859a);--explore-text:var(--text,#34334a)}
+.search-page .explore-home,.search-page .explore-result-section{color:var(--explore-text)}
+.search-page .explore-home-post,.search-page .search-person,.search-page .search-post,.search-page .explore-topic-discovery{border-color:var(--explore-border);background:var(--explore-surface)}
