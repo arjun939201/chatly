@@ -274,3 +274,20 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .account-destination-page .account-option-row small{font-size:11px;line-height:1.4;font-weight:400;color:var(--muted)}
 .account-destination-page .account-option-row>span:last-child{font-size:18px;color:var(--muted)}
 .account-destination-page .account-danger-option strong{color:#b64e5d}
+
+
+/* Consistent destination-page framing for profile-menu routes */
+.notification-destination-page,.app-settings-destination-page{width:min(100% - 32px,560px);margin:10px auto 24px;padding:16px 18px 12px;border-radius:14px;box-shadow:none}
+.notification-destination-page .destination-page-header,.app-settings-destination-page .destination-page-header{gap:9px;padding-bottom:12px}
+.notification-destination-page .destination-page-header h2,.app-settings-destination-page .destination-page-header h2{font-size:20px;letter-spacing:-.3px}
+.notification-destination-page .destination-page-header p,.app-settings-destination-page .destination-page-header p{font-size:12px;margin-top:2px}
+.notification-destination-page .notification-view{margin-top:10px;padding:0;background:transparent;border:0;box-shadow:none}
+.notification-destination-page .notifications-empty{min-height:210px;justify-content:center}
+.notification-destination-page .notifications-empty svg{color:var(--muted)}
+.notification-destination-page .notifications-empty h3{color:var(--text);font-size:15px}
+.notification-destination-page .notifications-empty p{color:var(--muted)}
+.app-settings-destination-page .app-style-controls{margin-top:12px;padding:0;background:transparent;border:0;box-shadow:none}
+.app-settings-destination-page .settings-view-heading{padding:10px 0;border-bottom:1px solid var(--border);margin:0}
+.app-settings-destination-page .settings-view-heading h3{font-size:15px;font-weight:600}
+.app-settings-destination-page .style-expander{min-height:44px;padding:10px 2px;font-size:14px}
+@media(max-width:600px){.notification-destination-page,.app-settings-destination-page{width:calc(100% - 28px);margin:10px auto 20px;padding:14px 15px 10px;border-radius:12px}}
