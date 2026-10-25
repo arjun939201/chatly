@@ -2854,3 +2854,43 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   overflow-wrap: anywhere;
 }
 
+
+
+/* Explore UI pass 6: align people discovery identities and action controls. */
+.search-page .search-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+}
+.search-page .search-person-profile {
+  border-radius: 10px;
+}
+.search-page .search-person-profile:focus-visible {
+  outline: 2px solid var(--chatly-brand, #6757e8);
+  outline-offset: 3px;
+}
+.search-page .search-person-details b {
+  display: block;
+  color: var(--text, #34334a);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.search-page .search-person-details small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted, #9292a6);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.search-page .search-person-action {
+  border: 1px solid var(--border, #e8e7f0);
+  background: var(--surface, #fff);
+  color: var(--chatly-brand, #6757e8);
+  font-weight: 650;
+}
+.search-page .search-person-action:hover {
+  border-color: var(--chatly-brand, #6757e8);
+  background: var(--chatly-brand-soft, #f0edff);
+}
+
