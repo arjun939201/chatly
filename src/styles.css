@@ -1778,3 +1778,17 @@ img,video,iframe{max-width:100%}
 .profile-page .profile-post-tile{min-width:0;min-height:150px;border-radius:15px;overflow:hidden;transition:transform .18s,box-shadow .18s}
 .profile-page .profile-post-tile:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(30,25,70,.08)}
 @media(max-width:600px){.profile-page{padding:16px 12px 90px}.profile-page .profile-avatar{width:68px;height:68px}.profile-page .profile-post-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+
+
+/* Notifications component — scan-friendly event rows and unread state */
+.notifications-page{width:min(100%,720px);margin-inline:auto;padding:24px 18px 100px}
+.notifications-page .notification-row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;padding:14px;border-bottom:1px solid var(--border,#eeeeF3);transition:background .16s}
+.notifications-page .notification-row:hover{background:var(--app-bg,#f7f7fa)}
+.notifications-page .notification-row-unread{background:color-mix(in srgb,#8172e9 6%,var(--surface,#fff))}
+.notifications-page .notification-row-unread:before{content:"";width:7px;height:7px;position:absolute;border-radius:50%;background:#8172e9}
+.notifications-page .notification-copy{min-width:0;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.notifications-page .notification-copy time{display:block;margin-top:4px;font-size:11px;color:var(--muted,#858597)}
+.notifications-page .notification-action{min-height:34px;padding:7px 11px;border:1px solid var(--border,#e7e7ef);border-radius:10px;background:var(--surface,#fff);font-size:11px;font-weight:650}
+.notifications-page .notification-action:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
+.notifications-page .notifications-empty{padding:38px 20px;text-align:center;color:var(--muted,#858597)}
+@media(max-width:600px){.notifications-page{padding:16px 12px 90px}.notifications-page .notification-row{grid-template-columns:36px minmax(0,1fr);gap:10px;padding:12px}.notifications-page .notification-action{grid-column:2;justify-self:start}}
