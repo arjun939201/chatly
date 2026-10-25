@@ -6,7 +6,7 @@ function Avatar({ person, size = "mini-avatar" }) {
   return <span className={size}>{person?.avatar_url ? <img src={person.avatar_url} alt="" /> : (person?.display_name || person?.username || "?").slice(0,1).toUpperCase()}</span>;
 }
 
-export default function SearchPeople({ session, requestedProfile, onProfileRequestHandled, onOpenChats, onPlayVideo }) {
+export default function SearchPeople({ session, requestedProfile, onProfileRequestHandled, onOpenProfile, onOpenChats, onPlayVideo }) {
   const [query, setQuery] = useState("");
   const [people, setPeople] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -76,32 +76,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
     return () => { alive = false; window.clearTimeout(timer); };
   }, [query, kind]);
 
-  async function openProfile(person) {
-    const request = ++profileRequest.current;
-    setSelected(person);
-    setNotice("");
-    setProfileLoading(true);
-    setFollowing(false);
-    setFollowers(0);
-    setFollowingCount(0);
-    try {
-      const [followerRows, followingRows, mine] = await Promise.all([
-        supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", person.id),
-        supabase.from("user_follows").select("following_id", { count: "exact", head: true }).eq("follower_id", person.id),
-        supabase.from("user_follows").select("follower_id").eq("follower_id", session.user.id).eq("following_id", person.id).maybeSingle()
-      ]);
-      const error = followerRows.error || followingRows.error || mine.error;
-      if (error) throw error;
-      if (request !== profileRequest.current) return;
-      setFollowers(followerRows.count || 0);
-      setFollowingCount(followingRows.count || 0);
-      setFollowing(!!mine.data);
-    } catch (error) {
-      if (request === profileRequest.current) setNotice(error.message || "Could not load this profile's follow information.");
-    } finally {
-      if (request === profileRequest.current) setProfileLoading(false);
-    }
-  }
+  function openProfile(person) { onOpenProfile?.(person); }
 
   async function toggleFollow() {
     if (!selected || selected.id === session.user.id || busy) return;
