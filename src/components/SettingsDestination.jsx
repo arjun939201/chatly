@@ -23,6 +23,8 @@ function Toggle({ title, detail, checked, onChange }) {
 export default function SettingsDestination({ onSubpageChange = () => {}, setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
   const [view, setView] = useState("home");
   const [emailOpen, setEmailOpen] = useState(false);
+  const [emailSaving, setEmailSaving] = useState(false);
+  const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [deleteInfoOpen, setDeleteInfoOpen] = useState(false);
@@ -36,11 +38,11 @@ export default function SettingsDestination({ onSubpageChange = () => {}, setThe
       <section className="st-card"><h2>PERSONAL INFORMATION</h2>
         <button className="st-detail-row" onClick={() => { setEditProfileOpen(true); setNotice(""); }}><UserCog/><span><strong>Edit profile</strong><small>Display name, username, photo and bio</small></span><ChevronRight/></button>
         <button className="st-detail-row" onClick={() => setEmailOpen(v => !v)}><Mail/><span><strong>Email address</strong><small>{session?.user?.email || "Manage your sign-in email"}</small></span><ChevronRight/></button>
-        {emailOpen && <form className="st-inline-form" onSubmit={async e => { e.preventDefault(); const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm."); }}><label>New email address<input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button disabled={!accountEmail.trim() || accountEmail.trim() === session?.user?.email}>Update email</button></form>}
+        {emailOpen && <form className="st-inline-form" onSubmit={async e => { e.preventDefault(); setNotice(""); setEmailSaving(true); try { const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm."); } catch (error) { setNotice(error.message || "Could not request email update."); } finally { setEmailSaving(false); } }}><label>New email address<input type="email" autoComplete="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button disabled={emailSaving || !accountEmail.trim() || accountEmail.trim().toLowerCase() === session?.user?.email?.toLowerCase()}>{emailSaving ? "Requesting…" : "Update email"}</button></form>}
       </section>
       <section className="st-card"><h2>SECURITY & SIGN-IN</h2>
         <button className="st-detail-row" onClick={() => setPasswordOpen(v => !v)}><KeyRound/><span><strong>Change password</strong><small>Choose a new password</small></span><ChevronRight/></button>
-        {passwordOpen && <form className="st-inline-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button disabled={!password}>Update password</button></form>}
+        {passwordOpen && <form className="st-inline-form" onSubmit={async e => { e.preventDefault(); setNotice(""); setPasswordSaving(true); try { await setNewPassword(e); } finally { setPasswordSaving(false); } }}><label>New password<input type="password" autoComplete="new-password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button disabled={passwordSaving || password.length < 6}>{passwordSaving ? "Updating…" : "Update password"}</button></form>}
         <button className="st-detail-row" onClick={() => setLogoutOpen(true)}><LogOut/><span><strong>Log out</strong><small>Sign out of this device</small></span><ChevronRight/></button>
       </section>
       <section className="st-card st-danger"><h2>ACCOUNT MANAGEMENT</h2><button className="st-detail-row" onClick={() => setDeleteInfoOpen(true)}><Trash2/><span><strong>Delete account</strong><small>Permanently remove your account and data</small></span><ChevronRight/></button></section>
