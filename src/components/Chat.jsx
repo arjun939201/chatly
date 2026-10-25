@@ -73,10 +73,21 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     if (!active) { setMessages([]); return; }
     let alive = true;
     const load = async () => {
+      setHistoryBusy(true);
+      setHasOlderMessages(false);
       const { data, error: err } = await supabase.from("messages").select("*")
         .or(`and(sender_id.eq.${session.user.id},recipient_id.eq.${active.id}),and(sender_id.eq.${active.id},recipient_id.eq.${session.user.id})`)
-        .order("created_at", { ascending: true });
-      if (alive) { if (err) setError(err.message); else setMessages(data || []); }
+        .order("created_at", { ascending: false })
+        .limit(60);
+      if (alive) {
+        if (err) setError(err.message);
+        else {
+          const page = (data || []).reverse();
+          setMessages(page);
+          setHasOlderMessages((data || []).length === 60);
+        }
+        setHistoryBusy(false);
+      }
     };
     load();
     const channel = supabase.channel(`chat-${[session.user.id, active.id].sort().join("-")}`)
@@ -113,6 +124,32 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   }, [active, session.user.id]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "auto", block: "end" }); }, [messages]);
+
+  async function loadOlderMessages() {
+    if (!active || historyBusy || !hasOlderMessages || !messages.length) return;
+    const oldest = messages[0];
+    const list = messageListRef.current;
+    const previousHeight = list?.scrollHeight || 0;
+    setHistoryBusy(true);
+    const { data, error: err } = await supabase.from("messages").select("*")
+      .or(`and(sender_id.eq.${session.user.id},recipient_id.eq.${active.id}),and(sender_id.eq.${active.id},recipient_id.eq.${session.user.id})`)
+      .lt("created_at", oldest.created_at)
+      .order("created_at", { ascending: false })
+      .limit(60);
+    if (err) setError(err.message);
+    else {
+      const older = (data || []).reverse();
+      setMessages(current => {
+        const existing = new Set(current.map(message => message.id));
+        return [...older.filter(message => !existing.has(message.id)), ...current];
+      });
+      setHasOlderMessages((data || []).length === 60);
+      requestAnimationFrame(() => {
+        if (list) list.scrollTop += list.scrollHeight - previousHeight;
+      });
+    }
+    setHistoryBusy(false);
+  }
 
   async function sendMessage(event) {
     event.preventDefault();
@@ -210,7 +247,8 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     <section className="conversation">
       {active ? <>
         <header className="conversation-header"><button className="conversation-close" onClick={() => { setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }} aria-label="Close conversation" title="Close conversation"><X size={18}/></button><span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${active.display_name || active.username || "member"} profile`} onClick={() => onOpenProfile?.(active)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onOpenProfile?.(active); } }}><Avatar person={active}/></span><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
-        <div className="message-list">
+        <div className="message-list" ref={messageListRef}>
+          {hasOlderMessages && <button type="button" className="load-older-messages" onClick={loadOlderMessages} disabled={historyBusy}>{historyBusy ? "Loading…" : "Load older messages"}</button>}
           {messages.filter(m => !messageSearch.trim() || m.body.toLowerCase().includes(messageSearch.trim().toLowerCase())).map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.reply_to && <div className="message-reply-preview"><span>Replying to</span><p>{messages.find(item => item.id === m.reply_to)?.body || "Original message"}</p></div>}{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time><button type="button" className="message-reply" aria-label="Reply to message" title="Reply to message" onClick={() => { setReplyTo(m); document.querySelector(".composer textarea")?.focus(); }}><Reply size={13}/></button>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
