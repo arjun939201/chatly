@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy, Archive } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -22,6 +22,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
+  const [archivedChats, setArchivedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-archived-chats-${session.user.id}`) || "[]"); } catch { return []; } });
   const [lastMessages, setLastMessages] = useState({});
   const [recentMessages, setRecentMessages] = useState([]);
   const [readMarkers, setReadMarkers] = useState(() => {
@@ -42,6 +43,8 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
         setLastMessages(latest);
       });
   }, [session.user.id]);
+
+  useEffect(() => { try { localStorage.setItem(`chatly-archived-chats-${session.user.id}`, JSON.stringify(archivedChats)); } catch { /* Session-only fallback. */ } }, [archivedChats, session.user.id]);
 
   useEffect(() => {
     try { localStorage.setItem(`chatly-read-markers-${session.user.id}`, JSON.stringify(readMarkers)); }
@@ -242,7 +245,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   }, {});
   const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)]
     .filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.trim().toLowerCase()))
-    .filter(p => filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || (filter === "unread" && unreadCounts[p.id] > 0))
+    .filter(p => filter === "archived" ? archivedChats.includes(p.id) : !archivedChats.includes(p.id) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || (filter === "unread" && unreadCounts[p.id] > 0)))
     .sort((a, b) => {
       if (a.id === session.user.id) return b.id === session.user.id ? 0 : -1;
       if (b.id === session.user.id) return 1;
@@ -255,7 +258,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     <aside className="sidebar">
       <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
       <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/></div>
-      <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">
+      <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"],["archived","Archived"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setDrafts(current => ({ ...current, [active?.id || "__none"]: draft })); setDraft(drafts[person.id] || ""); setActive(person); setMessageSearch(""); setError(""); }}>
           <span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${person.display_name || person.username || "member"} profile`} onClick={event => { event.stopPropagation(); onOpenProfile?.(person); }} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); event.stopPropagation(); onOpenProfile?.(person); } }}><Avatar person={person}/></span>
           <span className="person-copy"><strong>{person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{lastMessages[person.id] ? `${lastMessages[person.id].sender_id === session.user.id ? "You: " : ""}${lastMessages[person.id].body}` : person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span>{unreadCounts[person.id] > 0 && <span className="chat-unread-count" aria-label={`${unreadCounts[person.id]} unread messages`}>{unreadCounts[person.id] > 99 ? "99+" : unreadCounts[person.id]}</span>}<time className="chat-row-time">{lastMessages[person.id] ? new Date(lastMessages[person.id].created_at).toLocaleDateString([], { month: "short", day: "numeric" }) : ""}</time>
@@ -265,7 +268,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     </aside>
     <section className="conversation">
       {active ? <>
-        <header className="conversation-header"><button className="conversation-close" onClick={() => { setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }} aria-label="Close conversation" title="Close conversation"><X size={18}/></button><span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${active.display_name || active.username || "member"} profile`} onClick={() => onOpenProfile?.(active)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onOpenProfile?.(active); } }}><Avatar person={active}/></span><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
+        <header className="conversation-header"><button type="button" className="conversation-archive" aria-label={archivedChats.includes(active.id) ? "Unarchive conversation" : "Archive conversation"} title={archivedChats.includes(active.id) ? "Unarchive conversation" : "Archive conversation"} onClick={() => { setArchivedChats(current => current.includes(active.id) ? current.filter(id => id !== active.id) : [...current, active.id]); setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }}><Archive size={17}/></button><button className="conversation-close" onClick={() => { setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }} aria-label="Close conversation" title="Close conversation"><X size={18}/></button><span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${active.display_name || active.username || "member"} profile`} onClick={() => onOpenProfile?.(active)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onOpenProfile?.(active); } }}><Avatar person={active}/></span><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list" ref={messageListRef}>
           {hasOlderMessages && <button type="button" className="load-older-messages" onClick={loadOlderMessages} disabled={historyBusy}>{historyBusy ? "Loading…" : "Load older messages"}</button>}
           {messages.filter(m => !messageSearch.trim() || m.body.toLowerCase().includes(messageSearch.trim().toLowerCase())).map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.reply_to && <div className="message-reply-preview"><span>Replying to</span><p>{messages.find(item => item.id === m.reply_to)?.body || "Original message"}</p></div>}{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}{m.sender_id === session.user.id && m.read_at && <span className="message-read-receipt" title="Read"> · Read</span>}</time><button type="button" className="message-copy" aria-label="Copy message" title="Copy message" onClick={async () => { try { await navigator.clipboard.writeText(m.body); } catch { setError("Could not copy message. Check clipboard permissions."); } }}><Copy size={13}/></button><button type="button" className="message-reply" aria-label="Reply to message" title="Reply to message" onClick={() => { setReplyTo(m); document.querySelector(".composer textarea")?.focus(); }}><Reply size={13}/></button>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
