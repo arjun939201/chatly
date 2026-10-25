@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, UserRound, ShieldCheck, Bell, Palette, MessageCircle, CircleHelp, Info, LogOut, Trash2, ChevronRight, Sun, Moon, Monitor, Type, KeyRound, Mail, UserCog, Check } from "lucide-react";
 import "./SettingsDestination.css";
 
@@ -22,6 +22,18 @@ function Toggle({ title, detail, checked, onChange }) {
 
 export default function SettingsDestination({ onSubpageChange = () => {}, setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
   const [view, setView] = useState("home");
+  useEffect(() => {
+    if (view === "home") return undefined;
+    window.history.pushState({ chatlySettingsSubpage: view }, "");
+    const handlePopState = () => {
+      setView("home");
+      onSubpageChange(false);
+      setMessage("");
+      setNotice("");
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [view, onSubpageChange, setNotice]);
   const [emailOpen, setEmailOpen] = useState(false);
   const [emailSaving, setEmailSaving] = useState(false);
   const [passwordSaving, setPasswordSaving] = useState(false);
@@ -31,7 +43,7 @@ export default function SettingsDestination({ onSubpageChange = () => {}, setThe
   const [message, setMessage] = useState("");
   const title = groups.flatMap(group => group.items).find(item => item.id === view)?.title || "Settings";
   const pref = (key, value) => setChatPrefs(current => ({ ...current, [key]: value }));
-  const back = () => { setView("home"); onSubpageChange(false); setMessage(""); setNotice(""); };
+  const back = () => { if (view !== "home") window.history.back(); };
 
   function detailContent() {
     if (view === "account") return <>
