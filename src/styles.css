@@ -1892,3 +1892,7 @@ img,video,iframe{max-width:100%}
 
 /* Keep posts clean and readable with restrained card chrome */
 .posts-list{gap:12px}.post-card{box-shadow:none;border-radius:14px;padding:16px}.post-body{margin:12px 0;line-height:1.6}
+
+
+/* Compact post action row */
+.post-actions{gap:16px;padding-top:10px}.post-actions button{min-height:34px;padding:4px 0;font-size:12px}
