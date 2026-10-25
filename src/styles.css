@@ -3288,43 +3288,6 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 
 /* Feed post menu: clear, differentiated edit and destructive delete actions */
-.feed-page .post-options-menu button:has(+ .post-delete-option){
-  color:var(--chatly-brand,#6256d5);
-  font-weight:650;
-  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 5%,var(--surface,#fff));
-}
-.feed-page .post-options-menu button:has(+ .post-delete-option):hover{
-  color:var(--chatly-brand,#5145c7);
-  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 11%,var(--surface,#fff));
-}
-.feed-page .post-options-menu .post-delete-option{
-  color:#c23d50;
-  font-weight:650;
-  background:transparent;
-}
-.feed-page .post-options-menu .post-delete-option svg{flex:none;color:currentColor}
-.feed-page .post-options-menu .post-delete-option:hover:not(:disabled){
-  color:#a9273b;
-  background:#fff0f2;
-}
-.feed-page .post-options-menu .post-delete-option:disabled{
-  opacity:.6;
-  cursor:wait;
-}
-.feed-page .post-options-menu button:has(+ .post-delete-option):focus-visible{
-  outline:2px solid color-mix(in srgb,var(--chatly-brand,#6757e8) 65%,transparent);
-  outline-offset:-2px;
-}
-.feed-page .post-options-menu .post-delete-option:focus-visible{
-  outline:2px solid #e69aa5;
-  outline-offset:-2px;
-}
-@media(prefers-reduced-motion:reduce){
-  .feed-page .post-options-menu button:has(+ .post-delete-option),
-  .feed-page .post-options-menu .post-delete-option{transition:none!important}
-}
-
-
 /* Chats UI polish: complete states, visual hierarchy, responsive controls */
 .chat-layout{
   --chat-accent:#6757e8;
