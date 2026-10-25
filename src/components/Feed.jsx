@@ -6,7 +6,14 @@ export default function Feed({ session, profile, onFindFriends }) {
   const [posts, setPosts] = useState([]); const [people, setPeople] = useState([]);
   const [compose, setCompose] = useState(false); const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false); const [notice, setNotice] = useState("");
-  const [friendMenu, setFriendMenu] = useState(false); const [search, setSearch] = useState(""); const [createMenu, setCreateMenu] = useState(false);\n  const [openComments, setOpenComments] = useState(null); const [comments, setComments] = useState({}); const [commentDraft, setCommentDraft] = useState(""); const [commentBusy, setCommentBusy] = useState(false);
+  const [friendMenu, setFriendMenu] = useState(false);
+const [search, setSearch] = useState("");
+const [createMenu, setCreateMenu] = useState(false);
+
+const [openComments, setOpenComments] = useState(null);
+const [comments, setComments] = useState({});
+const [commentDraft, setCommentDraft] = useState("");
+const [commentBusy, setCommentBusy] = useState(false);
   async function loadFeed() {
     const { data, error } = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100);
     if (error) { setNotice(error.message); return; }
