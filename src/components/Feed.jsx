@@ -77,11 +77,17 @@ const commentSubmitLock = useRef(false);
     // Keep one record per post even if a joined/merged response contains duplicates.
     const postRows = [...new Map((data || []).map(post => [post.id, post])).values()];
     if (request !== requestId.current) return;
+    const likesByPost = new Map();
+    const likedPostIds = new Set();
+    for (const like of likes) {
+      likesByPost.set(like.post_id, (likesByPost.get(like.post_id) || 0) + 1);
+      if (like.user_id === session.user.id) likedPostIds.add(like.post_id);
+    }
     setPosts(postRows.map(p => ({
       ...p,
       author: map[p.user_id] || {},
-      likes: likes.filter(l => l.post_id === p.id).length,
-      liked: likes.some(l => l.post_id === p.id && l.user_id === session.user.id),
+      likes: likesByPost.get(p.id) || 0,
+      liked: likedPostIds.has(p.id),
       following: followedIds.has(p.user_id), saved: savedIds.has(p.id)
     })));
     setSavedPosts(savedIds);
