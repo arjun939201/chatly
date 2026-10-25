@@ -113,6 +113,13 @@ export default function App() {
   }
   const [form, setForm] = useState(initialProfile);
   const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  useEffect(() => {
+    if (!avatarFile) { setAvatarPreview(""); return; }
+    const previewUrl = URL.createObjectURL(avatarFile);
+    setAvatarPreview(previewUrl);
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [avatarFile]);
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [password, setPassword] = useState("");
@@ -186,8 +193,9 @@ export default function App() {
     try {
       let avatar_url = form.avatar_url;
       if (avatarFile) {
-        const ext = avatarFile.name.split(".").pop()?.toLowerCase() || "jpg";
-        const path = `${session.user.id}/avatar-${Date.now()}.${ext}`;
+        const ext = ({ "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" })[avatarFile.type];
+        if (!ext) throw new Error("Choose a JPG, PNG, WEBP, or GIF image.");
+        const path = `${session.user.id}/avatar.${ext}`;
         const { error: uploadError } = await supabase.storage.from("avatars").upload(path, avatarFile, { upsert: true, contentType: avatarFile.type });
         if (uploadError) throw uploadError;
         const { data } = supabase.storage.from("avatars").getPublicUrl(path);
@@ -248,7 +256,7 @@ export default function App() {
       <section className="profile-modal edit-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
         <header className="modal-header"><div><h2 id="edit-profile-title">Edit profile</h2></div><button className="icon-button" onClick={() => setEditProfileOpen(false)} aria-label="Close edit profile"><X size={18}/></button></header>
         <form onSubmit={saveProfile} className="profile-form">
-          <div className="profile-edit-avatar-row"><span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span><label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={e => { const file = e.target.files?.[0]; if (!file) return; if (!["image/jpeg","image/png","image/webp","image/gif"].includes(file.type)) { setNotice("Choose a JPG, PNG, WEBP, or GIF image."); e.target.value = ""; return; } if (file.size > 5 * 1024 * 1024) { setNotice("Profile photos must be 5 MB or smaller."); e.target.value = ""; return; } setNotice(""); setAvatarFile(file); }}/></label>{(avatarFile || form.avatar_url) && <button type="button" className="text-button" onClick={() => { setAvatarFile(null); setForm(f => ({ ...f, avatar_url: "" })); setNotice("Photo removed. Save profile to apply."); }}>Remove photo</button>}</div>
+          <div className="profile-edit-avatar-row"><span className="avatar avatar-large">{avatarPreview ? <img src={avatarPreview} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span><label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" onChange={e => { const file = e.target.files?.[0]; if (!file) return; if (!["image/jpeg","image/png","image/webp","image/gif"].includes(file.type)) { setNotice("Choose a JPG, PNG, WEBP, or GIF image."); e.target.value = ""; return; } if (file.size > 5 * 1024 * 1024) { setNotice("Profile photos must be 5 MB or smaller."); e.target.value = ""; return; } setNotice(""); setAvatarFile(file); }}/></label>{(avatarFile || form.avatar_url) && <button type="button" className="text-button" onClick={() => { setAvatarFile(null); setForm(f => ({ ...f, avatar_url: "" })); setNotice("Photo removed. Save profile to apply."); }}>Remove photo</button>}</div>
           <label className="profile-edit-name">Display name<input value={form.display_name} maxLength={40} onChange={e => setForm(f => ({...f, display_name:e.target.value}))} placeholder="Your name" required/></label>
           <label className="profile-edit-username">Username<div className="username-input"><span>@</span><input value={form.username} maxLength={20} onChange={e => setForm(f => ({...f, username:e.target.value}))} placeholder="yourusername"/></div></label>
           <label className="profile-edit-bio">Bio<textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
