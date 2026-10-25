@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, MessageCircle, UserPlus, UserCheck } from "lucide-react";
+import { ArrowLeft, MessageCircle, UserPlus, UserCheck, RefreshCw } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person }) {
@@ -17,6 +17,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
   const request = useRef(0);
   const ownProfile = person?.id === session?.user?.id;
 
@@ -56,7 +57,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
     }
     load();
     return () => { alive = false; };
-  }, [person?.id, session?.user?.id, ownProfile]);
+  }, [person?.id, session?.user?.id, ownProfile, retryCount]);
 
   async function toggleFollow() {
     if (ownProfile || busy || loading || !person?.id || !session?.user?.id) return;
@@ -83,7 +84,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
     <button className="profile-back" type="button" onClick={onBack}><ArrowLeft size={17}/> Back</button>
     <div className="profile-hero"><Avatar person={person}/><div className="profile-identity"><h1>{person?.display_name || "Chatly user"}</h1><p>{person?.username ? "@" + person.username : "Chatly member"}</p>{person?.bio && <p className="profile-bio-text">{person.bio}</p>}<div className="profile-stats" aria-label="Profile statistics"><span><b>{posts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div>{loading && <p className="profile-loading-status" role="status">Loading profile details…</p>}<div className="profile-actions">{!ownProfile && <><button className="primary-button" type="button" disabled={busy || loading} onClick={toggleFollow}>{busy ? "Updating…" : loading ? "Loading…" : isFollowing ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" type="button" onClick={() => onOpenChats?.(person.id)}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
     <h2 className="profile-posts-title">Posts</h2>
-    {loading ? <p className="profile-empty">Loading posts…</p> : postsError ? <p className="profile-empty" role="status">Could not load posts. Please try again.</p> : <div className="profile-post-grid">{posts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString() : "Recently"}</small></article>)}{!posts.length && <p className="profile-empty">No posts yet.</p>}</div>}
+    {loading ? <p className="profile-empty" role="status">Loading posts…</p> : postsError ? <div className="profile-empty" role="status"><p>Could not load posts. Please try again.</p><button className="secondary-button" type="button" onClick={() => setRetryCount(count => count + 1)}><RefreshCw size={16}/> Retry</button></div> : <div className="profile-post-grid">{posts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString() : "Recently"}</small></article>)}{!posts.length && <p className="profile-empty">No posts yet.</p>}</div>}
     {notice && <p className="search-notice" role="status">{notice}</p>}
   </section></main>;
 }
