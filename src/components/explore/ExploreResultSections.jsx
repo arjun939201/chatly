@@ -45,7 +45,7 @@ export function PeopleResults({ people, loading, error, hasMore, onLoadMore, cur
           <button
             type="button"
             className="search-person-action"
-            onClick={() => isCurrentUser ? onOpenProfile(person) : person.id && onOpenChats?.(person.id)}
+            onClick={() => isCurrentUser ? onOpenProfile(person) : person.id && onOpenChats?.(person.id)} disabled={!isCurrentUser && !person.id}
             aria-label={isCurrentUser ? "View your profile" : `Message ${displayName}`}
             title={isCurrentUser ? "View profile" : "Message"}
           >
@@ -86,8 +86,8 @@ export function YouTubeResults({ videos, loading, error, onPlayVideo }) {
   return <section className="explore-result-section">
     <h2 className="search-section-title"><Youtube size={17} /> Songs on YouTube</h2>
     <div className="youtube-results">
-      {loading ? <p role="status">Searching YouTube…</p> : error ? <p role="alert">{error}</p> : videos.length ? videos.map(video => <button className="youtube-result" type="button" key={video.id.videoId} onClick={() => onPlayVideo?.(video)}>
-        <img src={video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url || ""} alt="" />
+      {loading ? <p role="status">Searching YouTube…</p> : error ? <p role="alert">{error}</p> : videos.length ? videos.map(video => <button className="youtube-result" type="button" key={video?.id?.videoId || video?.snippet?.title || "video"} onClick={() => onPlayVideo?.(video)} disabled={!video?.id?.videoId}>
+        {(video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url) ? <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url} alt="" loading="lazy" /> : <span className="youtube-result-thumbnail-fallback" aria-hidden="true"><Youtube size={22} /></span>}
         <span><b>{video?.snippet?.title || "Untitled video"}</b><small>{video?.snippet?.channelTitle || "YouTube"}</small></span>
       </button>) : <p>No YouTube videos found.</p>}
     </div>
