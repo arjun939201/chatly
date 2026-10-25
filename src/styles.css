@@ -47,3 +47,75 @@
 .floating-create{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));z-index:21}
 .app-shell{min-height:100dvh}
 @media(max-width:760px){.topbar{padding-left:30px;padding-right:18px}.brand{font-size:40px}.bottom-tabs{left:0;transform:none;width:100%}}
+
+
+/* Chatly UI polish pass: typography, spacing, surfaces, and touch targets */
+:root{--chatly-ink:#17171d;--chatly-muted:#858591;--chatly-border:#e7e7ed;--chatly-surface:#fff;--chatly-canvas:#f5f5f8}
+body{background:var(--chatly-canvas);color:var(--chatly-ink);-webkit-tap-highlight-color:transparent}
+button{transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #8b80f0;outline-offset:2px}
+.topbar{box-shadow:0 1px 0 #11100003}
+.brand{color:#141419;transform:translateX(2px);font-size:42px;letter-spacing:-1.8px}
+.header-notifications{width:44px;height:44px;border-radius:50%;color:#17171d}
+.header-notifications:hover{background:#f2f2f5}
+.feed-page,.search-page,.settings-home{background:var(--chatly-canvas)}
+.feed-page{padding-top:22px}
+.feed-composer{min-height:72px;border-radius:18px;border-color:var(--chatly-border);box-shadow:0 2px 10px #16162204}
+.feed-composer:hover{border-color:#d9d8e2}
+.post-card{border-radius:18px;border-color:var(--chatly-border);box-shadow:0 2px 12px #16162204;padding:18px}
+.post-author b{font-size:14px;color:#222229}
+.post-author small{font-size:11px}
+.post-body{font-size:15px;line-height:1.65;color:#35353e;margin:16px 0}
+.post-actions{gap:24px;padding-top:13px}
+.post-actions button{font-size:12px;min-height:34px}
+.post-actions button:hover{color:#6757e8}
+.feed-empty{border-radius:18px;border-color:var(--chatly-border)}
+.bottom-tabs{box-shadow:0 -4px 20px #15151d08;backdrop-filter:blur(12px)}
+.bottom-tabs button{min-height:48px;font-size:11px}
+.bottom-tabs button.active{color:#17171d}
+.bottom-tabs button:hover{background:#f7f7fa;border-radius:12px}
+.floating-create{box-shadow:0 8px 22px #6757e83a}
+.floating-create:hover{transform:translateY(-2px);box-shadow:0 12px 26px #6757e84a}
+.create-menu{border-color:var(--chatly-border);border-radius:15px;box-shadow:0 14px 35px #15151d20}
+.create-menu button{min-height:42px}
+.profile-page{background:transparent}
+.profile-page-head{border-color:var(--chatly-border)}
+.profile-summary .profile-avatar{border:1px solid #e9e9ef}
+.profile-counts b{font-size:20px;color:#17171d}
+.profile-bio{font-size:13px;line-height:1.6}
+.profile-edit-button{min-height:40px;border:1px solid #e7e7ed;background:#f0f0f3}
+.profile-edit-button:hover{background:#e8e8ed}
+.profile-lower-stats{border:1px solid var(--chatly-border);border-radius:15px;background:#fff}
+.profile-dropdown{border-color:var(--chatly-border);border-radius:14px;box-shadow:0 12px 32px #15151d18}
+.profile-dropdown button{min-height:43px;border-radius:9px}
+.profile-dropdown button:hover{background:#f5f5f7}
+.notifications-page{background:transparent}
+.notifications-page>header{border-color:var(--chatly-border)}
+.notifications-empty{min-height:55vh}
+.notifications-empty>svg{padding:15px;width:66px;height:66px;border:1px solid var(--chatly-border);border-radius:50%;color:#686873}
+.chat-layout{border-color:var(--chatly-border);box-shadow:0 8px 28px #17171d08}
+.person-row:hover,.person-row.selected{background:#f5f4fb}
+.conversation-header{border-color:var(--chatly-border)}
+.message-list{background:#f8f8fa}
+.bubble{border-radius:17px}
+.mine .bubble{background:#17171d}
+.composer{padding:14px 18px}
+.composer input{min-height:44px;border-radius:22px;background:#fafafa}
+.send-button,.primary-button{border-radius:11px}
+.search-page-input,.search-results,.profile-hero,.profile-post{border-color:var(--chatly-border);box-shadow:0 2px 10px #17171d04}
+@media(max-width:600px){
+ .topbar{height:62px;padding-left:28px;padding-right:14px}
+ .brand{font-size:40px}
+ .feed-page{padding:16px 12px calc(104px + env(safe-area-inset-bottom))}
+ .feed-composer{min-height:66px;margin-bottom:14px}
+ .posts-list{gap:12px}
+ .post-card{padding:15px;border-radius:16px}
+ .post-body{font-size:14px;margin:14px 0}
+ .post-actions{gap:18px}
+ .bottom-tabs{height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}
+ .floating-create,.create-menu-wrap{bottom:calc(78px + env(safe-area-inset-bottom))}
+ .notifications-page,.profile-page{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+ .profile-summary{padding-top:20px}
+ .profile-lower-stats{padding:20px 5px}
+}
+@media(prefers-reduced-motion:reduce){button{transition:none}}
