@@ -2147,3 +2147,7 @@ button:disabled,[role=button][aria-disabled=true]{opacity:.55;cursor:not-allowed
 
 /* Status and empty content share centered, readable spacing */
 .feed-empty{padding:32px 20px}.feed-empty p{max-width:36ch}.feed-empty h3{line-height:1.35}.feed-notice{font-size:13px}.feed-loading-state{min-width:0}
+
+
+/* Responsive global content sizing */
+html,body,#root{min-height:100%;max-width:100%;margin:0}body{overflow-x:hidden}.feed-page,.search-page{padding-inline:var(--chatly-page-gutter)}@media(max-width:600px){.post-skeleton{padding:14px}.posts-list{gap:10px}.post-card{padding:13px}.feed-notice{align-items:flex-start;font-size:12px}}
