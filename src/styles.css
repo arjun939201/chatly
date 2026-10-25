@@ -2167,3 +2167,7 @@ html,body,#root{min-height:100%;max-width:100%;margin:0}body{overflow-x:hidden}.
 
 /* Standardize settings section headers */
 .app-settings-destination-page .settings-category-label{margin:22px 0 8px;padding:0 2px;color:var(--muted,#888894);font-size:11px;font-weight:700;line-height:1.4;letter-spacing:.09em;border:0}.app-settings-destination-page .settings-category-label:first-of-type{margin-top:18px}
+
+
+/* Polish settings appearance row */
+.app-settings-destination-page .settings-view-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;margin:0;padding:0 2px 12px;border-bottom:1px solid var(--border,#e4e4e9)}.app-settings-destination-page .settings-view-heading h3{margin:0;color:var(--text,#17171b);font-size:16px;font-weight:650;letter-spacing:-.015em}
