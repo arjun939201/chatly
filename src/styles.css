@@ -1494,3 +1494,6 @@ img,video,iframe{max-width:100%}
 
 /* Polish post engagement actions */
 .post-actions{align-items:center;gap:clamp(14px,3vw,24px)}.post-actions button{min-height:38px;padding:6px 8px;border-radius:10px;font-size:12px;transition:background .15s,color .15s}.post-actions button:hover:not(:disabled){background:#f4f2ff;color:#6153d7}.post-actions button.liked{color:#df4d82}.post-actions button.liked:hover{background:#fff0f5;color:#cc3d73}.post-actions button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
+
+/* Polish avatar presentation */
+.mini-avatar{flex:none;width:42px;height:42px;border:1px solid #efedf7;box-shadow:0 1px 2px #24243a0a}.post-author-profile .mini-avatar{transition:transform .15s}.post-author-profile:hover .mini-avatar{transform:scale(1.035)}.comment-author-profile .mini-avatar{width:32px;height:32px}.mini-avatar img{display:block}
