@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MessageCircle, LogOut, Home, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search } from "lucide-react";
+import { MessageCircle, LogOut, Home, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3 } from "lucide-react";
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth.jsx";
 import Chat from "./components/Chat.jsx";
@@ -14,7 +14,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [configError, setConfigError] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState("feed");
+  const [tab, setTab] = useState("feed");\n  const [profileMenuOpen, setProfileMenuOpen] = useState(false);\n  const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [chatTarget, setChatTarget] = useState(null);
   function openChat(targetId) {
     setChatTarget(targetId || null);
@@ -117,7 +117,7 @@ export default function App() {
 
   return <div className="app-shell">
     <header className="topbar">
-      <div className="brand">chatly</div>
+      <div className="brand">chatly</div>\n      <button className="header-notifications" aria-label="Notifications" onClick={() => setNotice("Notifications will appear here.")}><Bell size={24}/></button>
       <div className="account">
         <button className="account-profile" onClick={() => { setSettingsOpen(true); setNotice(""); }} aria-label="Open profile settings">
           <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
@@ -128,11 +128,11 @@ export default function App() {
     </header>
     {tab === "search" && <SearchPeople session={session} onOpenChats={openChat}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
     {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget}/>}
-    {tab === "settings" && <section className="settings-home"><div className="settings-home-card"><span className="avatar avatar-large">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><h2>{profile?.display_name || "Your profile"}</h2><p>{profile?.username ? "@"+profile.username : "Make your profile yours"}</p><button className="primary-button" onClick={() => setSettingsOpen(true)}>Edit profile</button><button className="logout-settings" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out</button></div></section>}
+    {tab === "profile" && <section className="profile-page"><div className="profile-page-head"><h2>{profile?.username || "Profile"}</h2><button className="profile-menu-trigger" aria-label="Profile menu" onClick={() => setProfileMenuOpen(v => !v)}><MoreHorizontal size={27}/></button>{profileMenuOpen && <div className="profile-dropdown"><button onClick={() => { setProfileMenuOpen(false); setNotice("Liked posts are coming soon."); }}>Liked Posts <Heart size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setTab("search"); }}>Contacts <Users size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); }}>Settings <Settings size={16}/></button></div>}</div><div className="profile-summary"><span className="profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile"/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><div className="profile-counts"><div><b>{profileStats.posts}</b><span>posts</span></div><div><b>{profileStats.followers}</b><span>followers</span></div><div><b>{profileStats.following}</b><span>following</span></div></div></div><div className="profile-bio"><strong>{profile?.display_name || "Your name"}</strong><p>{profile?.bio || "Welcome to my Chatly profile."}</p></div><button className="profile-edit-button" onClick={() => { setSettingsOpen(true); setNotice(""); }}>Edit profile</button><div className="profile-grid-heading"><Grid3X3 size={18}/> Posts</div><div className="profile-lower-stats"><div><b>{profileStats.posts}</b><span>Posts</span></div><div><b>{profileStats.followers}</b><span>Followers</span></div><div><b>{profileStats.following}</b><span>Following</span></div></div></section>}
     <nav className="bottom-tabs" aria-label="Main navigation">
       <button className={tab === "search" ? "active" : ""} onClick={() => setTab("search")}><Search size={20}/><span>Search</span></button><button className={tab === "feed" ? "active" : ""} onClick={() => setTab("feed")}><Home size={20}/><span>Feed</span></button>
       <button className={tab === "chats" ? "active" : ""} onClick={() => setTab("chats")}><MessagesSquare size={20}/><span>Chats</span></button>
-      <button className={tab === "settings" ? "active" : ""} onClick={() => setTab("settings")}><Settings size={20}/><span>Settings</span></button>
+      <button className={tab === "profile" ? "active" : ""} onClick={() => setTab("profile")}><span className="nav-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><span>Profile</span></button>
     </nav>
     {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
       <section className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
