@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, ChevronLeft, Minimize2, Maximize2 } from "lucide-react";
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth.jsx";
@@ -124,6 +124,31 @@ export default function App() {
   const [globalVideo, setGlobalVideo] = useState(null);
   const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);
   const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
+  const playerDrag = useRef(null);
+  function startPlayerDrag(event) {
+    if (event.target.closest(".global-youtube-player-actions")) return;
+    const rect = event.currentTarget.closest(".global-youtube-player").getBoundingClientRect();
+    playerDrag.current = { offsetX: event.clientX - rect.left, offsetY: event.clientY - rect.top };
+    setGlobalPlayerPosition({ x: rect.left, y: rect.top });
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    event.preventDefault();
+  }
+  useEffect(() => {
+    function movePlayer(event) {
+      if (!playerDrag.current) return;
+      const width = document.querySelector(".global-youtube-player")?.offsetWidth || 320;
+      const height = document.querySelector(".global-youtube-player")?.offsetHeight || 220;
+      setGlobalPlayerPosition({
+        x: Math.max(0, Math.min(window.innerWidth - width, event.clientX - playerDrag.current.offsetX)),
+        y: Math.max(0, Math.min(window.innerHeight - height, event.clientY - playerDrag.current.offsetY))
+      });
+    }
+    function stopPlayer() { playerDrag.current = null; }
+    window.addEventListener("pointermove", movePlayer);
+    window.addEventListener("pointerup", stopPlayer);
+    window.addEventListener("pointercancel", stopPlayer);
+    return () => { window.removeEventListener("pointermove", movePlayer); window.removeEventListener("pointerup", stopPlayer); window.removeEventListener("pointercancel", stopPlayer); };
+  }, []);
   function openChat(targetId) {
     setChatTarget(targetId || null);
     setTab("chats");
@@ -286,8 +311,8 @@ export default function App() {
       </section>
     </div>}
     {tab === "settings" && <SettingsDestination onBack={() => { setSettingsOpen(false); setSettingsView("home"); setSettingsSubpage(false); setTab("feed"); }} onSubpageChange={setSettingsSubpage} theme={theme} effectiveTheme={effectiveTheme} setTheme={setTheme} fontSize={fontSize} setFontSize={setFontSize} fontFamily={fontFamily} setFontFamily={setFontFamily} fontSizeExpanded={fontSizeExpanded} setFontSizeExpanded={setFontSizeExpanded} fontFamilyExpanded={fontFamilyExpanded} setFontFamilyExpanded={setFontFamilyExpanded} accountInfoExpanded={accountInfoExpanded} setAccountInfoExpanded={setAccountInfoExpanded} editProfileOpen={editProfileOpen} setEditProfileOpen={setEditProfileOpen} setNotice={setNotice} notice={notice} session={session} emailExpanded={emailExpanded} setEmailExpanded={setEmailExpanded} accountEmail={accountEmail} setAccountEmail={setAccountEmail} supabase={supabase} passwordExpanded={passwordExpanded} setPasswordExpanded={setPasswordExpanded} password={password} setPassword={setPassword} setNewPassword={setNewPassword} settingsExpanded={settingsExpanded} setSettingsExpanded={setSettingsExpanded} chatPrefs={chatPrefs} setChatPrefs={setChatPrefs} />}
-    {globalVideo && <aside className={"global-youtube-player" + (globalPlayerMinimized ? " is-minimized" : "")} aria-label="YouTube player">
-      <div className="global-youtube-player-head"><span>{globalVideo.snippet?.title || "YouTube video"}</span>
+    {globalVideo && <aside className={"global-youtube-player" + (globalPlayerMinimized ? " is-minimized" : "")} style={globalPlayerPosition ? { left: globalPlayerPosition.x, top: globalPlayerPosition.y, right: "auto", bottom: "auto" } : undefined} aria-label="YouTube player">
+      <div className="global-youtube-player-head" onPointerDown={startPlayerDrag} title="Drag to move player"><span>{globalVideo.snippet?.title || "YouTube video"}</span>
         <div className="global-youtube-player-actions"><a href={"https://www.youtube.com/watch?v=" + encodeURIComponent(globalVideo.id?.videoId || "")} target="_blank" rel="noreferrer" aria-label="Open video on YouTube" title="Open on YouTube">↗</a>
           <button type="button" aria-label={globalPlayerMinimized ? "Restore player" : "Minimize player"} onClick={() => setGlobalPlayerMinimized(value => !value)}>{globalPlayerMinimized ? <Maximize2 size={16}/> : <Minimize2 size={16}/>}</button>
           <button type="button" aria-label="Close player" onClick={() => { setGlobalVideo(null); setGlobalPlayerMinimized(false); }}><X size={16}/></button>
