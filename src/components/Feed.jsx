@@ -36,7 +36,14 @@ const commentSubmitLock = useRef(false);
     let data; let error;
     if (savedView) {
       const { data: savedRows, error: savedError } = await supabase.from("saved_posts").select("post_id,created_at").eq("user_id", session.user.id).order("created_at", { ascending: false }).limit(100);
-      if (savedError) throw savedError;
+      if (savedError) {
+        if (request === requestId.current) {
+          setFeedError(savedError.code === "PGRST205"
+            ? "Saved posts are unavailable because the saved_posts table is not set up yet."
+            : `Could not load saved posts: ${savedError.message}`);
+        }
+        return;
+      }
       const savedIds = (savedRows || []).map(row => row.post_id);
       if (savedIds.length) { const result = await supabase.from("posts").select("id,user_id,body,created_at").in("id", savedIds); data = result.data; error = result.error; } else { data = []; error = null; }
     } else {
@@ -55,11 +62,14 @@ const commentSubmitLock = useRef(false);
     ]);
     if (likesResult.error) throw likesResult.error;
     if (followsResult.error) throw followsResult.error;
-    if (savedResult.error) throw savedResult.error;
+    // Saved-post support is optional for the regular feed. A missing table must
+    // never prevent posts, likes, follows, or comments from loading.
+    const savedTableUnavailable = savedResult.error?.code === "PGRST205";
+    if (savedResult.error && !savedTableUnavailable) throw savedResult.error;
     const likes = likesResult.data || [];
     const followedRows = followsResult.data || [];
     const followedIds = new Set((followedRows || []).map(row => row.following_id));
-    const savedIds = new Set((savedResult.data || []).map(row => row.post_id));
+    const savedIds = new Set(savedTableUnavailable ? [] : (savedResult.data || []).map(row => row.post_id));
     // Keep one record per post even if a joined/merged response contains duplicates.
     const postRows = [...new Map((data || []).map(post => [post.id, post])).values()];
     if (request !== requestId.current) return;
@@ -71,10 +81,17 @@ const commentSubmitLock = useRef(false);
       following: followedIds.has(p.user_id), saved: savedIds.has(p.id)
     })));
     setSavedPosts(savedIds);
+    if (savedTableUnavailable && request === requestId.current) {
+      setNotice("Saved posts are unavailable until the saved_posts table is configured. Your feed is still working.");
+    }
     if (postRows.length) { const { data: commentRows, error: commentsError } = await supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postRows.map(p => p.id)).order("created_at"); if (commentsError) throw commentsError; const commentIds = [...new Set((commentRows || []).map(c => c.user_id))]; const { data: commentProfiles, error: commentProfilesError } = commentIds.length ? await supabase.from("profiles").select("id,display_name,username,avatar_url").in("id", commentIds) : { data: [], error: null }; if (commentProfilesError) throw commentProfilesError; const authors = Object.fromEntries((commentProfiles || []).map(p => [p.id,p])); if (request !== requestId.current) return; setComments(Object.fromEntries(postRows.map(p => [p.id,(commentRows || []).filter(c => c.post_id === p.id).map(c => ({...c,author:authors[c.user_id] || {}}))]))); } else { if (request !== requestId.current) return; setComments({}); }
     } catch (error) {
       console.error("Feed load failed:", error);
-      if (request === requestId.current) setFeedError("The feed could not be refreshed. Please try again.");
+      if (request === requestId.current) {
+        setFeedError(error?.code === "PGRST205"
+          ? "Saved posts are unavailable because the saved_posts table is not set up yet."
+          : "The feed could not be refreshed. Please try again.");
+      }
     }
     finally { if (request === requestId.current) { setFeedLoading(false); setCommentsLoading(false); } }
   }
