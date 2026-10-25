@@ -1971,3 +1971,7 @@ img,video,iframe{max-width:100%}
 
 /* Explore starts with compact spacing */
 .search-page{padding-top:8px}.search-page .search-section-title{margin:14px 0 8px}.search-page .search-start-prompt{padding:22px 14px}
+
+
+/* Public profile details avoid oversized nested headings */
+.search-page .public-profile-header{margin-bottom:12px}.search-page .public-profile-bio{margin:8px 0;line-height:1.55}
