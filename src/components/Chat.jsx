@@ -7,7 +7,7 @@ function Avatar({ person, className = "" }) {
   return <span className={`avatar ${className}`}>{person?.avatar_url ? <img src={person.avatar_url} alt=""/> : label}</span>;
 }
 
-export default function Chat({ session, profile }) {
+export default function Chat({ session, profile, targetId }) {
   const [people, setPeople] = useState([]);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
