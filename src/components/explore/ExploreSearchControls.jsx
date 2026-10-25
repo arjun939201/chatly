@@ -21,7 +21,7 @@ export function ExploreCategoryTabs({ activeCategory, onCategoryChange }) {
       type="button"
       role="tab"
       key={category}
-      id={\`explore-tab-\${category}\`}
+      id={`explore-tab-${category}`}
       aria-selected={activeCategory === category}
       aria-controls="explore-results"
       tabIndex={activeCategory === category ? 0 : -1}
