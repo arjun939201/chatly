@@ -30,21 +30,29 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
         return;
       }
       setLoading(true); setNotice(""); setPostsError(false);
-      const [postResult, followerResult, followingResult, relationResult] = await Promise.all([
-        supabase.from("posts").select("id,body,created_at").eq("user_id", person.id).order("created_at", { ascending: false }).limit(100),
-        supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", person.id),
-        supabase.from("user_follows").select("following_id", { count: "exact", head: true }).eq("follower_id", person.id),
-        ownProfile ? Promise.resolve({ data: null, error: null }) : supabase.from("user_follows").select("follower_id").eq("follower_id", session.user.id).eq("following_id", person.id).maybeSingle()
-      ]);
-      if (!alive || currentRequest !== request.current) return;
-      const error = postResult.error || followerResult.error || followingResult.error || relationResult.error;
-      if (error) setNotice("Some profile details could not be loaded. Please try again.");
-      setPosts(postResult.data || []);
-      setPostsError(!!postResult.error);
-      setFollowers(followerResult.count || 0);
-      setFollowingCount(followingResult.count || 0);
-      setIsFollowing(!!relationResult.data);
-      setLoading(false);
+      setPosts([]); setFollowers(0); setFollowingCount(0); setIsFollowing(false);
+      try {
+        const [postResult, followerResult, followingResult, relationResult] = await Promise.all([
+          supabase.from("posts").select("id,body,created_at").eq("user_id", person.id).order("created_at", { ascending: false }).limit(100),
+          supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", person.id),
+          supabase.from("user_follows").select("following_id", { count: "exact", head: true }).eq("follower_id", person.id),
+          ownProfile ? Promise.resolve({ data: null, error: null }) : supabase.from("user_follows").select("follower_id").eq("follower_id", session.user.id).eq("following_id", person.id).maybeSingle()
+        ]);
+        if (!alive || currentRequest !== request.current) return;
+        const error = postResult.error || followerResult.error || followingResult.error || relationResult.error;
+        if (error) setNotice("Some profile details could not be loaded. Please try again.");
+        setPosts(postResult.data || []);
+        setPostsError(!!postResult.error);
+        setFollowers(followerResult.count || 0);
+        setFollowingCount(followingResult.count || 0);
+        setIsFollowing(!!relationResult.data);
+      } catch {
+        if (!alive || currentRequest !== request.current) return;
+        setPosts([]); setPostsError(true); setFollowers(0); setFollowingCount(0); setIsFollowing(false);
+        setNotice("Could not load profile details. Please try again.");
+      } finally {
+        if (alive && currentRequest === request.current) setLoading(false);
+      }
     }
     load();
     return () => { alive = false; };
