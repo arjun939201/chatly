@@ -3876,3 +3876,25 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @media(prefers-reduced-motion:reduce) {
   .chat-layout .message .bubble > button { transition:none; }
 }
+
+
+/* Keep the message toolbar reachable: reserve a hover zone above each bubble. */
+@media (hover:hover) and (min-width:701px) {
+  .chat-layout .message {
+    padding-top:40px;
+    margin-top:0;
+    margin-bottom:9px;
+  }
+  .chat-layout .message .bubble > .message-copy,
+  .chat-layout .message .bubble > .message-reply,
+  .chat-layout .message .bubble > .message-edit,
+  .chat-layout .message .bubble > .message-delete {
+    top:-35px;
+  }
+  .chat-layout .message:hover .bubble > button,
+  .chat-layout .message:focus-within .bubble > button,
+  .chat-layout .message:has(.bubble > button:hover) .bubble > button {
+    opacity:1;
+    pointer-events:auto;
+  }
+}
