@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Heart, MessageCircle, Plus, X, MoreHorizontal, Trash2, RefreshCw } from "lucide-react";
+import { Heart, MessageCircle, Plus, X, MoreHorizontal, Trash2 } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function Feed({ session, profile, onFindFriends, onOpenProfile, onPostsChanged }) {
@@ -73,7 +73,7 @@ const [commentBusy, setCommentBusy] = useState(false);
   async function submitComment(e, postId) { e.preventDefault(); const text = commentDraft.trim(); if (!text || commentBusy) return; setCommentBusy(true); setNotice(""); try { const { data, error } = await supabase.from("post_comments").insert({post_id:postId,user_id:session.user.id,body:text}).select("id,post_id,user_id,body,created_at").single(); if (error) throw error; const newComment = { ...data, author: { id: session.user.id, display_name: profile?.display_name || "You", username: profile?.username || "", avatar_url: profile?.avatar_url || "" } }; setComments(current => ({ ...current, [postId]: [...(current[postId] || []), newComment] })); setCommentDraft(""); } catch (error) { setNotice(error.message || "Could not send comment."); } finally { setCommentBusy(false); } }
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
-    <div className="feed-heading-row"><div><h1>Your feed</h1><p>Updates from the Chatly community</p></div><button className="feed-refresh-button" type="button" onClick={loadFeed} disabled={feedLoading} aria-label="Refresh feed" title="Refresh feed"><RefreshCw size={17} className={feedLoading ? "feed-refresh-spinning" : ""}/><span>{feedLoading ? "Refreshing…" : "Refresh"}</span></button></div>
+    <div className="feed-heading-row"><div><h1>Your feed</h1><p>Updates from the Chatly community</p></div></div>
     {notice && <div className="feed-notice" role="status"><span>{notice}</span>{notice.toLowerCase().includes("load") || notice.toLowerCase().includes("refresh") ? <button type="button" onClick={loadFeed}>Try again</button> : null}</div>}
     {feedLoading && posts.length === 0 && <section className="feed-loading-state" role="status" aria-label="Loading posts">
       <span className="sr-only">Loading posts…</span>
