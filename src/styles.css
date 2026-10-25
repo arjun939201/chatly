@@ -2815,3 +2815,42 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   color: var(--chatly-brand, #6757e8);
 }
 
+
+
+/* Explore UI pass 5: readable recent-conversation cards and refresh action. */
+.search-page .explore-home-heading,
+.search-page .explore-home-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.search-page .explore-home-heading > div {
+  min-width: 0;
+}
+.search-page .explore-home-heading h2,
+.search-page .explore-home-section-heading h3 {
+  color: var(--text, #34334a);
+}
+.search-page .explore-home-post {
+  padding: 15px;
+}
+.search-page .explore-home-post-author {
+  overflow-wrap: anywhere;
+  color: var(--text, #34334a);
+  font-size: 13px;
+  font-weight: 650;
+}
+.search-page .explore-home-post-author span,
+.search-page .explore-home-post time {
+  color: var(--muted, #9292a6);
+  font-size: 11px;
+  font-weight: 450;
+}
+.search-page .explore-home-post p {
+  margin: 10px 0;
+  color: var(--text, #45445a);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
