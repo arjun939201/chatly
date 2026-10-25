@@ -48,7 +48,25 @@ export default function SearchPeople({ session, onOpenChats }) {
   }, []);
 
 
-  useEffect(() => {\n    const searchKey = import.meta.env.VITE_YOUTUBE_API_KEY;\n    if (!query.trim()) { setVideos([]); setVideoError(""); setVideoLoading(false); return; }\n    if (!searchKey) { setVideos([]); setVideoError("YouTube search requires VITE_YOUTUBE_API_KEY in the app environment."); setVideoLoading(false); return; }\n    let alive = true;\n    const timer = window.setTimeout(async () => {\n      setVideoLoading(true); setVideoError("");\n      try {\n        const params = new URLSearchParams({ part: "snippet", type: "video", maxResults: "20", q: query.trim(), key: searchKey });\n        const response = await fetch("https://www.googleapis.com/youtube/v3/search?" + params.toString());\n        const data = await response.json();\n        if (!response.ok) throw new Error(data.error?.message || "YouTube search failed.");\n        if (alive) setVideos(data.items || []);\n      } catch (error) { if (alive) { setVideos([]); setVideoError(error.message || "Unable to search YouTube."); } }\n      finally { if (alive) setVideoLoading(false); }\n    }, 350);\n    return () => { alive = false; window.clearTimeout(timer); };\n  }, [query]);\n
+  useEffect(() => {
+    const searchKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+    if (!query.trim()) { setVideos([]); setVideoError(""); setVideoLoading(false); return; }
+    if (!searchKey) { setVideos([]); setVideoError("YouTube search requires VITE_YOUTUBE_API_KEY in the app environment."); setVideoLoading(false); return; }
+    let alive = true;
+    const timer = window.setTimeout(async () => {
+      setVideoLoading(true); setVideoError("");
+      try {
+        const params = new URLSearchParams({ part: "snippet", type: "video", maxResults: "20", q: query.trim(), key: searchKey });
+        const response = await fetch("https://www.googleapis.com/youtube/v3/search?" + params.toString());
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || "YouTube search failed.");
+        if (alive) setVideos(data.items || []);
+      } catch (error) { if (alive) { setVideos([]); setVideoError(error.message || "Unable to search YouTube."); } }
+      finally { if (alive) setVideoLoading(false); }
+    }, 350);
+    return () => { alive = false; window.clearTimeout(timer); };
+  }, [query]);
+
   async function openProfile(person) {
     setSelected(person);
     setNotice("");
@@ -82,7 +100,8 @@ export default function SearchPeople({ session, onOpenChats }) {
   const peopleResults = useMemo(() => people.filter(p => `${p.display_name || ""} ${p.username || ""}`.toLowerCase().includes(q)), [people,q]);
   const postResults = useMemo(() => posts.filter(p => `${p.body || ""} ${p.author?.display_name || ""} ${p.author?.username || ""}`.toLowerCase().includes(q)), [posts,q]);
   const profilePosts = posts.filter(p => p.user_id === selected?.id);
-  const ownProfile = selected?.id === session.user.id;\n  const activeVideoId = expandedVideo?.id?.videoId;
+  const ownProfile = selected?.id === session.user.id;
+  const activeVideoId = expandedVideo?.id?.videoId;
 
   if (selected) return <main className="search-page"><section className="profile-view">
     <button className="profile-back" onClick={() => setSelected(null)}><ArrowLeft size={17}/> Back to search</button>
