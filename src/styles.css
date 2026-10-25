@@ -2171,3 +2171,7 @@ html,body,#root{min-height:100%;max-width:100%;margin:0}body{overflow-x:hidden}.
 
 /* Polish settings appearance row */
 .app-settings-destination-page .settings-view-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px;margin:0;padding:0 2px 12px;border-bottom:1px solid var(--border,#e4e4e9)}.app-settings-destination-page .settings-view-heading h3{margin:0;color:var(--text,#17171b);font-size:16px;font-weight:650;letter-spacing:-.015em}
+
+
+/* Redesign settings accordion controls */
+.app-settings-destination-page .style-expander{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:54px;margin:0;padding:14px 16px;border:1px solid var(--border,#e4e4e9);border-radius:12px;background:var(--surface,#fff);color:var(--text,#17171b);font-size:14px;font-weight:600;text-align:left;transition:border-color .16s ease,background .16s ease}.app-settings-destination-page .style-expander:hover{border-color:#c8c4ed;background:color-mix(in srgb,var(--surface,#fff) 94%,#6757e8)}.app-settings-destination-page .style-expander:focus-visible{outline:2px solid #6757e8;outline-offset:2px}.app-settings-destination-page .style-expander>span:last-child{color:var(--muted,#888894);font-size:18px;font-weight:500}
