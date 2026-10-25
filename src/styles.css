@@ -320,3 +320,40 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .chat-filter-row button.active{background:#6c5ce7;color:white;border-color:#6c5ce7}
 .chat-layout .person-row:first-child .avatar{background:#efedff;color:#6c5ce7}
 .chat-layout .person-copy small{line-height:1.35}
+
+
+/* Refined messaging inbox and conversation experience */
+.chat-layout{gap:0;overflow:hidden;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-shadow:0 8px 28px #17142b08}
+.chat-layout .sidebar{background:var(--surface);padding:16px 14px;border-right:1px solid var(--border)}
+.chat-layout .sidebar-heading{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 14px;font-size:19px;font-weight:700;letter-spacing:-.4px}
+.chat-layout .search-box{height:44px;border:1px solid transparent;background:var(--surface-secondary);border-radius:12px;padding:0 12px;transition:border-color .15s,background .15s}
+.chat-layout .search-box:focus-within{border-color:#8879ed;background:var(--surface)}
+.chat-layout .chat-filter-row{padding:12px 0 14px;gap:7px}
+.chat-layout .chat-filter-row button{padding:7px 13px;font-weight:550}
+.chat-layout .people-list{display:flex;flex-direction:column;gap:3px}
+.chat-layout .person-row{display:flex;align-items:center;gap:11px;width:100%;padding:11px 9px;border:1px solid transparent;border-radius:13px;text-align:left;transition:background .15s,border-color .15s}
+.chat-layout .person-row:hover{background:var(--surface-secondary)}
+.chat-layout .person-row.selected{background:#f0edff;border-color:#e4dfff}
+.chat-layout .person-copy{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.chat-layout .person-copy strong{font-size:13px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-layout .person-copy small{font-size:11px;line-height:1.4;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-layout .chat-row-time{align-self:flex-start;flex:none;font-size:10px;color:var(--muted);padding-top:2px}
+.chat-layout .conversation{background:var(--surface)}
+.chat-layout .conversation-header{display:flex;align-items:center;gap:11px;min-height:66px;padding:12px 18px;border-bottom:1px solid var(--border);background:var(--surface)}
+.chat-layout .conversation-header>div{display:flex;flex-direction:column;gap:4px}
+.chat-layout .conversation-header strong{font-size:14px;font-weight:650}
+.chat-layout .conversation-header small{font-size:11px;color:var(--muted)}
+.chat-layout .message-list{padding:18px;gap:9px;background:var(--surface-secondary)}
+.chat-layout .bubble{max-width:min(78%,520px);padding:10px 13px;border-radius:15px;font-size:13px;line-height:1.5;box-shadow:0 1px 2px #00000008;overflow-wrap:anywhere}
+.chat-layout .message.mine .bubble{border-bottom-right-radius:5px;background:#6c5ce7;color:white}
+.chat-layout .message.theirs .bubble{border-bottom-left-radius:5px;background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.chat-layout .bubble time{display:block;font-size:9px;opacity:.7;text-align:right;margin-top:4px}
+.chat-layout .composer{display:flex;gap:9px;padding:12px 14px;border-top:1px solid var(--border);background:var(--surface)}
+.chat-layout .composer input{min-width:0;flex:1;border:1px solid var(--border);background:var(--surface-secondary);border-radius:999px;padding:11px 15px;font-size:13px;outline:none}
+.chat-layout .composer input:focus{border-color:#8879ed}
+.chat-layout .send-button{width:40px;height:40px;flex:none;border:0;border-radius:50%;background:#6c5ce7;color:white;display:grid;place-items:center}
+.chat-layout .send-button:disabled{opacity:.45;cursor:not-allowed}
+.chat-layout .welcome-chat{display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px;min-height:300px}
+.chat-layout .welcome-chat h2{font-size:19px;letter-spacing:-.3px;margin:12px 0 5px}
+.chat-layout .welcome-chat p{max-width:280px;color:var(--muted);font-size:12px;line-height:1.6}
+@media(max-width:640px){.chat-layout{border-radius:14px}.chat-layout .sidebar{padding:14px 12px}.chat-layout .conversation-header{min-height:58px;padding:10px 12px}.chat-layout .message-list{padding:13px}.chat-layout .bubble{max-width:88%}}
