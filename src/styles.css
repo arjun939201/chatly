@@ -2035,3 +2035,7 @@ img,video,iframe{max-width:100%}
 
 /* Compact destination layout: avoid stacked duplicate titles */
 .destination-page{padding:12px 16px!important}.destination-page-header{margin:0 0 12px!important;padding:8px 0!important;min-height:0!important;border:0!important;box-shadow:none!important;background:transparent!important}.destination-page-header h2{margin:0!important;font-size:20px!important;line-height:1.25}.destination-page-header p{margin:3px 0 0!important;font-size:13px!important}
+
+
+/* Explore: remove oversized intro and blank prompt spacing */
+.search-people{padding-top:8px!important}.search-people>h1{margin:0 0 6px!important;font-size:22px!important}.search-people>p{margin:0 0 14px!important;font-size:14px!important}.search-page-input{margin:0 0 12px!important;min-height:52px!important}.search-start-prompt{margin-top:12px!important;padding:20px 14px!important;min-height:0!important}
