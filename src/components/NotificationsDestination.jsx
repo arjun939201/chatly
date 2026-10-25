@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Bell, Heart, MessageCircle, UserRound, RefreshCw, UserPlus } from "lucide-react";
+import { Bell, Heart, MessageCircle, RefreshCw, UserPlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function relativeTime(value) {
@@ -23,14 +23,14 @@ export default function NotificationsDestination({ session }) {
       // Notifications are derived from existing app activity tables (no separate
       // notifications table required): likes and comments on the signed-in user's posts.
       const { data: posts, error: postsError } = await supabase
-        .from("posts").select("id,body,created_at").eq("user_id", session.user.id);
+        .from("posts").select("*").eq("user_id", session.user.id);
       if (postsError) throw postsError;
       const postRows = posts || [];
       const postIds = postRows.map(post => post.id);
       if (!postIds.length) { setItems([]); return; }
 
       const [likesResult, commentsResult, followsResult] = await Promise.all([
-        supabase.from("post_likes").select("post_id,user_id").in("post_id", postIds).neq("user_id", session.user.id),
+        supabase.from("post_likes").select("post_id,user_id,created_at").in("post_id", postIds).neq("user_id", session.user.id),
         supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id),
         supabase.from("user_follows").select("follower_id,created_at").eq("following_id", session.user.id).neq("follower_id", session.user.id)
       ]);
@@ -39,7 +39,7 @@ export default function NotificationsDestination({ session }) {
       if (followsResult.error) throw followsResult.error;
 
       const activity = [
-        ...(likesResult.data || []).map(row => ({ type: "like", post_id: row.post_id, user_id: row.user_id })),
+        ...(likesResult.data || []).map(row => ({ type: "like", post_id: row.post_id, user_id: row.user_id, created_at: row.created_at })),
         ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" })),
         ...(followsResult.data || []).map(row => ({ type: "follow", user_id: row.follower_id, created_at: row.created_at }))
       ];
