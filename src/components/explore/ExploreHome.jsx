@@ -18,15 +18,15 @@ export default function ExploreHome({ onSearch }) {
         .order("created_at", { ascending: false })
         .limit(8);
       if (postsError) throw postsError;
-      const rows = data || [];
-      const authorIds = [...new Set(rows.map(post => post.user_id).filter(Boolean))];
+      const rows = (Array.isArray(data) ? data : []).filter(post => post && post.id != null);
+      const authorIds = [...new Set(rows.map(post => post.user_id).filter(id => typeof id === "string" && id.length > 0))];
       const { data: profiles, error: profilesError } = authorIds.length
         ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", authorIds)
         : { data: [], error: null };
       if (profilesError) throw profilesError;
       if (request !== requestId.current) return;
       const authorMap = Object.fromEntries((profiles || []).map(person => [person.id, person]));
-      setPosts(rows.map(post => ({ ...post, author: authorMap[post.user_id] || {} })));
+      setPosts(rows.map(post => ({ ...post, body: typeof post.body === "string" ? post.body : "", author: authorMap[post.user_id] || {} })));
     } catch (loadError) {
       if (request === requestId.current) {
         setError("Recent posts are unavailable right now. Please try again.");
