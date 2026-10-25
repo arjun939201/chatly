@@ -2131,3 +2131,7 @@ img,video,iframe{max-width:100%}
 
 /* Consistent disabled interaction feedback */
 button:disabled,[role=button][aria-disabled=true]{opacity:.55;cursor:not-allowed!important;filter:none!important}button:not(:disabled){-webkit-tap-highlight-color:transparent}
+
+
+/* Feed content uses a predictable spacing rhythm */
+.posts-list{gap:12px}.post-card{padding:16px}.post-body{margin:14px 0;line-height:1.6}.post-actions{padding-top:10px;gap:18px}.post-actions button{min-height:34px;padding:4px 2px}
