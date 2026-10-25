@@ -25,7 +25,13 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
   const [expandedVideo, setExpandedVideo] = useState(null);
   const [playerMinimized, setPlayerMinimized] = useState(false);
   const [playerPosition, setPlayerPosition] = useState(null);
-  const profileRequest = useRef(0);\n\n  useEffect(() => {\n    if (!requestedProfile) return;\n    openProfile(requestedProfile);\n    onProfileRequestHandled?.();\n  }, [requestedProfile]);
+  const profileRequest = useRef(0);
+
+  useEffect(() => {
+    if (!requestedProfile) return;
+    openProfile(requestedProfile);
+    onProfileRequestHandled?.();
+  }, [requestedProfile]);
 
   useEffect(() => {
     let alive = true;
