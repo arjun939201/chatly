@@ -1452,3 +1452,15 @@ img,video,iframe{max-width:100%}
 .search-post-author>span:last-child{display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere}
 .profile-loading-status{color:var(--muted,#888894);font-size:12px;margin:8px 0}
 @media(max-width:420px){.feed-top-controls{gap:8px}.comment-character-count{font-size:9px}}
+
+
+/* 1. Post action menu: compact, intentional dropdown */
+.post-options-wrap{position:relative;display:flex!important;flex-direction:row!important;align-items:center;margin-left:auto}
+.post-options-trigger{width:38px;height:38px;display:grid;place-items:center;padding:0;border:1px solid transparent;border-radius:11px;background:transparent;color:#77778d;transition:background .15s,color .15s,border-color .15s}
+.post-options-trigger:hover,.post-options-trigger[aria-expanded=true]{color:#5145c7;background:#f2f0ff;border-color:#e5e1ff}
+.post-options-trigger:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
+.post-options-menu{position:absolute;z-index:12;top:calc(100% + 7px);right:0;min-width:164px;padding:5px;border:1px solid #e9e7f1;border-radius:13px;background:#fff;box-shadow:0 12px 32px #221e4624;animation:chatly-menu-in .12s ease-out}
+.post-delete-option{width:100%;min-height:39px;display:flex;align-items:center;gap:9px;padding:9px 11px;border:0;border-radius:9px;background:transparent;color:#c04455;text-align:left;font-size:13px;font-weight:550}
+.post-delete-option:hover:not(:disabled){background:#fff0f2}
+.post-delete-option:focus-visible{outline:2px solid #e69aa5;outline-offset:-2px}
+@keyframes chatly-menu-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
