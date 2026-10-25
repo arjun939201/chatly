@@ -34,6 +34,14 @@ export default function App() {
   const effectiveTheme = theme === "system" ? (systemDark ? "dark" : "light") : theme;
   useEffect(() => { localStorage.setItem("chatly-font-size", fontSize); localStorage.setItem("chatly-font-family", fontFamily); }, [fontSize, fontFamily]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  useEffect(() => {
+    if (!profileMenuOpen) return;
+    function closeOnOutsideClick(event) {
+      if (!event.target.closest(".global-profile-menu, .profile-page-head")) setProfileMenuOpen(false);
+    }
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+  }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [chatTarget, setChatTarget] = useState(null);
   function openChat(targetId) {
