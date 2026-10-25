@@ -65,7 +65,7 @@ export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpen
     <div className="search-results">
       {error && <p role="alert">{error}</p>}
       {posts.length ? posts.map(post => <article className="search-post" key={post.id}>
-        <button type="button" className="search-post-author" onClick={() => post.author?.id && onOpenProfile(post.author)} aria-label={`View ${post.author?.display_name || "member"} profile`}>
+        <button type="button" className="search-post-author" onClick={() => post.author?.id && onOpenProfile(post.author)} disabled={!post.author?.id} aria-label={`View ${post.author?.display_name || "member"} profile`}>
           <Avatar person={post.author} />
           <span><b><HighlightMatch text={post.author?.display_name || "Chatly member"} query={query} /></b><small>{post.author?.username ? "@" + post.author.username : ""}</small></span>
         </button>
