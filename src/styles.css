@@ -2356,3 +2356,70 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .chat-layout .send-button{width:42px;height:42px}
 }
 @media(prefers-reduced-motion:reduce){.chat-layout *{transition:none!important;scroll-behavior:auto!important}}
+
+
+/* Feed post cards: comfortable spacing on narrow screens */
+@media (max-width: 600px) {
+  .feed-page {
+    padding: 20px 12px 100px;
+  }
+
+  .feed-column {
+    width: 100%;
+  }
+
+  .posts-list {
+    gap: 12px;
+  }
+
+  .post-card {
+    padding: 15px 14px;
+    border-radius: 14px;
+  }
+
+  .post-author {
+    gap: 9px;
+  }
+
+  .post-author small {
+    display: block;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .post-body {
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .post-actions {
+    gap: 16px;
+    padding-top: 11px;
+  }
+
+  .post-actions button {
+    min-height: 36px;
+    gap: 7px;
+  }
+
+  .floating-create {
+    right: 16px;
+    bottom: 82px;
+  }
+}
+
+@media (max-width: 360px) {
+  .feed-page {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .post-card {
+    padding: 13px 11px;
+  }
+
+  .post-actions {
+    gap: 12px;
+  }
+}
