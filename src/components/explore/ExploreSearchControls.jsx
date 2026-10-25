@@ -2,15 +2,32 @@ import { Search, X } from "lucide-react";
 
 export function ExploreSearchInput({ query, onQueryChange }) {
   return <label className="search-page-input">
-    <Search size={18} />
-    <input value={query} onChange={event => onQueryChange(event.target.value)} placeholder="Search people, rooms, posts, songs…" aria-label="Search Explore" />
+    <Search size={18} aria-hidden="true" />
+    <input
+      value={query}
+      onChange={event => onQueryChange(event.target.value)}
+      placeholder="Search people, rooms, posts, songs…"
+      aria-label="Search Explore"
+      autoComplete="off"
+      enterKeyHint="search"
+    />
     {query && <button type="button" className="search-clear-button" onClick={() => onQueryChange("")} aria-label="Clear search"><X size={17} /></button>}
   </label>;
 }
 
 export function ExploreCategoryTabs({ activeCategory, onCategoryChange }) {
   return <div className="search-kind-tabs" role="tablist" aria-label="Explore categories">
-    {["all", "people", "posts", "rooms", "songs"].map(category => <button type="button" role="tab" key={category} aria-selected={activeCategory === category} className={activeCategory === category ? "active" : ""} onClick={() => onCategoryChange(category)}>
+    {["all", "people", "posts", "rooms", "songs"].map(category => <button
+      type="button"
+      role="tab"
+      key={category}
+      id={\`explore-tab-\${category}\`}
+      aria-selected={activeCategory === category}
+      aria-controls="explore-results"
+      tabIndex={activeCategory === category ? 0 : -1}
+      className={activeCategory === category ? "active" : ""}
+      onClick={() => onCategoryChange(category)}
+    >
       {category === "all" ? "All" : category[0].toUpperCase() + category.slice(1)}
     </button>)}
   </div>;
