@@ -19,6 +19,7 @@ create table if not exists public.messages (
   body text not null check (char_length(body) between 1 and 4000),
   created_at timestamptz not null default now()
 );
+alter table public.messages add column if not exists read_at timestamptz;
 create index if not exists messages_pair_time_idx on public.messages (sender_id, recipient_id, created_at);
 
 alter table public.profiles enable row level security;
@@ -43,6 +44,11 @@ create policy "Users can read messages they participate in" on public.messages
 drop policy if exists "Users can send messages as themselves" on public.messages;
 create policy "Users can send messages as themselves" on public.messages
   for insert to authenticated with check (auth.uid() = sender_id and sender_id <> recipient_id);
+
+drop policy if exists "Recipients can mark messages as read" on public.messages;
+create policy "Recipients can mark messages as read" on public.messages
+  for update to authenticated using (auth.uid() = recipient_id)
+  with check (auth.uid() = recipient_id);
 
 -- Create/refresh profile on email or OAuth account creation. Username is optional.
 create or replace function public.handle_new_user()
