@@ -46,6 +46,30 @@ export default function App() {
     return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
+  useEffect(() => {
+    let cancelled = false;
+    async function loadProfileStats() {
+      if (!session?.user?.id) {
+        setProfileStats({ posts: 0, followers: 0, following: 0 });
+        return;
+      }
+      const userId = session.user.id;
+      const [posts, followers, following] = await Promise.all([
+        supabase.from("posts").select("id", { count: "exact", head: true }).eq("user_id", userId),
+        supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", userId),
+        supabase.from("user_follows").select("following_id", { count: "exact", head: true }).eq("follower_id", userId)
+      ]);
+      if (cancelled) return;
+      const failed = posts.error || followers.error || following.error;
+      if (failed) {
+        console.error("Profile stats load failed:", failed);
+        return;
+      }
+      setProfileStats({ posts: posts.count || 0, followers: followers.count || 0, following: following.count || 0 });
+    }
+    loadProfileStats();
+    return () => { cancelled = true; };
+  }, [session]);
   const [chatTarget, setChatTarget] = useState(null);
   const [globalVideo, setGlobalVideo] = useState(null);
   const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);
