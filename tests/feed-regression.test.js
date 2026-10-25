@@ -72,3 +72,11 @@ test("post reporting submits a reason and keeps duplicate submits disabled", () 
 test("hidden-post undo is only offered for the active hide notice", () => {
   assert.match(source, /lastHiddenPost && notice === "Post hidden from your feed\." &&/);
 });
+
+
+test("post engagement controls are split into primary and right-aligned secondary rows", () => {
+  assert.match(source, /className="post-actions-primary"/);
+  assert.match(source, /className="post-actions-secondary"/);
+  assert.match(source, /post-actions-secondary\{display:flex;align-items:center;justify-content:flex-end/);
+  assert.match(source, /post-actions-secondary[^}]*padding-right:0/);
+});
