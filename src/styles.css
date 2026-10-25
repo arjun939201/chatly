@@ -1659,3 +1659,11 @@ img,video,iframe{max-width:100%}
 .comments-modal .comments-dialog-header p{margin-top:5px;font-size:12px;line-height:1.45;color:var(--muted,#858597)}
 .comments-modal .comments-dialog-header button{width:38px;height:38px;flex:0 0 38px;border-radius:50%}
 .comments-modal .comments-dialog-header button:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
+
+
+/* Comment layout 07 — composer is a deliberate bottom action bar */
+.comments-modal .comment-composer{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--border,#e7e7ef);background:var(--surface,#fff)}
+.comments-modal .comment-composer .mini-avatar{width:38px;height:38px;display:block;overflow:hidden;border-radius:50%}
+.comments-modal .comment-composer .mini-avatar img{width:100%;height:100%;object-fit:cover}
+.comments-modal .comment-composer textarea{width:100%;min-width:0;min-height:44px;max-height:120px;resize:vertical;border-radius:15px;padding:12px 14px;line-height:1.4}
+.comments-modal .comment-composer>button{min-height:42px;min-width:66px;border-radius:13px;font-weight:700}
