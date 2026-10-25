@@ -9,15 +9,29 @@ export function PeopleResults({ people, loading, error, hasMore, onLoadMore, cur
     <h2 className="search-section-title"><UserRound size={17} /> People</h2>
     <div className="search-results">
       {error && <p role="alert">{error}</p>}
-      {people.length ? people.map(person => <article className="search-person" key={person.id}>
-        <button type="button" className="search-person-profile" onClick={() => onOpenProfile(person)} aria-label={`Open ${person.display_name || person.username || "member"} profile`}>
-          <Avatar person={person} />
-          <span><b>{person.display_name || "Chatly user"}{person.id === currentUserId ? " (You)" : ""}</b><small>{person.username ? "@" + person.username : "Chatly member"}</small></span>
-        </button>
-        <button type="button" onClick={() => person.id === currentUserId ? onOpenProfile(person) : onOpenChats?.(person.id)} aria-label={person.id === currentUserId ? "View profile" : "Open chat"}>
-          {person.id === currentUserId ? <UserRound size={17} /> : <MessageCircle size={17} />}
-        </button>
-      </article>) : !loading && !error ? <p>No people found.</p> : null}
+      {people.length ? people.map(person => {
+        const isCurrentUser = person.id === currentUserId;
+        const displayName = person.display_name || person.username || "Chatly user";
+        return <article className="search-person" key={person.id}>
+          <button type="button" className="search-person-profile" onClick={() => onOpenProfile(person)} aria-label={`View ${displayName} profile`}>
+            <Avatar person={person} />
+            <span className="search-person-details">
+              <b>{person.display_name || "Chatly user"}{isCurrentUser ? " (You)" : ""}</b>
+              <small>{person.username ? "@" + person.username : "Chatly member"}</small>
+              {person.bio?.trim() && <small className="search-person-bio">{person.bio.trim()}</small>}
+            </span>
+          </button>
+          <button
+            type="button"
+            className="search-person-action"
+            onClick={() => isCurrentUser ? onOpenProfile(person) : onOpenChats?.(person.id)}
+            aria-label={isCurrentUser ? "View your profile" : `Message ${displayName}`}
+            title={isCurrentUser ? "View profile" : "Message"}
+          >
+            {isCurrentUser ? <><UserRound size={16} /><span>Profile</span></> : <><MessageCircle size={16} /><span>Message</span></>}
+          </button>
+        </article>;
+      }) : !loading && !error ? <p>No people found. Try another name or username.</p> : null}
       {loading && <p role="status">Loading people…</p>}
       {hasMore && !loading && <button type="button" className="explore-load-more" onClick={onLoadMore}>Load more people</button>}
     </div>
