@@ -1908,3 +1908,7 @@ img,video,iframe{max-width:100%}
 
 /* Reduce excess whitespace on smaller screens */
 @media(max-width:600px){.feed-page{padding:14px 12px 88px}.feed-column{width:100%}.post-card{padding:14px;border-radius:12px}.posts-list{gap:10px}}
+
+
+/* Profile destination: use compact consistent content spacing */
+.profile-page{padding-top:16px}.profile-page-head{height:50px}.profile-summary{padding-top:18px;padding-bottom:12px}
