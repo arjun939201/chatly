@@ -78,7 +78,9 @@ export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpen
   </section>;
 }
 
-export function RoomsResults() {\n  return <section className="explore-result-section"><h2 className="search-section-title"><Users size={17} /> Rooms</h2><div className="search-results"><p>Room discovery is not connected to a rooms directory yet. You can still discover people and posts using the other Explore categories.</p></div></section>;\n}
+export function RoomsResults() {
+  return <section className="explore-result-section"><h2 className="search-section-title"><Users size={17} /> Rooms</h2><div className="search-results"><p>Room discovery is not connected to a rooms directory yet. You can still discover people and posts using the other Explore categories.</p></div></section>;
+}
 
 export function YouTubeResults({ videos, loading, error, onPlayVideo }) {
   return <section className="explore-result-section">
