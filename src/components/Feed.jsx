@@ -49,6 +49,14 @@ const commentSubmitLock = useRef(false);
   const followRequests = useRef(new Set());
   const [savedView, setSavedView] = useState(false); const [feedFilter, setFeedFilter] = useState("latest"); const [visibleLimit, setVisibleLimit] = useState(20); const [hiddenPostIds, setHiddenPostIds] = useState(new Set()); const [lastHiddenPost, setLastHiddenPost] = useState(null);
   const [viewCounts, setViewCounts] = useState({}); const [expandedMediaUrl, setExpandedMediaUrl] = useState("");
+  useEffect(() => {
+    if (!expandedMediaUrl) return;
+    function closeLightbox(event) {
+      if (event.key === "Escape") setExpandedMediaUrl("");
+    }
+    document.addEventListener("keydown", closeLightbox);
+    return () => document.removeEventListener("keydown", closeLightbox);
+  }, [expandedMediaUrl]);
   const requestId = useRef(0);
   const viewedPosts = useRef(new Set());
   async function loadFeed() {
@@ -368,7 +376,7 @@ const commentSubmitLock = useRef(false);
       </form>
     </section>
   </div>}
-  {expandedMediaUrl && <div className="modal-backdrop media-lightbox" role="dialog" aria-modal="true" aria-label="Expanded post image" onClick={() => setExpandedMediaUrl("")}><button type="button" aria-label="Close image" onClick={() => setExpandedMediaUrl("")}><X size={20}/></button><img src={expandedMediaUrl} alt="Expanded shared post image" onClick={e => e.stopPropagation()}/></div>}
+  {expandedMediaUrl && <div className="modal-backdrop media-lightbox" role="dialog" aria-modal="true" aria-label="Expanded post image" onClick={() => setExpandedMediaUrl("")}><button type="button" aria-label="Close image" onClick={() => setExpandedMediaUrl("")}><X size={20}/></button><img src={expandedMediaUrl} alt={(posts.find(post => imageUrlForPost(post.body) === expandedMediaUrl)?.body || "Expanded shared post image").replace(expandedMediaUrl, "").trim() || "Expanded shared post image"} onClick={e => e.stopPropagation()}/></div>}
   {editingPost && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget && !editBusy) setEditingPost(null); }}><section className="compose-modal" role="dialog" aria-modal="true" aria-labelledby="edit-post-title"><header><h2 id="edit-post-title">Edit post</h2><button type="button" aria-label="Close edit post" disabled={editBusy} onClick={() => setEditingPost(null)}><X size={19}/></button></header><form onSubmit={saveEdit}><textarea aria-label="Edit your post" value={editDraft} onChange={e => setEditDraft(e.target.value)} maxLength={5000} autoFocus/><div className="compose-footer"><small>{editDraft.length.toLocaleString()}/5,000 characters</small><button className="primary-button" disabled={editBusy || !editDraft.trim()}>{editBusy ? "Saving…" : "Save changes"}</button></div></form></section></div>}
   {compose && <div className="modal-backdrop" onClick={e => {if(e.target===e.currentTarget && !busy)setCompose(false)}}><section className="compose-modal" role="dialog" aria-modal="true" aria-labelledby="create-post-title"><header><h2 id="create-post-title">Create a post</h2><button type="button" aria-label="Close post composer" disabled={busy} onClick={() => setCompose(false)}><X size={19}/></button></header><div className="compose-author"><button type="button" className="post-author-profile" onClick={() => onOpenProfile?.(profile)} aria-label="View your profile">{avatar(profile)}<b>{profile?.display_name || "You"}</b></button></div><form onSubmit={publish}><textarea aria-label="Write your post" aria-describedby="post-character-count" value={body} onChange={e => setBody(e.target.value)} placeholder="What's on your mind?" maxLength={5000} autoFocus/><div className="compose-footer"><small id="post-character-count" aria-live="polite" className={body.length >= 4800 ? "compose-character-count near-limit" : "compose-character-count"}>{body.length.toLocaleString()}/5,000 characters</small><button className="primary-button" disabled={busy || !body.trim()}>{busy ? "Posting…" : "Post"}</button></div></form></section></div>}
   </main>;

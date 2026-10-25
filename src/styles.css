@@ -3211,3 +3211,12 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .search-person-profile:focus-visible,.search-post-author:focus-visible{outline:2px solid #7769ed;outline-offset:3px;border-radius:10px}
 .explore-home-post time,.search-post time{font-variant-numeric:tabular-nums}
 .explore-home-post-author>span:last-child{overflow-wrap:anywhere}
+
+
+/* Feed batch: safe-area positioning for the floating composer */
+.feed-page{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+.floating-create{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+@media(max-width:600px){
+  .feed-page{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  .floating-create{right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:17px}
+}
