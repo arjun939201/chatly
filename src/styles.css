@@ -2707,3 +2707,22 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed UI refinement */
 .feed-page{background:linear-gradient(180deg,#f8f8fc 0%,#f3f4fa 100%);padding:28px 20px 112px}.feed-column{width:min(700px,100%)}.feed-heading-row{margin-bottom:20px}.feed-heading-row h1{font-size:clamp(22px,3vw,27px);font-weight:750;letter-spacing:-.8px}.feed-heading-row p{font-size:13px}
+
+/* Explore UI pass 1: consistent discovery surface and card rhythm. */
+.search-page .explore-home,
+.search-page .explore-result-section {
+  min-width: 0;
+}
+.search-page .explore-home {
+  display: grid;
+  gap: 18px;
+}
+.search-page .explore-home-post,
+.search-page .search-person,
+.search-page .search-post {
+  border: 1px solid var(--border, #e9e8f1);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  box-shadow: 0 2px 10px rgba(32, 28, 72, .025);
+}
+
