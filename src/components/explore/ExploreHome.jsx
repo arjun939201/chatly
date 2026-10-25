@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Compass, TrendingUp, RefreshCw, Hash } from "lucide-react";
+import { TrendingUp, RefreshCw, Hash } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 
 export default function ExploreHome({ onSearch }) {
