@@ -49,6 +49,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
           hasMore={postsHasMore}
           onLoadMore={loadMorePosts}
           onOpenProfile={openProfile}
+          query={query}
         />}
         {kind === "rooms" && <RoomsResults />}
         {kind === "songs" && <YouTubeResults videos={videos} loading={videoLoading} error={videoError} onPlayVideo={onPlayVideo} />}
