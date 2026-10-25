@@ -1488,3 +1488,6 @@ img,video,iframe{max-width:100%}
 .feed-composer:hover{border-color:#d9d5f7;box-shadow:0 7px 22px #302b540b}
 .feed-composer>span{color:#858599}
 .feed-composer:focus-visible{outline:2px solid #8c80f4;outline-offset:3px}
+
+/* Improve compose modal actions */
+.compose-modal{border:1px solid #eeedf5;box-shadow:0 24px 80px #17172b29}.compose-modal header button{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:10px;background:#f5f4fa;color:#77778d}.compose-modal header button:hover{background:#eceaf7;color:#5145c7}.compose-modal textarea:focus-visible{outline:2px solid #d5d0ff;outline-offset:3px;border-radius:8px}.compose-footer .primary-button{min-width:94px}
