@@ -27,7 +27,9 @@ const [commentBusy, setCommentBusy] = useState(false);
   const [postMenu, setPostMenu] = useState(null);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [likeBusy, setLikeBusy] = useState({});
+  const requestId = useRef(0);
   async function loadFeed() {
+    const request = ++requestId.current;
     setFeedLoading(true);
     setNotice("");
     try {
@@ -43,14 +45,17 @@ const [commentBusy, setCommentBusy] = useState(false);
     const { data, error } = await postQuery;
     if (error) { if (request === requestId.current) setNotice(`Could not load feed: ${error.message}`); return; }
     const ids = [...new Set((data || []).map(p => p.user_id))];
-    const { data: profiles, error: profilesError } = ids.length ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", ids) : { data: [], error: null };\n    if (profilesError) throw profilesError;
+    const { data: profiles, error: profilesError } = ids.length ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", ids) : { data: [], error: null };
+    if (profilesError) throw profilesError;
     const map = Object.fromEntries((profiles || []).map(p => [p.id,p]));
-    const { data: likes, error: likesError } = await supabase.from("post_likes").select("post_id,user_id");\n    if (likesError) throw likesError;
+    const { data: likes, error: likesError } = await supabase.from("post_likes").select("post_id,user_id");
+    if (likesError) throw likesError;
     const postRows = data || [];
-    if (request !== requestId.current) return;\n    setPosts(postRows.map(p => ({ ...p, author: map[p.user_id] || {}, likes: (likes || []).filter(l => l.post_id === p.id).length, liked: (likes || []).some(l => l.post_id === p.id && l.user_id === session.user.id) })));
+    if (request !== requestId.current) return;\n    if (request !== requestId.current) return;
+    setPosts(postRows.map(p => ({ ...p, author: map[p.user_id] || {}, likes: (likes || []).filter(l => l.post_id === p.id).length, liked: (likes || []).some(l => l.post_id === p.id && l.user_id === session.user.id) })));
     if (postRows.length) { const { data: commentRows, error: commentsError } = await supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postRows.map(p => p.id)).order("created_at"); if (commentsError) throw commentsError; const commentIds = [...new Set((commentRows || []).map(c => c.user_id))]; const { data: commentProfiles, error: commentProfilesError } = commentIds.length ? await supabase.from("profiles").select("id,display_name,username,avatar_url").in("id", commentIds) : { data: [], error: null }; if (commentProfilesError) throw commentProfilesError; const authors = Object.fromEntries((commentProfiles || []).map(p => [p.id,p])); setComments(Object.fromEntries(postRows.map(p => [p.id,(commentRows || []).filter(c => c.post_id === p.id).map(c => ({...c,author:authors[c.user_id] || {}}))]))); } else setComments({});
-    } catch (error) { setNotice(error.message || "Could not load the feed."); }
-    finally { setFeedLoading(false); }
+    } catch (error) { if (request === requestId.current) setNotice(`Could not load feed: ${error.message || "Please try again."}`); }
+    finally { if (request === requestId.current) setFeedLoading(false); }
   }
   useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, [feedScope]);
   async function publish(e) { e.preventDefault(); if (!body.trim()) return; setBusy(true); setNotice(""); const { error } = await supabase.from("posts").insert({ user_id:session.user.id, body:body.trim() }); setBusy(false); if (error) { setNotice(error.message); return; } setBody(""); setCompose(false); await Promise.all([loadFeed(), onPostsChanged?.()]); }
@@ -62,7 +67,7 @@ const [commentBusy, setCommentBusy] = useState(false);
     setDeleteBusy(false); setPostMenu(null);
     if (error) { setNotice(error.message); return; }
     if (openComments === post.id) setOpenComments(null);
-    await loadFeed();
+    await Promise.all([loadFeed(), onPostsChanged?.()]);
   }
   async function toggleLike(post) { if (likeBusy[post.id]) return; setLikeBusy(current => ({ ...current, [post.id]: true })); setNotice(""); try { const { data: existing, error: lookupError } = await supabase.from("post_likes").select("post_id").eq("post_id",post.id).eq("user_id",session.user.id).maybeSingle(); if (lookupError) throw lookupError; const result = existing ? await supabase.from("post_likes").delete().eq("post_id",post.id).eq("user_id",session.user.id) : await supabase.from("post_likes").insert({post_id:post.id,user_id:session.user.id}); if (result.error) throw result.error; await loadFeed(); } catch (error) { setNotice(error.message || "Could not update like."); } finally { setLikeBusy(current => ({ ...current, [post.id]: false })); } }
   async function submitComment(e, postId) { e.preventDefault(); const text = commentDraft.trim(); if (!text || commentBusy) return; setCommentBusy(true); setNotice(""); try { const { error } = await supabase.from("post_comments").insert({post_id:postId,user_id:session.user.id,body:text}); if (error) throw error; setCommentDraft(""); await loadFeed(); } catch (error) { setNotice(error.message || "Could not send comment."); } finally { setCommentBusy(false); } }
