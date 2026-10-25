@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2 } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -14,6 +14,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [sendBusy, setSendBusy] = useState(false);
+  const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [lastMessages, setLastMessages] = useState({});
@@ -80,6 +81,17 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     }
   }
 
+  async function deleteMessage(message) {
+    if (message.sender_id !== session.user.id || messageActionBusy) return;
+    if (!window.confirm("Delete this message?")) return;
+    setMessageActionBusy(message.id);
+    setError("");
+    const { error: deleteError } = await supabase.from("messages").delete().eq("id", message.id).eq("sender_id", session.user.id);
+    if (deleteError) setError(deleteError.message || "Could not delete message.");
+    else setMessages(current => current.filter(item => item.id !== message.id));
+    setMessageActionBusy(null);
+  }
+
   const self = { ...(profile || {}), id: session.user.id, display_name: "Saved messages", username: "You", avatar_url: profile?.avatar_url };
   const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)].filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || filter === "unread"));
 
@@ -99,7 +111,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       {active ? <>
         <header className="conversation-header"><button className="mobile-back" onClick={() => setActive(null)} aria-label="Back to people"><ArrowLeft size={18}/></button><Avatar person={active}/><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list">
-          {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time></div></div>)}
+          {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
         </div>
