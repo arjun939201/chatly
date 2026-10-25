@@ -1497,3 +1497,6 @@ img,video,iframe{max-width:100%}
 
 /* Polish avatar presentation */
 .mini-avatar{flex:none;width:42px;height:42px;border:1px solid #efedf7;box-shadow:0 1px 2px #24243a0a}.post-author-profile .mini-avatar{transition:transform .15s}.post-author-profile:hover .mini-avatar{transform:scale(1.035)}.comment-author-profile .mini-avatar{width:32px;height:32px}.mini-avatar img{display:block}
+
+/* Improve empty and loading states */
+.feed-loading{padding:18px 14px;text-align:center;color:#858599;font-size:13px}.feed-notice{padding:11px 13px;border:1px solid #f3d7db;border-radius:12px;background:#fff5f6;color:#a33b4b;line-height:1.5}.feed-empty{box-shadow:0 5px 20px #302b5406}.feed-empty .primary-button{width:auto;min-width:140px}
