@@ -1,7 +1,8 @@
 -- Comments table expected by src/components/Feed.jsx
+-- public.posts.id is bigint, so post_comments.post_id must also be bigint.
 create table if not exists public.post_comments (
   id uuid primary key default gen_random_uuid(),
-  post_id uuid not null references public.posts(id) on delete cascade,
+  post_id bigint not null references public.posts(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
   body text not null check (char_length(trim(body)) between 1 and 2000),
   created_at timestamptz not null default now()
