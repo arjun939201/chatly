@@ -3078,3 +3078,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @media(max-width:600px){.search-page .search-results{gap:9px}.search-page .search-person,.search-page .search-post,.search-page .explore-home-post{border-radius:12px}.search-page .search-person-action{min-height:38px}}
 @media(max-width:360px){.search-page .mini-avatar{flex-basis:34px;width:34px;height:34px}.search-page .search-person{gap:8px}}
 @media(prefers-reduced-motion:reduce){.search-page .search-person,.search-page .search-post,.search-page .explore-home-post{transition:none}}
+
+
+/* Feed UI refinement 05 — post action controls */
+.post-actions{align-items:center;gap:clamp(12px,3vw,23px);padding-top:14px;border-top:1px solid #f0eff6}.post-actions button,.post-view-count{min-height:34px;display:inline-flex;align-items:center;gap:7px;border-radius:9px;padding:5px 8px;font-size:12px;font-weight:550;transition:color .16s ease,background .16s ease}.post-actions button:hover:not(:disabled){background:#f6f4ff;color:#6256cb}.post-actions button.liked{color:#df4d7e;background:#fff4f7}.post-actions .post-save-button.saved{color:#6558d8;background:#f5f2ff}.post-view-count{padding-left:0;color:#9695a8}
