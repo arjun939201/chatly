@@ -3944,3 +3944,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-mark-read{margin-left:7px;padding:3px 7px;color:var(--muted);font-size:11px}
 .notification-heading-actions button:hover,.notification-mark-read:hover{background:var(--app-bg)}
 .notification-heading-actions button:disabled{opacity:.5;cursor:wait}
+
+/* Notification UI pass 7: clear day separators and compact dates */
+.notification-date-heading{margin:18px 2px 8px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.notification-date-heading:first-child{margin-top:4px}
+.notification-activity-list+.notification-date-heading{margin-top:14px}
