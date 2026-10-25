@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2 } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -151,7 +151,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     </aside>
     <section className="conversation">
       {active ? <>
-        <header className="conversation-header"><button className="mobile-back" onClick={() => setActive(null)} aria-label="Back to people"><ArrowLeft size={18}/></button><Avatar person={active}/><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
+        <header className="conversation-header"><button className="conversation-close" onClick={() => setActive(null)} aria-label="Close conversation" title="Close conversation"><X size={18}/></button><Avatar person={active}/><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list">
           {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
