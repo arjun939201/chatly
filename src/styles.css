@@ -1943,3 +1943,7 @@ img,video,iframe{max-width:100%}
 
 /* Keep like and comment actions visible and interactive */
 .feed-page .post-actions{display:flex;align-items:center;flex-wrap:wrap}.feed-page .post-actions button{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--muted,#77778d);cursor:pointer}
+
+
+/* Empty feed remains a useful starting point */
+.feed-page .feed-empty{display:block;visibility:visible;color:var(--text,#202033)}.feed-page .feed-empty .primary-button{display:inline-flex;align-items:center;justify-content:center}
