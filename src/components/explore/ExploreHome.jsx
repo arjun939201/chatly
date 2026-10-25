@@ -8,7 +8,13 @@ export default function ExploreHome({ onSearch }) {
   const [error, setError] = useState("");
   const requestId = useRef(0);
 
-  function formatRecentDate(value) {\n    if (!value) return "Recently";\n    const date = new Date(value);\n    return Number.isNaN(date.getTime()) ? "Recently" : date.toLocaleDateString(undefined, { dateStyle: "medium" });\n  }\n\n  async function loadRecentPosts() {
+  function formatRecentDate(value) {
+    if (!value) return "Recently";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "Recently" : date.toLocaleDateString(undefined, { dateStyle: "medium" });
+  }
+
+  async function loadRecentPosts() {
     const request = ++requestId.current;
     setLoading(true);
     setError("");
