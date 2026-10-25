@@ -31,14 +31,17 @@ export default function NotificationsDestination({ session }) {
 
       const [likesResult, commentsResult, followsResult] = await Promise.all([
         supabase.from("post_likes").select("post_id,user_id").in("post_id", postIds).neq("user_id", session.user.id),
-        supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id)
+        supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id),
+        supabase.from("user_follows").select("follower_id,created_at").eq("following_id", session.user.id).neq("follower_id", session.user.id)
       ]);
       if (likesResult.error) throw likesResult.error;
-      if (commentsResult.error) throw commentsResult.error;\n      if (followsResult.error) throw followsResult.error;
+      if (commentsResult.error) throw commentsResult.error;
+      if (followsResult.error) throw followsResult.error;
 
       const activity = [
         ...(likesResult.data || []).map(row => ({ type: "like", post_id: row.post_id, user_id: row.user_id })),
-        ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" })),\n        ...(followsResult.data || []).map(row => ({ type: "follow", user_id: row.follower_id, created_at: row.created_at }))
+        ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" })),
+        ...(followsResult.data || []).map(row => ({ type: "follow", user_id: row.follower_id, created_at: row.created_at }))
       ];
       if (!activity.length) { setItems([]); return; }
 
