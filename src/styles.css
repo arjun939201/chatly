@@ -981,3 +981,15 @@ img,video{max-width:100%}
   --chatly-shadow-md:0 12px 32px rgb(0 0 0 / 25%);
   color-scheme:dark;
 }
+
+/* Explore song filter and minimized music player */
+.chatly-music-mini{position:fixed;z-index:1200;right:20px;bottom:22px;width:min(420px,calc(100vw - 24px));display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--chatly-border);border-radius:16px;background:var(--chatly-surface);color:var(--chatly-ink);box-shadow:0 12px 38px rgb(0 0 0 / 18%)}
+.chatly-music-mini>img{width:44px;height:44px;object-fit:cover;border-radius:9px;flex:none}
+.chatly-music-mini>span{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.chatly-music-mini b,.chatly-music-mini small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chatly-music-mini b{font-size:13px}.chatly-music-mini small{font-size:11px;color:var(--chatly-muted)}
+.chatly-music-mini button{display:grid;place-items:center;width:36px;height:36px;flex:none;border:0;border-radius:9px;background:transparent;color:inherit;cursor:pointer}
+.chatly-music-mini button:hover{background:var(--chatly-brand-soft)}
+.chatly-music-mini iframe{position:absolute;width:1px;height:1px;opacity:.01;pointer-events:none}
+.youtube-player-modal header>div{display:flex;gap:4px}
+@media(max-width:600px){.chatly-music-mini{right:12px;bottom:12px;width:calc(100vw - 24px)}}
