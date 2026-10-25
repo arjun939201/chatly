@@ -17,7 +17,9 @@ useEffect(() => {
     if (!event.target.closest(".create-menu-wrap")) setCreateMenu(false);
   }
   document.addEventListener("pointerdown", closeOnOutsideClick);
-  return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+  function closeOnEscape(event) { if (event.key === "Escape") setCreateMenu(false); }
+  document.addEventListener("keydown", closeOnEscape);
+  return () => { document.removeEventListener("pointerdown", closeOnOutsideClick); document.removeEventListener("keydown", closeOnEscape); };
 }, [createMenu]);
 
 const [openComments, setOpenComments] = useState(null);
