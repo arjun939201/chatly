@@ -607,3 +607,15 @@ body{overflow-x:hidden}
  .destination-page{padding:16px 14px 20px}
  .chat-layout{height:auto;min-height:0}
 }
+
+/* Expanded preferences */
+.settings-category-label{margin:24px 0 8px;color:var(--muted,#888894);font-size:11px;letter-spacing:1.2px;font-weight:700}
+.settings-options-panel{padding:4px 0 10px;border-bottom:1px solid var(--border,#e4e4e9)}
+.settings-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 3px;cursor:pointer}
+.settings-toggle-row>span{display:flex;flex-direction:column;gap:5px}
+.settings-toggle-row strong{font-size:14px;color:var(--text,#17171b)}
+.settings-toggle-row small,.settings-note{font-size:12px;line-height:1.5;color:var(--muted,#888894)}
+.settings-toggle-row input{width:42px;height:23px;flex:none;accent-color:#7462ed}
+.settings-note{margin:8px 3px 4px}
+.theme-dark .settings-toggle-row strong{color:var(--text)}
+@media(max-width:600px){.settings-toggle-row{padding:12px 2px}.settings-toggle-row strong{font-size:13px}}
