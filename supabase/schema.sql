@@ -151,4 +151,21 @@ create policy "Users can like as themselves" on public.post_likes
 drop policy if exists "Users can remove their own likes" on public.post_likes;
 create policy "Users can remove their own likes" on public.post_likes
   for delete to authenticated using (auth.uid() = user_id);
-\n\n-- Post comments.\ncreate table if not exists public.post_comments (\n id bigint generated always as identity primary key,\n post_id bigint not null references public.posts(id) on delete cascade,\n user_id uuid not null references public.profiles(id) on delete cascade,\n body text not null check (char_length(body) between 1 and 2000),\n created_at timestamptz not null default now()\n);\ncreate index if not exists post_comments_post_time_idx on public.post_comments (post_id, created_at);\nalter table public.post_comments enable row level security;\ndrop policy if exists "Authenticated users can read post comments" on public.post_comments;\ncreate policy "Authenticated users can read post comments" on public.post_comments for select to authenticated using (true);\ndrop policy if exists "Users can create their own post comments" on public.post_comments;\ncreate policy "Users can create their own post comments" on public.post_comments for insert to authenticated with check (auth.uid() = user_id);\ndrop policy if exists "Users can delete their own post comments" on public.post_comments;\ncreate policy "Users can delete their own post comments" on public.post_comments for delete to authenticated using (auth.uid() = user_id);\n
+
+
+-- Post comments.
+create table if not exists public.post_comments (
+ id bigint generated always as identity primary key,
+ post_id bigint not null references public.posts(id) on delete cascade,
+ user_id uuid not null references public.profiles(id) on delete cascade,
+ body text not null check (char_length(body) between 1 and 2000),
+ created_at timestamptz not null default now()
+);
+create index if not exists post_comments_post_time_idx on public.post_comments (post_id, created_at);
+alter table public.post_comments enable row level security;
+drop policy if exists "Authenticated users can read post comments" on public.post_comments;
+create policy "Authenticated users can read post comments" on public.post_comments for select to authenticated using (true);
+drop policy if exists "Users can create their own post comments" on public.post_comments;
+create policy "Users can create their own post comments" on public.post_comments for insert to authenticated with check (auth.uid() = user_id);
+drop policy if exists "Users can delete their own post comments" on public.post_comments;
+create policy "Users can delete their own post comments" on public.post_comments for delete to authenticated using (auth.uid() = user_id);
