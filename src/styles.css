@@ -2163,3 +2163,7 @@ html,body,#root{min-height:100%;max-width:100%;margin:0}body{overflow-x:hidden}.
 
 /* Create a settings page content grid */
 .app-settings-destination-page{width:100%;max-width:900px;margin:0 auto;padding:clamp(12px,2.5vw,24px);background:transparent}.app-settings-destination-page>.app-style-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:0;margin:0;padding:0;border:0;background:transparent;box-shadow:none}
+
+
+/* Standardize settings section headers */
+.app-settings-destination-page .settings-category-label{margin:22px 0 8px;padding:0 2px;color:var(--muted,#888894);font-size:11px;font-weight:700;line-height:1.4;letter-spacing:.09em;border:0}.app-settings-destination-page .settings-category-label:first-of-type{margin-top:18px}
