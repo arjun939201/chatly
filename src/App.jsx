@@ -94,7 +94,9 @@ export default function App() {
     loadProfileStats();
     return () => { cancelled = true; };
   }, [session]);
-  const [chatTarget, setChatTarget] = useState(null);\n  const [requestedProfile, setRequestedProfile] = useState(null);\n  function openPublicProfile(person) { setRequestedProfile(person); setTab("search"); }
+  const [chatTarget, setChatTarget] = useState(null);
+  const [requestedProfile, setRequestedProfile] = useState(null);
+  function openPublicProfile(person) { setRequestedProfile(person); setTab("search"); }
   const [globalVideo, setGlobalVideo] = useState(null);
   const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);
   const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
