@@ -37,7 +37,8 @@ export default function SettingsDestination({ onSubpageChange = () => {}, theme 
   }, [view, onSubpageChange, setNotice]);
   const [emailOpen, setEmailOpen] = useState(false);
   const [emailSaving, setEmailSaving] = useState(false);
-  const [emailAttempted, setEmailAttempted] = useState(false);\n  const [emailResultType, setEmailResultType] = useState("");
+  const [emailAttempted, setEmailAttempted] = useState(false);
+  const [emailResultType, setEmailResultType] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
