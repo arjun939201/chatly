@@ -54,6 +54,12 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
         if ((m.sender_id === session.user.id && m.recipient_id === active.id) || (m.sender_id === active.id && m.recipient_id === session.user.id)) {
           setMessages(current => current.some(item => item.id === m.id) ? current : [...current, m]);
         }
+      })
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, payload => {
+        const removed = payload.old;
+        if ((removed.sender_id === session.user.id && removed.recipient_id === active.id) || (removed.sender_id === active.id && removed.recipient_id === session.user.id)) {
+          setMessages(current => current.filter(item => item.id !== removed.id));
+        }
       }).subscribe();
     return () => { alive = false; supabase.removeChannel(channel); };
   }, [active, session.user.id]);
