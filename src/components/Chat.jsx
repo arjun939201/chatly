@@ -217,7 +217,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const unreadCounts = recentMessages.reduce((counts, message) => {
     if (message.sender_id === session.user.id) return counts;
     const peer = message.sender_id;
-    if (message.recipient_id !== session.user.id || (readMarkers[peer] && message.created_at <= readMarkers[peer])) return counts;
+    if (peer === active?.id || message.recipient_id !== session.user.id || (readMarkers[peer] && message.created_at <= readMarkers[peer])) return counts;
     counts[peer] = (counts[peer] || 0) + 1;
     return counts;
   }, {});
