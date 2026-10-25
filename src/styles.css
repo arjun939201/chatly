@@ -2750,3 +2750,29 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   opacity: .9;
 }
 
+
+
+/* Explore UI pass 3: stable, touch-friendly category rail. */
+.search-page .search-kind-tabs {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 4px 2px 7px;
+}
+.search-page .search-kind-tabs button {
+  flex: 0 0 auto;
+  border: 1px solid var(--border, #e8e7f0);
+  border-radius: 999px;
+  background: var(--surface, #fff);
+  color: var(--muted, #77778d);
+  font-weight: 550;
+}
+.search-page .search-kind-tabs button.active {
+  border-color: var(--chatly-brand, #6757e8);
+  background: var(--chatly-brand-soft, #f0edff);
+  color: var(--chatly-brand, #6757e8);
+  font-weight: 700;
+}
+
