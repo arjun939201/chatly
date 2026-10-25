@@ -46,7 +46,8 @@ const [commentBusy, setCommentBusy] = useState(false);
     if (error) { setNotice(error.message); return; }
     if (openComments === post.id) setOpenComments(null);
     await loadFeed();
-  }\n  async function toggleLike(post) { const { data: existing } = await supabase.from("post_likes").select("post_id").eq("post_id",post.id).eq("user_id",session.user.id).maybeSingle(); const result = existing ? await supabase.from("post_likes").delete().eq("post_id",post.id).eq("user_id",session.user.id) : await supabase.from("post_likes").insert({post_id:post.id,user_id:session.user.id}); if (result.error) { setNotice(result.error.message); return; } await loadFeed(); }
+  }
+  async function toggleLike(post) { const { data: existing } = await supabase.from("post_likes").select("post_id").eq("post_id",post.id).eq("user_id",session.user.id).maybeSingle(); const result = existing ? await supabase.from("post_likes").delete().eq("post_id",post.id).eq("user_id",session.user.id) : await supabase.from("post_likes").insert({post_id:post.id,user_id:session.user.id}); if (result.error) { setNotice(result.error.message); return; } await loadFeed(); }
   async function submitComment(e, postId) { e.preventDefault(); if (!commentDraft.trim()) return; setCommentBusy(true); const { error } = await supabase.from("post_comments").insert({post_id:postId,user_id:session.user.id,body:commentDraft.trim()}); setCommentBusy(false); if (error) { setNotice(error.message); return; } setCommentDraft(""); await loadFeed(); }
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
