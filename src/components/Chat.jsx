@@ -166,7 +166,16 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     counts[peer] = (counts[peer] || 0) + 1;
     return counts;
   }, {});
-  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)].filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || (filter === "unread" && unreadCounts[p.id] > 0)));
+  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)]
+    .filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.trim().toLowerCase()))
+    .filter(p => filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || (filter === "unread" && unreadCounts[p.id] > 0))
+    .sort((a, b) => {
+      if (a.id === session.user.id) return b.id === session.user.id ? 0 : -1;
+      if (b.id === session.user.id) return 1;
+      const aTime = lastMessages[a.id]?.created_at ? new Date(lastMessages[a.id].created_at).getTime() : 0;
+      const bTime = lastMessages[b.id]?.created_at ? new Date(lastMessages[b.id].created_at).getTime() : 0;
+      return bTime - aTime || (a.display_name || a.username || "").localeCompare(b.display_name || b.username || "");
+    });
 
   return <main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
