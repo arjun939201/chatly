@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { Fragment } from "react";
 import { Heart, MessageCircle, UserRound, Users, Youtube } from "lucide-react";
 
 function Avatar({ person }) {
