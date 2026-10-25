@@ -2550,3 +2550,58 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .chat-layout .conversation-header>div strong,.chat-layout .conversation-header>div small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 .chat-layout button:focus-visible,.chat-layout [role=button]:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:2px}
+
+
+/* Feed final polish: consistent focus visibility, modal sizing, and theme-aware media. */
+.feed-page button:focus-visible,
+.feed-page textarea:focus-visible,
+.feed-page [role="button"]:focus-visible {
+  outline: 2px solid var(--chatly-brand, #6757e8);
+  outline-offset: 3px;
+}
+.feed-page .post-card,
+.feed-page .post-media,
+.feed-page .comment-item,
+.feed-page .compose-modal {
+  min-width: 0;
+}
+.feed-page .post-options-menu {
+  z-index: 5;
+}
+.feed-page .compose-modal,
+.feed-page .comments-modal {
+  max-height: min( min(88dvh, 760px), calc(100dvh - 24px) );
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.feed-page .comments-modal .comment-list {
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+.feed-page .comment-composer textarea,
+.feed-page .compose-modal form textarea {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.theme-dark .feed-page .post-media {
+  border-color: var(--border, #343443);
+  background: var(--app-bg, #1d1d27);
+}
+.theme-dark .feed-page .post-media img {
+  background: var(--app-bg, #1d1d27);
+}
+.theme-dark .feed-page .post-media figcaption {
+  border-color: var(--border, #343443);
+  color: var(--muted, #9292a6);
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page *,
+  .feed-page *::before,
+  .feed-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
