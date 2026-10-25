@@ -3982,3 +3982,11 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-activity-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
 .notification-activity-copy p{margin:0;min-width:0}
 .notification-activity-copy>span{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0}
+
+/* Notification filters: separate controls from feed without extra clutter */
+.notification-filter-row{display:flex;gap:8px;align-items:center;margin:0 0 4px;padding:0 0 4px}
+.notification-filter-row button{min-height:34px;padding:7px 13px;border-radius:999px}
+.notification-filter-row button.active{font-weight:650}
+.notification-mark-all-read,.notification-refresh-button{min-height:34px;border-radius:9px}
+.notification-mark-all-read{padding:7px 11px}
+.notification-refresh-button{display:grid;place-items:center;width:36px;padding:0}
