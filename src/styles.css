@@ -3039,3 +3039,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 /* Explore UI pass 12 — restrained hover feedback */
 .search-page .search-person,.search-page .search-post,.search-page .explore-home-post{transition:border-color .16s ease,box-shadow .16s ease}
 .search-page .search-person:hover,.search-page .search-post:hover,.search-page .explore-home-post:hover{border-color:var(--chatly-brand,#6757e8);box-shadow:0 5px 18px rgba(45,38,110,.055)}
+
+/* Explore UI pass 13 — visible keyboard focus across discovery controls */
+.search-page button:focus-visible,.search-page input:focus-visible,.search-page a:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
+.search-page .search-page-input input:focus-visible{outline:none}
+.search-page .search-kind-tabs button:focus-visible{outline-offset:2px}
