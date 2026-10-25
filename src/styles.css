@@ -1896,3 +1896,7 @@ img,video,iframe{max-width:100%}
 
 /* Compact post action row */
 .post-actions{gap:16px;padding-top:10px}.post-actions button{min-height:34px;padding:4px 0;font-size:12px}
+
+
+/* Simple empty state without decorative blocks */
+.feed-empty{padding:34px 18px;border-style:solid;box-shadow:none}.feed-empty>span{display:none}.feed-empty h3{margin-top:0}.feed-empty p{max-width:300px}
