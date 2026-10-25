@@ -1955,3 +1955,7 @@ img,video,iframe{max-width:100%}
 
 /* Keep restored feed usable on narrow screens */
 @media(max-width:600px){.feed-page .posts-list{grid-template-columns:minmax(0,1fr)}.feed-page .post-card{width:100%;box-sizing:border-box}.feed-page .create-menu-wrap{right:16px;bottom:calc(76px + env(safe-area-inset-bottom))}}
+
+
+/* Profile destination compact spacing */
+.profile-page{padding-top:4px}.profile-page-head{height:auto;min-height:40px;margin:0 0 8px}.profile-page-head h2{font-size:20px;line-height:1.25;margin:0}.profile-summary{padding-top:10px;padding-bottom:10px}
