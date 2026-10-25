@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 const PAGE_SIZE = 20;
 
 function escapeSearch(value) {
-  return value.replace(/[,%_()]/g, character => `\\${character}`).trim();
+  return String(value || "").trim().replace(/\\/g, "\\\\").replace(/[,%_()]/g, character => `\\${character}`);
 }
 
 export function useExploreData(query) {
