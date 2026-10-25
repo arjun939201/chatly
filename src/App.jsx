@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, ChevronLeft } from "lucide-react";
+import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, ChevronLeft, Minimize2, Maximize2 } from "lucide-react";
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth.jsx";
 import Chat from "./components/Chat.jsx";
@@ -46,7 +46,7 @@ export default function App() {
     return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
-  const [chatTarget, setChatTarget] = useState(null);
+  const [chatTarget, setChatTarget] = useState(null);\n  const [globalVideo, setGlobalVideo] = useState(null);\n  const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);\n  const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
   function openChat(targetId) {
     setChatTarget(targetId || null);
     setTab("chats");
@@ -157,7 +157,7 @@ export default function App() {
     </header>}
     {tab !== "feed" && tab !== "chats" && <div className="destination-topline"><button className="page-back-to-feed" onClick={() => { setTab("feed"); setProfileMenuOpen(false); }} aria-label="Back to feed"><ChevronLeft size={20}/></button><strong className="destination-current-title">{({account:"Account",search:"Explore",chats:"Chats",notifications:"Notifications",settings:"Settings",profile:"Profile"})[tab] || ""}</strong></div>}
     {tab === "notifications" && <section className="destination-page settings-page notification-destination-page"><header className="destination-page-header"><Bell size={22}/><div><h2>Notifications</h2><p>Your recent Chatly activity</p></div></header><div className="settings-section notification-view"><h3 className="account-options-label">ACTIVITY</h3><div className="notifications-empty"><Bell size={30}/><h3>You're all caught up</h3><p>New activity and updates will appear here.</p></div></div></section>}
-    {tab === "search" && <SearchPeople session={session} onOpenChats={openChat}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
+    {tab === "search" && <SearchPeople session={session} onOpenChats={openChat} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} /> }{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
     {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget} onBackToFeed={() => { setChatTarget(null); setTab("feed"); }}/>}
     {tab === "profile" && <section className="profile-page"><div className="profile-page-head"><h2>{profile?.username || "Profile"}</h2><button className="profile-menu-trigger" aria-label="Profile menu" onClick={() => setProfileMenuOpen(v => !v)}><MoreHorizontal size={27}/></button>{profileMenuOpen && <div className="profile-dropdown"><button onClick={() => { setProfileMenuOpen(false); setNotice("Liked posts are coming soon."); }}>Liked Posts <Heart size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setTab("search"); }}>Contacts <Users size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("account"); }}>Account <KeyRound size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("app-settings"); }}>App settings <Settings size={16}/></button></div>}</div><div className="profile-summary"><span className="profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile"/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><div className="profile-counts"><div><b>{profileStats.posts}</b><span>posts</span></div><div><b>{profileStats.followers}</b><span>followers</span></div><div><b>{profileStats.following}</b><span>following</span></div></div></div><div className="profile-bio"><strong>{profile?.display_name || "Your name"}</strong><p>{profile?.bio || "Welcome to my Chatly profile."}</p></div><button className="profile-edit-button" onClick={() => { setEditProfileOpen(true); setNotice(""); }}>Edit profile</button><div className="profile-grid-heading"><Grid3X3 size={18}/> Posts</div></section>}
     {editProfileOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setEditProfileOpen(false); }}>
