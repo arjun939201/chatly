@@ -3929,3 +3929,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-activity-copy>.notification-actor-avatar{grid-column:1;grid-row:1 / span 2}
 .notification-activity-copy>p,.notification-activity-copy>span,.notification-activity-copy>.notification-post-preview{grid-column:2}
 .notification-activity-copy>span{align-self:start}
+
+/* Notification UI pass 5: typography and comment excerpt rhythm */
+.notification-activity-copy p{font-size:14px;line-height:1.48;letter-spacing:-.008em}
+.notification-activity-copy p .notification-actor-link{font:inherit;font-weight:650}
+.notification-activity-copy>span{font-size:12px;line-height:1.4}
+.notification-post-preview{max-width:100%;margin-top:5px;padding:0;color:var(--muted);font-size:12px;line-height:1.45}
