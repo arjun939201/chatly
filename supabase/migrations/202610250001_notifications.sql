@@ -19,6 +19,11 @@ create index if not exists notifications_unread_idx
 
 alter table public.notifications enable row level security;
 
+-- Authenticated recipients may only mutate the read marker, never notification identity or payload.
+revoke insert, update, delete on public.notifications from authenticated;
+grant select on public.notifications to authenticated;
+grant update (read_at) on public.notifications to authenticated;
+
 drop policy if exists "Recipients can read their notifications" on public.notifications;
 create policy "Recipients can read their notifications"
   on public.notifications for select to authenticated
