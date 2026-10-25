@@ -1912,3 +1912,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile destination: use compact consistent content spacing */
 .profile-page{padding-top:16px}.profile-page-head{height:50px}.profile-summary{padding-top:18px;padding-bottom:12px}
+
+
+/* Search: simplify controls and result rows */
+.search-page .search-kind-tabs{padding:3px;border-radius:11px}.search-page .search-person{padding:11px;border-radius:12px;box-shadow:none}
