@@ -3916,3 +3916,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-filter-row button{flex:0 0 auto;min-height:34px;padding:7px 13px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--muted);font:inherit;font-size:12px;font-weight:600;white-space:nowrap}
 .notification-filter-row button.active{border-color:var(--text);background:var(--text);color:var(--surface)}
 .notification-filter-row button:focus-visible{outline:2px solid #7667df;outline-offset:2px}
+
+/* Notification UI pass 3: calm unread/read treatment */
+.notification-activity-item.is-unread{background:color-mix(in srgb,var(--surface) 94%,#7667df 6%)}
+.notification-activity-item.is-read{background:var(--surface)}
+.notification-activity-item.is-unread:after{content:"";align-self:center;flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:#7667df}
+.notification-unread-count{font-size:11px;font-weight:500;letter-spacing:0;text-transform:none}
