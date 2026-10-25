@@ -1503,3 +1503,6 @@ img,video,iframe{max-width:100%}
 
 /* Accessibility and reduced motion polish */
 .post-options-trigger:disabled,.post-delete-option:disabled{cursor:wait}@media(prefers-reduced-motion:reduce){.post-card,.post-options-trigger,.post-delete-option,.feed-composer,.floating-create,.feed-scope-tabs button,.post-actions button,.post-author-profile .mini-avatar{transition:none!important}.post-options-menu{animation:none!important}}
+
+/* Responsive post controls polish */
+@media(max-width:520px){.post-card{padding:15px;border-radius:15px}.post-options-menu{min-width:150px}.floating-create{right:18px;bottom:82px}.post-actions{gap:10px}.post-actions button{padding:6px}}
