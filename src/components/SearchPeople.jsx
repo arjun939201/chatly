@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useExploreData } from "./explore/useExploreData";
 import { useYouTubeSearch } from "./explore/useYouTubeSearch";
+import { Compass } from "lucide-react";
 import ExploreHome from "./explore/ExploreHome";
 import { ExploreCategoryTabs, ExploreSearchInput } from "./explore/ExploreSearchControls";
 import { PeopleResults, PostResults, RoomsResults, YouTubeResults } from "./explore/ExploreResultSections";
@@ -27,8 +28,10 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
 
   return <main className="search-page">
     <section className="search-people">
-      <h1>Explore</h1>
-      <p>Discover people, rooms, posts, and songs.</p>
+      <div className="explore-home-heading">
+        <span className="explore-home-icon"><Compass size={21} /></span>
+        <div><h2>Discover on Chatly</h2><p>Find conversations and people beyond your feed.</p></div>
+      </div>
       <ExploreSearchInput query={query} onQueryChange={setQuery} />
       {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreHome onSearch={topic => { setKind("all"); setQuery(topic); }} />}
 
