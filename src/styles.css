@@ -3903,3 +3903,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     pointer-events:auto;
   }
 }
+
+/* Notification UI pass 1: stronger activity list hierarchy */
+.notification-feed-heading{position:sticky;top:0;z-index:4;padding:10px 2px;background:var(--app-bg);backdrop-filter:blur(10px)}
+.notification-feed-heading h2{font-size:13px;letter-spacing:.055em}
+.notification-activity-list{border-radius:16px;box-shadow:0 1px 3px rgba(20,20,30,.035)}
+.notification-activity-item{min-height:76px}
