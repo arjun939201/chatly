@@ -112,7 +112,7 @@ export default function App() {
 
   return <div className="app-shell">
     <header className="topbar">
-      <div className="brand"><span className="brand-mark"><MessageCircle size={20}/></span> Chatly</div>
+      <div className="brand">chatly</div>
       <div className="account">
         <button className="account-profile" onClick={() => { setSettingsOpen(true); setNotice(""); }} aria-label="Open profile settings">
           <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
