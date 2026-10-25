@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabase";
 function Avatar({ person }) {
   const [failed, setFailed] = useState(false);
   useEffect(() => setFailed(false), [person?.avatar_url]);
-  return <span className="profile-avatar">{person?.avatar_url && !failed ? <img src={person.avatar_url} alt="" onError={() => setFailed(true}/> : (person?.display_name || person?.username || "?").slice(0, 1).toUpperCase()}</span>;
+  return <span className="profile-avatar">{person?.avatar_url && !failed ? <img src={person.avatar_url} alt="" onError={() => setFailed(true)} /> : (person?.display_name || person?.username || "?").slice(0, 1).toUpperCase()}</span>;
 }
 
 export default function PublicProfile({ person, session, onBack, onOpenChats }) {
