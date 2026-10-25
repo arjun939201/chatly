@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Compass, TrendingUp, RefreshCw, Hash } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 
@@ -6,8 +6,10 @@ export default function ExploreHome({ onSearch }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const requestId = useRef(0);
 
   async function loadRecentPosts() {
+    const request = ++requestId.current;
     setLoading(true);
     setError("");
     try {
@@ -22,16 +24,22 @@ export default function ExploreHome({ onSearch }) {
         ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", authorIds)
         : { data: [], error: null };
       if (profilesError) throw profilesError;
+      if (request !== requestId.current) return;
       const authorMap = Object.fromEntries((profiles || []).map(person => [person.id, person]));
       setPosts(rows.map(post => ({ ...post, author: authorMap[post.user_id] || {} })));
     } catch (loadError) {
-      setError("Recent posts are unavailable right now. Please try again.");
+      if (request === requestId.current) {
+        setError("Recent posts are unavailable right now. Please try again.");
+      }
     } finally {
-      setLoading(false);
+      if (request === requestId.current) setLoading(false);
     }
   }
 
-  useEffect(() => { loadRecentPosts(); }, []);
+  useEffect(() => {
+    loadRecentPosts();
+    return () => { requestId.current += 1; };
+  }, []);
 
   return <section className="explore-home" aria-label="Explore discovery home">
     <div className="explore-home-heading">
