@@ -166,7 +166,7 @@ export default function App() {
         {notice && <p className="form-message">{notice}</p>}
       </section>
     </div>}
-    {tab === "account" && <section className="destination-page settings-page">
+    {tab === "account" && <section className="destination-page settings-page account-destination-page">
       <header className="destination-page-header"><UserRound size={22}/><div><h2>Account</h2><p>Password and sign-in</p></div></header>
       <div className="settings-section account-view">
         <div className="settings-view-heading"><h3>Account security</h3><button className="account-logout-top" title="Log out" aria-label="Log out" onClick={() => supabase.auth.signOut()}><LogOut size={17}/></button></div>
