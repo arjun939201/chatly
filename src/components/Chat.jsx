@@ -23,7 +23,8 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [archivedChats, setArchivedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-archived-chats-${session.user.id}`) || "[]"); } catch { return []; } });
-  const [pinnedChats, setPinnedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-pinned-chats-${session.user.id}`) || "[]"); } catch { return []; } });\n  const [mutedChats, setMutedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-muted-chats-${session.user.id}`) || "[]"); } catch { return []; } });
+  const [pinnedChats, setPinnedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-pinned-chats-${session.user.id}`) || "[]"); } catch { return []; } });
+  const [mutedChats, setMutedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-muted-chats-${session.user.id}`) || "[]"); } catch { return []; } });
   const [lastMessages, setLastMessages] = useState({});
   const [recentMessages, setRecentMessages] = useState([]);
   const [readMarkers, setReadMarkers] = useState(() => {
@@ -35,7 +36,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const activeIdRef = useRef(null);
 
   useEffect(() => {
-    supabase.from("messages").select("id,sender_id,recipient_id,body,created_at").or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id).order("created_at", { ascending: false }).limit(250)
+    supabase.from("messages").select("id,sender_id,recipient_id,body,created_at,read_at").or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id).order("created_at", { ascending: false }).limit(250)
       .then(({ data }) => {
         if (!data) return;
         setRecentMessages(data);
@@ -46,7 +47,8 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   }, [session.user.id]);
 
   useEffect(() => { try { localStorage.setItem(`chatly-archived-chats-${session.user.id}`, JSON.stringify(archivedChats)); } catch { /* Session-only fallback. */ } }, [archivedChats, session.user.id]);
-  useEffect(() => { try { localStorage.setItem(`chatly-pinned-chats-${session.user.id}`, JSON.stringify(pinnedChats)); } catch { /* Session-only fallback. */ } }, [pinnedChats, session.user.id]);\n  useEffect(() => { try { localStorage.setItem(`chatly-muted-chats-${session.user.id}`, JSON.stringify(mutedChats)); } catch { /* Session-only fallback. */ } }, [mutedChats, session.user.id]);
+  useEffect(() => { try { localStorage.setItem(`chatly-pinned-chats-${session.user.id}`, JSON.stringify(pinnedChats)); } catch { /* Session-only fallback. */ } }, [pinnedChats, session.user.id]);
+  useEffect(() => { try { localStorage.setItem(`chatly-muted-chats-${session.user.id}`, JSON.stringify(mutedChats)); } catch { /* Session-only fallback. */ } }, [mutedChats, session.user.id]);
 
   useEffect(() => {
     try { localStorage.setItem(`chatly-read-markers-${session.user.id}`, JSON.stringify(readMarkers)); }
@@ -131,6 +133,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
         const updated = payload.new;
         const belongsToConversation = (updated.sender_id === session.user.id && updated.recipient_id === active.id) || (updated.sender_id === active.id && updated.recipient_id === session.user.id);
         if (belongsToConversation) setMessages(current => current.map(message => message.id === updated.id ? { ...message, ...updated } : message));
+        setRecentMessages(current => current.map(message => message.id === updated.id ? { ...message, ...updated } : message));
       })
       .on("postgres_changes", { event: "DELETE", schema: "public", table: "messages" }, payload => {
         if (!alive) return;
