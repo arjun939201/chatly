@@ -11,13 +11,27 @@ function relativeTime(value) {
   return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
+
+function dateLabel(value) {
+  if (!value) return "Earlier";
+  const date = new Date(value);
+  const today = new Date();
+  const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const days = Math.round((start - target) / 86400000);
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
+  if (days > 1 && days < 7) return date.toLocaleDateString(undefined, { weekday: "long" });
+  return date.toLocaleDateString(undefined, { month: "long", day: "numeric", year: date.getFullYear() !== today.getFullYear() ? "numeric" : undefined });
+}
+
 export default function NotificationsDestination({ session, onOpenProfile }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(20);
-  const [unreadOnly, setUnreadOnly] = useState(false);
+  const filteredItems = items.filter(item => filter === "all" || item.type === filter);
 
   const loadNotifications = useCallback(async () => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
