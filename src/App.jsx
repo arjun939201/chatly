@@ -14,7 +14,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [configError, setConfigError] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState("feed");\n  const [profileMenuOpen, setProfileMenuOpen] = useState(false);\n  const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
+  const [tab, setTab] = useState("feed");
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [chatTarget, setChatTarget] = useState(null);
   function openChat(targetId) {
     setChatTarget(targetId || null);
@@ -117,7 +119,8 @@ export default function App() {
 
   return <div className="app-shell">
     <header className="topbar">
-      <div className="brand">chatly</div>\n      <button className="header-notifications" aria-label="Notifications" onClick={() => setNotice("Notifications will appear here.")}><Bell size={24}/></button>
+      <div className="brand">chatly</div>
+      <button className="header-notifications" aria-label="Notifications" onClick={() => setNotice("Notifications will appear here.")}><Bell size={24}/></button>
       <div className="account">
         <button className="account-profile" onClick={() => { setSettingsOpen(true); setNotice(""); }} aria-label="Open profile settings">
           <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
