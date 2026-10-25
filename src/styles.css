@@ -3229,3 +3229,32 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .feed-page .post-card .post-actions-secondary .post-view-count{margin-right:0;}
 .feed-page .post-card .post-actions-secondary .post-share-button{margin-right:0;}
 @media(max-width:600px){.feed-page .post-card .post-actions-primary{gap:5px;}.feed-page .post-card .post-actions-secondary{gap:8px;}}
+
+
+/* Feed visual pass — card surface, content hierarchy, and calmer spacing */
+.feed-page{background:var(--app-bg,#f6f7fb)}
+.feed-page .feed-column{width:min(704px,100%)}
+.feed-page .posts-list{gap:16px}
+.feed-page .post-card{position:relative;min-width:0;padding:20px 22px;background:var(--surface,#fff);border:1px solid var(--border,#e8e8f0);border-radius:20px;box-shadow:0 2px 10px rgba(35,31,75,.025);transition:border-color .18s ease,box-shadow .18s ease}
+.feed-page .post-card:hover{border-color:color-mix(in srgb,var(--chatly-brand,#6757e8) 18%,var(--border,#e8e8f0));box-shadow:0 7px 24px rgba(35,31,75,.045)}
+.feed-page .post-author{min-width:0;gap:12px}
+.feed-page .post-author .mini-avatar{width:42px;height:42px;border:1px solid color-mix(in srgb,var(--chatly-brand,#6757e8) 10%,transparent)}
+.feed-page .post-author b{font-size:13px;font-weight:700;letter-spacing:-.12px;color:var(--text,#323249);overflow-wrap:anywhere}
+.feed-page .post-author small{font-size:11px;line-height:1.4;color:var(--muted,#9292a6)}
+.feed-page .post-body{margin:16px 0 18px;color:var(--text,#44445a);font-size:14px;line-height:1.75;letter-spacing:.005em;overflow-wrap:anywhere}
+.feed-page .post-actions{border-top-color:var(--border,#f0eff5);padding-top:12px}
+.feed-page .post-actions button{font-weight:600;letter-spacing:.005em}
+.feed-page .post-actions button:focus-visible,.feed-page .post-options-trigger:focus-visible,.feed-page .floating-create:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
+.feed-page .feed-heading-row{align-items:flex-end;margin-bottom:20px}
+.feed-page .feed-heading-row h1{font-weight:750;letter-spacing:-.7px}
+.feed-page .feed-heading-row p{line-height:1.55}
+.feed-page .floating-create{box-shadow:0 8px 22px color-mix(in srgb,var(--chatly-brand,#6757e8) 30%,transparent);transition:transform .16s ease,box-shadow .16s ease}
+.feed-page .floating-create:hover{transform:translateY(-2px);box-shadow:0 11px 28px color-mix(in srgb,var(--chatly-brand,#6757e8) 34%,transparent)}
+@media(max-width:600px){
+ .feed-page{padding-left:12px;padding-right:12px}
+ .feed-page .posts-list{gap:12px}
+ .feed-page .post-card{padding:16px 15px;border-radius:17px}
+ .feed-page .post-author .mini-avatar{width:39px;height:39px}
+ .feed-page .post-body{font-size:13.5px;line-height:1.72;margin:13px 0 15px}
+}
+@media(prefers-reduced-motion:reduce){.feed-page .post-card,.feed-page .floating-create{transition:none}.feed-page .post-card:hover,.feed-page .floating-create:hover{transform:none}}
