@@ -37,54 +37,39 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
     setLoading(true); setError("");
     try {
-      // Notifications are derived from existing app activity tables (no separate
-      // notifications table required): likes and comments on the signed-in user's posts.
-      const { data: posts, error: postsError } = await supabase
-        .from("posts").select("*").eq("user_id", session.user.id);
-      if (postsError) throw postsError;
-      const postRows = posts || [];
-      const postIds = postRows.map(post => post.id);
-      const [likesResult, commentsResult, followsResult] = await Promise.all([
-        postIds.length ? supabase.from("post_likes").select("post_id,user_id,created_at").in("post_id", postIds).neq("user_id", session.user.id) : Promise.resolve({ data: [], error: null }),
-        postIds.length ? supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id) : Promise.resolve({ data: [], error: null }),
-        supabase.from("user_follows").select("follower_id,created_at").eq("following_id", session.user.id).neq("follower_id", session.user.id)
+      const { data: rows, error: notificationError } = await supabase
+        .from("notifications")
+        .select("id,recipient_id,actor_id,type,post_id,comment_id,created_at,read_at")
+        .eq("recipient_id", session.user.id)
+        .order("created_at", { ascending: false })
+        .order("id", { ascending: false })
+        .limit(100);
+      if (notificationError) throw notificationError;
+      const notifications = rows || [];
+      if (!notifications.length) { setItems([]); return; }
+
+      const actorIds = [...new Set(notifications.map(row => row.actor_id))];
+      const postIds = [...new Set(notifications.map(row => row.post_id).filter(Boolean))];
+      const commentIds = [...new Set(notifications.map(row => row.comment_id).filter(Boolean))];
+      const [profilesResult, postsResult, commentsResult] = await Promise.all([
+        supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds),
+        postIds.length ? supabase.from("posts").select("id,body,image_url,media_url,image,created_at").in("id", postIds) : Promise.resolve({ data: [], error: null }),
+        commentIds.length ? supabase.from("post_comments").select("id,body").in("id", commentIds) : Promise.resolve({ data: [], error: null })
       ]);
-      if (likesResult.error) throw likesResult.error;
+      if (profilesResult.error) throw profilesResult.error;
+      if (postsResult.error) throw postsResult.error;
       if (commentsResult.error) throw commentsResult.error;
-      if (followsResult.error) throw followsResult.error;
-
-      const activity = [
-        ...(likesResult.data || []).map(row => ({ type: "like", post_id: row.post_id, user_id: row.user_id, created_at: row.created_at })),
-        ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" })),
-        ...(followsResult.data || []).map(row => ({ type: "follow", user_id: row.follower_id, created_at: row.created_at }))
-      ];
-      if (!activity.length) { setItems([]); return; }
-
-      // Collapse likes for the same post into one activity row, retaining actor identities.
-      const grouped = new Map();
-      activity.forEach(item => {
-        if (item.type !== "like") { grouped.set(item.id || `${item.type}-${item.user_id}-${item.created_at}`, item); return; }
-        const key = `like-${item.post_id}`;
-        const group = grouped.get(key) || { ...item, id: key, actors: [], created_at: item.created_at };
-        group.actors.push(item.user_id);
-        if (new Date(item.created_at || 0) > new Date(group.created_at || 0)) group.created_at = item.created_at;
-        grouped.set(key, group);
-      });
-      const displayActivity = [...grouped.values()];
-      const actorIds = [...new Set(displayActivity.flatMap(item => item.actors || [item.user_id]))];
-      const [{ data: profiles, error: profileError }] = await Promise.all([
-        supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds)
-      ]);
-      if (profileError) throw profileError;
-      const profileMap = Object.fromEntries((profiles || []).map(person => [person.id, person]));
-      const postMap = Object.fromEntries(postRows.map(post => [post.id, post]));
-      setItems(displayActivity.map((item, index) => ({
-        ...item,
-        id: item.id || `${item.type}-${item.post_id}-${item.user_id}-${index}`,
-        actor: profileMap[item.user_id] || {},
-        actors: (item.actors || [item.user_id]).map(id => profileMap[id]).filter(Boolean),
-        post: postMap[item.post_id] || {}
-      })).sort((a, b) => new Date(b.created_at || b.post.created_at) - new Date(a.created_at || a.post.created_at)));
+      const profileMap = Object.fromEntries((profilesResult.data || []).map(person => [person.id, person]));
+      const postMap = Object.fromEntries((postsResult.data || []).map(post => [post.id, post]));
+      const commentMap = Object.fromEntries((commentsResult.data || []).map(comment => [comment.id, comment]));
+      setItems(notifications.map(row => ({
+        ...row,
+        user_id: row.actor_id,
+        actor: profileMap[row.actor_id] || {},
+        actors: [profileMap[row.actor_id]].filter(Boolean),
+        post: postMap[row.post_id] || {},
+        body: commentMap[row.comment_id]?.body || ""
+      })));
     } catch (err) {
       console.error("Notifications load failed:", err);
       setError(err.message || "Could not load notifications.");
@@ -95,13 +80,11 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
 
   useEffect(() => { loadNotifications(); }, [loadNotifications]);
 
-  // Refresh activity when likes, comments, or follows change in Supabase.
+  // Subscribe to recipient notification rows; database triggers create activity records.
   useEffect(() => {
     if (!session?.user?.id) return undefined;
     const channel = supabase.channel(`notifications-${session.user.id}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "post_likes" }, loadNotifications)
-      .on("postgres_changes", { event: "*", schema: "public", table: "post_comments" }, loadNotifications)
-      .on("postgres_changes", { event: "*", schema: "public", table: "user_follows" }, loadNotifications)
+      .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: "recipient_id=eq." + session.user.id }, loadNotifications)
       .subscribe();
     return () => { supabase.removeChannel(channel); };
   }, [session?.user?.id, loadNotifications]);
