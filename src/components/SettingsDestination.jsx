@@ -21,7 +21,7 @@ function Toggle({ title, detail, checked, onChange }) {
 }
 
 export default function SettingsDestination({ onSubpageChange = () => {}, theme = "system", setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
-  const [view, setView] = useState("home");
+  const [view, setView] = useState("home");\n  const [settingsQuery, setSettingsQuery] = useState("");
   useEffect(() => {
     if (view === "home") return undefined;
     window.history.pushState({ chatlySettingsSubpage: view }, "");
