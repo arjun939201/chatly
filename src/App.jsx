@@ -15,6 +15,8 @@ export default function App() {
   const [configError, setConfigError] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [tab, setTab] = useState("feed");
+  const [theme, setTheme] = useState(() => localStorage.getItem("chatly-theme") || "system");
+  useEffect(() => { localStorage.setItem("chatly-theme", theme); }, [theme]);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [chatTarget, setChatTarget] = useState(null);
@@ -117,7 +119,7 @@ export default function App() {
   if (loading) return <main className="loading">Loading Chatly…</main>;
   if (!session) return <Auth />;
 
-  return <div className="app-shell">
+  return <div className={`app-shell theme-${theme}`} style={theme === "dark" ? { colorScheme: "dark", background: "#141419", color: "#f4f4f7", "--app-bg": "#141419", "--surface": "#202027", "--text": "#f4f4f7", "--muted": "#a5a5b2", "--border": "#34343d" } : { colorScheme: "light", "--app-bg": "#f5f5f7", "--surface": "#ffffff", "--text": "#17171b", "--muted": "#888894", "--border": "#e4e4e9" }}>
     {tab === "feed" && <header className="topbar">
       <div className="brand">chatly</div>
       <button className="header-notifications" aria-label="Notifications" onClick={() => setTab("notifications")}><Bell size={24}/></button>
@@ -133,8 +135,8 @@ export default function App() {
     </nav>
     {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
       <section className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
-        <header className="modal-header"><div><h2 id="profile-title">Profile settings</h2><p>Manage your Chatly identity</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
-        <form onSubmit={saveProfile} className="profile-form">
+        <header className="modal-header"><div><h2 id="profile-title">Settings</h2><p>Manage your Chatly account and appearance</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
+        <section className="appearance-settings"><h3>Appearance</h3><label>Theme<select value={theme} onChange={e => setTheme(e.target.value)}><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><p className="field-hint">Your selection is saved on this device.</p></section>\n        <form onSubmit={saveProfile} className="profile-form">
           <div className="avatar-editor">
             <span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span>
             <label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label>
