@@ -53,6 +53,9 @@ export default function App() {
   const [saving, setSaving] = useState(false);
   const [notice, setNotice] = useState("");
   const [password, setPassword] = useState("");
+  const [accountEmail, setAccountEmail] = useState("");
+  const [emailExpanded, setEmailExpanded] = useState(false);
+  const [accountInfoExpanded, setAccountInfoExpanded] = useState(false);
 
   useEffect(() => {
     if (!supabase) { setConfigError(true); setLoading(false); return; }
@@ -92,6 +95,7 @@ export default function App() {
         } else next = inserted;
       }
       setProfile(next);
+      setAccountEmail(user.email || "");
       setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "", bio: next.bio || metadata.bio || "" });
     }
     loadProfile();
@@ -167,11 +171,20 @@ export default function App() {
       </section>
     </div>}
     {tab === "account" && <section className="destination-page settings-page account-destination-page">
-      <header className="destination-page-header"><UserRound size={22}/><div><h2>Account</h2><p>Password and sign-in</p></div></header>
+      <header className="destination-page-header"><UserRound size={22}/><div><h2>Account</h2><p>Manage your personal details and sign-in</p></div></header>
       <div className="settings-section account-view">
-        <div className="settings-view-heading"><h3>Account security</h3><button className="account-logout-top" title="Log out" aria-label="Log out" onClick={() => supabase.auth.signOut()}><LogOut size={17}/></button></div>
-        <button className="style-expander" onClick={() => setFontSizeExpanded(v => !v)}><span>Password settings</span><span>{fontSizeExpanded ? "−" : "+"}</span></button>
+        <h3 className="account-options-label">PERSONAL INFORMATION</h3>
+        <button className="style-expander account-option-row" onClick={() => { setEditProfileOpen(true); setNotice(""); }}><span><strong>Personal information</strong><small>Display name, username, profile photo and bio</small></span><span>›</span></button>
+        <button className="style-expander account-option-row" onClick={() => setEmailExpanded(v => !v)}><span><strong>Email address</strong><small>{session.user.email || "Manage your sign-in email"}</small></span><span>{emailExpanded ? "−" : "+"}</span></button>
+        {emailExpanded && <form className="password-form" onSubmit={async event => { event.preventDefault(); setNotice(""); const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm the change."); }}><label>New email address<input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button className="secondary-button" disabled={!accountEmail.trim() || accountEmail.trim() === session.user.email}>Update email</button></form>}
+        <h3 className="account-options-label">SECURITY & SIGN-IN</h3>
+        <button className="style-expander account-option-row" onClick={() => setFontSizeExpanded(v => !v)}><span><strong>Change password</strong><small>Choose a new password for your account</small></span><span>{fontSizeExpanded ? "−" : "+"}</span></button>
         {fontSizeExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
+        <button className="style-expander account-option-row" onClick={() => { if (window.confirm("Sign out of Chatly on all devices?")) supabase.auth.signOut({ scope: "global" }); }}><span><strong>Active sessions</strong><small>Sign out from all devices</small></span><span>›</span></button>
+        <h3 className="account-options-label">ACCOUNT MANAGEMENT</h3>
+        <button className="style-expander account-option-row" onClick={() => setNotice("Account deactivation needs a secure server-side account management endpoint before it can be enabled.")}><span><strong>Deactivate account</strong><small>Temporarily disable your account</small></span><span>›</span></button>
+        <button className="style-expander account-option-row account-danger-option" onClick={() => setNotice("Account deletion needs a secure server-side account management endpoint before it can be enabled.")}><span><strong>Delete account</strong><small>Permanently remove your account and data</small></span><span>›</span></button>
+        <button className="style-expander account-option-row" onClick={() => supabase.auth.signOut()}><span><strong>Log out</strong><small>Sign out of this device</small></span><span>›</span></button>
       </div>
       {notice && <p className="form-message">{notice}</p>}
     </section>}
