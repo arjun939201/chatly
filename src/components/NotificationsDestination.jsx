@@ -90,7 +90,7 @@ export default function NotificationsDestination({ session }) {
             <div className="notification-activity-list">
               {items.map(item => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
-                return <article className="notification-activity-item" key={item.id}>
+                return <article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
                     <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
