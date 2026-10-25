@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -13,6 +13,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [active, setActive] = useState(null);
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
+  const [replyTo, setReplyTo] = useState(null);
   const [sendBusy, setSendBusy] = useState(false);
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
@@ -103,12 +104,15 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     setSendBusy(true);
     setError("");
     setDraft("");
+    const replyingTo = replyTo;
+    setReplyTo(null);
     try {
-      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: recipientId, body });
-      if (err && active?.id === recipientId) { setDraft(body); setError(err.message); }
+      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: recipientId, body, reply_to: replyingTo?.id || null });
+      if (err && active?.id === recipientId) { setDraft(body); setReplyTo(replyingTo); setError(err.message); }
     } catch (err) {
       if (active?.id === recipientId) {
         setDraft(body);
+        setReplyTo(replyingTo);
         setError(err?.message || "Could not send message. Please try again.");
       }
     } finally {
@@ -153,11 +157,11 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       {active ? <>
         <header className="conversation-header"><button className="conversation-close" onClick={() => setActive(null)} aria-label="Close conversation" title="Close conversation"><X size={18}/></button><Avatar person={active}/><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list">
-          {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
+          {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.reply_to && <div className="message-reply-preview"><span>Replying to</span><p>{messages.find(item => item.id === m.reply_to)?.body || "Original message"}</p></div>}{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time><button type="button" className="message-reply" aria-label="Reply to message" title="Reply to message" onClick={() => { setReplyTo(m); document.querySelector(".composer textarea")?.focus(); }}><Reply size={13}/></button>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div>)}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
         </div>
-        <form className="composer" onSubmit={sendMessage}><textarea value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && enterToSend) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }} placeholder={enterToSend ? "Write a message… (Shift+Enter for new line)" : "Write a message…"} maxLength={4000} rows={1}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
+        <form className="composer" onSubmit={sendMessage}>{replyTo && <div className="composer-reply-preview"><div><strong>Replying to {replyTo.sender_id === session.user.id ? "yourself" : (active.display_name || active.username || "user")}</strong><span>{replyTo.body}</span></div><button type="button" aria-label="Cancel reply" onClick={() => setReplyTo(null)}><X size={16}/></button></div>}<textarea value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && enterToSend) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }} placeholder={enterToSend ? "Write a message… (Shift+Enter for new line)" : "Write a message…"} maxLength={4000} rows={1}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     </section>
