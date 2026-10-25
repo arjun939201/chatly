@@ -2927,3 +2927,25 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   color: #51451d;
 }
 
+
+
+/* Explore UI pass 8: media cards with predictable thumbnail and text sizing. */
+.search-page .youtube-result {
+  align-items: center;
+  padding: 11px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.search-page .youtube-result img,
+.search-page .youtube-result-thumbnail {
+  overflow: hidden;
+  border-radius: 9px;
+}
+.search-page .youtube-result b {
+  color: var(--text, #34334a);
+  line-height: 1.5;
+}
+.search-page .youtube-result:focus-visible {
+  outline: 2px solid var(--chatly-brand, #6757e8);
+  outline-offset: 2px;
+}
+
