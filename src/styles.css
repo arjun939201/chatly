@@ -1947,3 +1947,7 @@ img,video,iframe{max-width:100%}
 
 /* Empty feed remains a useful starting point */
 .feed-page .feed-empty{display:block;visibility:visible;color:var(--text,#202033)}.feed-page .feed-empty .primary-button{display:inline-flex;align-items:center;justify-content:center}
+
+
+/* Feed loading and errors should never blank the destination */
+.feed-page .feed-loading,.feed-page .feed-notice{display:block;padding:12px 14px;color:var(--muted,#77778d);overflow-wrap:anywhere}
