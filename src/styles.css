@@ -2011,3 +2011,7 @@ img,video,iframe{max-width:100%}
 
 /* Feed status messages remain visible and readable */
 .feed-page .feed-notice{margin:8px 0;border:1px solid var(--border,#e7e7ef);border-radius:12px;background:var(--surface,#fff);line-height:1.5}
+
+
+/* Explore person rows advertise interaction and keyboard focus */
+.search-page .search-person{cursor:pointer}.search-page .search-person:focus-visible{outline:2px solid #8172e9;outline-offset:2px}.search-page .search-person>span{min-width:0;overflow-wrap:anywhere}
