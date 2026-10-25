@@ -37,6 +37,6 @@ export function ExploreSearchPrompt() {
   return <div className="search-start-prompt">
     <Search size={24} />
     <strong>Search anything on Chatly</strong>
-    <p>Find people by name or username, browse posts, and search music videos. Room discovery is coming soon.</p>
+    <p>Search profiles by name or username, explore public posts, and find music videos on YouTube. Rooms discovery is coming soon.</p>
   </div>;
 }
