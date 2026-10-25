@@ -1464,3 +1464,13 @@ img,video,iframe{max-width:100%}
 .post-delete-option:hover:not(:disabled){background:#fff0f2}
 .post-delete-option:focus-visible{outline:2px solid #e69aa5;outline-offset:-2px}
 @keyframes chatly-menu-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* 2. Feed cards: clearer rhythm and subtle elevation */
+.post-card{border-color:#e5e5ef;box-shadow:0 5px 20px #302b5407;transition:border-color .16s,box-shadow .16s}
+.post-card:hover{border-color:#dedcf2;box-shadow:0 8px 25px #302b540d}
+.post-author{min-width:0}
+.post-author-profile{min-width:0;flex:1}
+.post-author-profile>span{min-width:0}
+.post-author small{display:block;line-height:1.5;overflow-wrap:anywhere}
+.post-body{letter-spacing:-.08px}
