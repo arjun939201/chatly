@@ -3188,7 +3188,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @media(prefers-reduced-motion:reduce){.post-card.shared-post-highlight{scroll-behavior:auto}}
 
 
-.explore-home-status[role="alert]{color:#9d3434;background:#fff9f9;border-color:#f1dada}
+.explore-home-status[role="alert"]{color:#9d3434;background:#fff9f9;border-color:#f1dada}
 .explore-home-status[role="alert"] button{white-space:nowrap}
 .youtube-result-thumbnail-fallback{flex-direction:column;gap:5px}
 .youtube-result-thumbnail-fallback small{font-size:10px;color:#8b87aa}
