@@ -221,3 +221,18 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .edit-profile-dialog .primary-button{width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:2px}
 .edit-profile-dialog .form-message{font-size:12px;margin:10px 0 0}
 @media(max-width:480px){.edit-profile-dialog{padding:18px;width:calc(100% - 28px);max-height:calc(100dvh - 40px);overflow:auto}.edit-profile-dialog .profile-form{gap:11px}.edit-profile-dialog .profile-edit-avatar-row .avatar-large{width:56px;height:56px}}
+
+
+/* Floating profile navigation: overlay only; does not resize the topbar */
+.topbar{position:relative;z-index:30}
+.global-profile-menu{position:relative;display:flex;align-items:center;flex:none}
+.global-profile-trigger{display:grid;place-items:center;padding:0;border:0;background:transparent;border-radius:50%;cursor:pointer}
+.global-profile-trigger:focus-visible{outline:2px solid #6757e8;outline-offset:3px}
+.global-profile-avatar{width:40px;height:40px;display:grid;place-items:center;overflow:hidden;border-radius:50%;background:#e8e5ff;color:#6557d9;font-size:14px;font-weight:700}
+.global-profile-avatar img{width:100%;height:100%;object-fit:cover}
+.global-profile-dropdown{position:absolute;top:calc(100% + 9px);right:0;display:flex;flex-direction:column;gap:8px;width:max-content;padding:10px;background:var(--surface,#fff);border:1px solid var(--border,#e4e4e9);border-radius:22px;box-shadow:0 12px 32px #24243a20;z-index:100}
+.global-profile-dropdown button{width:40px;height:40px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:#f2f1fa;color:#6258c7;transition:background .15s,transform .15s}
+.global-profile-dropdown button:hover{background:#e8e5ff;transform:translateY(-1px)}
+.global-profile-dropdown button:last-child{margin-top:3px;border-top:1px solid #e8e8ef;border-radius:50%;color:#d34b59}
+.page-back-to-feed{align-self:flex-start;display:flex;align-items:center;gap:5px;margin:12px 18px;padding:8px 12px;border:1px solid var(--border,#e4e4e9);border-radius:20px;background:var(--surface,#fff);color:var(--text,#333);font-size:13px}
+@media(max-width:760px){.global-profile-avatar{width:36px;height:36px}.global-profile-dropdown{top:calc(100% + 7px);gap:7px;padding:9px}.global-profile-dropdown button{width:40px;height:40px}}
