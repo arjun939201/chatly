@@ -19,6 +19,7 @@ export default function App() {
   const [fontFamily, setFontFamily] = useState(() => localStorage.getItem("chatly-font-family") || "system");
   const [fontSizeExpanded, setFontSizeExpanded] = useState(false);
   const [fontFamilyExpanded, setFontFamilyExpanded] = useState(false);
+  const [passwordExpanded, setPasswordExpanded] = useState(false);
   const [settingsExpanded, setSettingsExpanded] = useState({ chats: false, notifications: false, privacy: false });
   const [chatPrefs, setChatPrefs] = useState(() => JSON.parse(localStorage.getItem("chatly-chat-prefs") || '{"enterToSend":true,"mediaPreview":true,"readReceipts":true,"messageAlerts":true,"activityAlerts":true}'));
   useEffect(() => { localStorage.setItem("chatly-chat-prefs", JSON.stringify(chatPrefs)); }, [chatPrefs]);
@@ -242,8 +243,8 @@ export default function App() {
             <button className="style-expander account-option-row" onClick={() => setEmailExpanded(v => !v)}><span><strong>Email address</strong><small>{session.user.email || "Manage your sign-in email"}</small></span><span>{emailExpanded ? "−" : "+"}</span></button>
             {emailExpanded && <form className="password-form" onSubmit={async event => { event.preventDefault(); setNotice(""); const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm the change."); }}><label>New email address<input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button className="secondary-button" disabled={!accountEmail.trim() || accountEmail.trim() === session.user.email}>Update email</button></form>}
             <h3 className="account-options-label">SECURITY & SIGN-IN</h3>
-            <button className="style-expander account-option-row" onClick={() => setFontSizeExpanded(v => !v)}><span><strong>Change password</strong><small>Choose a new password for your account</small></span><span>{fontSizeExpanded ? "−" : "+"}</span></button>
-            {fontSizeExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
+            <button className="style-expander account-option-row" onClick={() => setPasswordExpanded(v => !v)}><span><strong>Change password</strong><small>Choose a new password for your account</small></span><span>{passwordExpanded ? "−" : "+"}</span></button>
+            {passwordExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
             <button className="style-expander account-option-row" onClick={() => { if (window.confirm("Sign out of Chatly on all devices?")) supabase.auth.signOut({ scope: "global" }); }}><span><strong>Active sessions</strong><small>Sign out from all devices</small></span><span>›</span></button>
             <h3 className="account-options-label">ACCOUNT MANAGEMENT</h3>
             <button className="style-expander account-option-row" onClick={() => setNotice("Account deactivation needs a secure server-side account management endpoint before it can be enabled.")}><span><strong>Deactivate account</strong><small>Temporarily disable your account</small></span><span>›</span></button>
