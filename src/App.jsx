@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { MessageCircle, LogOut, Home, MessagesSquare, Settings, X, Camera, Save, KeyRound } from "lucide-react";
+import { MessageCircle, LogOut, Home, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search } from "lucide-react";
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth.jsx";
 import Chat from "./components/Chat.jsx";
 import Feed from "./components/Feed.jsx";
+import SearchPeople from "./components/SearchPeople.jsx";
 
 const initialProfile = { display_name: "", username: "", avatar_url: "" };
 
@@ -120,11 +121,11 @@ export default function App() {
 
       </div>
     </header>
-    {tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
+    {tab === "search" && <SearchPeople session={session} onOpenChats={() => setTab("chats")}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
     {tab === "chats" && <Chat session={session} profile={profile}/>}
     {tab === "settings" && <section className="settings-home"><div className="settings-home-card"><span className="avatar avatar-large">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><h2>{profile?.display_name || "Your profile"}</h2><p>{profile?.username ? "@"+profile.username : "Make your profile yours"}</p><button className="primary-button" onClick={() => setSettingsOpen(true)}>Edit profile</button><button className="logout-settings" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out</button></div></section>}
     <nav className="bottom-tabs" aria-label="Main navigation">
-      <button className={tab === "feed" ? "active" : ""} onClick={() => setTab("feed")}><Home size={20}/><span>Feed</span></button>
+      <button className={tab === "search" ? "active" : ""} onClick={() => setTab("search")}><Search size={20}/><span>Search</span></button><button className={tab === "feed" ? "active" : ""} onClick={() => setTab("feed")}><Home size={20}/><span>Feed</span></button>
       <button className={tab === "chats" ? "active" : ""} onClick={() => setTab("chats")}><MessagesSquare size={20}/><span>Chats</span></button>
       <button className={tab === "settings" ? "active" : ""} onClick={() => setTab("settings")}><Settings size={20}/><span>Settings</span></button>
     </nav>
