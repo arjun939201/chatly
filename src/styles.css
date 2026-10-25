@@ -995,3 +995,57 @@ img,video{max-width:100%}
 .chatly-music-player.minimized .chatly-music-frame{width:1px;height:1px;flex:none;overflow:hidden;position:absolute;left:0;top:0;opacity:0;pointer-events:none}
 .chatly-music-player.minimized .chatly-music-controls{flex:1;min-width:0;padding:0}
 @media(max-width:600px){.chatly-music-player{right:12px;bottom:12px;width:calc(100vw - 24px)}.chatly-music-player.minimized{width:min(360px,calc(100vw - 24px))}}
+
+
+/* Chatly product polish — preserve the existing wordmark/logo */
+:root{
+  --chatly-brand:#6757e8;
+  --chatly-brand-hover:#5747d6;
+  --chatly-brand-soft:color-mix(in srgb,var(--chatly-brand) 9%,transparent);
+  --chatly-motion:180ms ease;
+}
+body{background:var(--app-bg,#f6f7fb);color:var(--text,#202033)}
+.app-shell{background:var(--app-bg,#f6f7fb)}
+.topbar{
+  position:sticky;top:0;z-index:80;
+  height:68px;padding-inline:clamp(18px,4vw,52px);
+  background:color-mix(in srgb,var(--surface,#fff) 92%,transparent);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border,#e9e9f1);
+}
+.brand{font-size:inherit}
+.account-profile{transition:background var(--chatly-motion),transform var(--chatly-motion)}
+.account-profile:hover{transform:translateY(-1px)}
+.icon-button,.primary-button,.secondary-button,.send-button,.profile-edit-button{
+  transition:background var(--chatly-motion),border-color var(--chatly-motion),box-shadow var(--chatly-motion),transform var(--chatly-motion);
+}
+.primary-button,.send-button{box-shadow:0 3px 10px color-mix(in srgb,var(--chatly-brand) 18%,transparent)}
+.primary-button:hover:not(:disabled),.send-button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 16px color-mix(in srgb,var(--chatly-brand) 24%,transparent)}
+input,textarea,select{transition:border-color var(--chatly-motion),box-shadow var(--chatly-motion)}
+input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:none;border-color:var(--chatly-brand)!important;
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--chatly-brand) 14%,transparent);
+}
+:where(.post-card,.feed-post,.profile-post,.search-results,.youtube-results,.settings-section,.destination-page-header){
+  box-shadow:var(--chatly-shadow-sm,0 2px 12px rgb(24 24 50 / 5%));
+}
+:where(.post-card,.feed-post,.profile-post){border-radius:18px}
+:where(.destination-page-header,.settings-section){border-color:var(--border,#e8e8f0)}
+:where(.destination-page h1,.destination-page h2,.destination-page h3){letter-spacing:-.035em}
+:where(.destination-page p,.muted){line-height:1.65}
+:where(.person-row,.search-result-row,.account-option-row){transition:background var(--chatly-motion)}
+:where(.person-row:hover,.search-result-row:hover,.account-option-row:hover){background:var(--chatly-brand-soft)}
+:where(.avatar,.mini-avatar){box-shadow:0 0 0 1px color-mix(in srgb,var(--border,#ddd) 80%,transparent)}
+:where(.feed-page,.feed-container,.feed-content){min-width:0}
+:where(.composer,.post-composer){border-color:var(--border,#e8e8f0)}
+@media(min-width:1000px){
+  .destination-page{width:min(1160px,calc(100% - 64px))}
+}
+@media(max-width:760px){
+  .topbar{height:62px;padding-inline:14px}
+  .destination-page{width:calc(100% - 24px)}
+  :where(.post-card,.feed-post,.profile-post){border-radius:15px}
+}
+@media(prefers-reduced-motion:reduce){
+  :where(.primary-button,.send-button,.icon-button,.person-row,.account-profile){transition:none}
+}
