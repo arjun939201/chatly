@@ -93,7 +93,7 @@ export default function NotificationsDestination({ session }) {
                 return <article className="notification-activity-item" key={item.id}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
-                    <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body}”` : ""}</p>
+                    <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
                     {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}\n                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
