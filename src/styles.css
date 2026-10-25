@@ -1583,3 +1583,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 9 */
  [data-theme="dark"] .comments-modal .post-comment-body{background:var(--app-bg,#202027);border-color:var(--border,#34343e)} [data-theme="dark"] .comments-modal .comment-composer textarea{background:var(--app-bg,#202027);border-color:var(--border,#34343e)} [data-theme="dark"] .comments-modal .comment-author-profile{color:var(--text,#f5f5f7)} [data-theme="dark"] .comments-modal .comments-dialog-header button{background:var(--app-bg,#202027)} [data-theme="dark"] .comments-modal .post-comment-body time{color:var(--muted,#a0a0ad)}
+
+
+/* Comment UX refinement 10 */
+ @media(hover:none){.comments-modal .comment-author-profile:hover{color:inherit}.comments-modal .comments-dialog-header button:hover{transform:none}} @media(prefers-reduced-motion:reduce){.comments-modal .post-comment{animation:none}.post-actions button[aria-controls^="comments-"]{transition:none}} .comments-modal button{touch-action:manipulation} .comments-modal textarea{touch-action:pan-y} .comments-modal [aria-live]{overflow-wrap:anywhere}
