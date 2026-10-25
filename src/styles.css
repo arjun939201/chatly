@@ -3035,3 +3035,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .search-page{--explore-border:var(--border,#e7e6ef);--explore-surface:var(--surface,#fff);--explore-muted:var(--muted,#85859a);--explore-text:var(--text,#34334a)}
 .search-page .explore-home,.search-page .explore-result-section{color:var(--explore-text)}
 .search-page .explore-home-post,.search-page .search-person,.search-page .search-post,.search-page .explore-topic-discovery{border-color:var(--explore-border);background:var(--explore-surface)}
+
+/* Explore UI pass 12 — restrained hover feedback */
+.search-page .search-person,.search-page .search-post,.search-page .explore-home-post{transition:border-color .16s ease,box-shadow .16s ease}
+.search-page .search-person:hover,.search-page .search-post:hover,.search-page .explore-home-post:hover{border-color:var(--chatly-brand,#6757e8);box-shadow:0 5px 18px rgba(45,38,110,.055)}
