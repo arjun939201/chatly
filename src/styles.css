@@ -3958,3 +3958,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 /* Notification UI pass 9: mobile density and safe horizontal layout */
 @media(max-width:600px){.notification-content{width:100%}.notification-feed-heading{padding-inline:1px}.notification-activity-item{min-height:68px;padding:12px 11px}.notification-activity-copy{grid-template-columns:34px minmax(0,1fr);column-gap:9px}.notification-activity-copy>.notification-actor-avatar{width:34px!important;height:34px!important;flex-basis:34px!important}.notification-filter-row{margin-inline:-1px}.notification-date-heading{margin-top:14px}}
 @media(max-width:360px){.notification-activity-copy{grid-template-columns:30px minmax(0,1fr);column-gap:8px}.notification-activity-copy>.notification-actor-avatar{width:30px!important;height:30px!important;flex-basis:30px!important}.notification-activity-copy p{font-size:13px}.notification-mark-all-read{padding:7px 8px}}
+
+/* Notification UI pass 10: focus, motion, and theme-aware polish */
+.notification-activity-item button:focus-visible,.notification-heading-actions button:focus-visible,.notification-filter-row button:focus-visible{outline:2px solid #7667df;outline-offset:2px}
+.notification-activity-item button{transition:background-color .12s ease,color .12s ease}
+.notification-activity-icon.follow{background:color-mix(in srgb,var(--app-bg) 82%,#7667df 18%);color:#7667df}
+@media(prefers-reduced-motion:reduce){.notification-activity-item button{transition:none}}
