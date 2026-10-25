@@ -14,7 +14,7 @@ function relativeTime(value) {
 export default function NotificationsDestination({ session }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState("");\n  const [filter, setFilter] = useState("all");\n  const [visibleCount, setVisibleCount] = useState(20);
 
   const loadNotifications = useCallback(async () => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
@@ -93,14 +93,14 @@ export default function NotificationsDestination({ session }) {
     <section className="destination-page notification-destination-page" aria-label="Notification activity">
       <div className="notification-content">
         <section className="notification-feed" aria-label="Recent activity">
-          <div className="notification-feed-heading"><h2>Activity</h2></div>
+          <div className="notification-feed-heading"><h2>Activity</h2><button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div>\n          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div>
           {loading ? (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
           ) : error ? (
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
             <div className="notification-activity-list">
-              {items.map(item => {
+              {items.filter(item => filter === "all" || item.type === filter).slice(0, visibleCount).map(item => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
                 const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
                 return <article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
