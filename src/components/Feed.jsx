@@ -141,6 +141,16 @@ const commentSubmitLock = useRef(false);
   }
   useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, [savedView]);
   useEffect(() => {
+    const sharedId = new URLSearchParams(window.location.search).get("post");
+    if (!sharedId || feedLoading) return;
+    const target = [...document.querySelectorAll(".post-card[data-post-id]")].find(node => String(node.dataset.postId) === sharedId);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.classList.add("shared-post-highlight");
+      window.history.replaceState({}, "", window.location.pathname + window.location.hash);
+    }
+  }, [posts, feedLoading]);
+  useEffect(() => {
     if (!posts.length || !session?.user?.id || typeof IntersectionObserver === "undefined") return;
     const observer = new IntersectionObserver(entries => {
       entries.forEach(async entry => {
@@ -290,7 +300,7 @@ const commentSubmitLock = useRef(false);
     <div className="feed-heading-row"><div><h1>{savedView ? "Saved posts" : "Your feed"}</h1>{savedView && <p>Posts you bookmarked for later</p>}</div><button type="button" className="feed-saved-view-toggle" aria-pressed={savedView} onClick={() => setSavedView(value => !value)}><Bookmark size={16} fill={savedView ? "currentColor" : "none"}/>{savedView ? "Back to feed" : "Saved posts"}</button></div>
     {!savedView && <nav className="feed-filter-tabs" aria-label="Feed sorting">{[["latest","Latest"],["popular","Popular"],["following","Following"]].map(([value,label]) => <button type="button" key={value} className={feedFilter === value ? "active" : ""} aria-pressed={feedFilter === value} onClick={() => { setFeedFilter(value); setVisibleLimit(20); }}>{label}</button>)}</nav>}
     {feedError && <div className="feed-notice" role="alert"><span>{feedError}</span><button type="button" onClick={loadFeed} disabled={feedLoading}>{feedLoading ? "Retrying…" : "Try again"}</button></div>}
-    {notice && <div className="feed-notice" role="status"><span>{notice}</span>{lastHiddenPost && <button type="button" onClick={undoHidePost}>Undo</button>}</div>}
+    {notice && <div className="feed-notice" role="status"><span>{notice}</span>{lastHiddenPost && notice === "Post hidden from your feed." && <button type="button" onClick={undoHidePost}>Undo</button>}</div>}
     {feedLoading && posts.length === 0 && <section className="feed-loading-state" role="status" aria-label="Loading posts">
       <span className="sr-only">Loading posts…</span>
       {[0, 1, 2].map((item) => <article className="post-skeleton" key={item} aria-hidden="true">

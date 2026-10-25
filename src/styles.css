@@ -3174,3 +3174,15 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .search-person-action:disabled,.youtube-result:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:600px){.youtube-result-thumbnail-fallback{width:94px}}
 @media(max-width:420px){.youtube-result-thumbnail-fallback{width:86px}}
+
+
+/* Feed batch: resilient action bar, shared-link focus, and touch spacing */
+.post-actions{display:flex;flex-wrap:wrap;justify-content:flex-start;row-gap:7px}
+.post-actions button,.post-view-count{flex:0 0 auto}
+.post-card.shared-post-highlight{border-color:var(--chatly-brand,#6757e8);box-shadow:0 0 0 3px color-mix(in srgb,var(--chatly-brand,#6757e8) 18%,transparent),0 8px 28px rgba(39,35,83,.08)}
+@media(max-width:600px){
+  .post-actions{column-gap:6px;row-gap:7px}
+  .post-actions button,.post-view-count{min-height:38px;padding:6px 8px}
+  .post-actions button{max-width:100%}
+}
+@media(prefers-reduced-motion:reduce){.post-card.shared-post-highlight{scroll-behavior:auto}}
