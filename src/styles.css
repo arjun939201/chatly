@@ -3052,3 +3052,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 /* Explore UI pass 15 — avatar consistency and image fallback */
 .search-page .mini-avatar{display:grid;flex:0 0 40px;width:40px;height:40px;place-items:center;overflow:hidden;border:1px solid var(--explore-border,#e7e6ef);border-radius:50%;background:var(--chatly-brand-soft,#f0edff);color:var(--chatly-brand,#6757e8);font-size:14px;font-weight:700}
 .search-page .mini-avatar img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* Explore UI pass 16 — safe wrapping for long names, handles, and post copy */
+.search-page .search-person-details,.search-page .search-post-author,.search-page .explore-home-post-author,.search-page .search-post-body,.search-page .explore-home-post p{min-width:0;overflow-wrap:anywhere;word-break:normal}
+.search-page .search-person-details small,.search-page .search-post-author small{max-width:100%}
