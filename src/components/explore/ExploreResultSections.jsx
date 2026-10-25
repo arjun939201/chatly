@@ -1,8 +1,29 @@
 import { Fragment } from "react";
+import { Fragment } from "react";
 import { Heart, MessageCircle, UserRound, Users, Youtube } from "lucide-react";
 
 function Avatar({ person }) {
   return <span className="mini-avatar">{person?.avatar_url ? <img src={person.avatar_url} alt="" /> : (person?.display_name || person?.username || "?").slice(0, 1).toUpperCase()}</span>;
+}
+
+function HighlightMatch({ text, query }) {
+  const value = String(text || "");
+  const terms = query.trim().split(/\s+/).filter(Boolean).sort((a, b) => b.length - a.length);
+  if (!value || !terms.length) return value;
+  const escaped = terms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const pattern = new RegExp(`(${escaped.join("|")})`, "ig");
+  return value.split(pattern).map((part, index) =>
+    terms.some(term => part.toLowerCase() === term.toLowerCase())
+      ? <mark key={index}>{part}</mark>
+      : <Fragment key={index}>{part}</Fragment>
+  );
+}
+
+function formatPostDate(value) {
+  if (!value) return "Recently";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Recently";
+  return date.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
 }
 
 export function PeopleResults({ people, loading, error, hasMore, onLoadMore, currentUserId, onOpenProfile, onOpenChats }) {
@@ -49,8 +70,8 @@ export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpen
           <Avatar person={post.author} />
           <span><b><HighlightMatch text={post.author?.display_name || "Chatly member"} query={query} /></b><small>{post.author?.username ? "@" + post.author.username : ""}</small></span>
         </button>
-        <p>{post.body}</p>
-        <small>{post.created_at ? new Date(post.created_at).toLocaleString() : "Recently"}</small>
+        <p className="search-post-body"><HighlightMatch text={post.body} query={query} /></p>
+        <time dateTime={post.created_at || undefined} title={post.created_at ? new Date(post.created_at).toLocaleString() : undefined}>{formatPostDate(post.created_at)}</time>
       </article>) : !loading && !error ? <p>No posts found. Try different keywords.</p> : null}
       {loading && <p role="status">Loading posts…</p>}
       {hasMore && !loading && <button type="button" className="explore-load-more" onClick={onLoadMore}>Load more posts</button>}
