@@ -2043,3 +2043,7 @@ img,video,iframe{max-width:100%}
 
 /* Explore sections rely on spacing, not ornamental rules */
 .search-section-title{border:0!important;margin:12px 0 8px!important;padding:0!important}.search-kind-tabs{margin:8px 0!important}
+
+
+/* Profile: lift identity and stats below the shared destination bar */
+.profile-page{padding-top:0!important}.profile-page-head{margin:0 0 8px!important;padding:0 0 8px!important;border:0!important}.profile-summary{margin-top:0!important;padding-top:8px!important;padding-bottom:8px!important}
