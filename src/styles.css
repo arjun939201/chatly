@@ -1325,3 +1325,78 @@ img,video,iframe{max-width:100%}
 .chat-layout .composer-reply-preview strong{font-size:11px}
 .chat-layout .composer-reply-preview span{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .chat-layout .composer-reply-preview button{flex:none;border:0;background:transparent;color:inherit;display:grid;place-items:center;width:30px;height:30px;border-radius:7px}
+
+
+/* Feed interaction polish: clearer author navigation, calmer surfaces, and accessible focus states */
+.post-author-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.post-author-profile > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.post-author-profile b {
+  transition: color 160ms ease;
+}
+.post-author-profile:hover b {
+  color: #6757e8;
+}
+.post-author-profile:focus-visible {
+  outline: 2px solid #8c80f4;
+  outline-offset: 4px;
+}
+.post-author-profile .mini-avatar {
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+.post-author-profile:hover .mini-avatar {
+  transform: scale(1.04);
+}
+.post-card {
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+.post-card:hover {
+  border-color: #dedcf5;
+  box-shadow: 0 8px 28px #302b540b;
+}
+.post-actions button {
+  min-height: 34px;
+  padding: 5px 3px;
+  border-radius: 9px;
+  transition: color 160ms ease, background 160ms ease;
+  cursor: pointer;
+}
+.post-actions button:hover:not(:disabled) {
+  background: #f5f3ff;
+  color: #6757e8;
+}
+.post-actions button:focus-visible,
+.post-options-trigger:focus-visible {
+  outline: 2px solid #8c80f4;
+  outline-offset: 3px;
+}
+.post-actions button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+@media (prefers-reduced-motion: reduce) {
+  .post-card,
+  .post-author-profile b,
+  .post-author-profile .mini-avatar,
+  .post-actions button {
+    transition: none;
+  }
+}

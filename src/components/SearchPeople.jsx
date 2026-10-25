@@ -6,7 +6,7 @@ function Avatar({ person, size = "mini-avatar" }) {
   return <span className={size}>{person?.avatar_url ? <img src={person.avatar_url} alt="" /> : (person?.display_name || person?.username || "?").slice(0,1).toUpperCase()}</span>;
 }
 
-export default function SearchPeople({ session, requestedProfile, onProfileRequestHandled, onOpenChats, onPlayVideo }) {
+export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   const [query, setQuery] = useState("");
   const [people, setPeople] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -25,7 +25,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
   const [expandedVideo, setExpandedVideo] = useState(null);
   const [playerMinimized, setPlayerMinimized] = useState(false);
   const [playerPosition, setPlayerPosition] = useState(null);
-  const profileRequest = useRef(0);\n\n  useEffect(() => {\n    if (!requestedProfile) return;\n    openProfile(requestedProfile);\n    onProfileRequestHandled?.();\n  }, [requestedProfile]);
+  const profileRequest = useRef(0);
 
   useEffect(() => {
     let alive = true;
