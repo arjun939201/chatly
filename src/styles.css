@@ -2107,3 +2107,7 @@ img,video,iframe{max-width:100%}
 
 /* Consistent destination title hierarchy */
 .destination-page-header h2,.settings-view-heading{font-size:20px!important;line-height:1.3!important;letter-spacing:-.025em}.destination-page-header p{font-size:13px!important;line-height:1.45!important}.account-options-label{font-size:11px!important;letter-spacing:.07em!important}
+
+
+/* Responsive global page gutters and overflow prevention */
+.destination-page,.search-page,.profile-page{width:100%;max-width:100%;min-width:0;box-sizing:border-box}@media(max-width:600px){:root{--space-page:12px;--space-section:12px}.destination-topline{height:52px;min-height:52px;padding-inline:12px}.destination-current-title{font-size:17px}.profile-page{padding-bottom:calc(76px + env(safe-area-inset-bottom))}.search-start-prompt{padding:18px 12px!important}}
