@@ -1951,3 +1951,7 @@ img,video,iframe{max-width:100%}
 
 /* Feed loading and errors should never blank the destination */
 .feed-page .feed-loading,.feed-page .feed-notice{display:block;padding:12px 14px;color:var(--muted,#77778d);overflow-wrap:anywhere}
+
+
+/* Keep restored feed usable on narrow screens */
+@media(max-width:600px){.feed-page .posts-list{grid-template-columns:minmax(0,1fr)}.feed-page .post-card{width:100%;box-sizing:border-box}.feed-page .create-menu-wrap{right:16px;bottom:calc(76px + env(safe-area-inset-bottom))}}
