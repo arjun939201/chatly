@@ -18,6 +18,10 @@ const [commentError, setCommentError] = useState("");
 const commentSubmitLock = useRef(false);
   const [postMenu, setPostMenu] = useState(null);
   useEffect(() => { if (postMenu === null) return; function outside(event) { if (!event.target.closest(".post-options-wrap")) setPostMenu(null); } function escape(event) { if (event.key === "Escape") setPostMenu(null); } document.addEventListener("pointerdown", outside); document.addEventListener("keydown", escape); return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); }; }, [postMenu]);
+  useEffect(() => {
+    if (postMenu === null) return;
+    document.querySelector(".post-options-menu button:not(:disabled)")?.focus();
+  }, [postMenu]);
   useEffect(() => { if (!compose) return; function closeOnEscape(event) { if (event.key === "Escape" && !busy) setCompose(false); } document.addEventListener("keydown", closeOnEscape); return () => document.removeEventListener("keydown", closeOnEscape); }, [compose, busy]);
   useEffect(() => {
     if (openComments === null) return;
