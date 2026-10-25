@@ -43,7 +43,18 @@ export default function NotificationsDestination({ session }) {
       ];
       if (!activity.length) { setItems([]); return; }
 
-      // Collapse likes for the same post into one activity row, retaining actor identities.\n      const grouped = new Map();\n      activity.forEach(item => {\n        if (item.type !== "like") { grouped.set(item.id || `${item.type}-${item.user_id}-${item.created_at}`, item); return; }\n        const key = `like-${item.post_id}`;\n        const group = grouped.get(key) || { ...item, id: key, actors: [], created_at: item.created_at };\n        group.actors.push(item.user_id);\n        if (new Date(item.created_at || 0) > new Date(group.created_at || 0)) group.created_at = item.created_at;\n        grouped.set(key, group);\n      });\n      const displayActivity = [...grouped.values()];\n      const actorIds = [...new Set(displayActivity.flatMap(item => item.actors || [item.user_id]))];
+      // Collapse likes for the same post into one activity row, retaining actor identities.
+      const grouped = new Map();
+      activity.forEach(item => {
+        if (item.type !== "like") { grouped.set(item.id || `${item.type}-${item.user_id}-${item.created_at}`, item); return; }
+        const key = `like-${item.post_id}`;
+        const group = grouped.get(key) || { ...item, id: key, actors: [], created_at: item.created_at };
+        group.actors.push(item.user_id);
+        if (new Date(item.created_at || 0) > new Date(group.created_at || 0)) group.created_at = item.created_at;
+        grouped.set(key, group);
+      });
+      const displayActivity = [...grouped.values()];
+      const actorIds = [...new Set(displayActivity.flatMap(item => item.actors || [item.user_id]))];
       const [{ data: profiles, error: profileError }] = await Promise.all([
         supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds)
       ]);
@@ -53,7 +64,8 @@ export default function NotificationsDestination({ session }) {
       setItems(displayActivity.map((item, index) => ({
         ...item,
         id: item.id || `${item.type}-${item.post_id}-${item.user_id}-${index}`,
-        actor: profileMap[item.user_id] || {},\n        actors: (item.actors || [item.user_id]).map(id => profileMap[id]).filter(Boolean),
+        actor: profileMap[item.user_id] || {},
+        actors: (item.actors || [item.user_id]).map(id => profileMap[id]).filter(Boolean),
         post: postMap[item.post_id] || {}
       })).sort((a, b) => new Date(b.created_at || b.post.created_at) - new Date(a.created_at || a.post.created_at)));
     } catch (err) {
@@ -90,12 +102,14 @@ export default function NotificationsDestination({ session }) {
             <div className="notification-activity-list">
               {items.map(item => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
+                const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
                 return <article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
                     <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
-                    {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}\n                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
+                    {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}
+                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
                 </article>;
               })}
