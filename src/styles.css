@@ -3106,12 +3106,3 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Explore YouTube mini-player */
 .global-youtube-player{position:fixed;right:20px;bottom:84px;width:min(420px,calc(100vw - 28px));z-index:1200;background:var(--surface,#fff);color:var(--text,#17171b);border:1px solid var(--border,#e4e4e9);border-radius:14px;overflow:hidden;box-shadow:0 12px 38px #0002}.global-youtube-player.is-minimized{width:min(320px,calc(100vw - 28px))}.global-youtube-player-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;font-size:13px;font-weight:600}.global-youtube-player-head>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-youtube-player-actions{display:flex;gap:6px;flex-shrink:0}.global-youtube-player-actions button{display:grid;place-items:center;border:0;background:transparent;color:inherit;border-radius:7px;padding:5px;cursor:pointer}.global-youtube-player-actions button:hover{background:var(--app-bg,#f5f5f7)}.global-youtube-player-frame{aspect-ratio:16/9;background:#000}.global-youtube-player-frame iframe{display:block;width:100%;height:100%;border:0}@media(max-width:600px){.global-youtube-player{right:10px;bottom:76px;width:calc(100vw - 20px)}.global-youtube-player.is-minimized{width:min(270px,calc(100vw - 20px))}}
-
-
-/* Feed accessibility polish — visible focus, modal controls, and readable actions */
-.feed-filter-tabs button:focus-visible,.feed-load-more button:focus-visible,.comment-own-actions button:focus-visible,.comment-edit-form button:focus-visible,.media-lightbox button:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
-.feed-notice[role=status] button{flex:0 0 auto;margin-left:8px;border:1px solid currentColor;border-radius:999px;padding:5px 11px;background:transparent;color:inherit;font-size:12px;font-weight:700}
-.post-actions button:disabled{cursor:wait;opacity:.65}
-.comment-edit-form button:disabled{cursor:wait;opacity:.65}
-@media(max-width:420px){.feed-notice[role=status]{align-items:flex-start;gap:8px}.feed-notice[role=status] button{margin-left:auto}}
-@media(prefers-reduced-motion:reduce){.post-media img[role=button]{scroll-behavior:auto}}
