@@ -99,18 +99,21 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
 
   async function toggleFollow() {
     if (!selected || selected.id === session.user.id || busy) return;
+    const personId = selected.id;
     const wasFollowing = following;
     setBusy(true);
     setNotice("");
     try {
       const result = wasFollowing
-        ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", selected.id)
-        : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: selected.id });
+        ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", personId)
+        : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: personId });
       if (result.error) throw result.error;
-      setFollowing(!wasFollowing);
-      setFollowers(count => Math.max(0, count + (wasFollowing ? -1 : 1)));
+      if (selected?.id === personId) {
+        setFollowing(!wasFollowing);
+        setFollowers(count => Math.max(0, count + (wasFollowing ? -1 : 1)));
+      }
     } catch (error) {
-      setNotice(error.message || "Could not update follow status.");
+      if (selected?.id === personId) setNotice(error.message || "Could not update follow status.");
     } finally {
       setBusy(false);
     }
