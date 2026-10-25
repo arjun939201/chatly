@@ -2294,3 +2294,65 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Show the user's initials when an avatar URL fails to load. */
 .avatar-image-failed::after{content:attr(data-avatar-fallback);display:grid;place-items:center;width:100%;height:100%;color:inherit;font:inherit}
+
+/* Chats page: profile-aligned back control and WhatsApp Web-inspired workspace */
+.chat-layout{width:min(1440px,calc(100% - 32px));height:calc(100dvh - 104px);min-height:520px;margin:16px auto 20px;border-radius:12px;grid-template-columns:minmax(300px,34%) minmax(0,1fr);box-shadow:0 2px 12px rgba(20,20,35,.06)}
+.chat-layout .sidebar{background:var(--surface,#fff)}
+.chat-layout .sidebar-heading{min-height:64px;padding:12px 18px;border-bottom:1px solid var(--border,#e8e8ef)}
+.chat-layout .chat-heading-title{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:700;color:var(--text,#24243a)}
+.chat-layout .chat-heading-title>svg{display:none}
+.chat-layout .chat-heading-title span{font-size:20px;color:var(--text,#24243a);background:none;padding:0}
+.chat-layout .chat-feed-back{display:grid;place-items:center;width:40px;height:40px;padding:0;border:1px solid var(--border,#e5e5ec);border-radius:12px;background:var(--surface,#fff);color:var(--text,#252535)}
+.chat-layout .chat-feed-back:hover{background:var(--app-bg,#f5f6fb)}
+.chat-layout .chat-new-button{display:grid;place-items:center;width:38px;height:38px;border:0;border-radius:50%;background:transparent;color:var(--muted,#77778d)}
+.chat-layout .chat-new-button:hover{background:var(--app-bg,#f5f6fb);color:var(--text,#24243a)}
+.chat-layout .search-box{margin:12px 14px;padding:10px 13px;border:1px solid var(--border,#e7e7ef);border-radius:9px;background:var(--app-bg,#f6f6fb)}
+.chat-layout .chat-filter-row{display:flex;gap:6px;padding:0 14px 10px;border-bottom:1px solid var(--border,#ededf4)}
+.chat-layout .chat-filter-row button{padding:7px 12px;border:1px solid var(--border,#e7e7ef);border-radius:18px;background:var(--surface,#fff);color:var(--muted,#77778d);font-size:12px}
+.chat-layout .chat-filter-row button.active{border-color:var(--chatly-brand,#6757e8);background:var(--chatly-brand-soft,#f0edff);color:var(--chatly-brand,#6757e8);font-weight:650}
+.chat-layout .people-list{scrollbar-width:thin}
+.chat-layout .person-row{position:relative;gap:12px;min-height:72px;padding:12px 15px;border-bottom:1px solid var(--border,#f0f0f4);background:var(--surface,#fff);transition:background .14s}
+.chat-layout .person-row:hover{background:var(--app-bg,#f7f7fa)}
+.chat-layout .person-row.selected{background:var(--chatly-brand-soft,#f0edff);box-shadow:inset 3px 0 var(--chatly-brand,#6757e8)}
+.chat-layout .person-row .avatar{width:46px;height:46px}
+.chat-layout .person-copy{flex:1}
+.chat-layout .person-copy strong{font-size:14px;color:var(--text,#24243a)}
+.chat-layout .person-copy small{max-width:100%;font-size:12px;line-height:1.4}
+.chat-layout .chat-row-time{align-self:flex-start;flex:none;color:var(--muted,#9292a6);font-size:10px;white-space:nowrap}
+.chat-layout .chat-unread-count{display:grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:20px;background:#16b86a;color:#fff;font-size:10px;font-weight:700}
+.chat-layout .conversation{background:var(--surface,#fff)}
+.chat-layout .conversation-header{height:68px;padding:0 20px;border-bottom:1px solid var(--border,#e9e9ef);background:var(--surface,#fff)}
+.chat-layout .conversation-close{display:none}
+.chat-layout .conversation-header .avatar{width:42px;height:42px}
+.chat-layout .conversation-header strong{font-size:15px;color:var(--text,#24243a)}
+.chat-layout .conversation-header small{font-size:12px}
+.chat-layout .message-list{padding:24px clamp(18px,4vw,54px);background:var(--app-bg,#f7f7fa);background-image:radial-gradient(rgba(130,130,150,.08) .65px,transparent .65px);background-size:16px 16px}
+.chat-layout .message{margin:7px 0}
+.chat-layout .bubble{position:relative;max-width:min(78%,620px);padding:10px 13px;border:1px solid var(--border,#e8e8ef);border-radius:10px;background:var(--surface,#fff);color:var(--text,#343443);font-size:14px;line-height:1.5;box-shadow:0 1px 1px rgba(0,0,0,.025)}
+.chat-layout .mine .bubble{border-color:transparent;border-bottom-right-radius:4px;background:#d9fdd3;color:#26352a}
+.chat-layout .theirs .bubble{border-bottom-left-radius:4px}
+.chat-layout .bubble time{display:inline-block;margin:4px 0 0 12px;font-size:10px;color:var(--muted,#8a8a98);vertical-align:bottom}
+.chat-layout .mine .bubble time{color:#65816a}
+.chat-layout .message-reply,.chat-layout .message-delete{opacity:.55}
+.chat-layout .message-reply:hover,.chat-layout .message-delete:hover{opacity:1}
+.chat-layout .composer{align-items:flex-end;gap:10px;padding:12px 18px;background:var(--surface,#fff);border-top:1px solid var(--border,#e9e9ef)}
+.chat-layout .composer textarea{flex:1;min-width:0;min-height:44px;max-height:140px;resize:vertical;padding:12px 14px;border:1px solid var(--border,#e5e5ec);border-radius:10px;background:var(--app-bg,#f8f8fb);color:var(--text,#24243a);font:inherit;font-size:14px;line-height:1.4;outline:none}
+.chat-layout .composer textarea:focus{border-color:#a49af4}
+.chat-layout .send-button{width:44px;height:44px;flex:none;padding:0;border-radius:50%}
+.chat-layout .welcome-chat{background:var(--app-bg,#f7f7fa)}
+@media(max-width:700px){
+ .chat-layout{width:100%;height:calc(100dvh - 76px);min-height:0;margin:0;border:0;border-radius:0;grid-template-columns:minmax(0,1fr)}
+ .chat-layout.has-active .sidebar{display:none}
+ .chat-layout:not(.has-active) .conversation{display:none}
+ .chat-layout .sidebar-heading{padding:10px 14px}
+ .chat-layout .chat-heading-title span{font-size:18px}
+ .chat-layout .person-row{min-height:68px;padding:10px 12px}
+ .chat-layout .conversation-header{height:60px;padding:0 12px;gap:9px}
+ .chat-layout .conversation-close{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:var(--text,#24243a)}
+ .chat-layout .message-list{padding:16px 12px}
+ .chat-layout .bubble{max-width:88%;font-size:13px}
+ .chat-layout .composer{padding:9px 10px;gap:8px}
+ .chat-layout .composer textarea{min-height:42px;padding:10px 12px}
+ .chat-layout .send-button{width:42px;height:42px}
+}
+@media(prefers-reduced-motion:reduce){.chat-layout *{transition:none!important;scroll-behavior:auto!important}}
