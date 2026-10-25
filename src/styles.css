@@ -2051,3 +2051,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile section boundaries use compact spacing instead of extra rules */
 .profile-page hr,.profile-page .profile-divider,.profile-page .profile-grid-heading{border-top:0!important}.profile-grid-heading{margin:12px 0 8px!important;padding:0!important}
+
+
+/* Notifications: collapse the large hero card and activity gap */
+.notification-destination-page .destination-page-header{display:flex!important;align-items:center;gap:10px;margin-bottom:8px!important}.notification-destination-page .settings-section{margin-top:8px!important}.notification-destination-page .account-options-label{margin:10px 0 6px!important;padding:0!important}.notification-destination-page .notifications-empty{min-height:180px!important;padding:20px!important}
