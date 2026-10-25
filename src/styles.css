@@ -3258,3 +3258,20 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .feed-page .post-body{font-size:13.5px;line-height:1.72;margin:13px 0 15px}
 }
 @media(prefers-reduced-motion:reduce){.feed-page .post-card,.feed-page .floating-create{transition:none}.feed-page .post-card:hover,.feed-page .floating-create:hover{transform:none}}
+
+
+/* Feed filter controls: consistent segmented tabs and saved-post toggle */
+.feed-page .feed-filter-tabs{display:flex;align-items:center;gap:5px;width:max-content;max-width:100%;margin:0 0 20px;padding:5px;background:var(--surface,#fff);border:1px solid var(--border,#e8e8f0);border-radius:14px;box-shadow:0 2px 8px rgba(35,31,75,.025)}
+.feed-page .feed-filter-tabs button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:8px 15px;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted,#77778c);font-size:12px;font-weight:650;line-height:1;white-space:nowrap;transition:background .16s ease,color .16s ease,box-shadow .16s ease}
+.feed-page .feed-filter-tabs button:hover{background:color-mix(in srgb,var(--chatly-brand,#6757e8) 7%,transparent);color:var(--chatly-brand,#6757e8)}
+.feed-page .feed-filter-tabs button.active,.feed-page .feed-filter-tabs button[aria-pressed="true"]{background:var(--chatly-brand,#6757e8);color:#fff;box-shadow:0 3px 9px color-mix(in srgb,var(--chatly-brand,#6757e8) 24%,transparent)}
+.feed-page .feed-filter-tabs button:focus-visible,.feed-page .feed-saved-view-toggle:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
+.feed-page .feed-saved-view-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:9px 13px;border:1px solid color-mix(in srgb,var(--chatly-brand,#6757e8) 20%,var(--border,#e8e8f0));border-radius:12px;background:var(--surface,#fff);color:var(--chatly-brand,#6757e8);font-size:12px;font-weight:650;line-height:1.2;white-space:nowrap;transition:background .16s ease,border-color .16s ease,transform .16s ease}
+.feed-page .feed-saved-view-toggle:hover{background:color-mix(in srgb,var(--chatly-brand,#6757e8) 6%,var(--surface,#fff));border-color:color-mix(in srgb,var(--chatly-brand,#6757e8) 38%,var(--border,#e8e8f0))}
+.feed-page .feed-saved-view-toggle[aria-pressed="true"]{background:var(--chatly-brand,#6757e8);border-color:var(--chatly-brand,#6757e8);color:#fff}
+@media(max-width:600px){
+ .feed-page .feed-filter-tabs{width:100%;gap:3px;padding:4px;margin-bottom:15px;border-radius:12px}
+ .feed-page .feed-filter-tabs button{flex:1;min-width:0;min-height:35px;padding:8px 7px;font-size:11px}
+ .feed-page .feed-saved-view-toggle{min-height:35px;padding:8px 10px;gap:6px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.feed-page .feed-filter-tabs button,.feed-page .feed-saved-view-toggle{transition:none}}
