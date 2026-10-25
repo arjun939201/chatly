@@ -2423,3 +2423,15 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     gap: 12px;
   }
 }
+
+
+/* Feed long-form text: keep dense posts readable without clipping content */
+.post-body {
+  max-width: 100%;
+  font-size: clamp(14px, 1.8vw, 15px);
+  line-height: 1.75;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
