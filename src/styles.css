@@ -3204,3 +3204,10 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .report-post-modal textarea{resize:vertical;line-height:1.6}
 .report-post-modal .compose-footer{padding:4px 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
 @media(max-width:600px){.report-post-modal form{padding:15px 16px 17px}}
+
+
+.search-post-author:disabled{opacity:1;cursor:default}
+.search-post-author:disabled .mini-avatar{filter:saturate(.8)}
+.search-person-profile:focus-visible,.search-post-author:focus-visible{outline:2px solid #7769ed;outline-offset:3px;border-radius:10px}
+.explore-home-post time,.search-post time{font-variant-numeric:tabular-nums}
+.explore-home-post-author>span:last-child{overflow-wrap:anywhere}
