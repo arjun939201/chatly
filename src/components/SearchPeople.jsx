@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search, MessageCircle, Heart, UserRound, Users, ArrowLeft, UserPlus, UserCheck, X, Minimize2, Youtube } from "lucide-react";
+import { Search, MessageCircle, Heart, UserRound, Users, ArrowLeft, UserPlus, UserCheck, X, Minimize2, Maximize2, Youtube } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, size = "mini-avatar" }) {
@@ -23,6 +23,7 @@ export default function SearchPeople({ session, onOpenChats }) {
   const [videoError, setVideoError] = useState("");
   const [expandedVideo, setExpandedVideo] = useState(null);
   const [playerMinimized, setPlayerMinimized] = useState(false);
+  const [playerPosition, setPlayerPosition] = useState(null);
 
   useEffect(() => {
     let alive = true;
@@ -121,7 +122,7 @@ export default function SearchPeople({ session, onOpenChats }) {
     {(kind==="rooms") && <><h2 className="search-section-title"><Users size={17}/> Rooms</h2><div className="search-results"><p>Rooms are not available yet.</p></div></>}
     {(kind==="songs") && <><h2 className="search-section-title"><Youtube size={17}/> Songs on YouTube</h2><div className="youtube-results">{!q?<p>Search for videos to see YouTube results.</p>:videoLoading?<p>Searching YouTube…</p>:videoError?<p>{videoError.includes("VITE_YOUTUBE_API_KEY")?"YouTube search needs a VITE_YOUTUBE_API_KEY configured in your deployment.":videoError}</p>:videos.length?videos.map(video=><button className="youtube-result" key={video.id.videoId} onClick={()=>{setExpandedVideo(video);setPlayerMinimized(false)}}><img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url} alt=""/><span><b>{video.snippet.title}</b><small>{video.snippet.channelTitle}</small></span></button>):<p>No YouTube videos found.</p>}</div></>}
     </>}
-    {expandedVideo && <div className={playerMinimized ? "chatly-music-player minimized" : "chatly-music-player"}><section className="chatly-music-frame"><iframe title={expandedVideo.snippet.title} src={"https://www.youtube.com/embed/"+activeVideoId+"?autoplay=1&rel=0"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/></section><header className="chatly-music-controls"><span>{expandedVideo.snippet.title}</span><div><button aria-label={playerMinimized ? "Expand player" : "Minimize player"} title={playerMinimized ? "Expand player" : "Minimize player"} onClick={()=>setPlayerMinimized(v=>!v)}>{playerMinimized ? <Maximize2 size={18}/> : <Minimize2 size={18}/>}</button><button aria-label="Close player" title="Close player" onClick={()=>{setExpandedVideo(null);setPlayerMinimized(false)}}><X size={20}/></button></div></header></div>}
+    {expandedVideo && <div className={playerMinimized ? "chatly-music-player minimized" : "chatly-music-player"} style={playerPosition ? {left:playerPosition.x,top:playerPosition.y,right:"auto",bottom:"auto"} : undefined}><section className="chatly-music-frame"><iframe title={expandedVideo.snippet.title} src={"https://www.youtube.com/embed/"+activeVideoId+"?autoplay=1&rel=0"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/></section><header className="chatly-music-controls" onPointerDown={e=>{if(e.target.closest("button"))return;const rect=e.currentTarget.parentElement.getBoundingClientRect();e.currentTarget.setPointerCapture(e.pointerId);e.currentTarget.dataset.dragX=String(e.clientX-rect.left);e.currentTarget.dataset.dragY=String(e.clientY-rect.top);}} onPointerMove={e=>{if(!e.currentTarget.hasPointerCapture(e.pointerId))return;const x=Math.max(0,Math.min(window.innerWidth-e.currentTarget.parentElement.offsetWidth,e.clientX-Number(e.currentTarget.dataset.dragX)));const y=Math.max(0,Math.min(window.innerHeight-e.currentTarget.parentElement.offsetHeight,e.clientY-Number(e.currentTarget.dataset.dragY)));setPlayerPosition({x,y});}}><span>{expandedVideo.snippet.title}</span><div><button aria-label={playerMinimized ? "Expand player" : "Minimize player"} title={playerMinimized ? "Expand player" : "Minimize player"} onClick={()=>setPlayerMinimized(v=>!v)}>{playerMinimized ? <Maximize2 size={18}/> : <Minimize2 size={18}/>}</button><button aria-label="Close player" title="Close player" onClick={()=>{setExpandedVideo(null);setPlayerMinimized(false);setPlayerPosition(null)}}><X size={20}/></button></div></header></div>}
     {notice && <p className="search-notice">{notice}</p>}
   </section></main>;
 }
