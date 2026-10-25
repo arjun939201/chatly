@@ -100,19 +100,46 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     event.preventDefault();
     const body = draft.trim();
     if (!body || !active || sendBusy) return;
+
     const recipientId = active.id;
+    const replyingTo = replyTo;
+    const optimisticId = `pending-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const optimisticMessage = {
+      id: optimisticId,
+      sender_id: session.user.id,
+      recipient_id: recipientId,
+      body,
+      reply_to: replyingTo?.id || null,
+      created_at: new Date().toISOString(),
+      _pending: true,
+    };
+
     setSendBusy(true);
     setError("");
     setDraft("");
-    const replyingTo = replyTo;
     setReplyTo(null);
+    setMessages(current => current.some(m => m.id === optimisticId) ? current : [...current, optimisticMessage]);
+
     try {
-      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: recipientId, body, reply_to: replyingTo?.id || null });
-      if (err && active?.id === recipientId) { setDraft(body); setReplyTo(replyingTo); setError(err.message); }
+      const { data, error: err } = await supabase.from("messages")
+        .insert({ sender_id: session.user.id, recipient_id: recipientId, body, reply_to: replyingTo?.id || null })
+        .select("*")
+        .single();
+
+      if (err) throw err;
+      if (data) {
+        setMessages(current => {
+          const withoutPending = current.filter(m => m.id !== optimisticId && m.id !== data.id);
+          return [...withoutPending, data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+        });
+        setRecentMessages(current => [data, ...current.filter(m => m.id !== data.id)].slice(0, 250));
+        setLastMessages(current => ({ ...current, [recipientId]: data }));
+      }
     } catch (err) {
+      setMessages(current => current.filter(m => m.id !== optimisticId));
       if (active?.id === recipientId) {
-        setDraft(body);
-        setReplyTo(replyingTo);
+        setDraft(current => current || body);
+        setReplyTo(current => current || replyingTo);
         setError(err?.message || "Could not send message. Please try again.");
       }
     } finally {
