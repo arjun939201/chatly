@@ -2290,3 +2290,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed composer character counter: make the nearing-limit state clear but restrained. */
 .compose-modal .compose-character-count{color:var(--muted,#858597);font-size:11px;font-variant-numeric:tabular-nums}.compose-modal .compose-character-count.near-limit{color:#b45309;font-weight:650}
+
+
+/* Show the user's initials when an avatar URL fails to load. */
+.avatar-image-failed::after{content:attr(data-avatar-fallback);display:grid;place-items:center;width:100%;height:100%;color:inherit;font:inherit}
