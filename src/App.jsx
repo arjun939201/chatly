@@ -185,7 +185,7 @@ export default function App() {
         <h3 className="settings-category-label">ACCOUNT & SECURITY</h3>
         <button className="style-expander" onClick={() => setAccountInfoExpanded(v => !v)}><span>Account settings</span><span>{accountInfoExpanded ? "−" : "+"}</span></button>
         {accountInfoExpanded && <div className="account-settings-inline">
-          <header className="destination-page-header"><UserRound size={22}/><div><h2>Account & sign-in</h2><p>Manage your personal details and sign-in</p></div></header>
+          <header className="settings-subpage-header"><button type="button" aria-label="Close account settings" onClick={() => setAccountInfoExpanded(false)}><ChevronLeft size={22}/></button><h2>Account & sign-in</h2></header>
           <div className="settings-section account-view">
             <h3 className="account-options-label">PERSONAL INFORMATION</h3>
             <button className="style-expander account-option-row" onClick={() => { setEditProfileOpen(true); setNotice(""); }}><span><strong>Personal information</strong><small>Display name, username, profile photo and bio</small></span><span>›</span></button>
