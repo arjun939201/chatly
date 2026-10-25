@@ -29,7 +29,8 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState("all");\n  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [filter, setFilter] = useState("all");
+  const [unreadOnly, setUnreadOnly] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
   const unreadCount = items.filter(item => !item.read_at).length;
 
