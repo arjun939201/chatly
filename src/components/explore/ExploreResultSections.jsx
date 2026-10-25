@@ -45,7 +45,7 @@ export function PeopleResults({ people, loading, error, hasMore, onLoadMore, cur
           <button
             type="button"
             className="search-person-action"
-            onClick={() => isCurrentUser ? onOpenProfile(person) : onOpenChats?.(person.id)}
+            onClick={() => isCurrentUser ? onOpenProfile(person) : person.id && onOpenChats?.(person.id)}
             aria-label={isCurrentUser ? "View your profile" : `Message ${displayName}`}
             title={isCurrentUser ? "View profile" : "Message"}
           >
