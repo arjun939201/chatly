@@ -252,15 +252,15 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 @media(max-width:600px){.destination-page{width:calc(100% - 28px);box-sizing:border-box;padding:18px;border-radius:16px}}
 
 
-/* Account page: compact, restrained settings styling */
-.settings-page:has(.account-view){width:min(100% - 32px,560px);padding:18px;border-radius:16px;box-shadow:none}
-.settings-page:has(.account-view) .destination-page-header{gap:10px;padding-bottom:14px}
-.settings-page:has(.account-view) .destination-page-header h2{font-size:20px;letter-spacing:-.35px}
-.settings-page:has(.account-view) .destination-page-header p{font-size:12px;margin-top:3px}
-.settings-page .account-view{margin-top:14px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
-.settings-page .account-view .settings-view-heading{padding:12px 0;border-bottom:1px solid var(--border)}
-.settings-page .account-view .settings-view-heading h3{font-size:16px;font-weight:600;margin:0}
-.settings-page .account-view .style-expander{min-height:48px;padding:12px 2px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;font-size:14px;font-weight:500}
-.settings-page .account-view .account-logout-top{color:#9b6572;background:transparent;border:0}
-.settings-page .account-view .password-form{padding:14px 0 4px;margin-top:0;border-top:0}
-@media(max-width:600px){.settings-page:has(.account-view){width:calc(100% - 28px);padding:16px;border-radius:14px}}
+/* Account page: compact layout, explicitly scoped for reliable mobile styling */
+.account-destination-page{width:min(100% - 32px,560px);margin:10px auto 24px;padding:16px 18px 12px;border-radius:14px;box-shadow:none}
+.account-destination-page .destination-page-header{gap:9px;padding-bottom:12px}
+.account-destination-page .destination-page-header h2{font-size:20px;letter-spacing:-.3px}
+.account-destination-page .destination-page-header p{font-size:12px;margin-top:2px}
+.account-destination-page .account-view{margin-top:10px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
+.account-destination-page .settings-view-heading{margin:0;padding:10px 0;border-bottom:1px solid var(--border)}
+.account-destination-page .settings-view-heading h3{font-size:15px;font-weight:600;margin:0}
+.account-destination-page .account-logout-top{width:32px;height:32px;border:0;border-radius:8px;background:transparent;color:#9b6572}
+.account-destination-page .style-expander{min-height:44px;padding:10px 2px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;font-size:14px;font-weight:500}
+.account-destination-page .password-form{padding:12px 0 2px;margin-top:0;border-top:0}
+@media(max-width:600px){.account-destination-page{width:calc(100% - 28px);margin:10px auto 20px;padding:14px 15px 10px;border-radius:12px}}
