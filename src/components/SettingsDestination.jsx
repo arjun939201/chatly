@@ -36,11 +36,13 @@ export default function SettingsDestination({ onSubpageChange = () => {}, theme 
     return () => window.removeEventListener("popstate", handlePopState);
   }, [view, onSubpageChange, setNotice]);
   const [emailOpen, setEmailOpen] = useState(false);
-  const [emailSaving, setEmailSaving] = useState(false);\n  const [emailAttempted, setEmailAttempted] = useState(false);
+  const [emailSaving, setEmailSaving] = useState(false);
+  const [emailAttempted, setEmailAttempted] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);\n  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [deleteInfoOpen, setDeleteInfoOpen] = useState(false);
   const [message, setMessage] = useState("");
