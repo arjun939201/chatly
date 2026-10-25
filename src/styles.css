@@ -2039,3 +2039,7 @@ img,video,iframe{max-width:100%}
 
 /* Explore: remove oversized intro and blank prompt spacing */
 .search-people{padding-top:8px!important}.search-people>h1{margin:0 0 6px!important;font-size:22px!important}.search-people>p{margin:0 0 14px!important;font-size:14px!important}.search-page-input{margin:0 0 12px!important;min-height:52px!important}.search-start-prompt{margin-top:12px!important;padding:20px 14px!important;min-height:0!important}
+
+
+/* Explore sections rely on spacing, not ornamental rules */
+.search-section-title{border:0!important;margin:12px 0 8px!important;padding:0!important}.search-kind-tabs{margin:8px 0!important}
