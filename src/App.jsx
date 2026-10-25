@@ -128,7 +128,10 @@ export default function App() {
   useEffect(() => {
     let cancelled = false;
     async function loadProfile() {
-      if (!session?.user) { setProfile(null); return; }
+      if (!session?.user) { setProfile(null); setAccountEmail(""); return; }
+      // Avoid showing the previous account's profile while a new session is resolving.
+      setProfile(null);
+      setNotice("");
       const user = session.user;
       const metadata = user.user_metadata || {};
       const fallbackName = metadata.display_name || metadata.full_name || user.email?.split("@")[0] || "Chatly user";
@@ -137,7 +140,7 @@ export default function App() {
       if (cancelled) return;
       if (error) {
         console.error("Profile load failed:", error);
-        setNotice(`Could not load profile: ${error.message}`);
+        setNotice("Your profile could not be loaded. Please refresh and try again.");
         return;
       }
       let next = data;
@@ -148,8 +151,20 @@ export default function App() {
         if (cancelled) return;
         if (insertError) {
           console.error("Profile create failed:", insertError);
-          setNotice(`Could not create profile: ${insertError.message}`);
-          next = seed;
+          // A parallel session/profile initializer may have created the row already.
+          if (insertError.code === "23505") {
+            const { data: existing, error: retryError } = await supabase.from("profiles")
+              .select("id, username, display_name, avatar_url, bio").eq("id", user.id).maybeSingle();
+            if (cancelled) return;
+            if (retryError || !existing) {
+              setNotice("Your profile could not be initialized. Please try again.");
+              return;
+            }
+            next = existing;
+          } else {
+            setNotice("Your profile could not be created. Check your connection and try again.");
+            return;
+          }
         } else next = inserted;
       }
       setProfile(next);
