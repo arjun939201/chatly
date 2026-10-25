@@ -3106,26 +3106,3 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Explore YouTube mini-player */
 .global-youtube-player{position:fixed;right:20px;bottom:84px;width:min(420px,calc(100vw - 28px));z-index:1200;background:var(--surface,#fff);color:var(--text,#17171b);border:1px solid var(--border,#e4e4e9);border-radius:14px;overflow:hidden;box-shadow:0 12px 38px #0002}.global-youtube-player.is-minimized{width:min(320px,calc(100vw - 28px))}.global-youtube-player-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;font-size:13px;font-weight:600}.global-youtube-player-head>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.global-youtube-player-actions{display:flex;gap:6px;flex-shrink:0}.global-youtube-player-actions button{display:grid;place-items:center;border:0;background:transparent;color:inherit;border-radius:7px;padding:5px;cursor:pointer}.global-youtube-player-actions button:hover{background:var(--app-bg,#f5f5f7)}.global-youtube-player-frame{aspect-ratio:16/9;background:#000}.global-youtube-player-frame iframe{display:block;width:100%;height:100%;border:0}@media(max-width:600px){.global-youtube-player{right:10px;bottom:76px;width:calc(100vw - 20px)}.global-youtube-player.is-minimized{width:min(270px,calc(100vw - 20px))}}
-
-
-/* Feed feature pass — filters, sharing, editing, comments, and media viewer */
-.feed-filter-tabs{display:flex;gap:7px;overflow-x:auto;margin:0 0 16px;padding:3px 1px 7px}
-.feed-filter-tabs button{flex:0 0 auto;min-height:36px;padding:8px 15px;border:1px solid var(--border,#e7e6ef);border-radius:999px;background:var(--surface,#fff);color:var(--muted,#85859a);font-size:12px;font-weight:650}
-.feed-filter-tabs button.active{border-color:var(--chatly-brand,#6757e8);background:var(--chatly-brand-soft,#f0edff);color:var(--chatly-brand,#6757e8)}
-.post-actions .post-share-button{color:var(--muted,#85859a)}
-.post-actions .post-share-button:hover{color:var(--chatly-brand,#6757e8)}
-.feed-load-more{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 0;color:var(--muted,#85859a);font-size:12px}
-.feed-load-more button{min-height:38px;padding:9px 16px;border:1px solid var(--border,#e7e6ef);border-radius:999px;background:var(--surface,#fff);color:var(--chatly-brand,#6757e8);font-weight:700}
-.comment-own-actions{display:flex;gap:12px;margin:7px 0 0 3px}
-.comment-own-actions button,.comment-edit-form button{border:0;background:transparent;color:var(--chatly-brand,#6757e8);font-size:11px;font-weight:650;cursor:pointer}
-.comment-edit-form{display:grid;gap:8px;margin-top:8px}
-.comment-edit-form textarea{width:100%;min-height:72px;padding:9px;border:1px solid var(--border,#e7e6ef);border-radius:10px;background:var(--surface,#fff);color:var(--text,#34334a);resize:vertical}
-.comment-edit-form button{justify-self:start}
-.post-media img[role=button]{cursor:zoom-in}
-.post-media img[role=button]:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
-.media-lightbox{z-index:1400;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(12,12,20,.92)}
-.media-lightbox>img{max-width:min(94vw,1400px);max-height:90vh;object-fit:contain;border-radius:12px}
-.media-lightbox>button{position:absolute;top:18px;right:18px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #ffffff44;border-radius:50%;background:#17171d;color:#fff;cursor:pointer}
-@media(max-width:600px){.feed-filter-tabs{margin-bottom:12px}.feed-filter-tabs button{min-height:38px;padding-inline:13px}.feed-load-more{flex-wrap:wrap}.media-lightbox{padding:12px}}
-@media(prefers-reduced-motion:reduce){.feed-filter-tabs button,.feed-load-more button{transition:none!important}}
-.theme-dark .feed-filter-tabs button,.theme-dark .feed-load-more button,.theme-dark .comment-edit-form textarea{border-color:var(--border,#343443);background:var(--surface,#22222d);color:var(--text,#eeeef5)}
