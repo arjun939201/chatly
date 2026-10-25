@@ -87,7 +87,7 @@ export function YouTubeResults({ videos, loading, error, onPlayVideo }) {
     <h2 className="search-section-title"><Youtube size={17} /> Songs on YouTube</h2>
     <div className="youtube-results">
       {loading ? <p role="status">Searching YouTube…</p> : error ? <p role="alert">{error}</p> : videos.length ? videos.map(video => <button className="youtube-result" type="button" key={video?.id?.videoId || video?.snippet?.title || "video"} onClick={() => onPlayVideo?.(video)} disabled={!video?.id?.videoId}>
-        {(video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url) ? <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url} alt="" loading="lazy" /> : <span className="youtube-result-thumbnail-fallback" aria-hidden="true"><Youtube size={22} /></span>}
+        {(video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url) ? <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url} alt="" loading="lazy" /> : <span className="youtube-result-thumbnail-fallback" aria-hidden="true"><Youtube size={22} /><small>No preview</small></span>}
         <span><b>{video?.snippet?.title || "Untitled video"}</b><small>{video?.snippet?.channelTitle || "YouTube"}</small></span>
       </button>) : <p>No YouTube videos found.</p>}
     </div>
