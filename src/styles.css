@@ -2135,3 +2135,7 @@ button:disabled,[role=button][aria-disabled=true]{opacity:.55;cursor:not-allowed
 
 /* Feed content uses a predictable spacing rhythm */
 .posts-list{gap:12px}.post-card{padding:16px}.post-body{margin:14px 0;line-height:1.6}.post-actions{padding-top:10px;gap:18px}.post-actions button{min-height:34px;padding:4px 2px}
+
+
+/* Avoid clipped text and overflow across shared components */
+:where(.post-card,.search-person,.profile-post,.settings-section,.conversation-header,.comment-content){min-width:0;overflow-wrap:anywhere}:where(input,textarea,select,button){font-family:inherit}textarea{max-width:100%}
