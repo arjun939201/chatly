@@ -3134,3 +3134,26 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .explore-home-post time{font-size:11px;color:#9696a9}
 .explore-home-status{font-size:13px;line-height:1.6;color:#85859b;padding:18px 20px;background:#fff;border:1px solid #e8e8f0;border-radius:14px}
 @media(max-width:600px){.explore-home{gap:16px}.explore-home-heading{gap:11px}.explore-home-icon{width:40px;height:40px;border-radius:13px}.explore-topic-discovery{padding:15px;border-radius:15px}.explore-topic-discovery h3 span,.explore-home-section-heading h3 span{display:none}.explore-discovery-actions{gap:7px;margin-top:12px}.explore-discovery-actions button{padding:8px 11px;font-size:11px}.explore-home-post{padding:14px;border-radius:14px}.explore-home-post p{font-size:13px}}
+
+
+.explore-result-section{min-width:0;margin:0 0 22px}
+.search-section-title{display:flex;align-items:center;gap:9px;margin:0 0 12px;color:#34344b;font-size:14px;font-weight:650}
+.search-results,.youtube-results{display:grid;gap:9px;min-width:0}
+.search-person,.search-post,.youtube-result{border:1px solid #e8e8f0;border-radius:14px;background:#fff}
+.search-person{padding:12px 14px;gap:10px}
+.search-person-profile{min-width:0}
+.search-person-details{min-width:0}
+.search-person-details b,.search-post b{color:#34344b;font-size:13px}
+.search-person-details small,.search-post-author small{color:#9292a6;font-size:11px}
+.search-person-action{border:1px solid #e6e4f8;border-radius:10px;background:#f8f7ff;color:#6256d5;padding:8px 11px;font-size:12px}
+.search-person-action:hover{background:#efedff}
+.search-post{padding:15px}
+.search-post-body{font-size:13px;line-height:1.65;color:#45455b;overflow-wrap:anywhere}
+.youtube-result{display:flex;align-items:center;gap:12px;padding:10px;text-align:left;color:inherit;min-width:0}
+.youtube-result:hover{border-color:#d5d0fa;background:#fdfcff}
+.youtube-result img{width:112px;aspect-ratio:16/9;object-fit:cover;border-radius:9px;background:#f0f0f5;flex:none}
+.youtube-result span{display:flex;flex-direction:column;gap:6px;min-width:0}
+.youtube-result b{font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.youtube-result small{font-size:11px;color:#9292a6}
+.explore-load-more{justify-self:center;border:1px solid #e4e2f6;border-radius:999px;padding:9px 16px;background:#faf9ff;color:#6256d5;font-size:12px}
+@media(max-width:600px){.search-person{padding:10px}.youtube-result img{width:94px}.search-post{padding:12px}}
