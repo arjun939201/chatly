@@ -10,6 +10,7 @@ function Avatar({ person }) {
 
 export default function PublicProfile({ person, session, onBack, onOpenChats }) {
   const [posts, setPosts] = useState([]);
+  const [postsError, setPostsError] = useState(false);
   const [followers, setFollowers] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
@@ -24,7 +25,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
     const currentRequest = ++request.current;
     async function load() {
       if (!person?.id) { setLoading(false); return; }
-      setLoading(true); setNotice("");
+      setLoading(true); setNotice(""); setPostsError(false);
       const [postResult, followerResult, followingResult, relationResult] = await Promise.all([
         supabase.from("posts").select("id,body,created_at").eq("user_id", person.id).order("created_at", { ascending: false }).limit(100),
         supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", person.id),
@@ -35,6 +36,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
       const error = postResult.error || followerResult.error || followingResult.error || relationResult.error;
       if (error) setNotice("Some profile details could not be loaded. Please try again.");
       setPosts(postResult.data || []);
+      setPostsError(!!postResult.error);
       setFollowers(followerResult.count || 0);
       setFollowingCount(followingResult.count || 0);
       setIsFollowing(!!relationResult.data);
@@ -60,7 +62,7 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
     <button className="profile-back" type="button" onClick={onBack}><ArrowLeft size={17}/> Back</button>
     <div className="profile-hero"><Avatar person={person}/><div className="profile-identity"><h1>{person?.display_name || "Chatly user"}</h1><p>{person?.username ? "@" + person.username : "Chatly member"}</p>{person?.bio && <p className="profile-bio-text">{person.bio}</p>}<div className="profile-stats" aria-label="Profile statistics"><span><b>{posts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div>{loading && <p className="profile-loading-status" role="status">Loading profile details…</p>}<div className="profile-actions">{!ownProfile && <><button className="primary-button" type="button" disabled={busy || loading} onClick={toggleFollow}>{busy ? "Updating…" : loading ? "Loading…" : isFollowing ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" type="button" onClick={() => onOpenChats?.(person.id)}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
     <h2 className="profile-posts-title">Posts</h2>
-    {loading ? <p className="profile-empty">Loading posts…</p> : <div className="profile-post-grid">{posts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString() : "Recently"}</small></article>)}{!posts.length && <p className="profile-empty">No posts yet.</p>}</div>}
+    {loading ? <p className="profile-empty">Loading posts…</p> : postsError ? <p className="profile-empty" role="status">Could not load posts. Please try again.</p> : <div className="profile-post-grid">{posts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString() : "Recently"}</small></article>)}{!posts.length && <p className="profile-empty">No posts yet.</p>}</div>}
     {notice && <p className="search-notice" role="status">{notice}</p>}
   </section></main>;
 }
