@@ -2095,3 +2095,7 @@ img,video,iframe{max-width:100%}
 
 /* Prefer whitespace over ornamental destination separators */
 .destination-page hr,.search-page hr,.profile-page hr{display:none!important}.search-section-title,.account-options-label{border-bottom:0!important;padding-bottom:0!important}
+
+
+/* Compact settings rows while preserving tap targets */
+.settings-page .settings-accordion,.settings-page .settings-row{min-height:48px!important;padding:10px 12px!important}.settings-page .settings-section{margin:10px 0!important;padding:12px!important}.settings-page .account-options-label{margin:12px 0 6px!important}
