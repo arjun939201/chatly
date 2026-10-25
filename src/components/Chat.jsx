@@ -38,6 +38,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
   const [actionNotice, setActionNotice] = useState("");
+  const [realtimeStatus, setRealtimeStatus] = useState("connecting");
   const [filter, setFilter] = useState("all");
   const [archivedChats, setArchivedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-archived-chats-${session.user.id}`) || "[]"); } catch { return []; } });
   const [pinnedChats, setPinnedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-pinned-chats-${session.user.id}`) || "[]"); } catch { return []; } });
@@ -163,7 +164,12 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
           const fallback = recentMessages.find(item => item.id !== removed.id && (item.sender_id === active.id || item.recipient_id === active.id));
           return { ...current, [active.id]: fallback || null };
         });
-      }).subscribe();
+      }).subscribe(status => {
+        if (!alive) return;
+        if (status === "SUBSCRIBED") setRealtimeStatus("connected");
+        else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") setRealtimeStatus("reconnecting");
+        else if (status === "CLOSED") setRealtimeStatus("disconnected");
+      });
     return () => { alive = false; supabase.removeChannel(channel); };
   }, [active, session.user.id]);
 
@@ -354,7 +360,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     <section className="conversation">
       {active ? <>
         <header className="conversation-header"><button type="button" className="conversation-mute" aria-label={mutedChats.includes(active.id) ? "Unmute conversation" : "Mute conversation"} title={mutedChats.includes(active.id) ? "Unmute conversation" : "Mute conversation"} onClick={() => setMutedChats(current => current.includes(active.id) ? current.filter(id => id !== active.id) : [...current, active.id])}>{mutedChats.includes(active.id) ? <BellOff size={17}/> : <Bell size={17}/>}</button><button type="button" className="conversation-pin" aria-label={pinnedChats.includes(active.id) ? "Unpin conversation" : "Pin conversation"} title={pinnedChats.includes(active.id) ? "Unpin conversation" : "Pin conversation"} onClick={() => setPinnedChats(current => current.includes(active.id) ? current.filter(id => id !== active.id) : [...current, active.id])}><Pin size={17}/></button><button type="button" className="conversation-archive" aria-label={archivedChats.includes(active.id) ? "Unarchive conversation" : "Archive conversation"} title={archivedChats.includes(active.id) ? "Unarchive conversation" : "Archive conversation"} onClick={() => { setArchivedChats(current => current.includes(active.id) ? current.filter(id => id !== active.id) : [...current, active.id]); setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }}><Archive size={17}/></button><button className="conversation-close" onClick={() => { setDrafts(current => ({ ...current, [active.id]: draft })); setDraft(""); setActive(null); }} aria-label="Back to conversations" title="Back to conversations"><ArrowLeft size={18}/></button><span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${active.display_name || active.username || "member"} profile`} onClick={() => onOpenProfile?.(active)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onOpenProfile?.(active); } }}><Avatar person={active}/></span><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
-        <div className="message-list" ref={messageListRef}>
+        <div className="message-list" ref={messageListRef}>\n          {realtimeStatus !== "connected" && <div className="chat-realtime-status" role="status">{realtimeStatus === "connecting" ? "Connecting to live updates…" : realtimeStatus === "reconnecting" ? "Connection interrupted. Reconnecting to live updates…" : "Live updates disconnected. Messages may be delayed."}</div>}
           {hasOlderMessages && <button type="button" className="load-older-messages" onClick={loadOlderMessages} disabled={historyBusy}>{historyBusy ? "Loading…" : "Load older messages"}</button>}
           {messages.filter(m => !messageSearch.trim() || m.body.toLowerCase().includes(messageSearch.trim().toLowerCase())).map((m, index, filteredMessages) => {
             const previous = filteredMessages[index - 1];
