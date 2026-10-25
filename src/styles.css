@@ -119,3 +119,24 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
  .profile-lower-stats{padding:20px 5px}
 }
 @media(prefers-reduced-motion:reduce){button{transition:none}}
+
+/* Settings organization and full-app theme support */
+.app-shell.theme-light{--app-bg:#f5f5f8;--surface:#fff;--text:#17171d;--muted:#858591;--border:#e7e7ed;color:var(--text);background:var(--app-bg)}
+.app-shell.theme-dark{--app-bg:#141419;--surface:#202027;--text:#f4f4f7;--muted:#a5a5b2;--border:#34343d;color:var(--text);background:var(--app-bg)}
+.theme-dark .topbar,.theme-dark .bottom-tabs,.theme-dark .profile-dropdown,.theme-dark .profile-modal,.theme-dark .settings-section,.theme-dark .person-row,.theme-dark .composer,.theme-dark .search-results,.theme-dark .search-page-input,.theme-dark .post-card,.theme-dark .feed-composer,.theme-dark .feed-empty,.theme-dark .profile-edit-button{background:var(--surface);color:var(--text);border-color:var(--border)}
+.theme-dark .feed-page,.theme-dark .search-page,.theme-dark .notifications-page,.theme-dark .profile-page,.theme-dark .message-list,.theme-dark .settings-home{background:var(--app-bg);color:var(--text)}
+.theme-dark .profile-page-head,.theme-dark .notifications-page>header,.theme-dark .conversation-header,.theme-dark .composer{border-color:var(--border)}
+.theme-dark .profile-bio,.theme-dark .profile-counts b,.theme-dark .profile-page-head h2,.theme-dark .post-body,.theme-dark .post-author b,.theme-dark .search-person b,.theme-dark .notifications-empty h3{color:var(--text)}
+.theme-dark .profile-dropdown button,.theme-dark .create-menu,.theme-dark .create-menu button{background:var(--surface);color:var(--text)}
+.theme-dark .bubble{background:#30303a;color:var(--text)}.theme-dark .mine .bubble{background:#6757e8;color:#fff}
+.theme-dark .composer input,.theme-dark .search-page-input input,.theme-dark .profile-form input,.theme-dark .profile-form textarea,.theme-dark .password-form input,.theme-dark .appearance-settings select{background:#292932;color:var(--text);border-color:var(--border)}
+.theme-dark .bottom-tabs button.active{color:#f4f4f7}.theme-dark .bottom-tabs button:hover{background:#2a2a33}
+.settings-section{padding:17px 0;border-bottom:1px solid var(--border)}
+.settings-section-heading{display:flex;align-items:center;gap:11px;margin-bottom:15px}
+.settings-section-icon{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:#f0edff;color:#6757e8}
+.settings-section-heading h3{font-size:14px;margin:0 0 4px;color:var(--text)}
+.settings-section-heading p{font-size:11px;color:var(--muted);margin:0}
+.appearance-settings select{width:100%;margin-top:8px;border:1px solid var(--border);border-radius:10px;padding:11px;background:var(--surface);color:var(--text);font:inherit;font-size:13px}
+.profile-modal{background:var(--surface);color:var(--text);border-color:var(--border)}
+.theme-dark .profile-modal .modal-header,.theme-dark .profile-modal .profile-form label,.theme-dark .profile-modal .password-form label{color:var(--text)}
+.theme-dark .profile-modal .icon-button,.theme-dark .profile-modal .secondary-button{background:#30303a;color:var(--text);border-color:var(--border)}

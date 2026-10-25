@@ -16,7 +16,16 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [tab, setTab] = useState("feed");
   const [theme, setTheme] = useState(() => localStorage.getItem("chatly-theme") || "system");
-  useEffect(() => { localStorage.setItem("chatly-theme", theme); }, [theme]);
+  const [systemDark, setSystemDark] = useState(() => window.matchMedia?.("(prefers-color-scheme: dark)").matches || false);
+  useEffect(() => {
+    localStorage.setItem("chatly-theme", theme);
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const update = () => setSystemDark(media.matches);
+    update();
+    media.addEventListener?.("change", update);
+    return () => media.removeEventListener?.("change", update);
+  }, [theme]);
+  const effectiveTheme = theme === "system" ? (systemDark ? "dark" : "light") : theme;
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
   const [chatTarget, setChatTarget] = useState(null);
@@ -119,7 +128,7 @@ export default function App() {
   if (loading) return <main className="loading">Loading Chatly…</main>;
   if (!session) return <Auth />;
 
-  return <div className={`app-shell theme-${theme}`} style={theme === "dark" ? { colorScheme: "dark", background: "#141419", color: "#f4f4f7", "--app-bg": "#141419", "--surface": "#202027", "--text": "#f4f4f7", "--muted": "#a5a5b2", "--border": "#34343d" } : { colorScheme: "light", "--app-bg": "#f5f5f7", "--surface": "#ffffff", "--text": "#17171b", "--muted": "#888894", "--border": "#e4e4e9" }}>
+  return <div className={`app-shell theme-${effectiveTheme}`} style={effectiveTheme === "dark" ? { colorScheme: "dark", background: "#141419", color: "#f4f4f7", "--app-bg": "#141419", "--surface": "#202027", "--text": "#f4f4f7", "--muted": "#a5a5b2", "--border": "#34343d" } : { colorScheme: "light", "--app-bg": "#f5f5f7", "--surface": "#ffffff", "--text": "#17171b", "--muted": "#888894", "--border": "#e4e4e9" }}>
     {tab === "feed" && <header className="topbar">
       <div className="brand">chatly</div>
       <button className="header-notifications" aria-label="Notifications" onClick={() => setTab("notifications")}><Bell size={24}/></button>
@@ -136,7 +145,7 @@ export default function App() {
     {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
       <section className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
         <header className="modal-header"><div><h2 id="profile-title">Settings</h2><p>Manage your Chatly account and appearance</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
-        <section className="appearance-settings"><h3>Appearance</h3><label>Theme<select value={theme} onChange={e => setTheme(e.target.value)}><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><p className="field-hint">Your selection is saved on this device.</p></section>\n        <form onSubmit={saveProfile} className="profile-form">
+        <section className="appearance-settings settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><Settings size={17}/></span><div><h3>Appearance</h3><p>Make Chatly feel right for you.</p></div></div><label>Theme<select value={theme} onChange={e => setTheme(e.target.value)}><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><p className="field-hint">System default follows your device setting. Your choice is saved on this device.</p></section>\n        <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><Users size={17}/></span><div><h3>Profile</h3><p>How people see you on Chatly.</p></div></div><form onSubmit={saveProfile} className="profile-form">
           <div className="avatar-editor">
             <span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span>
             <label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label>
@@ -146,12 +155,12 @@ export default function App() {
           <label>Bio <span className="field-hint">Up to 160 characters</span><textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
           <label>Email address<input value={session.user.email || ""} readOnly/></label>
           <button className="primary-button" disabled={saving}>{saving ? "Saving…" : <><Save size={16}/> Save profile</>}</button>
-        </form>
-        <form className="password-form" onSubmit={setNewPassword}>
+        </form></section>
+        <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><KeyRound size={17}/></span><div><h3>Account security</h3><p>Manage your sign-in details.</p></div></div><form className="password-form" onSubmit={setNewPassword}>
           <h3><KeyRound size={16}/> Optional password</h3><p>Set a password if you'd like another way to sign in.</p>
           <label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters"/></label>
           <button className="secondary-button" disabled={!password}>Set password</button>
-        </form>
+        </form></section>
         <button type="button" className="logout-settings modal-logout" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out of Chatly</button>
         {notice && <p className="form-message">{notice}</p>}
       </section>
