@@ -11,7 +11,7 @@ function relativeTime(value) {
   return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
-export default function NotificationsDestination({ session }) {
+export default function NotificationsDestination({ session, onOpenProfile }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -112,7 +112,7 @@ export default function NotificationsDestination({ session }) {
                 return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
-                    <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
+                    <p><button type="button" className="notification-actor-link" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id}>{actorName}</button>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
                     {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}
                     {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
