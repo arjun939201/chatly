@@ -46,7 +46,10 @@ export default function App() {
     return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
-  const [chatTarget, setChatTarget] = useState(null);\n  const [globalVideo, setGlobalVideo] = useState(null);\n  const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);\n  const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
+  const [chatTarget, setChatTarget] = useState(null);
+  const [globalVideo, setGlobalVideo] = useState(null);
+  const [globalPlayerMinimized, setGlobalPlayerMinimized] = useState(false);
+  const [globalPlayerPosition, setGlobalPlayerPosition] = useState(null);
   function openChat(targetId) {
     setChatTarget(targetId || null);
     setTab("chats");
