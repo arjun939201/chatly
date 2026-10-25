@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Bell, Heart, MessageCircle, RefreshCw, UserPlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -16,7 +16,7 @@ export default function NotificationsDestination({ session }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
-  const [visibleCount, setVisibleCount] = useState(20);
+  const [visibleCount, setVisibleCount] = useState(20);\n  const [unreadOnly, setUnreadOnly] = useState(false);
 
   const loadNotifications = useCallback(async () => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
@@ -103,10 +103,10 @@ export default function NotificationsDestination({ session }) {
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
             <div className="notification-activity-list">
-              {items.filter(item => filter === "all" || item.type === filter).slice(0, visibleCount).map(item => {
+              {filteredItems.slice(0, visibleCount).map((item, index) => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
                 const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
-                return <article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
+                const previous = filteredItems[index - 1];\n                const showDate = !previous || dateLabel(previous.created_at || previous.post?.created_at) !== dateLabel(item.created_at || item.post?.created_at);\n                return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
                     <p><strong>{actorName}</strong>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
