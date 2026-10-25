@@ -43,6 +43,7 @@ export default function SettingsDestination({ onSubpageChange = () => {}, theme 
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [deleteInfoOpen, setDeleteInfoOpen] = useState(false);
   const [message, setMessage] = useState("");
+  useEffect(() => { if (!logoutOpen && !deleteInfoOpen) return undefined; const onKeyDown = event => { if (event.key === "Escape") { setLogoutOpen(false); setDeleteInfoOpen(false); } }; window.addEventListener("keydown", onKeyDown); return () => window.removeEventListener("keydown", onKeyDown); }, [logoutOpen, deleteInfoOpen]);
   const title = groups.flatMap(group => group.items).find(item => item.id === view)?.title || "Settings";
   const preferenceDefaults = { readReceipts: true, privateProfile: false, messageRequests: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, enterToSend: false, mediaPreview: true, autoDownloadMedia: true };
   const safePrefs = { ...preferenceDefaults, ...(chatPrefs || {}) };\n  const pref = (key, value) => setChatPrefs(current => ({ ...preferenceDefaults, ...(current || {}), [key]: value }));
