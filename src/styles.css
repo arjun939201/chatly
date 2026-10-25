@@ -2143,3 +2143,7 @@ button:disabled,[role=button][aria-disabled=true]{opacity:.55;cursor:not-allowed
 
 /* Global box sizing and surface tokens */
 *,*::before,*::after{box-sizing:border-box}:root{--chatly-page-gutter:clamp(12px,3vw,24px);--chatly-content-width:720px;--chatly-surface:#fff;--chatly-border:#e7e7ef;--chatly-radius:14px}.feed-column,.search-people{width:min(var(--chatly-content-width),100%)}
+
+
+/* Status and empty content share centered, readable spacing */
+.feed-empty{padding:32px 20px}.feed-empty p{max-width:36ch}.feed-empty h3{line-height:1.35}.feed-notice{font-size:13px}.feed-loading-state{min-width:0}
