@@ -3067,3 +3067,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .search-page .youtube-result{height:100%;min-height:82px}
 .search-page .youtube-result img{aspect-ratio:16/9;height:auto}
 @media(min-width:900px){.search-page .youtube-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Explore UI pass 19 — theme-aware card and result states */
+.theme-dark .search-page .search-person,.theme-dark .search-page .search-post,.theme-dark .search-page .explore-home-post,.theme-dark .search-page .explore-topic-discovery,.theme-dark .search-page .youtube-result{border-color:var(--border,#343443);background:var(--surface,#22222d);color:var(--text,#eeeef5)}
+.theme-dark .search-page .search-person-details b,.theme-dark .search-page .search-post-author b,.theme-dark .search-page .search-post-body,.theme-dark .search-page .explore-home-post p,.theme-dark .search-page .explore-home-post-author{color:var(--text,#eeeef5)}
+.theme-dark .search-page .search-kind-tabs button{border-color:var(--border,#343443);background:var(--surface,#22222d);color:var(--muted,#aaaabd)}
+.theme-dark .search-page .search-kind-tabs button.active{border-color:var(--chatly-brand,#9186ff);background:var(--chatly-brand-soft,#302b50);color:var(--chatly-brand,#b5adff)}
