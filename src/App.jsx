@@ -14,7 +14,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [configError, setConfigError] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState("feed");\n  const [chatTarget, setChatTarget] = useState(null);\n  function openChat(targetId) { setChatTarget(targetId || null); setTab("chats"); }
+  const [tab, setTab] = useState("feed");
+  const [chatTarget, setChatTarget] = useState(null);
+  function openChat(targetId) {
+    setChatTarget(targetId || null);
+    setTab("chats");
+  }
   const [form, setForm] = useState(initialProfile);
   const [avatarFile, setAvatarFile] = useState(null);
   const [saving, setSaving] = useState(false);
