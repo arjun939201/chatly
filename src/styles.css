@@ -2055,3 +2055,7 @@ img,video,iframe{max-width:100%}
 
 /* Notifications: collapse the large hero card and activity gap */
 .notification-destination-page .destination-page-header{display:flex!important;align-items:center;gap:10px;margin-bottom:8px!important}.notification-destination-page .settings-section{margin-top:8px!important}.notification-destination-page .account-options-label{margin:10px 0 6px!important;padding:0!important}.notification-destination-page .notifications-empty{min-height:180px!important;padding:20px!important}
+
+
+/* Settings: tighten accordion sections and remove excess top whitespace */
+.settings-page{padding-top:8px!important}.settings-page .settings-section{margin:12px 0!important;padding-top:0!important}.settings-page .account-options-label{margin:14px 0 6px!important;padding-bottom:5px!important}.settings-page .destination-page-header{margin-bottom:12px!important}
