@@ -7,7 +7,7 @@ function Avatar({ person, className = "" }) {
   return <span className={`avatar ${className}`}>{person?.avatar_url ? <img src={person.avatar_url} alt=""/> : label}</span>;
 }
 
-export default function Chat({ session, profile, targetId, onBackToFeed }) {
+export default function Chat({ session, profile, targetId, enterToSend = true, onBackToFeed }) {
   const [people, setPeople] = useState([]);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
@@ -103,7 +103,7 @@ export default function Chat({ session, profile, targetId, onBackToFeed }) {
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
         </div>
-        <form className="composer" onSubmit={sendMessage}><input value={draft} onChange={e => setDraft(e.target.value)} placeholder="Write a message…" maxLength={4000}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
+        <form className="composer" onSubmit={sendMessage}><textarea value={draft} onChange={e => setDraft(e.target.value)} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && enterToSend) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }} placeholder={enterToSend ? "Write a message… (Shift+Enter for new line)" : "Write a message…"} maxLength={4000} rows={1}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     </section>
