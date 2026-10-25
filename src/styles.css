@@ -3285,3 +3285,41 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .feed-page .post-timestamp-popup{position:absolute;z-index:20;top:calc(100% + 8px);left:0;width:max-content;max-width:min(300px,calc(100vw - 40px));padding:9px 12px;border:1px solid var(--border,#e5e4ef);border-radius:10px;background:var(--surface,#fff);color:var(--text,#35354b);font-size:11px;font-weight:550;line-height:1.5;white-space:normal;box-shadow:0 8px 24px rgba(30,27,65,.12);}
 @media(max-width:600px){.feed-page .post-timestamp{font-size:10px}.feed-page .post-timestamp-popup{max-width:calc(100vw - 48px);}}
 @media(prefers-reduced-motion:reduce){.feed-page .post-timestamp{transition:none}}
+
+
+/* Feed post menu: clear, differentiated edit and destructive delete actions */
+.feed-page .post-options-menu button:has(+ .post-delete-option){
+  color:var(--chatly-brand,#6256d5);
+  font-weight:650;
+  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 5%,var(--surface,#fff));
+}
+.feed-page .post-options-menu button:has(+ .post-delete-option):hover{
+  color:var(--chatly-brand,#5145c7);
+  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 11%,var(--surface,#fff));
+}
+.feed-page .post-options-menu .post-delete-option{
+  color:#c23d50;
+  font-weight:650;
+  background:transparent;
+}
+.feed-page .post-options-menu .post-delete-option svg{flex:none;color:currentColor}
+.feed-page .post-options-menu .post-delete-option:hover:not(:disabled){
+  color:#a9273b;
+  background:#fff0f2;
+}
+.feed-page .post-options-menu .post-delete-option:disabled{
+  opacity:.6;
+  cursor:wait;
+}
+.feed-page .post-options-menu button:has(+ .post-delete-option):focus-visible{
+  outline:2px solid color-mix(in srgb,var(--chatly-brand,#6757e8) 65%,transparent);
+  outline-offset:-2px;
+}
+.feed-page .post-options-menu .post-delete-option:focus-visible{
+  outline:2px solid #e69aa5;
+  outline-offset:-2px;
+}
+@media(prefers-reduced-motion:reduce){
+  .feed-page .post-options-menu button:has(+ .post-delete-option),
+  .feed-page .post-options-menu .post-delete-option{transition:none!important}
+}
