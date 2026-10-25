@@ -1735,3 +1735,17 @@ img,video,iframe{max-width:100%}
 .search-page .search-result p{margin:3px 0 0;color:var(--muted,#858597);font-size:12px;line-height:1.5}
 .search-page .search-empty{padding:34px 20px;text-align:center;color:var(--muted,#858597)}
 @media(max-width:600px){.search-page{padding:16px 12px 90px}.search-page .search-input-wrap{border-radius:14px}}
+
+
+/* Messaging component — legible message rhythm and delivery affordance */
+.chat-window{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--surface,#fff)}
+.chat-window .chat-header{flex:0 0 auto;display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border,#e7e7ef);background:var(--surface,#fff)}
+.chat-window .messages-list{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:18px 16px;scrollbar-width:thin}
+.chat-window .message-row{display:flex;align-items:flex-end;gap:8px;margin:0 0 12px;min-width:0}
+.chat-window .message-bubble{max-width:min(78%,520px);padding:10px 13px;border-radius:16px;background:var(--app-bg,#f4f4f8);overflow-wrap:anywhere;line-height:1.55;font-size:13px}
+.chat-window .message-row-own{justify-content:flex-end}
+.chat-window .message-row-own .message-bubble{border-radius:16px 16px 4px 16px;background:color-mix(in srgb,#8172e9 13%,var(--surface,#fff));color:var(--text,#24243a)}
+.chat-window .message-time{display:block;margin-top:5px;font-size:10px;color:var(--muted,#858597);text-align:right}
+.chat-window .message-composer{flex:0 0 auto;display:flex;align-items:flex-end;gap:9px;padding:12px;border-top:1px solid var(--border,#e7e7ef);background:var(--surface,#fff)}
+.chat-window .message-composer textarea{flex:1;min-width:0;max-height:130px;resize:vertical;border-radius:16px;padding:11px 13px}
+@media(max-width:600px){.chat-window .messages-list{padding:14px 11px}.chat-window .message-bubble{max-width:86%}.chat-window .chat-header{padding:11px 12px}}
