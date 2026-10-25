@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy, Archive, Pin, Bell, BellOff } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy, Archive, Pin, Bell, BellOff, Pencil, Check } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -31,7 +31,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [messageSearch, setMessageSearch] = useState("");
   const [historyBusy, setHistoryBusy] = useState(false);
   const [hasOlderMessages, setHasOlderMessages] = useState(false);
-  const [replyTo, setReplyTo] = useState(null);
+  const [replyTo, setReplyTo] = useState(null);\n  const [editingMessageId, setEditingMessageId] = useState(null);\n  const [editDraft, setEditDraft] = useState("");
   const [sendBusy, setSendBusy] = useState(false);
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
@@ -243,6 +243,38 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     }
   }
 
+  function beginEdit(message) {
+    if (message.sender_id !== session.user.id || message._pending) return;
+    setEditingMessageId(message.id);
+    setEditDraft(message.body);
+    setError("");
+  }
+
+  function cancelEdit() {
+    setEditingMessageId(null);
+    setEditDraft("");
+  }
+
+  async function saveEdit(message) {
+    const body = editDraft.trim();
+    if (!body) return;
+    if (body === message.body) { cancelEdit(); return; }
+    if (messageActionBusy) return;
+    setMessageActionBusy(message.id);
+    setError("");
+    const { data, error: updateError } = await supabase.from("messages")
+      .update({ body, edited_at: new Date().toISOString() })
+      .eq("id", message.id).eq("sender_id", session.user.id).select("*").single();
+    if (updateError) setError(updateError.message || "Could not edit message.");
+    else {
+      setMessages(current => current.map(item => item.id === message.id ? { ...item, ...data } : item));
+      setRecentMessages(current => current.map(item => item.id === message.id ? { ...item, ...data } : item));
+      setLastMessages(current => Object.fromEntries(Object.entries(current).map(([peer, item]) => [peer, item?.id === message.id ? { ...item, ...data } : item])));
+      cancelEdit();
+    }
+    setMessageActionBusy(null);
+  }
+
   async function deleteMessage(message) {
     if (message.sender_id !== session.user.id || messageActionBusy) return;
     if (!window.confirm("Delete this message?")) return;
@@ -299,7 +331,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
             const previousDate = previous ? new Date(previous.created_at) : null;
             const validDate = !Number.isNaN(currentDate.getTime());
             const startsNewDay = validDate && (!previousDate || Number.isNaN(previousDate.getTime()) || currentDate.toDateString() !== previousDate.toDateString());
-            return <React.Fragment key={m.id}>{startsNewDay && <div className="message-date-separator" role="separator"><span>{currentDate.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric", year: currentDate.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined })}</span></div>}<div id={`message-${m.id}`} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.reply_to && <button type="button" className="message-reply-preview" aria-label="Jump to replied message" title="Jump to replied message" onClick={() => { const original = document.getElementById(`message-${m.reply_to}`); if (original) { original.scrollIntoView({ behavior: "smooth", block: "center" }); original.classList.add("message-reply-target"); window.setTimeout(() => original.classList.remove("message-reply-target"), 1400); } else { setError("That original message is not loaded in this conversation."); } }}><span>Replying to</span><p>{messages.find(item => item.id === m.reply_to)?.body || "Original message"}</p></button>}{m.body}<time dateTime={m.created_at} title={formatMessageDateTime(m.created_at)}>{formatMessageTime(m.created_at)}{m.sender_id === session.user.id && m.read_at && <span className="message-read-receipt" title="Read"> · Read</span>}{m.sender_id === session.user.id && !m.read_at && m.delivered_at && <span className="message-delivery-status" title="Delivered"> · Delivered</span>}{m.sender_id === session.user.id && m._pending && <span className="message-delivery-status" title="Sending"> · Sending</span>}</time><button type="button" className="message-copy" aria-label="Copy message" title="Copy message" onClick={async () => { try { await navigator.clipboard.writeText(m.body); } catch { setError("Could not copy message. Check clipboard permissions."); } }}><Copy size={13}/></button><button type="button" className="message-reply" aria-label="Reply to message" title="Reply to message" onClick={() => { setReplyTo(m); document.querySelector(".composer textarea")?.focus(); }}><Reply size={13}/></button>{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div></React.Fragment>;
+            return <React.Fragment key={m.id}>{startsNewDay && <div className="message-date-separator" role="separator"><span>{currentDate.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric", year: currentDate.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined })}</span></div>}<div id={`message-${m.id}`} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.reply_to && <button type="button" className="message-reply-preview" aria-label="Jump to replied message" title="Jump to replied message" onClick={() => { const original = document.getElementById(`message-${m.reply_to}`); if (original) { original.scrollIntoView({ behavior: "smooth", block: "center" }); original.classList.add("message-reply-target"); window.setTimeout(() => original.classList.remove("message-reply-target"), 1400); } else { setError("That original message is not loaded in this conversation."); } }}><span>Replying to</span><p>{messages.find(item => item.id === m.reply_to)?.body || "Original message"}</p></button>}{editingMessageId === m.id ? <div className="message-edit-form"><textarea aria-label="Edit message" value={editDraft} maxLength={4000} onChange={event => setEditDraft(event.target.value)} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); saveEdit(m); } if (event.key === "Escape") cancelEdit(); }}/><div><button type="button" onClick={cancelEdit}>Cancel</button><button type="button" disabled={!editDraft.trim() || messageActionBusy === m.id} onClick={() => saveEdit(m)}><Check size={13}/> Save</button></div></div> : <>{m.body}{m.edited_at && <span className="message-edited-label" title={formatMessageDateTime(m.edited_at)}> (edited)</span>}</>}<time dateTime={m.created_at} title={formatMessageDateTime(m.created_at)}>{formatMessageTime(m.created_at)}{m.sender_id === session.user.id && m.read_at && <span className="message-read-receipt" title="Read"> · Read</span>}{m.sender_id === session.user.id && !m.read_at && m.delivered_at && <span className="message-delivery-status" title="Delivered"> · Delivered</span>}{m.sender_id === session.user.id && m._pending && <span className="message-delivery-status" title="Sending"> · Sending</span>}</time><button type="button" className="message-copy" aria-label="Copy message" title="Copy message" onClick={async () => { try { await navigator.clipboard.writeText(m.body); } catch { setError("Could not copy message. Check clipboard permissions."); } }}><Copy size={13}/></button><button type="button" className="message-reply" aria-label="Reply to message" title="Reply to message" onClick={() => { setReplyTo(m); document.querySelector(".composer textarea")?.focus(); }}><Reply size={13}/></button>{m.sender_id === session.user.id && !m._pending && editingMessageId !== m.id && <button type="button" className="message-edit" aria-label="Edit message" title="Edit message" disabled={messageActionBusy === m.id} onClick={() => beginEdit(m)}><Pencil size={13}/></button>}{m.sender_id === session.user.id && <button type="button" className="message-delete" aria-label="Delete message" title="Delete message" disabled={messageActionBusy === m.id} onClick={() => deleteMessage(m)}><Trash2 size={13}/></button>}</div></div></React.Fragment>;
           })}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
