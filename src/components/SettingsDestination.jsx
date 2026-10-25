@@ -50,6 +50,6 @@ export default function SettingsDestination({effectiveTheme,setTheme,fontSize,se
           <p className="settings-note">Preferences are stored on this device. Server-enforced privacy controls need matching backend support.</p>
         </div>}
       </section>
-    </section>}
+    </section>
   );
 }
