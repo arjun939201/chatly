@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useExploreData, useExploreResults } from "./explore/useExploreData";
+import { useExploreData } from "./explore/useExploreData";
 import { useYouTubeSearch } from "./explore/useYouTubeSearch";
 import { ExploreCategoryTabs, ExploreSearchInput, ExploreSearchPrompt } from "./explore/ExploreSearchControls";
 import { PeopleResults, PostResults, RoomsResults, YouTubeResults } from "./explore/ExploreResultSections";
