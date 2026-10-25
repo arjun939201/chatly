@@ -3806,3 +3806,73 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   .chat-layout .conversation-header .conversation-archive { min-width:29px; width:29px; height:30px; }
   .chat-layout .message .bubble { padding:9px 11px; font-size:13px; }
 }
+
+
+/* Message action order: keep text and metadata clean; group actions in a toolbar */
+.chat-layout .message .bubble { position:relative; }
+.chat-layout .message .bubble > .message-copy,
+.chat-layout .message .bubble > .message-reply,
+.chat-layout .message .bubble > .message-edit,
+.chat-layout .message .bubble > .message-delete {
+  position:absolute;
+  top:-39px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:30px;
+  min-width:30px;
+  height:30px;
+  min-height:30px;
+  margin:0;
+  padding:0;
+  border:1px solid #e6e4ef;
+  border-radius:8px;
+  background:#fff;
+  color:#66647c;
+  box-shadow:0 3px 10px rgba(35,30,75,.09);
+  opacity:0;
+  pointer-events:none;
+  z-index:3;
+  transition:opacity .14s ease,background .14s ease,color .14s ease;
+}
+.chat-layout .message .bubble > .message-copy { right:102px; }
+.chat-layout .message .bubble > .message-reply { right:68px; }
+.chat-layout .message .bubble > .message-edit { right:34px; }
+.chat-layout .message .bubble > .message-delete { right:0; }
+.chat-layout .message.theirs .bubble > .message-edit,
+.chat-layout .message.theirs .bubble > .message-delete { display:none; }
+.chat-layout .message:hover .bubble > button,
+.chat-layout .message:focus-within .bubble > button {
+  opacity:1;
+  pointer-events:auto;
+}
+.chat-layout .message .bubble > button:hover {
+  background:#f1efff;
+  color:#5545d5;
+}
+.chat-layout .message .bubble > .message-delete:hover {
+  background:#fff0f2;
+  color:#c13e50;
+}
+.chat-layout .message .bubble > button:focus-visible {
+  outline:2px solid #8c80f3;
+  outline-offset:2px;
+}
+@media(hover:none), (max-width:700px) {
+  .chat-layout .message .bubble { margin-top:35px; }
+  .chat-layout .message .bubble > button {
+    opacity:1;
+    pointer-events:auto;
+    top:-33px;
+    width:27px;
+    min-width:27px;
+    height:27px;
+    min-height:27px;
+  }
+  .chat-layout .message .bubble > .message-copy { right:90px; }
+  .chat-layout .message .bubble > .message-reply { right:60px; }
+  .chat-layout .message .bubble > .message-edit { right:30px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .chat-layout .message .bubble > button { transition:none; }
+}
