@@ -2071,3 +2071,7 @@ img,video,iframe{max-width:100%}
 
 /* All destination pages: remove horizontal overflow and lift content */
 @media(max-width:760px){.destination-page{padding:8px 12px!important}.search-page,.profile-page{padding-top:0!important}.search-people,.profile-view{margin-top:0!important}.notification-destination-page .notifications-empty{min-height:160px!important}.chat-layout{margin:4px auto!important;height:calc(100dvh - 76px)!important;width:calc(100% - 12px)!important}}
+
+
+/* Global spacing rhythm */
+:root{--space-page:clamp(12px,2.4vw,24px);--space-section:16px;--space-control:10px;--radius-card:14px;--radius-control:10px}.destination-page,.search-page,.profile-page{padding-inline:var(--space-page)}
