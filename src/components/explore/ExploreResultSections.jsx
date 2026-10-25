@@ -87,8 +87,8 @@ export function YouTubeResults({ videos, loading, error, onPlayVideo }) {
     <h2 className="search-section-title"><Youtube size={17} /> Songs on YouTube</h2>
     <div className="youtube-results">
       {loading ? <p role="status">Searching YouTube…</p> : error ? <p role="alert">{error}</p> : videos.length ? videos.map(video => <button className="youtube-result" type="button" key={video.id.videoId} onClick={() => onPlayVideo?.(video)}>
-        <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url} alt="" />
-        <span><b>{video.snippet.title}</b><small>{video.snippet.channelTitle}</small></span>
+        <img src={video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url || ""} alt="" />
+        <span><b>{video?.snippet?.title || "Untitled video"}</b><small>{video?.snippet?.channelTitle || "YouTube"}</small></span>
       </button>) : <p>No YouTube videos found.</p>}
     </div>
   </section>;
