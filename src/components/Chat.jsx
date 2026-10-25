@@ -37,6 +37,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [sendBusy, setSendBusy] = useState(false);
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
+  const [actionNotice, setActionNotice] = useState("");
   const [filter, setFilter] = useState("all");
   const [archivedChats, setArchivedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-archived-chats-${session.user.id}`) || "[]"); } catch { return []; } });
   const [pinnedChats, setPinnedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-pinned-chats-${session.user.id}`) || "[]"); } catch { return []; } });
@@ -279,12 +280,19 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
 
   async function deleteMessage(message) {
     if (message.sender_id !== session.user.id || messageActionBusy) return;
-    if (!window.confirm("Delete this message?")) return;
+    if (!window.confirm("Delete this message? This cannot be undone.")) return;
     setMessageActionBusy(message.id);
     setError("");
+    setActionNotice("");
     const { error: deleteError } = await supabase.from("messages").delete().eq("id", message.id).eq("sender_id", session.user.id);
-    if (deleteError) setError(deleteError.message || "Could not delete message.");
-    else setMessages(current => current.filter(item => item.id !== message.id));
+    if (deleteError) {
+      setError(deleteError.message || "Could not delete message. Please try again.");
+    } else {
+      setMessages(current => current.filter(item => item.id !== message.id));
+      setRecentMessages(current => current.filter(item => item.id !== message.id));
+      setLastMessages(current => Object.fromEntries(Object.entries(current).map(([peer, item]) => [peer, item?.id === message.id ? null : item])));
+      setActionNotice("Message deleted.");
+    }
     setMessageActionBusy(null);
   }
 
@@ -340,7 +348,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
         </div>
         <div className="chat-message-search"><Search size={15}/><input aria-label="Search messages in this chat" placeholder="Search in conversation" value={messageSearch} onChange={e => setMessageSearch(e.target.value)}/></div><form className="composer" onSubmit={sendMessage}>{replyTo && <div className="composer-reply-preview"><div><strong>Replying to {replyTo.sender_id === session.user.id ? "yourself" : (active.display_name || active.username || "user")}</strong><span>{replyTo.body}</span></div><button type="button" aria-label="Cancel reply" onClick={() => setReplyTo(null)}><X size={16}/></button></div>}<textarea aria-label="Message" value={draft} onChange={e => { setDraft(e.target.value); if (active) setDrafts(current => ({ ...current, [active.id]: e.target.value })); }} onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey && enterToSend) { e.preventDefault(); e.currentTarget.form?.requestSubmit(); } }} placeholder={enterToSend ? "Write a message… (Shift+Enter for new line)" : "Write a message…"} maxLength={4000} rows={1}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
-      {error && <div className="error-banner">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
+      {error && <div className="error-banner" role="alert">{error}<button onClick={() => setError("")}>Dismiss</button></div>}{actionNotice && <div className="chat-action-notice" role="status">{actionNotice}<button type="button" aria-label="Dismiss notification" onClick={() => setActionNotice("")}><X size={14}/></button></div>}
     </section>
   </main>;
 }
