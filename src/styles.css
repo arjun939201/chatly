@@ -2949,3 +2949,28 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   outline-offset: 2px;
 }
 
+
+
+/* Explore UI pass 9: calm, consistent messaging for result states. */
+.search-page .explore-home-status,
+.search-page .search-results > p[role="status"],
+.search-page .search-results > p[role="alert"],
+.search-page .youtube-results > p[role="status"],
+.search-page .youtube-results > p[role="alert"] {
+  margin: 0;
+  padding: 15px 16px;
+  border: 1px dashed var(--border, #e4e3ed);
+  border-radius: 12px;
+  background: var(--app-bg, #faf9fd);
+  color: var(--muted, #77778d);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.search-page .explore-home-status button {
+  margin-left: 8px;
+  border: 0;
+  background: transparent;
+  color: var(--chatly-brand, #6757e8);
+  font-weight: 700;
+}
+
