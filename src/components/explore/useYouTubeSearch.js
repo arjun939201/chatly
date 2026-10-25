@@ -46,7 +46,7 @@ export function useYouTubeSearch(query, category) {
           "https://www.googleapis.com/youtube/v3/search?" + params.toString(),
           { signal: controller.signal }
         );
-        const data = await response.json();
+        let data;\n        try {\n          data = await response.json();\n        } catch {\n          throw new Error("YouTube returned an unreadable response.");\n        }
 
         if (!response.ok) {
           throw new Error(data.error?.message || "YouTube search failed.");
