@@ -20,7 +20,7 @@ function Toggle({ title, detail, checked, onChange }) {
   return <label className="st-pref-row"><span><strong>{title}</strong><small>{detail}</small></span><input type="checkbox" checked={Boolean(checked)} onChange={e => onChange(e.target.checked)} /></label>;
 }
 
-export default function SettingsDestination({ setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
+export default function SettingsDestination({ onSubpageChange = () => {}, setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
   const [view, setView] = useState("home");
   const [emailOpen, setEmailOpen] = useState(false);
   const [passwordOpen, setPasswordOpen] = useState(false);
@@ -29,7 +29,7 @@ export default function SettingsDestination({ setTheme, fontSize, setFontSize, f
   const [message, setMessage] = useState("");
   const title = groups.flatMap(group => group.items).find(item => item.id === view)?.title || "Settings";
   const pref = (key, value) => setChatPrefs(current => ({ ...current, [key]: value }));
-  const back = () => { setView("home"); setMessage(""); setNotice(""); };
+  const back = () => { setView("home"); onSubpageChange(false); setMessage(""); setNotice(""); };
 
   function detailContent() {
     if (view === "account") return <>
@@ -61,7 +61,7 @@ export default function SettingsDestination({ setTheme, fontSize, setFontSize, f
   return <section className="destination-page settings-page app-settings-destination-page st-settings">
     {view === "home" ? <>
       <header className="st-intro"><span>PERSONALIZE YOUR EXPERIENCE</span><h1>Settings</h1><p>Make Chatly feel like yours.</p></header>
-      {groups.map(group => <section className="st-group" key={group.label}><h2>{group.label}</h2><div className="st-nav-card">{group.items.map(({id,title,detail,Icon}) => <button key={id} className="st-nav-row" onClick={() => { setView(id); setNotice(""); setMessage(""); }}><span className="st-icon"><Icon/></span><span className="st-nav-copy"><strong>{title}</strong><small>{detail}</small></span><ChevronRight className="st-chevron"/></button>)}</div></section>)}
+      {groups.map(group => <section className="st-group" key={group.label}><h2>{group.label}</h2><div className="st-nav-card">{group.items.map(({id,title,detail,Icon}) => <button key={id} className="st-nav-row" onClick={() => { setView(id); onSubpageChange(true); setNotice(""); setMessage(""); }}><span className="st-icon"><Icon/></span><span className="st-nav-copy"><strong>{title}</strong><small>{detail}</small></span><ChevronRight className="st-chevron"/></button>)}</div></section>)}
       <div className="st-nav-card st-actions"><button className="st-nav-row st-logout" onClick={() => setLogoutOpen(true)}><span className="st-icon"><LogOut/></span><span className="st-nav-copy"><strong>Log out</strong><small>Sign out of your Chatly account</small></span><ChevronRight/></button><button className="st-nav-row st-danger" onClick={() => setDeleteInfoOpen(true)}><span className="st-icon"><Trash2/></span><span className="st-nav-copy"><strong>Delete account</strong><small>Permanently remove your account and data</small></span><ChevronRight/></button></div>
     </> : <><header className="st-subheader"><button aria-label="Back to settings" onClick={back}><ArrowLeft/></button><div><span>SETTINGS</span><h1>{title}</h1></div></header>{detailContent()}</>}
     {logoutOpen && <div className="st-overlay" onClick={e => { if (e.target === e.currentTarget) setLogoutOpen(false); }}><section className="st-dialog" role="alertdialog" aria-modal="true" aria-labelledby="st-logout-title"><h2 id="st-logout-title">Log out of Chatly?</h2><p>You will need to sign in again to access your account.</p><footer><button className="st-secondary" onClick={() => setLogoutOpen(false)}>Cancel</button><button onClick={() => supabase.auth.signOut()}>Log out</button></footer></section></div>}
