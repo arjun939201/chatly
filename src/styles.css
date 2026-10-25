@@ -3086,3 +3086,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed UI refinement 06 — shared image presentation */
 .post-media{margin:0 0 17px;border:1px solid #e9e8f1;border-radius:15px;background:#f5f5fa;box-shadow:0 2px 8px rgba(25,22,54,.025)}.post-media img{max-height:640px;object-fit:contain}.post-media figcaption{font-size:11px;letter-spacing:.01em;padding:8px 12px;color:#85859b;background:#fff}
+
+
+/* Feed UI refinement 07 — composer dialog */
+.compose-modal{border:1px solid #e8e6f2;border-radius:22px;box-shadow:0 24px 80px rgba(27,24,62,.22)}.compose-modal>header{padding:20px 22px;border-bottom:1px solid #f0eff6}.compose-modal>header h2{font-size:19px;letter-spacing:-.45px}.compose-author{padding:17px 22px 0}.compose-modal form>textarea{min-height:160px;padding:18px 22px;font-size:15px;line-height:1.7;resize:vertical}.compose-footer{padding:12px 22px 20px}.compose-modal .primary-button{border-radius:999px;padding:11px 20px;font-weight:700}
