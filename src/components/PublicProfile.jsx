@@ -59,15 +59,24 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
   }, [person?.id, session?.user?.id, ownProfile]);
 
   async function toggleFollow() {
-    if (ownProfile || busy || !person?.id) return;
-    setBusy(true); setNotice("");
+    if (ownProfile || busy || loading || !person?.id || !session?.user?.id) return;
+    const personId = person.id;
     const wasFollowing = isFollowing;
-    const result = wasFollowing
-      ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", person.id)
-      : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: person.id });
-    if (result.error) setNotice(result.error.message || "Could not update follow status.");
-    else { setIsFollowing(!wasFollowing); setFollowers(count => Math.max(0, count + (wasFollowing ? -1 : 1))); }
-    setBusy(false);
+    setBusy(true); setNotice("");
+    try {
+      const result = wasFollowing
+        ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", personId)
+        : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: personId });
+      if (result.error) throw result.error;
+      if (person?.id === personId) {
+        setIsFollowing(!wasFollowing);
+        setFollowers(count => Math.max(0, count + (wasFollowing ? -1 : 1)));
+      }
+    } catch (error) {
+      setNotice(error?.message || "Could not update follow status. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return <main className="search-page public-profile-page"><section className="profile-view">
