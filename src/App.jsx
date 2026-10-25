@@ -138,13 +138,13 @@ export default function App() {
   return <div className={`app-shell theme-${effectiveTheme} font-${fontSize} family-${fontFamily}`} style={effectiveTheme === "dark" ? { colorScheme: "dark", background: "#141419", color: "#f4f4f7", "--app-bg": "#141419", "--surface": "#202027", "--text": "#f4f4f7", "--muted": "#a5a5b2", "--border": "#34343d" } : { colorScheme: "light", "--app-bg": "#f5f5f7", "--surface": "#ffffff", "--text": "#17171b", "--muted": "#888894", "--border": "#e4e4e9" }}>
     {tab === "feed" && <header className="topbar">
       <div className="brand">chatly</div>
-      <div className="global-profile-menu"><button className="global-profile-trigger" aria-label="Open navigation menu" aria-expanded={profileMenuOpen} onClick={() => setProfileMenuOpen(v => !v)}><span className="global-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span></button>{profileMenuOpen && <div className="global-profile-dropdown" role="menu"><button role="menuitem" aria-label="Account" title="Account" onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("account"); }}><span><UserRound size={18}/></span></button><button role="menuitem" aria-label="Chats" title="Chats" onClick={() => { setProfileMenuOpen(false); setTab("chats"); }}><span><MessagesSquare size={18}/></span></button><button role="menuitem" aria-label="Notifications" title="Notifications" onClick={() => { setProfileMenuOpen(false); setTab("notifications"); }}><span><Bell size={18}/></span></button><button role="menuitem" aria-label="Settings" title="Settings" onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("app-settings"); }}><span><Settings size={18}/></span></button><button role="menuitem" aria-label="Logout" title="Logout" onClick={() => { setProfileMenuOpen(false); supabase.auth.signOut(); }}><span><LogOut size={18}/></span></button></div>}</div>
+      <div className="global-profile-menu"><button className="global-profile-trigger" aria-label="Open navigation menu" aria-expanded={profileMenuOpen} onClick={() => setProfileMenuOpen(v => !v)}><span className="global-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span></button>{profileMenuOpen && <div className="global-profile-dropdown" role="menu"><button role="menuitem" aria-label="Account" title="Account" onClick={() => { setProfileMenuOpen(false); setTab("account"); }}><span><UserRound size={18}/></span></button><button role="menuitem" aria-label="Chats" title="Chats" onClick={() => { setProfileMenuOpen(false); setTab("chats"); }}><span><MessagesSquare size={18}/></span></button><button role="menuitem" aria-label="Notifications" title="Notifications" onClick={() => { setProfileMenuOpen(false); setTab("notifications"); }}><span><Bell size={18}/></span></button><button role="menuitem" aria-label="Settings" title="Settings" onClick={() => { setProfileMenuOpen(false); setTab("settings"); }}><span><Settings size={18}/></span></button><button role="menuitem" aria-label="Logout" title="Logout" onClick={() => { setProfileMenuOpen(false); supabase.auth.signOut(); }}><span><LogOut size={18}/></span></button></div>}</div>
     </header>}
+    {tab !== "feed" && <button className="page-back-to-feed" onClick={() => { setTab("feed"); setProfileMenuOpen(false); }} aria-label="Back to feed"><ChevronLeft size={18}/> Feed</button>}
     {tab === "notifications" && <section className="notifications-page"><header><h2>Notifications</h2></header><div className="notifications-empty"><Bell size={38}/><h3>Notifications</h3><p>You're all caught up. New activity will appear here.</p></div></section>}
     {tab === "search" && <SearchPeople session={session} onOpenChats={openChat}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
     {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget}/>}
     {tab === "profile" && <section className="profile-page"><div className="profile-page-head"><h2>{profile?.username || "Profile"}</h2><button className="profile-menu-trigger" aria-label="Profile menu" onClick={() => setProfileMenuOpen(v => !v)}><MoreHorizontal size={27}/></button>{profileMenuOpen && <div className="profile-dropdown"><button onClick={() => { setProfileMenuOpen(false); setNotice("Liked posts are coming soon."); }}>Liked Posts <Heart size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setTab("search"); }}>Contacts <Users size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("account"); }}>Account <KeyRound size={16}/></button><button onClick={() => { setProfileMenuOpen(false); setSettingsOpen(true); setSettingsView("app-settings"); }}>App settings <Settings size={16}/></button></div>}</div><div className="profile-summary"><span className="profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile"/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><div className="profile-counts"><div><b>{profileStats.posts}</b><span>posts</span></div><div><b>{profileStats.followers}</b><span>followers</span></div><div><b>{profileStats.following}</b><span>following</span></div></div></div><div className="profile-bio"><strong>{profile?.display_name || "Your name"}</strong><p>{profile?.bio || "Welcome to my Chatly profile."}</p></div><button className="profile-edit-button" onClick={() => { setEditProfileOpen(true); setNotice(""); }}>Edit profile</button><div className="profile-grid-heading"><Grid3X3 size={18}/> Posts</div></section>}
-    {tab !== "feed" && <button className="page-back-to-feed" onClick={() => setTab("feed")} aria-label="Back to feed"><ChevronLeft size={18}/> Feed</button>}
     {editProfileOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setEditProfileOpen(false); }}>
       <section className="profile-modal edit-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
         <header className="modal-header"><div><h2 id="edit-profile-title">Edit profile</h2></div><button className="icon-button" onClick={() => setEditProfileOpen(false)} aria-label="Close edit profile"><X size={18}/></button></header>
@@ -158,29 +158,25 @@ export default function App() {
         {notice && <p className="form-message">{notice}</p>}
       </section>
     </div>}
-    {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
-      <section className="profile-modal settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-        <header className="modal-header"><div><h2 id="settings-title">Settings</h2><p>Manage your Chatly preferences.</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
-        {settingsView !== "home" && <button className="settings-back" onClick={() => setSettingsView("home")}>‹ Menu</button>}
-        {settingsView === "home" && <div className="settings-options">
-          <button onClick={() => setSettingsView("account")}><span className="settings-option-icon"><KeyRound size={18}/></span><span><b>Account</b><small>Password and sign-in</small></span><span className="settings-chevron">›</span></button>
-          <button onClick={() => setSettingsView("app-settings")}><span className="settings-option-icon"><Settings size={18}/></span><span><b>App settings</b><small>Fonts and theme</small></span><span className="settings-chevron">›</span></button>
-        </div>}
-        {settingsView === "account" && <section className="settings-section account-view">
-          <div className="settings-view-heading"><h3>Account</h3><button className="account-logout-top" title="Log out" aria-label="Log out" onClick={() => supabase.auth.signOut()}><LogOut size={17}/></button></div>
-          <button className="style-expander" onClick={() => setFontSizeExpanded(v => !v)}><span>Password settings</span><span>{fontSizeExpanded ? "−" : "+"}</span></button>
-          {fontSizeExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters"/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
-        </section>}
-        {settingsView === "app-settings" && <section className="settings-section app-style-controls">
-          <div className="settings-view-heading"><h3>App settings</h3><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} aria-label="Toggle theme" onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div>
-          <button className="style-expander" onClick={() => {setFontSizeExpanded(v => !v); setFontFamilyExpanded(v => !v)}}><span>Fonts</span><span>{fontSizeExpanded || fontFamilyExpanded ? "−" : "+"}</span></button>
-          {(fontSizeExpanded || fontFamilyExpanded) && <>
-            <div className="font-setting-group"><span>Font size</span><div className="style-choice-row">{["small","medium","large"].map(value => <button key={value} className={fontSize === value ? "selected" : ""} onClick={() => setFontSize(value)}>{value[0].toUpperCase()+value.slice(1)}</button>)}</div></div>
-            <div className="font-setting-group"><span>Font family</span><div className="style-choice-row">{[{value:"system",label:"System"},{value:"sans",label:"Sans"},{value:"serif",label:"Serif"}].map(item => <button key={item.value} className={fontFamily === item.value ? "selected" : ""} onClick={() => setFontFamily(item.value)}>{item.label}</button>)}</div></div>
-          </>}
-        </section>}
-        {notice && <p className="form-message">{notice}</p>}
+    {tab === "account" && <section className="destination-page settings-page">
+      <header className="destination-page-header"><UserRound size={22}/><div><h2>Account</h2><p>Password and sign-in</p></div></header>
+      <div className="settings-section account-view">
+        <div className="settings-view-heading"><h3>Account security</h3><button className="account-logout-top" title="Log out" aria-label="Log out" onClick={() => supabase.auth.signOut()}><LogOut size={17}/></button></div>
+        <button className="style-expander" onClick={() => setFontSizeExpanded(v => !v)}><span>Password settings</span><span>{fontSizeExpanded ? "−" : "+"}</span></button>
+        {fontSizeExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
+      </div>
+      {notice && <p className="form-message">{notice}</p>}
+    </section>}
+    {tab === "settings" && <section className="destination-page settings-page">
+      <header className="destination-page-header"><Settings size={22}/><div><h2>Settings</h2><p>Manage your Chatly preferences.</p></div></header>
+      <section className="settings-section app-style-controls">
+        <div className="settings-view-heading"><h3>Appearance</h3><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} aria-label="Toggle theme" onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div>
+        <button className="style-expander" onClick={() => {setFontSizeExpanded(v => !v); setFontFamilyExpanded(v => !v)}}><span>Fonts</span><span>{fontSizeExpanded || fontFamilyExpanded ? "−" : "+"}</span></button>
+        {(fontSizeExpanded || fontFamilyExpanded) && <>
+          <div className="font-setting-group"><span>Font size</span><div className="style-choice-row">{["small","medium","large"].map(value => <button key={value} className={fontSize === value ? "selected" : ""} onClick={() => setFontSize(value)}>{value[0].toUpperCase()+value.slice(1)}</button>)}</div></div>
+          <div className="font-setting-group"><span>Font family</span><div className="style-choice-row">{[{value:"system",label:"System"},{value:"sans",label:"Sans"},{value:"serif",label:"Serif"}].map(item => <button key={item.value} className={fontFamily === item.value ? "selected" : ""} onClick={() => setFontFamily(item.value)}>{item.label}</button>)}</div></div>
+        </>}
       </section>
-    </div>}
+    </section>}
   </div>;
 }
