@@ -94,7 +94,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     return () => { alive = false; supabase.removeChannel(channel); };
   }, [active, session.user.id]);
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "auto", block: "end" }); }, [messages]);
 
   async function sendMessage(event) {
     event.preventDefault();
