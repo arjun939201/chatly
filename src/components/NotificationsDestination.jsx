@@ -90,7 +90,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
       console.error("Notifications load failed:", err);
       setError(err.message || "Could not load notifications.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, [session?.user?.id]);
 
