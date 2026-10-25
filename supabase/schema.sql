@@ -169,3 +169,28 @@ drop policy if exists "Users can create their own post comments" on public.post_
 create policy "Users can create their own post comments" on public.post_comments for insert to authenticated with check (auth.uid() = user_id);
 drop policy if exists "Users can delete their own post comments" on public.post_comments;
 create policy "Users can delete their own post comments" on public.post_comments for delete to authenticated using (auth.uid() = user_id);
+
+
+-- Follow relationships used by profile Follow/Following controls.
+create table if not exists public.user_follows (
+  follower_id uuid not null references public.profiles(id) on delete cascade,
+  following_id uuid not null references public.profiles(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (follower_id, following_id),
+  constraint user_follows_no_self_follow check (follower_id <> following_id)
+);
+create index if not exists user_follows_following_idx on public.user_follows (following_id, follower_id);
+alter table public.user_follows enable row level security;
+
+drop policy if exists "Authenticated users can read follow relationships" on public.user_follows;
+create policy "Authenticated users can read follow relationships" on public.user_follows
+  for select to authenticated using (true);
+drop policy if exists "Users can follow as themselves" on public.user_follows;
+create policy "Users can follow as themselves" on public.user_follows
+  for insert to authenticated with check (auth.uid() = follower_id and follower_id <> following_id);
+drop policy if exists "Users can unfollow as themselves" on public.user_follows;
+create policy "Users can unfollow as themselves" on public.user_follows
+  for delete to authenticated using (auth.uid() = follower_id);
+
+-- Profile bios are used by the profile editor and public profile view.
+alter table public.profiles add column if not exists bio text not null default '';
