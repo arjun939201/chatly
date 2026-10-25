@@ -4011,3 +4011,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .notification-destination-page{padding-top:24px}
  .notification-activity-item{padding:16px 18px}
 }
+
+/* Keep the saved-posts switch anchored consistently across feed views. */
+.feed-page .feed-heading-row{align-items:center}
+.feed-page .feed-heading-row>div:first-child{display:flex;flex-direction:column;justify-content:center;min-height:48px}
