@@ -160,19 +160,18 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .theme-dark .settings-options>button{background:var(--surface);border-color:var(--border);color:var(--text)}
 .theme-dark .settings-options>button:hover{background:#2a2a33}
 
-/* Compact profile editor layout */
-.edit-profile-dialog .profile-form{display:flex;flex-direction:column;gap:16px}
-.profile-edit-row{display:grid;grid-template-columns: minmax(76px, .7fr) minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
-.profile-edit-row>label{min-width:0;display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600}
-.profile-edit-row input{width:100%;min-width:0;box-sizing:border-box;padding:11px 10px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:13px}
-.profile-edit-row .field-hint{font-size:10px;line-height:1.35;color:var(--muted);font-weight:400}
-.profile-edit-row .avatar-editor{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
-.profile-edit-row .avatar-large{width:66px;height:66px}
-.profile-edit-row .upload-avatar{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;text-align:center}
+/* Profile editor: avatar controls together, fields on separate rows */
+.edit-profile-dialog .profile-form{display:flex;flex-direction:column;gap:15px}
+.profile-edit-avatar-row{display:flex;align-items:center;justify-content:flex-start;gap:14px}
+.profile-edit-avatar-row .avatar-editor{display:flex;flex-direction:row;align-items:center;gap:12px;min-width:0}
+.profile-edit-avatar-row .avatar-large{width:72px;height:72px;border-radius:50%;overflow:hidden;flex:none}
+.profile-edit-avatar-row .upload-avatar{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;cursor:pointer}
+.profile-edit-avatar-row .upload-avatar input{display:none}
+.profile-edit-name,.profile-edit-username,.profile-edit-bio{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600}
+.profile-edit-name input,.profile-edit-username .username-input input{width:100%;min-width:0;box-sizing:border-box;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);font:inherit;font-size:14px}
+.profile-edit-name .field-hint,.profile-edit-username .field-hint,.profile-edit-bio .field-hint{font-size:11px;line-height:1.4;font-weight:400;color:var(--muted)}
 .profile-edit-username .username-input{display:flex;align-items:center;min-width:0}
-.profile-edit-username .username-input span{padding:10px 7px;border:1px solid var(--border);border-right:0;border-radius:10px 0 0 10px;color:var(--muted)}
-.profile-edit-username .username-input input{border-radius:0 10px 10px 0;padding-left:6px}
-.profile-edit-bio{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:600}
-.profile-edit-bio .field-hint{font-size:11px;font-weight:400;color:var(--muted)}
-.edit-profile-dialog .profile-form textarea{width:100%;box-sizing:border-box;resize:vertical;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);padding:12px;font:inherit;font-size:14px}
-@media(max-width:420px){.profile-edit-row{grid-template-columns:70px minmax(0,1fr) minmax(0,1fr);gap:8px}.profile-edit-row .avatar-large{width:56px;height:56px}.profile-edit-row input{padding:10px 7px;font-size:12px}.profile-edit-row .field-hint{font-size:9px}}
+.profile-edit-username .username-input span{padding:12px 10px;border:1px solid var(--border);border-right:0;border-radius:10px 0 0 10px;color:var(--muted);background:var(--app-bg)}
+.profile-edit-username .username-input input{border-radius:0 10px 10px 0;padding-left:10px}
+.profile-edit-bio textarea{width:100%;box-sizing:border-box;min-height:96px;resize:vertical;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);padding:12px;font:inherit;font-size:14px}
+
