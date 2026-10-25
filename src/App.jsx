@@ -112,10 +112,9 @@ export default function App() {
       <div className="brand"><span className="brand-mark"><MessageCircle size={20}/></span> Chatly</div>
       <div className="account">
         <button className="account-profile" onClick={() => { setSettingsOpen(true); setNotice(""); }} aria-label="Open profile settings">
-          <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt="" onError={e => { e.currentTarget.style.display = "none"; }}/ > : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
+          <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
           <span className="account-copy"><strong>{profile?.display_name || session.user.user_metadata?.full_name || "Your profile"}</strong><small>{profile?.username ? `@${profile.username}` : "Set your username"}</small></span>
         </button>
-        <button className="icon-button" title="Profile settings" onClick={() => setSettingsOpen(true)}><Settings size={18}/></button>
         <button className="icon-button" title="Sign out" onClick={() => supabase.auth.signOut()}><LogOut size={18}/></button>
       </div>
     </header>
