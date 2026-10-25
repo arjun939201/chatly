@@ -144,27 +144,30 @@ export default function App() {
       <button className={tab === "chats" ? "active" : ""} onClick={() => setTab("chats")}><MessagesSquare size={20}/><span>Chats</span></button>
       <button className={tab === "profile" ? "active" : ""} onClick={() => setTab("profile")}><span className="nav-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><span>Profile</span></button>
     </nav>
-    {(settingsOpen || editProfileOpen) && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
-      <section className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
-        <header className="modal-header"><div><h2 id="profile-title">Settings</h2><p>Manage your Chatly account and appearance</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
-        {(editProfileOpen || settingsView === "appearance") && <section className="appearance-settings settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><Settings size={17}/></span><div><h3>Appearance</h3><p>Make Chatly feel right for you.</p></div></div><div className="theme-toggle-row"><span><b>Dark mode</b><small>{theme === "system" ? "Following device appearance" : theme === "dark" ? "Enabled" : "Disabled"}</small></span><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div><button className="system-theme-action" onClick={() => setTheme("system")}>Use device setting</button></section>}
-        {(editProfileOpen || settingsView === "account") && <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><Users size={17}/></span><div><h3>Profile</h3><p>How people see you on Chatly.</p></div></div><form onSubmit={saveProfile} className="profile-form">
-          <div className="avatar-editor">
-            <span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span>
-            <label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label>
-          </div>
+    {editProfileOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setEditProfileOpen(false); }}>
+      <section className="profile-modal edit-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
+        <header className="modal-header"><div><h2 id="edit-profile-title">Edit profile</h2><p>Update how people see you on Chatly.</p></div><button className="icon-button" onClick={() => setEditProfileOpen(false)} aria-label="Close edit profile"><X size={18}/></button></header>
+        <form onSubmit={saveProfile} className="profile-form">
+          <div className="avatar-editor"><span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span><label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label></div>
           <label>Display name<input value={form.display_name} maxLength={40} onChange={e => setForm(f => ({...f, display_name:e.target.value}))} placeholder="Your name" required/></label>
-          <label>Username <span className="field-hint">Optional · 3–20 letters, numbers, underscores</span><div className="username-input"><span>@</span><input value={form.username} maxLength={20} onChange={e => setForm(f => ({...f, username:e.target.value}))} placeholder="yourusername"/></div></label>
+          <label>Username <span className="field-hint">3–20 letters, numbers, underscores</span><div className="username-input"><span>@</span><input value={form.username} maxLength={20} onChange={e => setForm(f => ({...f, username:e.target.value}))} placeholder="yourusername"/></div></label>
           <label>Bio <span className="field-hint">Up to 160 characters</span><textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
-          <label>Email address<input value={session.user.email || ""} readOnly/></label>
           <button className="primary-button" disabled={saving}>{saving ? "Saving…" : <><Save size={16}/> Save profile</>}</button>
-        </form></section>}
-        <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><KeyRound size={17}/></span><div><h3>Account security</h3><p>Manage your sign-in details.</p></div></div><form className="password-form" onSubmit={setNewPassword}>
-          <h3><KeyRound size={16}/> Optional password</h3><p>Set a password if you'd like another way to sign in.</p>
-          <label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters"/></label>
-          <button className="secondary-button" disabled={!password}>Set password</button>
-        </form></section>
-        <button type="button" className="logout-settings modal-logout" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out of Chatly</button>
+        </form>
+        {notice && <p className="form-message">{notice}</p>}
+      </section>
+    </div>}
+    {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
+      <section className="profile-modal settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <header className="modal-header"><div><h2 id="settings-title">Settings</h2><p>Manage your Chatly preferences.</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
+        {settingsView !== "home" && <button className="settings-back" onClick={() => setSettingsView("home")}>‹ Back to settings</button>}
+        {settingsView === "home" && <div className="settings-options">
+          <button onClick={() => setSettingsView("appearance")}><span className="settings-option-icon"><Settings size={18}/></span><span><b>Appearance</b><small>Theme and display</small></span><span className="settings-chevron">›</span></button>
+          <button onClick={() => setSettingsView("account")}><span className="settings-option-icon"><KeyRound size={18}/></span><span><b>Account & security</b><small>Password and sign-in</small></span><span className="settings-chevron">›</span></button>
+        </div>}
+        {settingsView === "appearance" && <section className="settings-section"><div className="theme-toggle-row"><span><b>Dark mode</b><small>{effectiveTheme === "dark" ? "On" : "Off"}</small></span><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div><button className="system-theme-action" onClick={() => setTheme("system")}>Use device setting</button></section>}
+        {settingsView === "account" && <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><KeyRound size={17}/></span><div><h3>Account security</h3><p>Set an optional password for sign-in.</p></div></div><form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters"/></label><button className="secondary-button" disabled={!password}>Set password</button></form></section>}
+        <button type="button" className="logout-settings modal-logout" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out</button>
         {notice && <p className="form-message">{notice}</p>}
       </section>
     </div>}
