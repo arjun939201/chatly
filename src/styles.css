@@ -3922,3 +3922,10 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-activity-item.is-read{background:var(--surface)}
 .notification-activity-item.is-unread:after{content:"";align-self:center;flex:0 0 7px;width:7px;height:7px;border-radius:50%;background:#7667df}
 .notification-unread-count{font-size:11px;font-weight:500;letter-spacing:0;text-transform:none}
+
+/* Notification UI pass 4: normalize actor and action icon sizing */
+.notification-activity-item>.notification-activity-icon{display:none}
+.notification-activity-copy{display:grid;grid-template-columns:38px minmax(0,1fr);column-gap:11px;align-items:start}
+.notification-activity-copy>.notification-actor-avatar{grid-column:1;grid-row:1 / span 2}
+.notification-activity-copy>p,.notification-activity-copy>span,.notification-activity-copy>.notification-post-preview{grid-column:2}
+.notification-activity-copy>span{align-self:start}
