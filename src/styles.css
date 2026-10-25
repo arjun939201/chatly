@@ -1013,7 +1013,6 @@ body{background:var(--app-bg,#f6f7fb);color:var(--text,#202033)}
   backdrop-filter:blur(18px);
   border-bottom:1px solid var(--border,#e9e9f1);
 }
-.brand{font-size:inherit}
 .account-profile{transition:background var(--chatly-motion),transform var(--chatly-motion)}
 .account-profile:hover{transform:translateY(-1px)}
 .icon-button,.primary-button,.secondary-button,.send-button,.profile-edit-button{
