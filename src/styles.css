@@ -1806,3 +1806,15 @@ img,video,iframe{max-width:100%}
 .settings-page .settings-note{margin:10px 0 0;font-size:12px;line-height:1.6;color:var(--muted,#858597)}
 .settings-page .settings-save{min-height:42px;padding:0 16px;border-radius:12px;font-weight:700}
 @media(max-width:600px){.settings-page{padding:16px 12px 90px}.settings-page .settings-section{padding:14px;border-radius:15px}.settings-page .settings-row{align-items:flex-start;flex-direction:column;gap:8px}.settings-page :is(input,select){width:100%}}
+
+
+/* Navigation component — accessible, thumb-friendly active states */
+.app-navigation{position:sticky;bottom:0;z-index:30;display:flex;align-items:center;justify-content:space-around;gap:4px;padding:8px 10px max(8px,env(safe-area-inset-bottom));border-top:1px solid var(--border,#e7e7ef);background:color-mix(in srgb,var(--surface,#fff) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.app-navigation button{position:relative;display:flex;flex:1;min-width:0;min-height:46px;align-items:center;justify-content:center;gap:6px;border:0;border-radius:13px;background:transparent;color:var(--muted,#858597);font-size:11px;font-weight:650;transition:background .16s,color .16s}
+.app-navigation button[aria-current="page"],.app-navigation button.active{background:color-mix(in srgb,#8172e9 12%,var(--surface,#fff));color:#7162d8}
+.app-navigation button:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
+.app-navigation button:active{transform:scale(.97)}
+.app-navigation button svg{width:20px;height:20px;flex:0 0 auto}
+.app-navigation .navigation-badge{position:absolute;top:4px;right:calc(50% - 20px);min-width:16px;height:16px;display:grid;place-items:center;border-radius:999px;background:#e34d67;color:#fff;font-size:9px;font-weight:750}
+@media(min-width:760px){.app-navigation{justify-content:center;gap:12px}.app-navigation button{flex:0 1 120px}}
+@media(prefers-reduced-motion:reduce){.app-navigation button{transition:none}}
