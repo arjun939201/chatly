@@ -8,7 +8,7 @@ export default function ExploreHome({ onSearch }) {
   const [error, setError] = useState("");
   const requestId = useRef(0);
 
-  async function loadRecentPosts() {
+  function formatRecentDate(value) {\n    if (!value) return "Recently";\n    const date = new Date(value);\n    return Number.isNaN(date.getTime()) ? "Recently" : date.toLocaleDateString(undefined, { dateStyle: "medium" });\n  }\n\n  async function loadRecentPosts() {
     const request = ++requestId.current;
     setLoading(true);
     setError("");
@@ -57,11 +57,11 @@ export default function ExploreHome({ onSearch }) {
       <button type="button" onClick={loadRecentPosts} disabled={loading} aria-label={loading ? "Refreshing recent posts" : "Refresh recent posts"} title={loading ? "Refreshing…" : "Refresh recent posts"}><RefreshCw size={15} /></button>
     </div>
     {loading ? <p role="status" className="explore-home-status">Loading recent posts…</p>
-      : error ? <div className="explore-home-status" role="alert">{error}<button type="button" onClick={loadRecentPosts}>Retry</button></div>
+      : error ? <div className="explore-home-status" role="alert"><span>{error}</span><button type="button" onClick={loadRecentPosts} disabled={loading}>Retry</button></div>
       : posts.length ? <div className="explore-home-posts">{posts.map(post => <article className="explore-home-post" key={post.id}>
           <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
           <p>{post.body}</p>
-          <time dateTime={post.created_at || undefined}>{post.created_at ? new Date(post.created_at).toLocaleDateString(undefined, { dateStyle: "medium" }) : "Recently"}</time>
+          <time dateTime={post.created_at || undefined}>{formatRecentDate(post.created_at)}</time>
         </article>)}</div>
       : <p className="explore-home-status">No public posts yet. Be the first to start a conversation.</p>}
   </section>;
