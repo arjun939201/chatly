@@ -1567,3 +1567,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 5 */
  .comments-modal .comment-composer{flex-shrink:0} .comments-modal .comment-composer textarea{min-height:42px;max-height:140px} .comments-modal .comment-composer textarea:focus-visible{outline:none} .comments-modal .comment-composer>button:focus-visible{outline:2px solid #8c80f4;outline-offset:3px} .comments-modal .comment-composer>button:active:not(:disabled){transform:scale(.97)}
+
+
+/* Comment UX refinement 6 */
+ .comments-modal .comment-list{scroll-behavior:smooth;scroll-padding-block:16px} .comments-modal .comment-list::-webkit-scrollbar{width:6px} .comments-modal .comment-list::-webkit-scrollbar-thumb{border-radius:8px;background:#c9c5dd} .comments-modal .comment-list::-webkit-scrollbar-track{background:transparent} .comments-modal .comment-list:focus-visible{outline:2px solid #8c80f4;outline-offset:-2px}
