@@ -19,6 +19,9 @@ export default function App() {
   const [fontFamily, setFontFamily] = useState(() => localStorage.getItem("chatly-font-family") || "system");
   const [fontSizeExpanded, setFontSizeExpanded] = useState(false);
   const [fontFamilyExpanded, setFontFamilyExpanded] = useState(false);
+  const [settingsExpanded, setSettingsExpanded] = useState({ chats: false, notifications: false, privacy: false });
+  const [chatPrefs, setChatPrefs] = useState(() => JSON.parse(localStorage.getItem("chatly-chat-prefs") || '{"enterToSend":true,"mediaPreview":true,"readReceipts":true,"messageAlerts":true,"activityAlerts":true}'));
+  useEffect(() => { localStorage.setItem("chatly-chat-prefs", JSON.stringify(chatPrefs)); }, [chatPrefs]);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [tab, setTab] = useState("feed");
   const [theme, setTheme] = useState(() => localStorage.getItem("chatly-theme") || "system");
@@ -197,6 +200,24 @@ export default function App() {
           <div className="font-setting-group"><span>Font size</span><div className="style-choice-row">{["small","medium","large"].map(value => <button key={value} className={fontSize === value ? "selected" : ""} onClick={() => setFontSize(value)}>{value[0].toUpperCase()+value.slice(1)}</button>)}</div></div>
           <div className="font-setting-group"><span>Font family</span><div className="style-choice-row">{[{value:"system",label:"System"},{value:"sans",label:"Sans"},{value:"serif",label:"Serif"}].map(item => <button key={item.value} className={fontFamily === item.value ? "selected" : ""} onClick={() => setFontFamily(item.value)}>{item.label}</button>)}</div></div>
         </>}
+        <h3 className="settings-category-label">CHAT PREFERENCES</h3>
+        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, chats: !v.chats}))}><span>Chats</span><span>{settingsExpanded.chats ? "−" : "+"}</span></button>
+        {settingsExpanded.chats && <div className="settings-options-panel">
+          <label className="settings-toggle-row"><span><strong>Enter to send</strong><small>Send messages with the Enter key</small></span><input type="checkbox" checked={chatPrefs.enterToSend} onChange={e => setChatPrefs(p => ({...p, enterToSend:e.target.checked}))}/></label>
+          <label className="settings-toggle-row"><span><strong>Media previews</strong><small>Show previews for shared media when available</small></span><input type="checkbox" checked={chatPrefs.mediaPreview} onChange={e => setChatPrefs(p => ({...p, mediaPreview:e.target.checked}))}/></label>
+        </div>}
+        <h3 className="settings-category-label">NOTIFICATIONS</h3>
+        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, notifications: !v.notifications}))}><span>Notification preferences</span><span>{settingsExpanded.notifications ? "−" : "+"}</span></button>
+        {settingsExpanded.notifications && <div className="settings-options-panel">
+          <label className="settings-toggle-row"><span><strong>Message alerts</strong><small>Allow in-app message alerts</small></span><input type="checkbox" checked={chatPrefs.messageAlerts} onChange={e => setChatPrefs(p => ({...p, messageAlerts:e.target.checked}))}/></label>
+          <label className="settings-toggle-row"><span><strong>Activity alerts</strong><small>Allow activity and community alerts</small></span><input type="checkbox" checked={chatPrefs.activityAlerts} onChange={e => setChatPrefs(p => ({...p, activityAlerts:e.target.checked}))}/></label>
+        </div>}
+        <h3 className="settings-category-label">PRIVACY</h3>
+        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, privacy: !v.privacy}))}><span>Privacy preferences</span><span>{settingsExpanded.privacy ? "−" : "+"}</span></button>
+        {settingsExpanded.privacy && <div className="settings-options-panel">
+          <label className="settings-toggle-row"><span><strong>Read receipts</strong><small>Preference saved locally; server enforcement requires backend support</small></span><input type="checkbox" checked={chatPrefs.readReceipts} onChange={e => setChatPrefs(p => ({...p, readReceipts:e.target.checked}))}/></label>
+          <p className="settings-note">Preferences are stored on this device. Server-enforced privacy controls need matching backend support.</p>
+        </div>}
       </section>
     </section>}
   </div>;
