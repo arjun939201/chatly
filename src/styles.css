@@ -1048,3 +1048,7 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
 @media(prefers-reduced-motion:reduce){
   :where(.primary-button,.send-button,.icon-button,.person-row,.account-profile){transition:none}
 }
+
+
+/* Restore the normal-sized Chatly wordmark in the feed header. */
+.topbar .brand { font-size: 42px; line-height: 1; letter-spacing: -1.5px; transform: none; }
