@@ -21,7 +21,9 @@ useEffect(() => {
 const [openComments, setOpenComments] = useState(null);
 const [comments, setComments] = useState({});
 const [commentDraft, setCommentDraft] = useState("");
-const [commentBusy, setCommentBusy] = useState(false);\nconst [postMenu, setPostMenu] = useState(null);\nconst [deleteBusy, setDeleteBusy] = useState(false);
+const [commentBusy, setCommentBusy] = useState(false);
+  const [postMenu, setPostMenu] = useState(null);
+  const [deleteBusy, setDeleteBusy] = useState(false);
   async function loadFeed() {
     const { data, error } = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100);
     if (error) { setNotice(error.message); return; }
@@ -35,7 +37,16 @@ const [commentBusy, setCommentBusy] = useState(false);\nconst [postMenu, setPost
   }
   useEffect(() => { loadFeed(); }, []);
   async function publish(e) { e.preventDefault(); if (!body.trim()) return; setBusy(true); setNotice(""); const { error } = await supabase.from("posts").insert({ user_id:session.user.id, body:body.trim() }); setBusy(false); if (error) { setNotice(error.message); return; } setBody(""); setCompose(false); await loadFeed(); }
-  async function deletePost(post) {\n    if (post.user_id !== session.user.id) return;\n    if (!window.confirm("Delete this post permanently? This cannot be undone.")) return;\n    setDeleteBusy(true); setNotice("");\n    const { error } = await supabase.from("posts").delete().eq("id", post.id).eq("user_id", session.user.id);\n    setDeleteBusy(false); setPostMenu(null);\n    if (error) { setNotice(error.message); return; }\n    if (openComments === post.id) setOpenComments(null);\n    await loadFeed();\n  }\n  async function toggleLike(post) { const { data: existing } = await supabase.from("post_likes").select("post_id").eq("post_id",post.id).eq("user_id",session.user.id).maybeSingle(); const result = existing ? await supabase.from("post_likes").delete().eq("post_id",post.id).eq("user_id",session.user.id) : await supabase.from("post_likes").insert({post_id:post.id,user_id:session.user.id}); if (result.error) { setNotice(result.error.message); return; } await loadFeed(); }
+  async function deletePost(post) {
+    if (post.user_id !== session.user.id) return;
+    if (!window.confirm("Delete this post permanently? This cannot be undone.")) return;
+    setDeleteBusy(true); setNotice("");
+    const { error } = await supabase.from("posts").delete().eq("id", post.id).eq("user_id", session.user.id);
+    setDeleteBusy(false); setPostMenu(null);
+    if (error) { setNotice(error.message); return; }
+    if (openComments === post.id) setOpenComments(null);
+    await loadFeed();
+  }\n  async function toggleLike(post) { const { data: existing } = await supabase.from("post_likes").select("post_id").eq("post_id",post.id).eq("user_id",session.user.id).maybeSingle(); const result = existing ? await supabase.from("post_likes").delete().eq("post_id",post.id).eq("user_id",session.user.id) : await supabase.from("post_likes").insert({post_id:post.id,user_id:session.user.id}); if (result.error) { setNotice(result.error.message); return; } await loadFeed(); }
   async function submitComment(e, postId) { e.preventDefault(); if (!commentDraft.trim()) return; setCommentBusy(true); const { error } = await supabase.from("post_comments").insert({post_id:postId,user_id:session.user.id,body:commentDraft.trim()}); setCommentBusy(false); if (error) { setNotice(error.message); return; } setCommentDraft(""); await loadFeed(); }
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
