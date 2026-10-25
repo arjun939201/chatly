@@ -44,3 +44,14 @@ test("feed and timestamps expose accessible semantics", () => {
   assert.match(source, /<time dateTime=\{post\.created_at\}>/);
   assert.match(source, /<time dateTime=\{comment\.created_at\}>/);
 });
+
+test("missing saved_posts does not block the regular feed", () => {
+  assert.match(source, /const savedTableUnavailable = savedResult\.error\?\.code === "PGRST205"/);
+  assert.match(source, /if \(savedResult\.error && !savedTableUnavailable\) throw savedResult\.error/);
+  assert.match(source, /savedTableUnavailable \? \[\] : \(savedResult\.data \|\| \[\]\)\.map/);
+  assert.match(source, /Saved posts are unavailable until the saved_posts table is configured\. Your feed is still working\./);
+});
+
+test("saved view explains when its table is missing", () => {
+  assert.match(source, /Saved posts are unavailable because the saved_posts table is not set up yet\./);
+});
