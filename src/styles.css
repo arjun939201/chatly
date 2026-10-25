@@ -2111,3 +2111,7 @@ img,video,iframe{max-width:100%}
 
 /* Responsive global page gutters and overflow prevention */
 .destination-page,.search-page,.profile-page{width:100%;max-width:100%;min-width:0;box-sizing:border-box}@media(max-width:600px){:root{--space-page:12px;--space-section:12px}.destination-topline{height:52px;min-height:52px;padding-inline:12px}.destination-current-title{font-size:17px}.profile-page{padding-bottom:calc(76px + env(safe-area-inset-bottom))}.search-start-prompt{padding:18px 12px!important}}
+
+
+/* Global utility standards: accessible hidden text, status and focus */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}.feed-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid #f1d4d4;border-radius:12px;background:#fff8f8;color:#963e4b;line-height:1.5}.feed-notice button{flex:none;border:1px solid currentColor;border-radius:9px;padding:7px 10px;background:transparent;color:inherit;font:inherit;font-weight:650;cursor:pointer}
