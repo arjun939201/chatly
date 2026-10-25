@@ -780,3 +780,88 @@ body{overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Chatly product-wide UI foundation — shared tokens and interaction standards */
+:root{
+  color-scheme:light;
+  --chatly-brand:#6757e8;
+  --chatly-brand-hover:#5847d4;
+  --chatly-brand-soft:#f0edff;
+  --chatly-canvas:#f7f8fc;
+  --chatly-surface:#fff;
+  --chatly-surface-raised:#fff;
+  --chatly-ink:#202033;
+  --chatly-muted:#74758a;
+  --chatly-border:#e6e7ef;
+  --chatly-border-strong:#d6d8e5;
+  --chatly-success:#16845b;
+  --chatly-danger:#c53e50;
+  --chatly-radius-sm:10px;
+  --chatly-radius-md:14px;
+  --chatly-radius-lg:20px;
+  --chatly-shadow-sm:0 1px 2px rgb(22 25 48 / 4%),0 3px 12px rgb(22 25 48 / 3%);
+  --chatly-shadow-md:0 10px 30px rgb(22 25 48 / 7%);
+  --chatly-focus:0 0 0 3px rgb(103 87 232 / 22%);
+  --chatly-motion:160ms cubic-bezier(.2,.7,.2,1);
+}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{background:var(--chatly-canvas);color:var(--chatly-ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+button,input,textarea,select{font:inherit}
+button{touch-action:manipulation}
+img,video{max-width:100%}
+:where(button,a,input,textarea,select,[role="button"],[tabindex]):focus-visible{
+  outline:2px solid var(--chatly-brand)!important;
+  outline-offset:3px!important;
+  box-shadow:var(--chatly-focus);
+}
+:where(input,textarea,select){
+  color:var(--chatly-ink);
+  border-color:var(--chatly-border);
+  transition:border-color var(--chatly-motion),box-shadow var(--chatly-motion),background var(--chatly-motion);
+}
+:where(input,textarea,select):focus-visible{
+  border-color:var(--chatly-brand)!important;
+  box-shadow:var(--chatly-focus)!important;
+}
+:where(button,a,[role="button"]){transition:background-color var(--chatly-motion),border-color var(--chatly-motion),color var(--chatly-motion),box-shadow var(--chatly-motion),transform var(--chatly-motion)}
+:where(button):active:not(:disabled){transform:translateY(1px)}
+:where(button):disabled{cursor:not-allowed}
+:where(p){line-height:1.65}
+:where(h1,h2,h3,h4){text-wrap:balance}
+:where(.app-shell,.destination-page,.search-page,.profile-page,.chat-layout){min-width:0}
+:where(.destination-page,.search-page,.profile-page){overflow-wrap:anywhere}
+:where(.destination-page-header,.destination-topline,.profile-page-head,.conversation-header){min-width:0}
+:where(.destination-page-header h1,.destination-page-header h2,.destination-current-title){overflow-wrap:anywhere}
+:where(.destination-page .settings-section,.search-results,.youtube-results,.profile-post,.notifications-empty){
+  box-shadow:var(--chatly-shadow-sm);
+}
+:where(.destination-page .settings-section,.search-results,.youtube-results,.profile-post){
+  border-color:var(--chatly-border)!important;
+}
+:where(.primary-button,.send-button,.profile-edit-button){
+  min-height:42px;
+  border-radius:12px;
+}
+:where(.primary-button,.send-button):hover:not(:disabled){
+  background:var(--chatly-brand-hover);
+}
+:where(.icon-button,.page-back-to-feed,.profile-back){
+  min-width:40px;min-height:40px;border-radius:12px;
+}
+:where(.icon-button,.page-back-to-feed,.profile-back):hover:not(:disabled){
+  background:var(--chatly-brand-soft);
+}
+:where(.search-box,.search-page-input,.composer input){
+  border-radius:12px;
+}
+::selection{background:rgb(103 87 232 / 18%);color:inherit}
+@media(max-width:760px){
+  html{scroll-padding-top:68px}
+  :where(.destination-page,.search-page,.profile-page){max-width:100%;overflow-x:clip}
+  :where(button,.primary-button,.send-button){-webkit-tap-highlight-color:transparent}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:0s!important;animation-duration:0s!important;scroll-behavior:auto!important}
+}
