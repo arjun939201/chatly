@@ -250,3 +250,17 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .destination-page .settings-section{border-bottom:0}
 .page-back-to-feed{order:-1;margin:12px 18px 0}
 @media(max-width:600px){.destination-page{width:calc(100% - 28px);box-sizing:border-box;padding:18px;border-radius:16px}}
+
+
+/* Account page: compact, restrained settings styling */
+.settings-page:has(.account-view){width:min(100% - 32px,560px);padding:18px;border-radius:16px;box-shadow:none}
+.settings-page:has(.account-view) .destination-page-header{gap:10px;padding-bottom:14px}
+.settings-page:has(.account-view) .destination-page-header h2{font-size:20px;letter-spacing:-.35px}
+.settings-page:has(.account-view) .destination-page-header p{font-size:12px;margin-top:3px}
+.settings-page .account-view{margin-top:14px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
+.settings-page .account-view .settings-view-heading{padding:12px 0;border-bottom:1px solid var(--border)}
+.settings-page .account-view .settings-view-heading h3{font-size:16px;font-weight:600;margin:0}
+.settings-page .account-view .style-expander{min-height:48px;padding:12px 2px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;font-size:14px;font-weight:500}
+.settings-page .account-view .account-logout-top{color:#9b6572;background:transparent;border:0}
+.settings-page .account-view .password-form{padding:14px 0 4px;margin-top:0;border-top:0}
+@media(max-width:600px){.settings-page:has(.account-view){width:calc(100% - 28px);padding:16px;border-radius:14px}}
