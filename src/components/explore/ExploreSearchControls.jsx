@@ -6,7 +6,7 @@ export function ExploreSearchInput({ query, onQueryChange }) {
     <input
       value={query}
       onChange={event => onQueryChange(event.target.value)}
-      placeholder="Search people, rooms, posts, songs…"
+      placeholder="Search people, posts, and music…"
       aria-label="Search Explore"
       autoComplete="off"
       enterKeyHint="search"
@@ -28,7 +28,7 @@ export function ExploreCategoryTabs({ activeCategory, onCategoryChange }) {
       className={activeCategory === category ? "active" : ""}
       onClick={() => onCategoryChange(category)}
     >
-      {category === "all" ? "All" : category[0].toUpperCase() + category.slice(1)}
+      {category === "all" ? "Everything" : category === "songs" ? "Music" : category[0].toUpperCase() + category.slice(1)}
     </button>)}
   </div>;
 }
