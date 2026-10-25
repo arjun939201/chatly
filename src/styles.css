@@ -734,3 +734,28 @@ body{overflow-x:hidden}
  .account-option-row{min-height:68px!important}
  .profile-summary{gap:14px!important}
 }
+
+
+/* Compact native-style headers for nested Settings destinations */
+.settings-subpage-header{
+  display:flex!important;align-items:center!important;gap:12px!important;
+  min-height:58px!important;margin:18px 0 12px!important;padding:0 0 12px!important;
+  border-bottom:1px solid var(--border)!important;
+}
+.settings-subpage-header>button{
+  width:40px!important;height:40px!important;min-width:40px!important;
+  display:grid!important;place-items:center!important;padding:0!important;
+  border:1px solid var(--border)!important;border-radius:12px!important;
+  background:var(--surface)!important;color:var(--text)!important;
+}
+.settings-subpage-header h2{
+  margin:0!important;font-size:19px!important;font-weight:700!important;
+  line-height:1.25!important;letter-spacing:-.35px!important;color:var(--text)!important;
+}
+.account-settings-inline{padding:0!important}
+.account-settings-inline .account-options-label:first-of-type{margin-top:16px!important}
+@media(max-width:600px){
+ .settings-subpage-header{min-height:52px!important;margin:12px 0 10px!important;padding-bottom:10px!important;gap:10px!important}
+ .settings-subpage-header>button{width:38px!important;height:38px!important;min-width:38px!important}
+ .settings-subpage-header h2{font-size:17px!important}
+}
