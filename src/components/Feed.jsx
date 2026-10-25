@@ -5,22 +5,8 @@ import { supabase } from "../lib/supabase";
 export default function Feed({ session, profile, onFindFriends, onOpenProfile, onPostsChanged }) {
   const [posts, setPosts] = useState([]);
   const [feedLoading, setFeedLoading] = useState(true);
-  const [feedScope, setFeedScope] = useState("all");
   const [compose, setCompose] = useState(false); const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false); const [notice, setNotice] = useState("");
-  const [friendMenu, setFriendMenu] = useState(false);
-const [search, setSearch] = useState("");
-const [createMenu, setCreateMenu] = useState(false);
-useEffect(() => {
-  if (!createMenu) return;
-  function closeOnOutsideClick(event) {
-    if (!event.target.closest(".create-menu-wrap")) setCreateMenu(false);
-  }
-  document.addEventListener("pointerdown", closeOnOutsideClick);
-  function closeOnEscape(event) { if (event.key === "Escape") setCreateMenu(false); }
-  document.addEventListener("keydown", closeOnEscape);
-  return () => { document.removeEventListener("pointerdown", closeOnOutsideClick); document.removeEventListener("keydown", closeOnEscape); };
-}, [createMenu]);
 
 const [openComments, setOpenComments] = useState(null);
 const [comments, setComments] = useState({});
@@ -36,16 +22,7 @@ const [commentBusy, setCommentBusy] = useState(false);
     setFeedLoading(true);
     setNotice("");
     try {
-    let followedIds = [];
-    if (feedScope === "following") {
-      const { data: follows, error: followError } = await supabase.from("user_follows").select("following_id").eq("follower_id", session.user.id);
-      if (followError) { if (request === requestId.current) setNotice(`Could not load following feed: ${followError.message}`); return; }
-      followedIds = (follows || []).map(row => row.following_id);
-      if (!followedIds.length) { if (request === requestId.current) { setPosts([]); setComments({}); } return; }
-    }
-    let postQuery = supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100);
-    if (feedScope === "following") postQuery = postQuery.in("user_id", followedIds);
-    const { data, error } = await postQuery;
+    const { data, error } = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100);
     if (error) { if (request === requestId.current) setNotice(`Could not load feed: ${error.message}`); return; }
     const ids = [...new Set((data || []).map(p => p.user_id))];
     const { data: profiles, error: profilesError } = ids.length ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", ids) : { data: [], error: null };
@@ -69,7 +46,7 @@ const [commentBusy, setCommentBusy] = useState(false);
     }
     finally { if (request === requestId.current) setFeedLoading(false); }
   }
-  useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, [feedScope]);
+  useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, []);
   async function publish(e) { e.preventDefault(); if (!body.trim()) return; setBusy(true); setNotice(""); const { error } = await supabase.from("posts").insert({ user_id:session.user.id, body:body.trim() }); setBusy(false); if (error) { setNotice(error.message); return; } setBody(""); setCompose(false); await Promise.all([loadFeed(), onPostsChanged?.()]); }
   async function deletePost(post) {
     if (post.user_id !== session.user.id) return;
@@ -85,11 +62,10 @@ const [commentBusy, setCommentBusy] = useState(false);
   async function submitComment(e, postId) { e.preventDefault(); const text = commentDraft.trim(); if (!text || commentBusy) return; setCommentBusy(true); setNotice(""); try { const { data, error } = await supabase.from("post_comments").insert({post_id:postId,user_id:session.user.id,body:text}).select("id,post_id,user_id,body,created_at").single(); if (error) throw error; const newComment = { ...data, author: { id: session.user.id, display_name: profile?.display_name || "You", username: profile?.username || "", avatar_url: profile?.avatar_url || "" } }; setComments(current => ({ ...current, [postId]: [...(current[postId] || []), newComment] })); setCommentDraft(""); } catch (error) { setNotice(error.message || "Could not send comment."); } finally { setCommentBusy(false); } }
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
-    <div className="feed-top-controls"><div className="feed-scope-tabs" role="group" aria-label="Feed posts"><button type="button" className={feedScope === "all" ? "active" : ""} aria-pressed={feedScope === "all"} onClick={() => setFeedScope("all")}>For you</button><button type="button" className={feedScope === "following" ? "active" : ""} aria-pressed={feedScope === "following"} onClick={() => setFeedScope("following")}>Following</button></div><button className="feed-composer" onClick={() => setCompose(true)}>{avatar(profile)}<span>Share something with the community…</span><Plus size={18}/></button></div>
     {notice && <p className="feed-notice" role="status">{notice}</p>}
     {feedLoading && <p className="feed-loading" role="status">Loading posts…</p>}
     <div className="posts-list">{posts.map(post => <article className="post-card" key={post.id}><header className="post-author"><button className="post-author-profile" type="button" onClick={() => onOpenProfile?.(post.author)} aria-label={`View ${post.author?.display_name || "member"} profile`}>{avatar(post.author)}<span><b>{post.author?.display_name || "Chatly member"}</b><small>{post.author?.username ? "@"+post.author.username+" · " : ""}{new Date(post.created_at).toLocaleString([], {dateStyle:"medium",timeStyle:"short"})}</small></span></button>{post.user_id === session.user.id && <div className="post-options-wrap"><button className="post-options-trigger" aria-label="More options" aria-haspopup="menu" aria-expanded={postMenu === post.id} onClick={() => setPostMenu(postMenu === post.id ? null : post.id)}><MoreHorizontal size={20}/></button>{postMenu === post.id && <div className="post-options-menu"><button className="post-delete-option" disabled={deleteBusy} onClick={() => deletePost(post)}><Trash2 size={16}/>{deleteBusy ? "Deleting…" : "Delete"}</button></div>}</div>}</header><p className="post-body">{post.body}</p><footer className="post-actions"><button className={post.liked ? "liked" : ""} disabled={!!likeBusy[post.id]} aria-pressed={post.liked} onClick={() => toggleLike(post)}><Heart size={17} fill={post.liked ? "currentColor" : "none"}/>{post.likes} likes</button><button type="button" aria-expanded={openComments === post.id} aria-controls={`comments-${post.id}`} onClick={() => { setOpenComments(openComments === post.id ? null : post.id); setCommentDraft(""); }}><MessageCircle size={17}/>{(comments[post.id] || []).length} comments</button></footer></article>)}
-      {!feedLoading && !posts.length && <div className="feed-empty"><span><MessageCircle size={26}/></span><h3>{feedScope === "following" ? "Your following feed is quiet" : "No posts yet"}</h3><p>{feedScope === "following" ? "Follow people in Explore to see their posts here." : "Be the first to share something with the community."}</p><button type="button" className="primary-button" onClick={() => feedScope === "following" ? onFindFriends?.() : setCompose(true)}>{feedScope === "following" ? "Explore people" : "Create a post"}</button></div>}</div>
+      {!feedLoading && !posts.length && <div className="feed-empty"><span><MessageCircle size={26}/></span><h3>{"No posts yet"}</h3><p>{"Be the first to share something with the community."}</p><button type="button" className="primary-button" onClick={() => setCompose(true)}>Create a post</button></div>}</div>
   </div><div className="create-menu-wrap"><button className="floating-create" onClick={() => setCreateMenu(v => !v)} aria-label="Open create menu" aria-expanded={createMenu}><Plus size={25}/></button>{createMenu && <div className="create-menu"><button onClick={() => { setCreateMenu(false); setCompose(true); }}><Plus size={17}/> Create post</button></div>}</div>
   {openComments && <div className="modal-backdrop comment-modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setOpenComments(null); }}><section className="compose-modal comments-modal" role="dialog" aria-modal="true" aria-labelledby="comments-dialog-title"><header className="comments-dialog-header"><div><h2 id="comments-dialog-title">Comments</h2><p>{(comments[openComments] || []).length} {(comments[openComments] || []).length === 1 ? "response" : "responses"} · Join the conversation</p></div><button type="button" onClick={() => setOpenComments(null)} aria-label="Close comments"><X size={20}/></button></header><div className="comment-list" id={`comments-${openComments}`} aria-live="polite">{(comments[openComments] || []).map(comment => <article className={`comment-item ${comment.user_id === session.user.id ? "comment-item-own" : ""}`} key={comment.id}><button type="button" className="comment-avatar-link" onClick={() => { setOpenComments(null); onOpenProfile?.(comment.author); }} aria-label={`View ${comment.author?.display_name || "member"} profile`}>{avatar(comment.author)}</button><div className="comment-content"><div className="comment-meta"><button type="button" className="comment-name" onClick={() => { setOpenComments(null); onOpenProfile?.(comment.author); }}>{comment.author?.display_name || "Chatly member"}</button>{comment.author?.username && <span className="comment-username">@{comment.author.username}</span>}<span className="comment-meta-dot">·</span><time>{new Date(comment.created_at).toLocaleString([], { dateStyle: "medium", timeStyle: "short" })}</time>{comment.user_id === session.user.id && <span className="comment-you-label">You</span>}</div><div className="comment-message"><p>{comment.body}</p></div></div></article>)}{!(comments[openComments] || []).length && <div className="comments-empty-state"><span><MessageCircle size={24}/></span><h3>Start the conversation</h3><p>Be the first to share a thought on this post.</p></div>}</div><form className="comment-composer" onSubmit={e => submitComment(e, openComments)}>{avatar(profile)}<textarea aria-label="Write a comment" value={commentDraft} onChange={e => setCommentDraft(e.target.value)} placeholder="Add a thoughtful comment…" maxLength={2000} rows={1}/><small className="comment-character-count" aria-live="polite">{commentDraft.length}/2000</small><button type="submit" disabled={commentBusy || !commentDraft.trim()}>{commentBusy ? "Sending…" : "Send"}</button></form></section></div>}
   {compose && <div className="modal-backdrop" onClick={e => {if(e.target===e.currentTarget)setCompose(false)}}><section className="compose-modal"><header><h2>Create a post</h2><button onClick={() => setCompose(false)}><X size={19}/></button></header><div className="compose-author">{avatar(profile)}<b>{profile?.display_name || "You"}</b></div><form onSubmit={publish}><textarea value={body} onChange={e => setBody(e.target.value)} placeholder="What's on your mind?" maxLength={5000} autoFocus/><div className="compose-footer"><small>{body.length}/5000</small><button className="primary-button" disabled={busy || !body.trim()}>{busy ? "Posting…" : "Post"}</button></div></form></section></div>}
