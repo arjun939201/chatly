@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Bell, Heart, MessageCircle, UserRound, RefreshCw } from "lucide-react";
+import { Bell, Heart, MessageCircle, UserRound, RefreshCw, UserPlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function relativeTime(value) {
@@ -29,16 +29,16 @@ export default function NotificationsDestination({ session }) {
       const postIds = postRows.map(post => post.id);
       if (!postIds.length) { setItems([]); return; }
 
-      const [likesResult, commentsResult] = await Promise.all([
+      const [likesResult, commentsResult, followsResult] = await Promise.all([
         supabase.from("post_likes").select("post_id,user_id").in("post_id", postIds).neq("user_id", session.user.id),
         supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id)
       ]);
       if (likesResult.error) throw likesResult.error;
-      if (commentsResult.error) throw commentsResult.error;
+      if (commentsResult.error) throw commentsResult.error;\n      if (followsResult.error) throw followsResult.error;
 
       const activity = [
         ...(likesResult.data || []).map(row => ({ type: "like", post_id: row.post_id, user_id: row.user_id })),
-        ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" }))
+        ...(commentsResult.data || []).map(row => ({ ...row, type: "comment" })),\n        ...(followsResult.data || []).map(row => ({ type: "follow", user_id: row.follower_id, created_at: row.created_at }))
       ];
       if (!activity.length) { setItems([]); return; }
 
@@ -71,7 +71,7 @@ export default function NotificationsDestination({ session }) {
         <section className="notification-feed" aria-label="Recent activity">
           <div className="notification-feed-heading"><h2>Activity</h2></div>
           {loading ? (
-            <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes and comments on your posts…</p></div>
+            <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
           ) : error ? (
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
@@ -79,17 +79,17 @@ export default function NotificationsDestination({ session }) {
               {items.map(item => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
                 return <article className="notification-activity-item" key={item.id}>
-                  <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : <MessageCircle size={18}/>}</span>
+                  <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
-                    <p><strong>{actorName}</strong> {item.type === "like" ? "liked your post" : "commented on your post"}{item.type === "comment" && item.body ? `: “${item.body}”` : ""}</p>
+                    <p><strong>{actorName}</strong> {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
-                    {item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
+                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
                 </article>;
               })}
             </div>
           ) : (
-            <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>You’re all caught up</h3><p>When someone likes or comments on your posts, you’ll see it here.</p></div>
+            <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>You’re all caught up</h3><p>When someone likes or comments on your posts, or follows you, you’ll see it here.</p></div>
           )}
         </section>
       </div>
