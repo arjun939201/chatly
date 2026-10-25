@@ -30,7 +30,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
       <h1>Explore</h1>
       <p>Discover people, rooms, posts, and songs.</p>
       <ExploreSearchInput query={query} onQueryChange={setQuery} />
-      {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreHome onSearch={category => { setKind(category); setQuery(category); }} />}
+      {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreHome onSearch={topic => { setKind("all"); setQuery(topic); }} />}
 
       {hasQuery && <>
         {(kind === "all" || kind === "people") && <PeopleResults
