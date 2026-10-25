@@ -32,7 +32,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
       <ExploreSearchInput query={query} onQueryChange={setQuery} />
       {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreHome onSearch={topic => { setKind("all"); setQuery(topic); }} />}
 
-      {hasQuery && <>
+      {hasQuery && <div id="explore-results" role="tabpanel" aria-labelledby={`explore-tab-${kind}`}>
         {(kind === "all" || kind === "people") && <PeopleResults
           people={people}
           loading={peopleLoading}
@@ -54,7 +54,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
         />}
         {kind === "rooms" && <RoomsResults />}
         {kind === "songs" && <YouTubeResults videos={videos} loading={videoLoading} error={videoError} onPlayVideo={onPlayVideo} />}
-      </>}
+      </div>}
     </section>
   </main>;
 }
