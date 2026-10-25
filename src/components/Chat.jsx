@@ -15,7 +15,13 @@ export default function Chat({ session, profile, targetId }) {
   const [draft, setDraft] = useState("");
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
+  const [lastMessages, setLastMessages] = useState({});
   const bottomRef = useRef(null);
+
+  useEffect(() => {
+    supabase.from("messages").select("id,sender_id,recipient_id,body,created_at").or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id).order("created_at", { ascending: false }).limit(250)
+      .then(({ data }) => { if (!data) return; const latest = {}; data.forEach(message => { const peer = message.sender_id === session.user.id ? message.recipient_id : message.sender_id; if (!latest[peer]) latest[peer] = message; }); setLastMessages(latest); });
+  }, [session.user.id]);
 
   useEffect(() => {
     supabase.from("profiles").select("id, username, display_name, avatar_url")
@@ -62,23 +68,23 @@ export default function Chat({ session, profile, targetId }) {
   }
 
   const self = { ...(profile || {}), id: session.user.id, display_name: "Saved messages", username: "You", avatar_url: profile?.avatar_url };
-  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)].filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "personal" && p.id !== session.user.id) || filter === "unread"));
+  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)].filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || filter === "unread"));
 
   return <main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
       <div className="sidebar-heading"><div><MessageCircle size={18}/> Chats</div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
       <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/></div>
-      <div className="chat-filter-row">{[["all","All"],["unread","Unread"],["personal","Personal"],["saved","Saved"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}</button>)}</div><div className="people-list">
+      <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setActive(person); setError(""); }}>
           <Avatar person={person}/>
-          <span className="person-copy"><strong>{person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span>
+          <span className="person-copy"><strong>{person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{lastMessages[person.id] ? `${lastMessages[person.id].sender_id === session.user.id ? "You: " : ""}${lastMessages[person.id].body}` : person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span><time className="chat-row-time">{lastMessages[person.id] ? new Date(lastMessages[person.id].created_at).toLocaleDateString([], { month: "short", day: "numeric" }) : ""}</time>
         </button>)}
         {!visiblePeople.length && <p className="empty-small">{query ? "No matches found." : "No conversations yet. Start a new chat!"}</p>}
       </div>
     </aside>
     <section className="conversation">
       {active ? <>
-        <header className="conversation-header"><button className="mobile-back" onClick={() => setActive(null)} aria-label="Back to people"><ArrowLeft size={18}/></button><Avatar person={active}/><div><strong>{active.display_name || active.username || "Chatly user"}</strong><small>{active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
+        <header className="conversation-header"><button className="mobile-back" onClick={() => setActive(null)} aria-label="Back to people"><ArrowLeft size={18}/></button><Avatar person={active}/><div><strong>{active.id === session.user.id ? "Saved messages" : active.display_name || active.username || "Chatly user"}</strong><small>{active.id === session.user.id ? "Only you" : active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list">
           {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time></div></div>)}
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
