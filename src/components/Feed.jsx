@@ -25,6 +25,7 @@ const [comments, setComments] = useState({});
 const [commentDraft, setCommentDraft] = useState("");
 const [commentBusy, setCommentBusy] = useState(false);
   const [postMenu, setPostMenu] = useState(null);
+  useEffect(() => { if (postMenu === null) return; function outside(event) { if (!event.target.closest(".post-options-wrap")) setPostMenu(null); } function escape(event) { if (event.key === "Escape") setPostMenu(null); } document.addEventListener("pointerdown", outside); document.addEventListener("keydown", escape); return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); }; }, [postMenu]);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [likeBusy, setLikeBusy] = useState({});
   const requestId = useRef(0);
