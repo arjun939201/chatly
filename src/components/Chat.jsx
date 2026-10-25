@@ -63,15 +63,18 @@ export default function Chat({ session, profile, targetId, onBackToFeed }) {
     event.preventDefault();
     const body = draft.trim();
     if (!body || !active || sendBusy) return;
+    const recipientId = active.id;
     setSendBusy(true);
     setError("");
     setDraft("");
     try {
-      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: active.id, body });
-      if (err) { setDraft(body); setError(err.message); }
+      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: recipientId, body });
+      if (err && active?.id === recipientId) { setDraft(body); setError(err.message); }
     } catch (err) {
-      setDraft(body);
-      setError(err?.message || "Could not send message. Please try again.");
+      if (active?.id === recipientId) {
+        setDraft(body);
+        setError(err?.message || "Could not send message. Please try again.");
+      }
     } finally {
       setSendBusy(false);
     }
