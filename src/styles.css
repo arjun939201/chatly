@@ -3275,3 +3275,13 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .feed-page .feed-saved-view-toggle{min-height:35px;padding:8px 10px;gap:6px;font-size:11px}
 }
 @media(prefers-reduced-motion:reduce){.feed-page .feed-filter-tabs button,.feed-page .feed-saved-view-toggle{transition:none}}
+
+
+/* Feed timestamps: quieter metadata with an explicit full-date popup */
+.feed-page .post-timestamp-wrap{position:relative;display:inline-flex;align-items:center;vertical-align:middle;max-width:100%;}
+.feed-page .post-timestamp{display:inline-flex;align-items:center;padding:0;border:0;border-radius:4px;background:transparent;color:var(--muted,#9696a9);font:inherit;font-size:10px;font-weight:450;line-height:1.4;opacity:.78;cursor:pointer;transition:color .14s ease,opacity .14s ease;}
+.feed-page .post-timestamp:hover,.feed-page .post-timestamp[aria-expanded="true"]{color:var(--chatly-brand,#6757e8);opacity:1;}
+.feed-page .post-timestamp:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px;}
+.feed-page .post-timestamp-popup{position:absolute;z-index:20;top:calc(100% + 8px);left:0;width:max-content;max-width:min(300px,calc(100vw - 40px));padding:9px 12px;border:1px solid var(--border,#e5e4ef);border-radius:10px;background:var(--surface,#fff);color:var(--text,#35354b);font-size:11px;font-weight:550;line-height:1.5;white-space:normal;box-shadow:0 8px 24px rgba(30,27,65,.12);}
+@media(max-width:600px){.feed-page .post-timestamp{font-size:10px}.feed-page .post-timestamp-popup{max-width:calc(100vw - 48px);}}
+@media(prefers-reduced-motion:reduce){.feed-page .post-timestamp{transition:none}}
