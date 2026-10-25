@@ -158,7 +158,7 @@ export default function App() {
           <label>Bio <span className="field-hint">Up to 160 characters</span><textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
           <label>Email address<input value={session.user.email || ""} readOnly/></label>
           <button className="primary-button" disabled={saving}>{saving ? "Saving…" : <><Save size={16}/> Save profile</>}</button>
-        </form></section>
+        </form></section>}
         <section className="settings-section"><div className="settings-section-heading"><span className="settings-section-icon"><KeyRound size={17}/></span><div><h3>Account security</h3><p>Manage your sign-in details.</p></div></div><form className="password-form" onSubmit={setNewPassword}>
           <h3><KeyRound size={16}/> Optional password</h3><p>Set a password if you'd like another way to sign in.</p>
           <label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters"/></label>
