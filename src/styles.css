@@ -2497,3 +2497,45 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .chat-search-empty{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;padding:18px 14px;}
 .chat-search-empty p{margin:0;}
 .chat-search-empty button{border:0;background:transparent;color:var(--accent-color,#6b63d9);font:inherit;font-weight:600;cursor:pointer;padding:4px 8px;}
+
+
+/* Public profile responsive safeguards */
+.public-profile-page .profile-view,
+.public-profile-page .profile-hero,
+.public-profile-page .profile-identity {
+  min-width: 0;
+}
+.public-profile-page .profile-identity h1,
+.public-profile-page .profile-identity > p,
+.public-profile-page .profile-bio-text,
+.public-profile-page .profile-post p {
+  overflow-wrap: anywhere;
+}
+.public-profile-page .profile-actions {
+  flex-wrap: wrap;
+}
+.public-profile-page .profile-actions button {
+  max-width: 100%;
+}
+@media (max-width: 380px) {
+  .public-profile-page .profile-hero {
+    gap: 12px;
+    padding: 14px;
+  }
+  .public-profile-page .profile-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 21px;
+  }
+  .public-profile-page .profile-stats {
+    column-gap: 9px;
+    row-gap: 7px;
+  }
+  .public-profile-page .profile-actions {
+    gap: 6px;
+  }
+  .public-profile-page .profile-actions button {
+    padding: 8px;
+    font-size: 11px;
+  }
+}
