@@ -1900,3 +1900,7 @@ img,video,iframe{max-width:100%}
 
 /* Simple empty state without decorative blocks */
 .feed-empty{padding:34px 18px;border-style:solid;box-shadow:none}.feed-empty>span{display:none}.feed-empty h3{margin-top:0}.feed-empty p{max-width:300px}
+
+
+/* Floating plus is the single post-entry point */
+.floating-create{width:52px;height:52px;border-radius:16px;box-shadow:0 5px 16px #6757e830}.create-menu-wrap,.create-menu{display:none!important}
