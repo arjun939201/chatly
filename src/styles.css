@@ -1491,3 +1491,6 @@ img,video,iframe{max-width:100%}
 
 /* Improve compose modal actions */
 .compose-modal{border:1px solid #eeedf5;box-shadow:0 24px 80px #17172b29}.compose-modal header button{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:10px;background:#f5f4fa;color:#77778d}.compose-modal header button:hover{background:#eceaf7;color:#5145c7}.compose-modal textarea:focus-visible{outline:2px solid #d5d0ff;outline-offset:3px;border-radius:8px}.compose-footer .primary-button{min-width:94px}
+
+/* Polish post engagement actions */
+.post-actions{align-items:center;gap:clamp(14px,3vw,24px)}.post-actions button{min-height:38px;padding:6px 8px;border-radius:10px;font-size:12px;transition:background .15s,color .15s}.post-actions button:hover:not(:disabled){background:#f4f2ff;color:#6153d7}.post-actions button.liked{color:#df4d82}.post-actions button.liked:hover{background:#fff0f5;color:#cc3d73}.post-actions button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
