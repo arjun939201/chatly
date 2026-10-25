@@ -2605,3 +2605,47 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Chats responsive regression guardrails: compact widths, safe-area spacing, and flexible controls. */
+.chat-layout,.chat-layout .sidebar,.chat-layout .conversation,.chat-layout .conversation-header,.chat-layout .person-row,.chat-layout .composer{min-width:0}
+.chat-layout .person-copy{min-width:0;overflow:hidden}
+.chat-layout .person-copy small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chat-layout .chat-filter-row{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+.chat-layout .chat-filter-row::-webkit-scrollbar{display:none}
+.chat-layout .message-list{overscroll-behavior:contain;overflow-wrap:anywhere}
+.chat-layout .bubble{overflow-wrap:anywhere;word-break:normal}
+.chat-layout .composer textarea{overflow-wrap:anywhere}
+@media(max-width:700px){
+ .chat-layout{height:calc(100dvh - var(--chatly-mobile-nav-height,76px));height:calc(100dvh - var(--chatly-mobile-nav-height,76px) - env(safe-area-inset-bottom,0px))}
+ .chat-layout .conversation-header{gap:7px;padding-inline: max(10px,env(safe-area-inset-left,0px)) max(10px,env(safe-area-inset-right,0px))}
+ .chat-layout .conversation-header .conversation-mute,.chat-layout .conversation-header .conversation-pin,.chat-layout .conversation-header .conversation-archive{flex:0 0 32px;width:32px;height:32px}
+ .chat-layout .conversation-header>div{flex:1}
+ .chat-layout .message-list{min-height:0;padding-bottom:16px}
+ .chat-layout .composer{padding-bottom:max(9px,env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:420px){
+ .chat-layout .sidebar-heading{min-height:56px;padding:8px 11px}
+ .chat-layout .chat-filter-row{gap:5px;padding-inline:10px}
+ .chat-layout .chat-filter-row button{flex:0 0 auto;padding:7px 10px}
+ .chat-layout .search-box{margin:10px;padding:9px 11px}
+ .chat-layout .person-row{gap:9px}
+ .chat-layout .person-row .avatar{width:40px;height:40px}
+ .chat-layout .chat-row-time{font-size:9px}
+ .chat-layout .conversation-header{gap:5px;padding-inline:8px}
+ .chat-layout .conversation-header .conversation-mute,.chat-layout .conversation-header .conversation-pin,.chat-layout .conversation-header .conversation-archive{flex-basis:29px;width:29px;height:29px}
+ .chat-layout .conversation-close{flex-basis:34px;width:34px;height:34px}
+ .chat-layout .conversation-header .avatar{width:34px;height:34px}
+ .chat-layout .conversation-header strong{font-size:13px}
+ .chat-layout .conversation-header small{font-size:11px}
+ .chat-layout .message-list{padding:12px 9px}
+ .chat-layout .bubble{max-width:92%;padding:9px 11px}
+ .chat-layout .composer{gap:6px;padding-inline:8px}
+ .chat-layout .composer textarea{min-height:40px;padding:9px 10px;font-size:13px}
+ .chat-layout .send-button{width:40px;height:40px}
+}
+@media(max-width:350px){
+ .chat-layout .conversation-header .conversation-mute,.chat-layout .conversation-header .conversation-pin,.chat-layout .conversation-header .conversation-archive{display:none}
+ .chat-layout .conversation-header{gap:7px}
+ .chat-layout .person-row{padding-inline:9px}
+ .chat-layout .person-copy strong{font-size:12px}
+}
