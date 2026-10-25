@@ -3048,3 +3048,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 /* Explore UI pass 14 — section title alignment and hierarchy */
 .search-page .search-section-title{display:flex;align-items:center;gap:9px;color:var(--explore-text,#34334a);font-size:15px;font-weight:700;letter-spacing:-.2px}
 .search-page .explore-home-section-heading h3{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;font-weight:700}
+
+/* Explore UI pass 15 — avatar consistency and image fallback */
+.search-page .mini-avatar{display:grid;flex:0 0 40px;width:40px;height:40px;place-items:center;overflow:hidden;border:1px solid var(--explore-border,#e7e6ef);border-radius:50%;background:var(--chatly-brand-soft,#f0edff);color:var(--chatly-brand,#6757e8);font-size:14px;font-weight:700}
+.search-page .mini-avatar img{display:block;width:100%;height:100%;object-fit:cover}
