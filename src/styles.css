@@ -865,3 +865,95 @@ img,video{max-width:100%}
   html{scroll-behavior:auto}
   *,*::before,*::after{transition-duration:0s!important;animation-duration:0s!important;scroll-behavior:auto!important}
 }
+
+
+/* Destination-page consistency pass */
+.destination-page{
+  width:min(1120px,calc(100% - 48px));
+  margin:clamp(18px,3vw,32px) auto 40px;
+}
+.destination-page-header{
+  align-items:center;
+  min-height:76px;
+  padding:18px 22px;
+  border-radius:var(--chatly-radius-lg);
+  box-shadow:var(--chatly-shadow-sm);
+}
+.destination-page-header>svg{
+  width:42px;height:42px;padding:10px;
+  border-radius:13px;
+  background:var(--chatly-brand-soft);
+  color:var(--chatly-brand);
+}
+.destination-page-header h2{font-size:clamp(20px,2.2vw,25px);letter-spacing:-.55px}
+.destination-page-header p{font-size:13px;color:var(--chatly-muted)}
+.destination-page .settings-section{
+  padding:clamp(18px,2.5vw,26px);
+  border-radius:var(--chatly-radius-lg);
+  background:var(--chatly-surface);
+}
+.destination-page .settings-view-heading{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.destination-page .settings-view-heading h3{
+  margin:0;font-size:18px;font-weight:700;letter-spacing:-.25px;
+}
+.destination-page .settings-category-label,
+.destination-page .account-options-label{
+  margin-top:28px;
+  font-size:11px;letter-spacing:.09em;
+}
+.destination-page .style-expander{
+  width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  text-align:left;
+  border-radius:10px;
+  padding:14px 12px;
+}
+.destination-page .style-expander:hover{
+  background:color-mix(in srgb,var(--chatly-brand) 5%,transparent);
+}
+.destination-page .account-option-row>span:first-child{
+  display:flex;flex-direction:column;gap:5px;min-width:0;
+}
+.destination-page .account-option-row small{max-width:64ch}
+.destination-page .settings-options-panel{
+  padding:8px 12px 14px;
+  border-radius:12px;
+  background:color-mix(in srgb,var(--chatly-canvas) 75%,transparent);
+}
+.destination-page .settings-toggle-row{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+}
+.destination-page .settings-toggle-row>span{
+  display:flex;flex-direction:column;gap:4px;min-width:0;
+}
+.destination-page .settings-toggle-row input[type="checkbox"]{
+  width:18px;height:18px;flex:0 0 auto;accent-color:var(--chatly-brand);
+}
+.destination-page .style-choice-row{
+  display:flex;flex-wrap:wrap;gap:8px;
+}
+.destination-page .style-choice-row button{
+  border:1px solid var(--chatly-border);
+  background:var(--chatly-surface);
+  color:var(--chatly-muted);
+}
+.destination-page .style-choice-row button.selected{
+  border-color:var(--chatly-brand);
+  background:var(--chatly-brand-soft);
+  color:var(--chatly-brand);
+  font-weight:650;
+}
+.destination-page .settings-subpage-header{
+  position:relative;
+}
+.destination-page .settings-subpage-header h2{font-size:18px}
+@media(max-width:760px){
+  .destination-page{width:calc(100% - 28px);margin:14px auto 26px}
+  .destination-page-header{min-height:64px;padding:14px;border-radius:15px}
+  .destination-page-header>svg{width:38px;height:38px;padding:9px}
+  .destination-page .settings-section{padding:16px;border-radius:15px}
+  .destination-page .style-expander{padding:13px 9px}
+  .destination-page .settings-options-panel{padding:6px 9px 10px}
+}
