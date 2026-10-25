@@ -110,7 +110,7 @@ export default function App() {
         data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url, bio: form.bio.trim() }
       });
       if (metadataError) console.warn("Auth metadata sync failed:", metadataError.message);
-      setProfile(saved);
+      setProfile({ ...saved, bio: form.bio.trim() });
       setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "", bio: form.bio || "" });
       setAvatarFile(null);
       setNotice("Profile saved successfully.");
@@ -148,7 +148,7 @@ export default function App() {
       <section className="profile-modal edit-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
         <header className="modal-header"><div><h2 id="edit-profile-title">Edit profile</h2><p>Update how people see you on Chatly.</p></div><button className="icon-button" onClick={() => setEditProfileOpen(false)} aria-label="Close edit profile"><X size={18}/></button></header>
         <form onSubmit={saveProfile} className="profile-form">
-          <div className="profile-edit-row"><div className="avatar-editor"><span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span><label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label></div>
+          <div className="profile-edit-avatar-row"><div className="avatar-editor"><span className="avatar avatar-large">{avatarFile ? <img src={URL.createObjectURL(avatarFile)} alt="Avatar preview"/> : form.avatar_url ? <img src={form.avatar_url} alt="Profile"/> : (form.display_name || "C").slice(0,1).toUpperCase()}</span><label className="upload-avatar"><Camera size={15}/> Change photo<input type="file" accept="image/*" onChange={e => setAvatarFile(e.target.files?.[0] || null)}/></label></div>
           <label className="profile-edit-name">Display name<input value={form.display_name} maxLength={40} onChange={e => setForm(f => ({...f, display_name:e.target.value}))} placeholder="Your name" required/></label>
           <label className="profile-edit-username">Username <span className="field-hint">3–20 letters, numbers, underscores</span><div className="username-input"><span>@</span><input value={form.username} maxLength={20} onChange={e => setForm(f => ({...f, username:e.target.value}))} placeholder="yourusername"/></div></label></div>
           <label className="profile-edit-bio">Bio <span className="field-hint">Up to 160 characters</span><textarea value={form.bio} maxLength={160} rows={3} onChange={e => setForm(f => ({...f, bio:e.target.value}))} placeholder="Tell people a little about yourself"/></label>
