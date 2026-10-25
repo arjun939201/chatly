@@ -49,10 +49,6 @@ export default function ExploreHome({ onSearch }) {
   }, []);
 
   return <section className="explore-home" aria-label="Explore discovery home">
-    <div className="explore-home-heading">
-      <span className="explore-home-icon"><Compass size={21} /></span>
-      <div><h2>Discover on Chatly</h2><p>Find conversations and people beyond your feed.</p></div>
-    </div>
     <div className="explore-topic-discovery" aria-label="Explore topics">
       <h3><Hash size={16} /> Explore by interest <span>Choose a topic to find related conversations</span></h3>
       <div className="explore-discovery-actions">
