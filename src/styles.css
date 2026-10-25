@@ -1481,3 +1481,10 @@ img,video,iframe{max-width:100%}
 .feed-scope-tabs button{min-height:44px;border-radius:12px;color:#858599;transition:background .15s,color .15s,box-shadow .15s}
 .feed-scope-tabs button.active{background:#f2f1f8;color:#27273a;box-shadow:0 1px 4px #2520440b}
 .feed-scope-tabs button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
+
+
+/* 4. Composer entry point */
+.feed-composer{border:1px solid #e6e5ef;border-radius:18px;background:#fff;box-shadow:0 4px 18px #302b5405;transition:border-color .16s,box-shadow .16s}
+.feed-composer:hover{border-color:#d9d5f7;box-shadow:0 7px 22px #302b540b}
+.feed-composer>span{color:#858599}
+.feed-composer:focus-visible{outline:2px solid #8c80f4;outline-offset:3px}
