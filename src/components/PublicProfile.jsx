@@ -24,7 +24,11 @@ export default function PublicProfile({ person, session, onBack, onOpenChats }) 
     let alive = true;
     const currentRequest = ++request.current;
     async function load() {
-      if (!person?.id) { setLoading(false); return; }
+      if (!person?.id) {
+        setPosts([]); setPostsError(false); setFollowers(0); setFollowingCount(0); setIsFollowing(false);
+        setLoading(false); setNotice("");
+        return;
+      }
       setLoading(true); setNotice(""); setPostsError(false);
       const [postResult, followerResult, followingResult, relationResult] = await Promise.all([
         supabase.from("posts").select("id,body,created_at").eq("user_id", person.id).order("created_at", { ascending: false }).limit(100),
