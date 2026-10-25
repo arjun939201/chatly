@@ -32,7 +32,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
     async function load() {
       setLoading(true);
       const [profiles, postRows] = await Promise.all([
-        supabase.from("profiles").select("id,username,display_name,avatar_url").order("display_name").limit(200),
+        supabase.from("profiles").select("id,username,display_name,avatar_url,bio").order("display_name").limit(200),
         supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(200)
       ]);
       if (!alive) return;
@@ -128,7 +128,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
 
   if (selected) return <main className="search-page"><section className="profile-view">
     <button className="profile-back" onClick={() => { profileRequest.current += 1; setSelected(null); setProfileLoading(false); }}><ArrowLeft size={17}/> Back to search</button>
-    <div className="profile-hero"><Avatar person={selected} size="profile-avatar"/><div className="profile-identity"><h1>{selected.display_name || "Chatly user"}</h1><p>{selected.username ? "@" + selected.username : "Chatly member"}</p><div className="profile-stats"><span><b>{profilePosts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div><div className="profile-actions">{!ownProfile && <><button className="primary-button" disabled={busy || profileLoading} onClick={toggleFollow}>{busy ? "Updating…" : profileLoading ? "Loading…" : following ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" onClick={onOpenChats}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
+    <div className="profile-hero"><Avatar person={selected} size="profile-avatar"/><div className="profile-identity"><h1>{selected.display_name || "Chatly user"}</h1><p>{selected.username ? "@" + selected.username : "Chatly member"}</p>{selected.bio && <p className="profile-bio-text">{selected.bio}</p>}<div className="profile-stats"><span><b>{profilePosts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div><div className="profile-actions">{!ownProfile && <><button className="primary-button" disabled={busy || profileLoading} onClick={toggleFollow}>{busy ? "Updating…" : profileLoading ? "Loading…" : following ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" onClick={onOpenChats}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
     <h2 className="profile-posts-title">Posts</h2>
     <div className="profile-post-grid">{profilePosts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{new Date(post.created_at).toLocaleDateString()}</small></article>)}{!profilePosts.length && <p className="profile-empty">No posts yet.</p>}</div>
     {notice && <p className="search-notice">{notice}</p>}

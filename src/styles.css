@@ -1400,3 +1400,39 @@ img,video,iframe{max-width:100%}
     transition: none;
   }
 }
+
+
+/* Public profile detail hierarchy */
+.profile-bio-text {
+  max-width: 58ch;
+  margin: -8px 0 16px !important;
+  color: var(--muted, #77778c);
+  font-size: 13px !important;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.profile-hero {
+  box-shadow: 0 6px 24px #302b5405;
+}
+.profile-identity h1 {
+  letter-spacing: -.45px;
+  overflow-wrap: anywhere;
+}
+.profile-stats span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.profile-post {
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.profile-post:hover {
+  border-color: #dedcf5;
+  box-shadow: 0 6px 20px #302b5409;
+}
+@media (prefers-reduced-motion: reduce) {
+  .profile-post {
+    transition: none;
+  }
+}
