@@ -130,7 +130,7 @@ export default function App() {
       <button className={tab === "search" ? "active" : ""} onClick={() => setTab("search")}><Search size={20}/><span>Search</span></button><button className={tab === "feed" ? "active" : ""} onClick={() => setTab("feed")}><Home size={20}/><span>Feed</span></button>
       <button className={tab === "chats" ? "active" : ""} onClick={() => setTab("chats")}><MessagesSquare size={20}/><span>Chats</span></button>
       <button className={tab === "profile" ? "active" : ""} onClick={() => setTab("profile")}><span className="nav-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><span>Profile</span></button>
-    </nav>
+    </nav>}
     {settingsOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setSettingsOpen(false); }}>
       <section className="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
         <header className="modal-header"><div><h2 id="profile-title">Profile settings</h2><p>Manage your Chatly identity</p></div><button className="icon-button" onClick={() => setSettingsOpen(false)} aria-label="Close settings"><X size={18}/></button></header>
