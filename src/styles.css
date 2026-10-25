@@ -3056,3 +3056,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 /* Explore UI pass 16 — safe wrapping for long names, handles, and post copy */
 .search-page .search-person-details,.search-page .search-post-author,.search-page .explore-home-post-author,.search-page .search-post-body,.search-page .explore-home-post p{min-width:0;overflow-wrap:anywhere;word-break:normal}
 .search-page .search-person-details small,.search-page .search-post-author small{max-width:100%}
+
+/* Explore UI pass 17 — consistent vertical rhythm across results */
+.search-page .search-results{display:grid;gap:10px}
+.search-page .explore-result-section+.explore-result-section{margin-top:22px}
+.search-page .search-results>p{margin:0;line-height:1.6}
