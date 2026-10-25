@@ -1888,3 +1888,7 @@ img,video,iframe{max-width:100%}
 
 /* Simplify feed: remove empty top-control spacing after feed filters/composer are removed */
 .feed-page{padding-top:20px}.feed-column{max-width:680px}.feed-top-controls{display:none}.feed-composer{display:none}
+
+
+/* Keep posts clean and readable with restrained card chrome */
+.posts-list{gap:12px}.post-card{box-shadow:none;border-radius:14px;padding:16px}.post-body{margin:12px 0;line-height:1.6}
