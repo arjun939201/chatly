@@ -14,7 +14,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [configError, setConfigError] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [tab, setTab] = useState("feed");
+  const [tab, setTab] = useState("feed");\n  const [chatTarget, setChatTarget] = useState(null);\n  function openChat(targetId) { setChatTarget(targetId || null); setTab("chats"); }
   const [form, setForm] = useState(initialProfile);
   const [avatarFile, setAvatarFile] = useState(null);
   const [saving, setSaving] = useState(false);
@@ -121,8 +121,8 @@ export default function App() {
 
       </div>
     </header>
-    {tab === "search" && <SearchPeople session={session} onOpenChats={() => setTab("chats")}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
-    {tab === "chats" && <Chat session={session} profile={profile}/>}
+    {tab === "search" && <SearchPeople session={session} onOpenChats={openChat}/>}{tab === "feed" && <Feed session={session} profile={profile} onFindFriends={() => setTab("chats")}/>}
+    {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget}/>}
     {tab === "settings" && <section className="settings-home"><div className="settings-home-card"><span className="avatar avatar-large">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><h2>{profile?.display_name || "Your profile"}</h2><p>{profile?.username ? "@"+profile.username : "Make your profile yours"}</p><button className="primary-button" onClick={() => setSettingsOpen(true)}>Edit profile</button><button className="logout-settings" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out</button></div></section>}
     <nav className="bottom-tabs" aria-label="Main navigation">
       <button className={tab === "search" ? "active" : ""} onClick={() => setTab("search")}><Search size={20}/><span>Search</span></button><button className={tab === "feed" ? "active" : ""} onClick={() => setTab("feed")}><Home size={20}/><span>Feed</span></button>
