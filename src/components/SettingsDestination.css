@@ -4,3 +4,5 @@
 @media(max-width:420px){.st-dialog{padding:18px;border-radius:13px}.st-dialog footer{flex-wrap:wrap}.st-dialog footer button{flex:1}.st-pref-row{gap:10px}}
 
 .st-nav-row:hover,.st-detail-row:hover{background:color-mix(in srgb,var(--surface) 90%,var(--text) 10%)}.st-reset-button:hover{border-color:#7566e8}
+
+@media(max-width:420px){.st-dialog{padding:18px;border-radius:13px}.st-dialog footer{flex-wrap:wrap}.st-dialog footer button{flex:1}.st-pref-row{gap:10px}}
