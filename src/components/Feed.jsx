@@ -23,7 +23,8 @@ const commentSubmitLock = useRef(false);
   const [likeBusy, setLikeBusy] = useState({});
   const [followBusy, setFollowBusy] = useState({});
   const [savedPosts, setSavedPosts] = useState(new Set());
-  const [saveBusy, setSaveBusy] = useState({});\n  const [savedView, setSavedView] = useState(false);
+  const [saveBusy, setSaveBusy] = useState({});
+  const [savedView, setSavedView] = useState(false);
   const requestId = useRef(0);
   async function loadFeed() {
     const request = ++requestId.current;
@@ -32,7 +33,15 @@ const commentSubmitLock = useRef(false);
     setFeedError("");
     setNotice("");
     try {
-    let data; let error;\n    if (savedView) {\n      const { data: savedRows, error: savedError } = await supabase.from("saved_posts").select("post_id,created_at").eq("user_id", session.user.id).order("created_at", { ascending: false }).limit(100);\n      if (savedError) throw savedError;\n      const savedIds = (savedRows || []).map(row => row.post_id);\n      if (savedIds.length) { const result = await supabase.from("posts").select("id,user_id,body,created_at").in("id", savedIds); data = result.data; error = result.error; } else { data = []; error = null; }\n    } else {\n      const result = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100); data = result.data; error = result.error;\n    }
+    let data; let error;
+    if (savedView) {
+      const { data: savedRows, error: savedError } = await supabase.from("saved_posts").select("post_id,created_at").eq("user_id", session.user.id).order("created_at", { ascending: false }).limit(100);
+      if (savedError) throw savedError;
+      const savedIds = (savedRows || []).map(row => row.post_id);
+      if (savedIds.length) { const result = await supabase.from("posts").select("id,user_id,body,created_at").in("id", savedIds); data = result.data; error = result.error; } else { data = []; error = null; }
+    } else {
+      const result = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100); data = result.data; error = result.error;
+    }
     if (error) { if (request === requestId.current) setFeedError(`Could not load feed: ${error.message}`); return; }
     const ids = [...new Set((data || []).map(p => p.user_id))];
     const { data: profiles, error: profilesError } = ids.length ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", ids) : { data: [], error: null };
