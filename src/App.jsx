@@ -46,7 +46,7 @@ export default function App() {
       const metadata = user.user_metadata || {};
       const fallbackName = metadata.display_name || metadata.full_name || user.email?.split("@")[0] || "Chatly user";
       const { data, error } = await supabase.from("profiles")
-        .select("id, username, display_name, avatar_url, bio").eq("id", user.id).maybeSingle();
+        .select("id, username, display_name, avatar_url").eq("id", user.id).maybeSingle();
       if (cancelled) return;
       if (error) {
         console.error("Profile load failed:", error);
@@ -57,7 +57,7 @@ export default function App() {
       if (!next) {
         const seed = { id: user.id, username: metadata.username || null, display_name: fallbackName, avatar_url: metadata.avatar_url || null, bio: metadata.bio || "" };
         const { data: inserted, error: insertError } = await supabase.from("profiles")
-          .upsert(seed, { onConflict: "id" }).select("id, username, display_name, avatar_url, bio").single();
+          .upsert(seed, { onConflict: "id" }).select("id, username, display_name, avatar_url").single();
         if (cancelled) return;
         if (insertError) {
           console.error("Profile create failed:", insertError);
@@ -66,7 +66,7 @@ export default function App() {
         } else next = inserted;
       }
       setProfile(next);
-      setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "", bio: next.bio || "" });
+      setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "", bio: next.bio || metadata.bio || "" });
     }
     loadProfile();
     return () => { cancelled = true; };
@@ -87,18 +87,18 @@ export default function App() {
       }
       const username = form.username.trim().toLowerCase() || null;
       if (username && !/^[a-z0-9_]{3,20}$/.test(username)) throw new Error("Username must be 3–20 characters: letters, numbers, or underscores.");
-      const payload = { id: session.user.id, display_name: form.display_name.trim() || "Chatly user", username, avatar_url, bio: form.bio.trim() };
+      const payload = { id: session.user.id, display_name: form.display_name.trim() || "Chatly user", username, avatar_url };
       const { data: saved, error } = await supabase.from("profiles")
         .upsert(payload, { onConflict: "id" })
-        .select("id, username, display_name, avatar_url, bio").single();
+        .select("id, username, display_name, avatar_url").single();
       if (error) throw error;
       // Keep Auth metadata in sync as a fallback, while the profiles row remains authoritative.
       const { error: metadataError } = await supabase.auth.updateUser({
-        data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url, bio: saved.bio }
+        data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url, bio: form.bio.trim() }
       });
       if (metadataError) console.warn("Auth metadata sync failed:", metadataError.message);
       setProfile(saved);
-      setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "", bio: saved.bio || "" });
+      setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "", bio: form.bio || "" });
       setAvatarFile(null);
       setNotice("Profile saved successfully.");
     } catch (error) { setNotice(error.message || "Could not save profile."); }
