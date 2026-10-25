@@ -244,7 +244,7 @@ export default function App() {
       </section>
     </div>}
     {tab === "settings" && <section className="destination-page settings-page app-settings-destination-page">
-      <header className="destination-page-header"><Settings size={22}/><div><h2>Settings</h2><p>Manage your Chatly preferences.</p></div></header>
+      
       <section className="settings-section app-style-controls">
         <div className="settings-view-heading"><h3>Appearance</h3><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} aria-label="Toggle theme" onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div>
         <button className="style-expander" onClick={() => {setFontSizeExpanded(v => !v); setFontFamilyExpanded(v => !v)}}><span>Fonts</span><span>{fontSizeExpanded || fontFamilyExpanded ? "−" : "+"}</span></button>
