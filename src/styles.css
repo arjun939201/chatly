@@ -1627,3 +1627,10 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-meta time{font-size:11px;font-weight:400;color:var(--muted,#858597);white-space:nowrap}
 .comments-modal .comment-meta-dot{display:none}
 .comments-modal .comment-you-label{margin-left:auto;font-size:10px;line-height:1.2;padding:3px 7px;border-radius:999px}
+
+
+/* Comment layout 03 — consistent, calm message cards */
+.comments-modal .comment-message{padding:12px 14px;border:1px solid var(--border,#e7e7ef);border-radius:4px 15px 15px 15px;background:var(--app-bg,#f7f7fa);color:var(--text,#292938);box-shadow:none}
+.comments-modal .comment-message p{font-size:14px;white-space:pre-wrap;word-break:normal}
+.comments-modal .comment-item-own .comment-message{border-color:color-mix(in srgb,#8172e9 24%,var(--border,#e7e7ef));background:color-mix(in srgb,#8172e9 8%,var(--surface,#fff));border-radius:4px 15px 15px 15px}
+.comments-modal .comment-item-own .comment-message p{font-size:14px}
