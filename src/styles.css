@@ -1923,3 +1923,7 @@ img,video,iframe{max-width:100%}
 
 /* Restore the floating create control as a visible, usable feed action */
 .feed-page .create-menu-wrap{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:calc(82px + env(safe-area-inset-bottom));z-index:35}.feed-page .floating-create{display:grid;place-items:center;background:var(--accent,#8172e9);color:#fff;border:0;cursor:pointer}
+
+
+/* Restore the feed content column */
+.feed-page,.feed-page .feed-column{display:block;visibility:visible;opacity:1;min-width:0}
