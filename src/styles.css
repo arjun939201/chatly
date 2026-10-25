@@ -2726,3 +2726,27 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   box-shadow: 0 2px 10px rgba(32, 28, 72, .025);
 }
 
+
+
+/* Explore UI pass 2: clearer search field affordance and focus treatment. */
+.search-page .search-page-input {
+  min-height: 48px;
+  gap: 11px;
+  padding: 0 14px;
+  border: 1px solid var(--border, #e6e5ef);
+  border-radius: 13px;
+  background: var(--surface, #fff);
+  color: var(--muted, #85859a);
+  transition: border-color .16s ease, box-shadow .16s ease;
+}
+.search-page .search-page-input input {
+  flex: 1;
+  width: 100%;
+  color: var(--text, #29283d);
+  outline: 0;
+}
+.search-page .search-page-input input::placeholder {
+  color: var(--muted, #9292a6);
+  opacity: .9;
+}
+
