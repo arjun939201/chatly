@@ -3082,3 +3082,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 
 /* Feed UI refinement 05 — post action controls */
 .post-actions{align-items:center;gap:clamp(12px,3vw,23px);padding-top:14px;border-top:1px solid #f0eff6}.post-actions button,.post-view-count{min-height:34px;display:inline-flex;align-items:center;gap:7px;border-radius:9px;padding:5px 8px;font-size:12px;font-weight:550;transition:color .16s ease,background .16s ease}.post-actions button:hover:not(:disabled){background:#f6f4ff;color:#6256cb}.post-actions button.liked{color:#df4d7e;background:#fff4f7}.post-actions .post-save-button.saved{color:#6558d8;background:#f5f2ff}.post-view-count{padding-left:0;color:#9695a8}
+
+
+/* Feed UI refinement 06 — shared image presentation */
+.post-media{margin:0 0 17px;border:1px solid #e9e8f1;border-radius:15px;background:#f5f5fa;box-shadow:0 2px 8px rgba(25,22,54,.025)}.post-media img{max-height:640px;object-fit:contain}.post-media figcaption{font-size:11px;letter-spacing:.01em;padding:8px 12px;color:#85859b;background:#fff}
