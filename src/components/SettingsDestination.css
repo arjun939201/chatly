@@ -12,3 +12,10 @@
 .st-nav-row:hover,.st-detail-row:hover{background:color-mix(in srgb,var(--surface) 90%,var(--text) 10%)}
 
 .st-search input::placeholder{color:var(--muted);opacity:.9}.st-search input:hover{border-color:color-mix(in srgb,var(--border) 55%,var(--text) 45%)}
+
+
+/* Settings search clear action */
+.st-search-wrap { position: relative; display: flex; align-items: center; gap: 8px; }
+.st-search-wrap .st-search { flex: 1; min-width: 0; }
+.st-search-clear { border: 0; background: transparent; color: var(--text-secondary, #6b7280); cursor: pointer; padding: 8px 10px; border-radius: 8px; font: inherit; }
+.st-search-clear:focus-visible { outline: 2px solid var(--accent, #6366f1); outline-offset: 2px; }
