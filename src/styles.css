@@ -2027,3 +2027,7 @@ img,video,iframe{max-width:100%}
 
 /* Global profile menu and nested post menus share focus treatment */
 .profile-dropdown button:focus-visible,.post-options-menu button:focus-visible{outline:2px solid #8172e9;outline-offset:-2px}
+
+
+/* Dropdown actions fit the viewport and remain easy to tap */
+.post-options-menu{max-width:min(240px,calc(100vw - 28px))}.post-options-menu button{min-height:42px}@media(max-width:600px){.post-options-menu{right:0;min-width:180px}}
