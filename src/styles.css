@@ -3073,3 +3073,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .theme-dark .search-page .search-person-details b,.theme-dark .search-page .search-post-author b,.theme-dark .search-page .search-post-body,.theme-dark .search-page .explore-home-post p,.theme-dark .search-page .explore-home-post-author{color:var(--text,#eeeef5)}
 .theme-dark .search-page .search-kind-tabs button{border-color:var(--border,#343443);background:var(--surface,#22222d);color:var(--muted,#aaaabd)}
 .theme-dark .search-page .search-kind-tabs button.active{border-color:var(--chatly-brand,#9186ff);background:var(--chatly-brand-soft,#302b50);color:var(--chatly-brand,#b5adff)}
+
+/* Explore UI pass 20 — mobile spacing and safe interaction sizing */
+@media(max-width:600px){.search-page .search-results{gap:9px}.search-page .search-person,.search-page .search-post,.search-page .explore-home-post{border-radius:12px}.search-page .search-person-action{min-height:38px}}
+@media(max-width:360px){.search-page .mini-avatar{flex-basis:34px;width:34px;height:34px}.search-page .search-person{gap:8px}}
+@media(prefers-reduced-motion:reduce){.search-page .search-person,.search-page .search-post,.search-page .explore-home-post{transition:none}}
