@@ -29,17 +29,37 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
     async function loadProfile() {
       if (!session?.user) { setProfile(null); return; }
+      const user = session.user;
+      const metadata = user.user_metadata || {};
+      const fallbackName = metadata.display_name || metadata.full_name || user.email?.split("@")[0] || "Chatly user";
       const { data, error } = await supabase.from("profiles")
-        .select("id, username, display_name, avatar_url").eq("id", session.user.id).maybeSingle();
-      if (error) { console.error(error); return; }
-      const next = data || { ...initialProfile, id: session.user.id,
-        display_name: session.user.user_metadata?.display_name || session.user.user_metadata?.full_name || "" };
+        .select("id, username, display_name, avatar_url").eq("id", user.id).maybeSingle();
+      if (cancelled) return;
+      if (error) {
+        console.error("Profile load failed:", error);
+        setNotice(`Could not load profile: ${error.message}`);
+        return;
+      }
+      let next = data;
+      if (!next) {
+        const seed = { id: user.id, username: metadata.username || null, display_name: fallbackName, avatar_url: metadata.avatar_url || null };
+        const { data: inserted, error: insertError } = await supabase.from("profiles")
+          .upsert(seed, { onConflict: "id" }).select("id, username, display_name, avatar_url").single();
+        if (cancelled) return;
+        if (insertError) {
+          console.error("Profile create failed:", insertError);
+          setNotice(`Could not create profile: ${insertError.message}`);
+          next = seed;
+        } else next = inserted;
+      }
       setProfile(next);
-      setForm({ display_name: next.display_name || "", username: next.username || "", avatar_url: next.avatar_url || "" });
+      setForm({ display_name: next.display_name || fallbackName, username: next.username || "", avatar_url: next.avatar_url || "" });
     }
     loadProfile();
+    return () => { cancelled = true; };
   }, [session]);
 
   async function saveProfile(event) {
@@ -58,9 +78,19 @@ export default function App() {
       const username = form.username.trim().toLowerCase() || null;
       if (username && !/^[a-z0-9_]{3,20}$/.test(username)) throw new Error("Username must be 3–20 characters: letters, numbers, or underscores.");
       const payload = { id: session.user.id, display_name: form.display_name.trim() || "Chatly user", username, avatar_url };
-      const { error } = await supabase.from("profiles").upsert(payload, { onConflict: "id" });
+      const { data: saved, error } = await supabase.from("profiles")
+        .upsert(payload, { onConflict: "id" })
+        .select("id, username, display_name, avatar_url").single();
       if (error) throw error;
-      setProfile(payload); setForm({ ...payload }); setAvatarFile(null); setNotice("Profile saved.");
+      // Keep Auth metadata in sync as a fallback, while the profiles row remains authoritative.
+      const { error: metadataError } = await supabase.auth.updateUser({
+        data: { display_name: saved.display_name, username: saved.username, avatar_url: saved.avatar_url }
+      });
+      if (metadataError) console.warn("Auth metadata sync failed:", metadataError.message);
+      setProfile(saved);
+      setForm({ display_name: saved.display_name || "", username: saved.username || "", avatar_url: saved.avatar_url || "" });
+      setAvatarFile(null);
+      setNotice("Profile saved successfully.");
     } catch (error) { setNotice(error.message || "Could not save profile."); }
     finally { setSaving(false); }
   }
@@ -82,7 +112,7 @@ export default function App() {
       <div className="brand"><span className="brand-mark"><MessageCircle size={20}/></span> Chatly</div>
       <div className="account">
         <button className="account-profile" onClick={() => { setSettingsOpen(true); setNotice(""); }} aria-label="Open profile settings">
-          <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt=""/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
+          <span className="avatar avatar-small">{profile?.avatar_url ? <img src={profile.avatar_url} alt="" onError={e => { e.currentTarget.style.display = "none"; }}/ > : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span>
           <span className="account-copy"><strong>{profile?.display_name || session.user.user_metadata?.full_name || "Your profile"}</strong><small>{profile?.username ? `@${profile.username}` : "Set your username"}</small></span>
         </button>
         <button className="icon-button" title="Profile settings" onClick={() => setSettingsOpen(true)}><Settings size={18}/></button>
