@@ -156,7 +156,7 @@ const commentSubmitLock = useRef(false);
   };
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
-    <div className="feed-heading-row"><div><h1>{savedView ? "Saved posts" : "Your feed"}</h1><p>{savedView ? "Posts you bookmarked for later" : "Updates from the Chatly community"}</p></div><button type="button" className="feed-saved-view-toggle" aria-pressed={savedView} onClick={() => setSavedView(value => !value)}><Bookmark size={16} fill={savedView ? "currentColor" : "none"}/>{savedView ? "Back to feed" : "Saved posts"}</button></div>
+    <div className="feed-heading-row"><div><h1>{savedView ? "Saved posts" : "Your feed"}</h1>{savedView && <p>Posts you bookmarked for later</p>}</div><button type="button" className="feed-saved-view-toggle" aria-pressed={savedView} onClick={() => setSavedView(value => !value)}><Bookmark size={16} fill={savedView ? "currentColor" : "none"}/>{savedView ? "Back to feed" : "Saved posts"}</button></div>
     {feedError && <div className="feed-notice" role="alert"><span>{feedError}</span><button type="button" onClick={loadFeed} disabled={feedLoading}>{feedLoading ? "Retrying…" : "Try again"}</button></div>}
     {notice && <div className="feed-notice" role="status"><span>{notice}</span></div>}
     {feedLoading && posts.length === 0 && <section className="feed-loading-state" role="status" aria-label="Loading posts">
