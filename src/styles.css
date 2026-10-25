@@ -1642,3 +1642,12 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-avatar-link .mini-avatar img{width:100%;height:100%;object-fit:cover;display:block}
 .comments-modal .comment-avatar-link:hover{filter:brightness(.97)}
 .comments-modal .comment-avatar-link:focus-visible{outline:2px solid #8172e9;outline-offset:3px}
+
+
+/* Comment layout 05 — spacing and thread rhythm */
+.comments-modal .comment-list{gap:0;padding:22px 24px}
+.comments-modal .comment-item+.comment-item{padding-top:0}
+.comments-modal .comment-item:not(:last-child){margin-bottom:18px}
+.comments-modal .comment-item:last-child{padding-bottom:0}
+.comments-modal .comment-content{gap:7px}
+.comments-modal .comment-message{max-width:min(100%,560px)}
