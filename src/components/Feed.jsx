@@ -64,14 +64,28 @@ const commentSubmitLock = useRef(false);
   useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, []);
   async function publish(e) { e.preventDefault(); if (busy || !body.trim()) return; setBusy(true); setNotice(""); try { const { error } = await supabase.from("posts").insert({ user_id:session.user.id, body:body.trim() }); if (error) throw error; setBody(""); setCompose(false); await Promise.all([loadFeed(), onPostsChanged?.()]); } catch (error) { setNotice(error.message || "Your post could not be published. Please try again."); } finally { setBusy(false); } }
   async function deletePost(post) {
-    if (post.user_id !== session.user.id) return;
-    if (!window.confirm("Delete this post permanently? This cannot be undone.")) return;
-    setDeleteBusy(true); setNotice("");
-    const { error } = await supabase.from("posts").delete().eq("id", post.id).eq("user_id", session.user.id);
-    setDeleteBusy(false); setPostMenu(null);
-    if (error) { setNotice(error.message); return; }
-    if (openComments === post.id) setOpenComments(null);
-    await Promise.all([loadFeed(), onPostsChanged?.()]);
+    if (post.user_id !== session.user.id || deleteBusy) return;
+    if (!window.confirm("Delete this post permanently? Your post and its comments will be removed. This action cannot be undone.")) return;
+    setDeleteBusy(true);
+    setNotice("");
+    try {
+      const { error } = await supabase.from("posts").delete().eq("id", post.id).eq("user_id", session.user.id);
+      if (error) throw error;
+      setPosts(current => current.filter(item => item.id !== post.id));
+      setComments(current => {
+        const next = { ...current };
+        delete next[post.id];
+        return next;
+      });
+      if (openComments === post.id) setOpenComments(null);
+      setNotice("Post deleted successfully.");
+      try { await onPostsChanged?.(); } catch (refreshError) { console.error("Post-change notification failed:", refreshError); }
+    } catch (error) {
+      setNotice(error.message || "Could not delete this post. Please try again.");
+    } finally {
+      setDeleteBusy(false);
+      setPostMenu(null);
+    }
   }
   const likeRequests = useRef(new Set());
   async function toggleLike(post) {
