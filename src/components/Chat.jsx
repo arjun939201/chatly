@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -14,13 +14,21 @@ export default function Chat({ session, profile, targetId }) {
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
   const [error, setError] = useState("");
+  const [filter, setFilter] = useState("all");
   const bottomRef = useRef(null);
 
   useEffect(() => {
     supabase.from("profiles").select("id, username, display_name, avatar_url")
-      .neq("id", session.user.id).order("display_name")
+      .order("display_name")
       .then(({ data, error: err }) => { if (err) setError(err.message); else setPeople(data || []); });
   }, [session.user.id, profile]);
+
+  useEffect(() => {
+    if (targetId) {
+      const target = people.find(person => person.id === targetId) || (targetId === session.user.id ? profile : null);
+      if (target) setActive(target);
+    }
+  }, [targetId, people, profile, session.user.id]);
 
   useEffect(() => {
     if (!active) { setMessages([]); return; }
@@ -53,18 +61,19 @@ export default function Chat({ session, profile, targetId }) {
     if (err) { setDraft(body); setError(err.message); }
   }
 
-  const visiblePeople = people.filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()));
+  const self = { ...(profile || {}), id: session.user.id, display_name: "Saved messages", username: "You", avatar_url: profile?.avatar_url };
+  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)].filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.toLowerCase()) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "personal" && p.id !== session.user.id) || filter === "unread"));
 
   return <main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
-      <div className="sidebar-heading"><div><Users size={18}/> People</div><span>{people.length}</span></div>
-      <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Find people…"/></div>
-      <div className="people-list">
+      <div className="sidebar-heading"><div><MessageCircle size={18}/> Chats</div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
+      <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/></div>
+      <div className="chat-filter-row">{[["all","All"],["unread","Unread"],["personal","Personal"],["saved","Saved"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setActive(person); setError(""); }}>
           <Avatar person={person}/>
-          <span className="person-copy"><strong>{person.display_name || person.username || "Chatly user"}</strong><small>{person.username ? `@${person.username}` : "Chatly member"}</small></span>
+          <span className="person-copy"><strong>{person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span>
         </button>)}
-        {!visiblePeople.length && <p className="empty-small">{query ? "No matches found." : "No other users yet. Invite a friend to sign up!"}</p>}
+        {!visiblePeople.length && <p className="empty-small">{query ? "No matches found." : "No conversations yet. Start a new chat!"}</p>}
       </div>
     </aside>
     <section className="conversation">
@@ -72,11 +81,11 @@ export default function Chat({ session, profile, targetId }) {
         <header className="conversation-header"><button className="mobile-back" onClick={() => setActive(null)} aria-label="Back to people"><ArrowLeft size={18}/></button><Avatar person={active}/><div><strong>{active.display_name || active.username || "Chatly user"}</strong><small>{active.username ? `@${active.username}` : "Chatly member"}</small></div></header>
         <div className="message-list">
           {messages.map(m => <div key={m.id} className={`message ${m.sender_id === session.user.id ? "mine" : "theirs"}`}><div className="bubble">{m.body}<time>{new Date(m.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time></div></div>)}
-          {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>Say hello to {active.display_name || active.username || "your new connection"}!</p></div>}
+          {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
         </div>
         <form className="composer" onSubmit={sendMessage}><input value={draft} onChange={e => setDraft(e.target.value)} placeholder="Write a message…" maxLength={4000}/><button className="send-button" disabled={!draft.trim()} aria-label="Send message"><Send size={18}/></button></form>
-      </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose someone from the people list to start chatting.</p></div>}
+      </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     </section>
   </main>;
