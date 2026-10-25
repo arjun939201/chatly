@@ -2287,3 +2287,6 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .profile-edit-avatar-row .text-button:hover { color: var(--text, #17171b); text-decoration: underline; }
 .profile-edit-username input { min-width: 0; }
 @media (max-width: 520px) { .profile-edit-avatar-row { justify-content: flex-start; } .profile-edit-avatar-row .upload-avatar { min-height: 40px; } }
+
+/* Feed composer character counter: make the nearing-limit state clear but restrained. */
+.compose-modal .compose-character-count{color:var(--muted,#858597);font-size:11px;font-variant-numeric:tabular-nums}.compose-modal .compose-character-count.near-limit{color:#b45309;font-weight:650}
