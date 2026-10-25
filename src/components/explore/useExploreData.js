@@ -39,7 +39,7 @@ export function useExploreData(query) {
       if (!append) setPeople([]);
     } else {
       const rows = result.data || [];
-      setPeople(current => append ? [...current, ...rows] : rows);
+      setPeople(current => append ? [...current, ...rows.filter(row => !current.some(existing => existing.id === row.id))] : rows);
       peopleOffset.current = from + rows.length;
       setPeopleHasMore(rows.length === PAGE_SIZE);
     }
@@ -91,7 +91,7 @@ export function useExploreData(query) {
     if (authorsResult.error) setPostsError("Post authors could not be loaded. Please try again.");
     const authorsById = Object.fromEntries((authorsResult.data || []).map(person => [person.id, person]));
     const mappedRows = rows.map(post => ({ ...post, author: authorsById[post.user_id] || {} }));
-    setPosts(current => append ? [...current, ...mappedRows] : mappedRows);
+    setPosts(current => append ? [...current, ...mappedRows.filter(row => !current.some(existing => existing.id === row.id))] : mappedRows);
     postsOffset.current = from + rows.length;
     setPostsHasMore(rows.length === PAGE_SIZE);
     setPostsLoading(false);
