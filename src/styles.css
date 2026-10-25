@@ -2139,3 +2139,7 @@ button:disabled,[role=button][aria-disabled=true]{opacity:.55;cursor:not-allowed
 
 /* Avoid clipped text and overflow across shared components */
 :where(.post-card,.search-person,.profile-post,.settings-section,.conversation-header,.comment-content){min-width:0;overflow-wrap:anywhere}:where(input,textarea,select,button){font-family:inherit}textarea{max-width:100%}
+
+
+/* Global box sizing and surface tokens */
+*,*::before,*::after{box-sizing:border-box}:root{--chatly-page-gutter:clamp(12px,3vw,24px);--chatly-content-width:720px;--chatly-surface:#fff;--chatly-border:#e7e7ef;--chatly-radius:14px}.feed-column,.search-people{width:min(var(--chatly-content-width),100%)}
