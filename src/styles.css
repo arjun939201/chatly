@@ -1436,3 +1436,19 @@ img,video,iframe{max-width:100%}
     transition: none;
   }
 }
+
+
+/* Small interaction refinements for feed and Explore controls. */
+.feed-top-controls{display:grid;gap:10px;margin-bottom:14px;min-width:0}
+.feed-top-controls .feed-scope-tabs{margin:0}
+.feed-top-controls .feed-composer{width:100%;min-width:0}
+.feed-empty .primary-button{margin-top:12px;min-height:38px}
+.comment-author-profile{display:inline-flex;align-items:center;gap:8px;max-width:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.comment-author-profile b{overflow-wrap:anywhere}
+.post-comment-body{min-width:0;flex:1;overflow-wrap:anywhere}
+.comment-character-count{flex:0 0 auto;color:var(--muted,#888894);font-size:10px;white-space:nowrap}
+.search-post-author{display:flex;align-items:center;gap:9px;width:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer;border-radius:9px}
+.search-post-author:focus-visible,.comment-author-profile:focus-visible{outline:2px solid var(--chatly-brand,#6757e8);outline-offset:3px}
+.search-post-author>span:last-child{display:flex;flex-direction:column;min-width:0;overflow-wrap:anywhere}
+.profile-loading-status{color:var(--muted,#888894);font-size:12px;margin:8px 0}
+@media(max-width:420px){.feed-top-controls{gap:8px}.comment-character-count{font-size:9px}}
