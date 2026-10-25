@@ -6,7 +6,7 @@ export default function Feed({ session, profile, onFindFriends }) {
   const [posts, setPosts] = useState([]); const [people, setPeople] = useState([]);
   const [compose, setCompose] = useState(false); const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false); const [notice, setNotice] = useState("");
-  const [friendMenu, setFriendMenu] = useState(false); const [search, setSearch] = useState("");
+  const [friendMenu, setFriendMenu] = useState(false); const [search, setSearch] = useState(""); const [createMenu, setCreateMenu] = useState(false);
   async function loadFeed() {
     const { data, error } = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100);
     if (error) { setNotice(error.message); return; }
@@ -32,7 +32,7 @@ export default function Feed({ session, profile, onFindFriends }) {
     {notice && <p className="feed-notice">{notice}</p>}
     <div className="posts-list">{posts.map(post => <article className="post-card" key={post.id}><header className="post-author">{avatar(post.author)}<div><b>{post.author?.display_name || "Chatly member"}</b><small>{post.author?.username ? "@"+post.author.username+" · " : ""}{new Date(post.created_at).toLocaleString([], {dateStyle:"medium",timeStyle:"short"})}</small></div></header><p className="post-body">{post.body}</p><footer className="post-actions"><button className={post.liked ? "liked" : ""} onClick={() => toggleLike(post)}><Heart size={17} fill={post.liked ? "currentColor" : "none"}/>{post.likes} likes</button><button onClick={() => onFindFriends()}><MessageCircle size={17}/> Chat</button></footer></article>)}
       {!posts.length && <div className="feed-empty"><span><MessageCircle size={26}/></span><h3>No posts yet</h3><p>Be the first to share something with the community.</p></div>}</div>
-  </div><button className="floating-create" onClick={() => setCompose(true)} aria-label="Create post"><Plus size={25}/></button>
+  </div><div className="create-menu-wrap"><button className="floating-create" onClick={() => setCreateMenu(v => !v)} aria-label="Open create menu" aria-expanded={createMenu}><Plus size={25}/></button>{createMenu && <div className="create-menu"><button onClick={() => { setCreateMenu(false); setCompose(true); }}><Plus size={17}/> Create post</button><button onClick={() => { setCreateMenu(false); setFriendMenu(true); loadPeople(); }}><Users size={17}/> Find friends</button><button onClick={() => { setCreateMenu(false); onFindFriends(); }}><MessageCircle size={17}/> Open chats</button></div>}</div>
   {compose && <div className="modal-backdrop" onClick={e => {if(e.target===e.currentTarget)setCompose(false)}}><section className="compose-modal"><header><h2>Create a post</h2><button onClick={() => setCompose(false)}><X size={19}/></button></header><div className="compose-author">{avatar(profile)}<b>{profile?.display_name || "You"}</b></div><form onSubmit={publish}><textarea value={body} onChange={e => setBody(e.target.value)} placeholder="What's on your mind?" maxLength={5000} autoFocus/><div className="compose-footer"><small>{body.length}/5000</small><button className="primary-button" disabled={busy || !body.trim()}>{busy ? "Posting…" : "Post"}</button></div></form></section></div>}
   </main>;
 }
