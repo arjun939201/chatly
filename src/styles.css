@@ -3949,3 +3949,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-date-heading{margin:18px 2px 8px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
 .notification-date-heading:first-child{margin-top:4px}
 .notification-activity-list+.notification-date-heading{margin-top:14px}
+
+/* Notification UI pass 8: compact post media context */
+.notification-post-thumbnail{grid-column:2;grid-row:auto;width:44px;height:54px;margin-top:5px;border:1px solid var(--border);border-radius:8px;object-fit:cover}
+.notification-activity-item .notification-post-preview{grid-column:2;min-width:0}
+.notification-activity-item .notification-post-thumbnail+.notification-post-preview{margin-top:3px}
