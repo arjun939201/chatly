@@ -44,7 +44,9 @@ export default function SettingsDestination({ onSubpageChange = () => {}, theme 
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [logoutOpen, setLogoutOpen] = useState(false);\n  const [logoutSaving, setLogoutSaving] = useState(false);\n  const [logoutError, setLogoutError] = useState("");
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [logoutSaving, setLogoutSaving] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
   const [resetDialog, setResetDialog] = useState("");
 
   const [message, setMessage] = useState("");
