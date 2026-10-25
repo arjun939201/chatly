@@ -1939,3 +1939,7 @@ img,video,iframe{max-width:100%}
 
 /* Restore readable author and post copy */
 .feed-page .post-author-profile{display:flex;text-align:left;background:transparent;color:inherit}.feed-page .post-body{display:block;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text,#202033)}
+
+
+/* Keep like and comment actions visible and interactive */
+.feed-page .post-actions{display:flex;align-items:center;flex-wrap:wrap}.feed-page .post-actions button{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--muted,#77778d);cursor:pointer}
