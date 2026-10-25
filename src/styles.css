@@ -1611,3 +1611,11 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-item-own .comment-message p{font-size:14px}
 @media(max-width:600px){.comments-modal .comment-list{padding:18px 16px;gap:0}.comments-modal .comment-item{grid-template-columns:36px minmax(0,1fr);gap:10px;padding-bottom:20px}.comments-modal .comment-avatar-link,.comments-modal .comment-avatar-link .mini-avatar{width:36px;height:36px}.comments-modal .comment-content{gap:5px}.comments-modal .comment-meta{gap:4px 6px}.comments-modal .comment-name{font-size:12px}.comments-modal .comment-username,.comments-modal .comment-meta time{font-size:10px}.comments-modal .comment-message p{font-size:13px;line-height:1.6}}
 @media(prefers-color-scheme:dark){.comments-modal .comment-message{color:var(--text,#f0f0f4)}.comments-modal .comment-name{color:var(--text,#f0f0f4)}}
+
+
+/* Comment layout 01 — make identity and message read as one unit */
+.comments-modal .comment-item{grid-template-columns:40px minmax(0,1fr);gap:12px;align-items:start;padding:0 0 22px}
+.comments-modal .comment-content{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-width:0}
+.comments-modal .comment-meta{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;min-height:20px}
+.comments-modal .comment-message{justify-self:start;max-width:100%;width:fit-content;min-width:0}
+.comments-modal .comment-message p{margin:0;text-align:left;line-height:1.6;overflow-wrap:anywhere}
