@@ -3954,3 +3954,7 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-post-thumbnail{grid-column:2;grid-row:auto;width:44px;height:54px;margin-top:5px;border:1px solid var(--border);border-radius:8px;object-fit:cover}
 .notification-activity-item .notification-post-preview{grid-column:2;min-width:0}
 .notification-activity-item .notification-post-thumbnail+.notification-post-preview{margin-top:3px}
+
+/* Notification UI pass 9: mobile density and safe horizontal layout */
+@media(max-width:600px){.notification-content{width:100%}.notification-feed-heading{padding-inline:1px}.notification-activity-item{min-height:68px;padding:12px 11px}.notification-activity-copy{grid-template-columns:34px minmax(0,1fr);column-gap:9px}.notification-activity-copy>.notification-actor-avatar{width:34px!important;height:34px!important;flex-basis:34px!important}.notification-filter-row{margin-inline:-1px}.notification-date-heading{margin-top:14px}}
+@media(max-width:360px){.notification-activity-copy{grid-template-columns:30px minmax(0,1fr);column-gap:8px}.notification-activity-copy>.notification-actor-avatar{width:30px!important;height:30px!important;flex-basis:30px!important}.notification-activity-copy p{font-size:13px}.notification-mark-all-read{padding:7px 8px}}
