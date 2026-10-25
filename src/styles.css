@@ -3194,3 +3194,13 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .youtube-result-thumbnail-fallback small{font-size:10px;color:#8b87aa}
 .explore-home-post-author img{border-radius:inherit}
 @media(prefers-reduced-motion:reduce){.explore-home-post,.explore-discovery-actions button{transition:none}.explore-home-post:hover{transform:none}}
+
+
+/* Feed batch: report dialog form */
+.report-post-modal form{display:grid;gap:14px;padding:18px 22px 20px}
+.report-post-intro{margin:0;color:var(--muted,#85859a);font-size:13px;line-height:1.55}
+.report-post-modal form>label{display:grid;gap:7px;color:var(--text,#34334a);font-size:12px;font-weight:650}
+.report-post-modal select,.report-post-modal textarea{width:100%;min-width:0;border:1px solid var(--border,#e4e4e9);border-radius:11px;background:var(--surface,#fff);color:var(--text,#17171b);padding:11px 12px;font:inherit;font-size:13px}
+.report-post-modal textarea{resize:vertical;line-height:1.6}
+.report-post-modal .compose-footer{padding:4px 0 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+@media(max-width:600px){.report-post-modal form{padding:15px 16px 17px}}
