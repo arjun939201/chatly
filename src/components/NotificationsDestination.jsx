@@ -117,6 +117,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
             <div className="notification-activity-list">
+              {!filteredItems.length && <div className="notification-empty-state" role="status"><h3>No matching activity</h3><p>Try another notification filter or turn off Unread.</p></div>}
               {filteredItems.slice(0, visibleCount).map((item, index) => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
                 const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
