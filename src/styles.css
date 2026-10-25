@@ -3990,3 +3990,9 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-mark-all-read,.notification-refresh-button{min-height:34px;border-radius:9px}
 .notification-mark-all-read{padding:7px 11px}
 .notification-refresh-button{display:grid;place-items:center;width:36px;padding:0}
+
+/* Notification post context: compact alignment beneath activity text */
+.notification-post-preview{display:block;margin:5px 0 0;padding:0;line-height:1.45;color:var(--muted,#85858d)}
+.notification-post-thumbnail{margin:7px 0 0;width:48px;height:58px;flex:0 0 48px;border-radius:9px;object-fit:cover}
+.notification-activity-copy .notification-post-preview+.notification-post-thumbnail{margin-top:7px}
+.notification-activity-item .notification-activity-icon{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border-radius:11px}
