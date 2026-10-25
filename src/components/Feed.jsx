@@ -49,16 +49,32 @@ const commentSubmitLock = useRef(false);
         return;
       }
       const savedIds = (savedRows || []).map(row => row.post_id);
-      if (savedIds.length) { const result = await supabase.from("posts").select("id,user_id,body,created_at").in("id", savedIds); data = result.data; error = result.error; } else { data = []; error = null; }
+      if (savedIds.length) {
+        const result = await supabase.from("posts").select("id,user_id,body,created_at").in("id", savedIds);
+        data = result.data;
+        error = result.error;
+        // Supabase's .in() result order is not guaranteed; retain the saved
+        // timestamp order returned by the saved_posts query (newest first).
+        if (!error) {
+          const savedOrder = new Map(savedIds.map((id, index) => [String(id), index]));
+          data = [...(data || [])].sort((a, b) =>
+            (savedOrder.get(String(a.id)) ?? Number.MAX_SAFE_INTEGER) -
+            (savedOrder.get(String(b.id)) ?? Number.MAX_SAFE_INTEGER)
+          );
+        }
+      } else { data = []; error = null; }
     } else {
       const result = await supabase.from("posts").select("id,user_id,body,created_at").order("created_at", { ascending: false }).limit(100); data = result.data; error = result.error;
     }
     if (error) { if (request === requestId.current) setFeedError(`Could not load feed: ${error.message}`); return; }
-    const ids = [...new Set((data || []).map(p => p.user_id))];
+    // Deduplicate immediately so follow-up profile, reaction, saved, view,
+    // and comment queries work against the smallest accurate post set.
+    const postRows = [...new Map((data || []).map(post => [post.id, post])).values()];
+    const ids = [...new Set(postRows.map(p => p.user_id))];
     const { data: profiles, error: profilesError } = ids.length ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", ids) : { data: [], error: null };
     if (profilesError) throw profilesError;
     const map = Object.fromEntries((profiles || []).map(p => [p.id,p]));
-    const postIds = (data || []).map(post => post.id);
+    const postIds = postRows.map(post => post.id);
     const [likesResult, followsResult, savedResult, viewsResult] = await Promise.all([
       postIds.length ? supabase.from("post_likes").select("post_id,user_id").in("post_id", postIds) : Promise.resolve({ data: [], error: null }),
       supabase.from("user_follows").select("following_id").eq("follower_id", session.user.id),
@@ -76,8 +92,6 @@ const commentSubmitLock = useRef(false);
     const followedRows = followsResult.data || [];
     const followedIds = new Set((followedRows || []).map(row => row.following_id));
     const savedIds = new Set(savedTableUnavailable ? [] : (savedResult.data || []).map(row => row.post_id));
-    // Keep one record per post even if a joined/merged response contains duplicates.
-    const postRows = [...new Map((data || []).map(post => [post.id, post])).values()];
     if (request !== requestId.current) return;
     const likesByPost = new Map();
     const likedPostIds = new Set();
