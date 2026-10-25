@@ -1547,3 +1547,7 @@ img,video,iframe{max-width:100%}
 
 @media(max-width:480px){.post-options-menu{right:0;max-width:calc(100vw - 28px)}.profile-dropdown{max-width:calc(100vw - 24px)}.comments-modal,.compose-modal{max-width:calc(100vw - 20px)}}
 @media(prefers-reduced-motion:reduce){.profile-page-head .profile-menu-trigger,.profile-dropdown button,.post-options-trigger{transition:none!important}}
+
+
+/* Comment UX refinement 1 */
+ .post-actions button[aria-controls^="comments-"]{transition:background .16s,color .16s,transform .16s;border-radius:12px;padding-inline:12px} .post-actions button[aria-controls^="comments-"]:hover{background:color-mix(in srgb,#8172e9 10%,transparent);color:#6f5fe0} .post-actions button[aria-controls^="comments-"][aria-expanded="true"]{background:color-mix(in srgb,#8172e9 13%,transparent);color:#6f5fe0} .post-actions button[aria-controls^="comments-"]:active{transform:scale(.97)} .post-actions button:focus-visible{outline:2px solid #9183ed;outline-offset:2px}
