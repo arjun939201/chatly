@@ -1,55 +1,70 @@
-import { ChevronLeft } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, UserRound, ShieldCheck, Bell, Palette, MessageCircle, CircleHelp, Info, LogOut, Trash2, ChevronRight, Sun, Moon, Monitor, Type, KeyRound, Mail, UserCog, Check } from "lucide-react";
+import "./SettingsDestination.css";
 
-export default function SettingsDestination({effectiveTheme,setTheme,fontSize,setFontSize,fontFamily,setFontFamily,fontSizeExpanded,setFontSizeExpanded,fontFamilyExpanded,setFontFamilyExpanded,accountInfoExpanded,setAccountInfoExpanded,editProfileOpen,setEditProfileOpen,setNotice,notice,session,emailExpanded,setEmailExpanded,accountEmail,setAccountEmail,supabase,passwordExpanded,setPasswordExpanded,password,setPassword,setNewPassword,settingsExpanded,setSettingsExpanded,chatPrefs,setChatPrefs}) {
-  return (
-    <section className="destination-page settings-page app-settings-destination-page">
-      
-      <section className="settings-section app-style-controls">
-        <div className="settings-view-heading"><h3>Appearance</h3><button type="button" className={effectiveTheme === "dark" ? "theme-switch on" : "theme-switch"} role="switch" aria-checked={effectiveTheme === "dark"} aria-label="Toggle theme" onClick={() => setTheme(effectiveTheme === "dark" ? "light" : "dark")}><span/></button></div>
-        <button className="style-expander" onClick={() => {setFontSizeExpanded(v => !v); setFontFamilyExpanded(v => !v)}}><span>Fonts</span><span>{fontSizeExpanded || fontFamilyExpanded ? "−" : "+"}</span></button>
-        {(fontSizeExpanded || fontFamilyExpanded) && <>
-          <div className="font-setting-group"><span>Font size</span><div className="style-choice-row">{["small","medium","large"].map(value => <button key={value} className={fontSize === value ? "selected" : ""} onClick={() => setFontSize(value)}>{value[0].toUpperCase()+value.slice(1)}</button>)}</div></div>
-          <div className="font-setting-group"><span>Font family</span><div className="style-choice-row">{[{value:"system",label:"System"},{value:"sans",label:"Sans"},{value:"serif",label:"Serif"}].map(item => <button key={item.value} className={fontFamily === item.value ? "selected" : ""} onClick={() => setFontFamily(item.value)}>{item.label}</button>)}</div></div>
-        </>}
-        <h3 className="settings-category-label">ACCOUNT & SECURITY</h3>
-        <button className="style-expander" onClick={() => setAccountInfoExpanded(v => !v)}><span>Account settings</span><span>{accountInfoExpanded ? "−" : "+"}</span></button>
-        {accountInfoExpanded && <div className="account-settings-inline">
-          <header className="settings-subpage-header"><button type="button" aria-label="Close account settings" onClick={() => setAccountInfoExpanded(false)}><ChevronLeft size={22}/></button><h2>Account & sign-in</h2></header>
-          <div className="settings-section account-view">
-            <h3 className="account-options-label">PERSONAL INFORMATION</h3>
-            <button className="style-expander account-option-row" onClick={() => { setEditProfileOpen(true); setNotice(""); }}><span><strong>Personal information</strong><small>Display name, username, profile photo and bio</small></span><span>›</span></button>
-            <button className="style-expander account-option-row" onClick={() => setEmailExpanded(v => !v)}><span><strong>Email address</strong><small>{session.user.email || "Manage your sign-in email"}</small></span><span>{emailExpanded ? "−" : "+"}</span></button>
-            {emailExpanded && <form className="password-form" onSubmit={async event => { event.preventDefault(); setNotice(""); const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm the change."); }}><label>New email address<input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button className="secondary-button" disabled={!accountEmail.trim() || accountEmail.trim() === session.user.email}>Update email</button></form>}
-            <h3 className="account-options-label">SECURITY & SIGN-IN</h3>
-            <button className="style-expander account-option-row" onClick={() => setPasswordExpanded(v => !v)}><span><strong>Change password</strong><small>Choose a new password for your account</small></span><span>{passwordExpanded ? "−" : "+"}</span></button>
-            {passwordExpanded && <form className="password-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button className="secondary-button" disabled={!password}>Update password</button></form>}
-            <button className="style-expander account-option-row" onClick={() => { if (window.confirm("Sign out of Chatly on all devices?")) supabase.auth.signOut({ scope: "global" }); }}><span><strong>Active sessions</strong><small>Sign out from all devices</small></span><span>›</span></button>
-            <h3 className="account-options-label">ACCOUNT MANAGEMENT</h3>
-            <button className="style-expander account-option-row" onClick={() => setNotice("Account deactivation needs a secure server-side account management endpoint before it can be enabled.")}><span><strong>Deactivate account</strong><small>Temporarily disable your account</small></span><span>›</span></button>
-            <button className="style-expander account-option-row account-danger-option" onClick={() => setNotice("Account deletion needs a secure server-side account management endpoint before it can be enabled.")}><span><strong>Delete account</strong><small>Permanently remove your account and data</small></span><span>›</span></button>
-            <button className="style-expander account-option-row" onClick={() => supabase.auth.signOut()}><span><strong>Log out</strong><small>Sign out of this device</small></span><span>›</span></button>
-          </div>
-          {notice && <p className="form-message">{notice}</p>}
-        </div>}
-        <h3 className="settings-category-label">CHAT PREFERENCES</h3>
-        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, chats: !v.chats}))}><span>Chats</span><span>{settingsExpanded.chats ? "−" : "+"}</span></button>
-        {settingsExpanded.chats && <div className="settings-options-panel">
-          <label className="settings-toggle-row"><span><strong>Enter to send</strong><small>Send messages with the Enter key</small></span><input type="checkbox" checked={chatPrefs.enterToSend} onChange={e => setChatPrefs(p => ({...p, enterToSend:e.target.checked}))}/></label>
-          <label className="settings-toggle-row"><span><strong>Media previews</strong><small>Show previews for shared media when available</small></span><input type="checkbox" checked={chatPrefs.mediaPreview} onChange={e => setChatPrefs(p => ({...p, mediaPreview:e.target.checked}))}/></label>
-        </div>}
-        <h3 className="settings-category-label">NOTIFICATIONS</h3>
-        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, notifications: !v.notifications}))}><span>Notification preferences</span><span>{settingsExpanded.notifications ? "−" : "+"}</span></button>
-        {settingsExpanded.notifications && <div className="settings-options-panel">
-          <label className="settings-toggle-row"><span><strong>Message alerts</strong><small>Allow in-app message alerts</small></span><input type="checkbox" checked={chatPrefs.messageAlerts} onChange={e => setChatPrefs(p => ({...p, messageAlerts:e.target.checked}))}/></label>
-          <label className="settings-toggle-row"><span><strong>Activity alerts</strong><small>Allow activity and community alerts</small></span><input type="checkbox" checked={chatPrefs.activityAlerts} onChange={e => setChatPrefs(p => ({...p, activityAlerts:e.target.checked}))}/></label>
-        </div>}
-        <h3 className="settings-category-label">PRIVACY</h3>
-        <button className="style-expander" onClick={() => setSettingsExpanded(v => ({...v, privacy: !v.privacy}))}><span>Privacy preferences</span><span>{settingsExpanded.privacy ? "−" : "+"}</span></button>
-        {settingsExpanded.privacy && <div className="settings-options-panel">
-          <label className="settings-toggle-row"><span><strong>Read receipts</strong><small>Preference saved locally; server enforcement requires backend support</small></span><input type="checkbox" checked={chatPrefs.readReceipts} onChange={e => setChatPrefs(p => ({...p, readReceipts:e.target.checked}))}/></label>
-          <p className="settings-note">Preferences are stored on this device. Server-enforced privacy controls need matching backend support.</p>
-        </div>}
+const groups = [
+  { label: "YOUR ACCOUNT", items: [{ id: "account", title: "Account", detail: "Personal information and sign-in", Icon: UserRound }] },
+  { label: "PREFERENCES", items: [
+    { id: "privacy", title: "Privacy & security", detail: "Read receipts and account privacy", Icon: ShieldCheck },
+    { id: "notifications", title: "Notifications", detail: "Choose what you want to be notified about", Icon: Bell },
+    { id: "appearance", title: "Appearance", detail: "Theme and text preferences", Icon: Palette },
+    { id: "chats", title: "Chats", detail: "Message and media preferences", Icon: MessageCircle },
+  ]},
+  { label: "MORE", items: [
+    { id: "help", title: "Help & support", detail: "Get help or report a problem", Icon: CircleHelp },
+    { id: "about", title: "About Chatly", detail: "App information and policies", Icon: Info },
+  ]},
+];
+
+function Toggle({ title, detail, checked, onChange }) {
+  return <label className="st-pref-row"><span><strong>{title}</strong><small>{detail}</small></span><input type="checkbox" checked={Boolean(checked)} onChange={e => onChange(e.target.checked)} /></label>;
+}
+
+export default function SettingsDestination({ setTheme, fontSize, setFontSize, fontFamily, setFontFamily, setNotice, notice, session, accountEmail, setAccountEmail, supabase, password, setPassword, setNewPassword, chatPrefs, setChatPrefs, setEditProfileOpen }) {
+  const [view, setView] = useState("home");
+  const [emailOpen, setEmailOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [deleteInfoOpen, setDeleteInfoOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const title = groups.flatMap(group => group.items).find(item => item.id === view)?.title || "Settings";
+  const pref = (key, value) => setChatPrefs(current => ({ ...current, [key]: value }));
+  const back = () => { setView("home"); setMessage(""); setNotice(""); };
+
+  function detailContent() {
+    if (view === "account") return <>
+      <section className="st-card"><h2>PERSONAL INFORMATION</h2>
+        <button className="st-detail-row" onClick={() => { setEditProfileOpen(true); setNotice(""); }}><UserCog/><span><strong>Edit profile</strong><small>Display name, username, photo and bio</small></span><ChevronRight/></button>
+        <button className="st-detail-row" onClick={() => setEmailOpen(v => !v)}><Mail/><span><strong>Email address</strong><small>{session?.user?.email || "Manage your sign-in email"}</small></span><ChevronRight/></button>
+        {emailOpen && <form className="st-inline-form" onSubmit={async e => { e.preventDefault(); const { error } = await supabase.auth.updateUser({ email: accountEmail.trim() }); setNotice(error ? error.message : "Email update requested. Check your inbox to confirm."); }}><label>New email address<input type="email" value={accountEmail} onChange={e => setAccountEmail(e.target.value)} placeholder="name@example.com" required/></label><button disabled={!accountEmail.trim() || accountEmail.trim() === session?.user?.email}>Update email</button></form>}
       </section>
-    </section>
-  );
+      <section className="st-card"><h2>SECURITY & SIGN-IN</h2>
+        <button className="st-detail-row" onClick={() => setPasswordOpen(v => !v)}><KeyRound/><span><strong>Change password</strong><small>Choose a new password</small></span><ChevronRight/></button>
+        {passwordOpen && <form className="st-inline-form" onSubmit={setNewPassword}><label>New password<input type="password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} placeholder="At least 6 characters" required/></label><button disabled={!password}>Update password</button></form>}
+        <button className="st-detail-row" onClick={() => setLogoutOpen(true)}><LogOut/><span><strong>Log out</strong><small>Sign out of this device</small></span><ChevronRight/></button>
+      </section>
+      <section className="st-card st-danger"><h2>ACCOUNT MANAGEMENT</h2><button className="st-detail-row" onClick={() => setDeleteInfoOpen(true)}><Trash2/><span><strong>Delete account</strong><small>Permanently remove your account and data</small></span><ChevronRight/></button></section>
+      {notice && <p className="st-message" role="status">{notice}</p>}
+    </>;
+    if (view === "privacy") return <section className="st-card"><h2>MESSAGING PRIVACY</h2><Toggle title="Read receipts" detail="Let people know when you have read their messages" checked={chatPrefs.readReceipts} onChange={v => pref("readReceipts", v)}/><p className="st-note">Saved on this device. Server-side enforcement requires matching backend support.</p></section>;
+    if (view === "notifications") return <section className="st-card"><h2>NOTIFICATION PREFERENCES</h2><Toggle title="Message alerts" detail="Get in-app alerts for new messages" checked={chatPrefs.messageAlerts} onChange={v => pref("messageAlerts", v)}/><Toggle title="Activity alerts" detail="Get alerts about community activity" checked={chatPrefs.activityAlerts} onChange={v => pref("activityAlerts", v)}/><p className="st-note">Preferences are stored locally on this device.</p></section>;
+    if (view === "chats") return <section className="st-card"><h2>MESSAGE PREFERENCES</h2><Toggle title="Enter to send" detail="Send messages by pressing Enter" checked={chatPrefs.enterToSend} onChange={v => pref("enterToSend", v)}/><Toggle title="Media previews" detail="Show previews for shared media when available" checked={chatPrefs.mediaPreview} onChange={v => pref("mediaPreview", v)}/></section>;
+    if (view === "appearance") return <>
+      <section className="st-card"><h2>THEME</h2><div className="st-theme-options">{[{id:"light",label:"Light",Icon:Sun},{id:"dark",label:"Dark",Icon:Moon},{id:"system",label:"System",Icon:Monitor}].map(({id,label,Icon}) => <button key={id} className={(localStorage.getItem("chatly-theme") || "system") === id ? "selected" : ""} onClick={() => setTheme(id)}><Icon/><span>{label}</span>{(localStorage.getItem("chatly-theme") || "system") === id && <Check/>}</button>)}</div></section>
+      <section className="st-card"><h2>TEXT</h2><div className="st-choice"><span><Type/>Text size</span><div>{["small","medium","large"].map(v => <button key={v} className={fontSize === v ? "selected" : ""} onClick={() => setFontSize(v)}>{v[0].toUpperCase()+v.slice(1)}</button>)}</div></div><div className="st-choice"><span>Font style</span><div>{[{id:"system",label:"System"},{id:"sans",label:"Sans"},{id:"serif",label:"Serif"}].map(v => <button key={v.id} className={fontFamily === v.id ? "selected" : ""} onClick={() => setFontFamily(v.id)}>{v.label}</button>)}</div></div></section>
+    </>;
+    if (view === "help") return <section className="st-card"><h2>HOW CAN WE HELP?</h2><div className="st-info"><CircleHelp/><span><strong>Chatly support</strong><p>For account, messaging, or technical issues, contact the Chatly project support team.</p></span></div><button className="st-detail-row" onClick={() => setMessage("Please share the issue with the Chatly project support team.")}><span><strong>Report a problem</strong><small>Tell us about something that is not working</small></span><ChevronRight/></button>{message && <p className="st-message" role="status">{message}</p>}</section>;
+    if (view === "about") return <section className="st-card"><h2>APP INFORMATION</h2><div className="st-info"><span className="st-logo">c</span><span><strong>Chatly</strong><p>Connect, share, and chat with your community.</p><small>Version 1.0.0</small></span></div><button className="st-detail-row" onClick={() => setMessage("Privacy policy and terms will be available here when published.")}><span><strong>Privacy policy & terms</strong><small>Review Chatly policies</small></span><ChevronRight/></button>{message && <p className="st-message" role="status">{message}</p>}</section>;
+    return null;
+  }
+
+  return <section className="destination-page settings-page app-settings-destination-page st-settings">
+    {view === "home" ? <>
+      <header className="st-intro"><span>PERSONALIZE YOUR EXPERIENCE</span><h1>Settings</h1><p>Make Chatly feel like yours.</p></header>
+      {groups.map(group => <section className="st-group" key={group.label}><h2>{group.label}</h2><div className="st-nav-card">{group.items.map(({id,title,detail,Icon}) => <button key={id} className="st-nav-row" onClick={() => { setView(id); setNotice(""); setMessage(""); }}><span className="st-icon"><Icon/></span><span className="st-nav-copy"><strong>{title}</strong><small>{detail}</small></span><ChevronRight className="st-chevron"/></button>)}</div></section>)}
+      <div className="st-nav-card st-actions"><button className="st-nav-row st-logout" onClick={() => setLogoutOpen(true)}><span className="st-icon"><LogOut/></span><span className="st-nav-copy"><strong>Log out</strong><small>Sign out of your Chatly account</small></span><ChevronRight/></button><button className="st-nav-row st-danger" onClick={() => setDeleteInfoOpen(true)}><span className="st-icon"><Trash2/></span><span className="st-nav-copy"><strong>Delete account</strong><small>Permanently remove your account and data</small></span><ChevronRight/></button></div>
+    </> : <><header className="st-subheader"><button aria-label="Back to settings" onClick={back}><ArrowLeft/></button><div><span>SETTINGS</span><h1>{title}</h1></div></header>{detailContent()}</>}
+    {logoutOpen && <div className="st-overlay" onClick={e => { if (e.target === e.currentTarget) setLogoutOpen(false); }}><section className="st-dialog" role="alertdialog" aria-modal="true" aria-labelledby="st-logout-title"><h2 id="st-logout-title">Log out of Chatly?</h2><p>You will need to sign in again to access your account.</p><footer><button className="st-secondary" onClick={() => setLogoutOpen(false)}>Cancel</button><button onClick={() => supabase.auth.signOut()}>Log out</button></footer></section></div>}
+    {deleteInfoOpen && <div className="st-overlay" onClick={e => { if (e.target === e.currentTarget) setDeleteInfoOpen(false); }}><section className="st-dialog" role="alertdialog" aria-modal="true" aria-labelledby="st-delete-title"><h2 id="st-delete-title">Delete account</h2><p>Account deletion is not enabled yet. A secure server-side account management endpoint is required before deletion can be safely implemented.</p><footer><button onClick={() => setDeleteInfoOpen(false)}>Got it</button></footer></section></div>}
+  </section>;
 }
