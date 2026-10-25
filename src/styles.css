@@ -619,3 +619,19 @@ body{overflow-x:hidden}
 .settings-note{margin:8px 3px 4px}
 .theme-dark .settings-toggle-row strong{color:var(--text)}
 @media(max-width:600px){.settings-toggle-row{padding:12px 2px}.settings-toggle-row strong{font-size:13px}}
+
+
+/* Destination header is now part of the page's own content header (no separate nav band). */
+.destination-topline{display:none!important}
+.chat-layout{padding:0 clamp(10px,2vw,24px) 18px!important}
+.chat-layout .sidebar{border-radius:18px}
+.chat-layout .sidebar-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 18px 16px!important}
+.chat-heading-title{display:flex;align-items:center;gap:10px;min-width:0;color:var(--text);font-size:21px;font-weight:700}
+.chat-feed-back{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;margin-right:2px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);cursor:pointer}
+.chat-layout .chat-new-button{flex:0 0 42px;width:42px;height:42px}
+@media(max-width:600px){
+ .chat-layout{padding:0 10px 12px!important}
+ .chat-layout .sidebar-heading{padding:14px 12px 14px!important}
+ .chat-heading-title{font-size:20px}
+ .chat-feed-back{width:36px;height:36px;flex-basis:36px}
+}
