@@ -2019,3 +2019,7 @@ img,video,iframe{max-width:100%}
 
 /* Public profile actions remain accessible and consistently sized */
 .search-page .profile-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.search-page .profile-actions button{min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+
+
+/* Chat send controls expose disabled and focus states clearly */
+.chat-page .send-button{display:grid;place-items:center;cursor:pointer}.chat-page .send-button:disabled{opacity:.45;cursor:not-allowed}.chat-page .composer textarea:focus-visible{outline:2px solid #8172e9;outline-offset:1px}
