@@ -55,3 +55,20 @@ test("missing saved_posts does not block the regular feed", () => {
 test("saved view explains when its table is missing", () => {
   assert.match(source, /Saved posts are unavailable because the saved_posts table is not set up yet\./);
 });
+
+test("shared post URLs scroll to their target and clear the query after navigation", () => {
+  assert.match(source, /new URLSearchParams\(window\.location\.search\)\.get\("post"\)/);
+  assert.match(source, /target\.scrollIntoView\(\{ behavior: "smooth", block: "center" \}\)/);
+  assert.match(source, /window\.history\.replaceState\(\{\}, "", window\.location\.pathname \+ window\.location\.hash\)/);
+});
+
+test("post reporting submits a reason and keeps duplicate submits disabled", () => {
+  assert.match(source, /supabase\.from\("post_reports"\)\.insert/);
+  assert.match(source, /reporter_id: session\.user\.id/);
+  assert.match(source, /disabled=\{reportBusy\}/);
+  assert.match(source, /Thanks\. Your report was submitted for review\./);
+});
+
+test("hidden-post undo is only offered for the active hide notice", () => {
+  assert.match(source, /lastHiddenPost && notice === "Post hidden from your feed\." &&/);
+});
