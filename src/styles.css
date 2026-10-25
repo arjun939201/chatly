@@ -2031,3 +2031,7 @@ img,video,iframe{max-width:100%}
 
 /* Dropdown actions fit the viewport and remain easy to tap */
 .post-options-menu{max-width:min(240px,calc(100vw - 28px))}.post-options-menu button{min-height:42px}@media(max-width:600px){.post-options-menu{right:0;min-width:180px}}
+
+
+/* Compact destination layout: avoid stacked duplicate titles */
+.destination-page{padding:12px 16px!important}.destination-page-header{margin:0 0 12px!important;padding:8px 0!important;min-height:0!important;border:0!important;box-shadow:none!important;background:transparent!important}.destination-page-header h2{margin:0!important;font-size:20px!important;line-height:1.25}.destination-page-header p{margin:3px 0 0!important;font-size:13px!important}
