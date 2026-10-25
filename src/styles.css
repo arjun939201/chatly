@@ -1983,3 +1983,7 @@ img,video,iframe{max-width:100%}
 
 /* Settings destination heading and panels */
 .app-settings-destination-page{padding-top:8px}.app-settings-destination-page .destination-page-header{padding:12px 16px}.app-settings-destination-page .destination-page-header h2{margin:0;font-size:19px}.app-settings-destination-page .destination-page-header p{margin:3px 0 0}
+
+
+/* Notifications destination spacing */
+.notification-destination-page{padding-top:8px}.notification-destination-page .destination-page-header{padding:12px 16px}.notification-destination-page .notifications-empty{padding:28px 16px}
