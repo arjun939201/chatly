@@ -1544,3 +1544,6 @@ img,video,iframe{max-width:100%}
 .compose-modal>header button,.comments-modal>header button{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:var(--muted,#888894)}.compose-modal>header button:hover,.comments-modal>header button:hover{background:var(--app-bg,#f5f5f7);color:var(--text,#17171b)}.compose-modal>header button:focus-visible{outline:2px solid #8c80f4;outline-offset:2px}
 
 .post-actions button{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:7px}.post-options-trigger{flex:0 0 38px}.post-author-profile{cursor:pointer}.post-author-profile:focus-visible{outline:2px solid #8c80f4;outline-offset:3px;border-radius:10px}
+
+@media(max-width:480px){.post-options-menu{right:0;max-width:calc(100vw - 28px)}.profile-dropdown{max-width:calc(100vw - 24px)}.comments-modal,.compose-modal{max-width:calc(100vw - 20px)}}
+@media(prefers-reduced-motion:reduce){.profile-page-head .profile-menu-trigger,.profile-dropdown button,.post-options-trigger{transition:none!important}}
