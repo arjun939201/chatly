@@ -2103,3 +2103,7 @@ img,video,iframe{max-width:100%}
 
 /* Notifications header and empty-state spacing */
 .notification-destination-page{padding-top:8px!important}.notification-destination-page .destination-page-header{margin:0 0 8px!important;padding:8px 0!important;border:0!important;box-shadow:none!important;background:transparent!important}.notification-destination-page .settings-section{margin:8px 0!important;padding:0!important;border:0!important;background:transparent!important}.notification-destination-page .notifications-empty{min-height:160px!important;padding:20px!important}
+
+
+/* Consistent destination title hierarchy */
+.destination-page-header h2,.settings-view-heading{font-size:20px!important;line-height:1.3!important;letter-spacing:-.025em}.destination-page-header p{font-size:13px!important;line-height:1.45!important}.account-options-label{font-size:11px!important;letter-spacing:.07em!important}
