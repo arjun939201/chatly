@@ -39,7 +39,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
           error={peopleError}
           hasMore={peopleHasMore}
           onLoadMore={loadMorePeople}
-          currentUserId={session.user.id}
+          currentUserId={session?.user?.id}
           onOpenProfile={openProfile}
           onOpenChats={onOpenChats}
         />}
