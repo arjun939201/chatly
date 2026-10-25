@@ -7,8 +7,10 @@ import { PeopleResults, PostResults, RoomsResults, YouTubeResults } from "./expl
 export default function SearchPeople({ session, requestedProfile, onProfileRequestHandled, onOpenProfile, onOpenChats, onPlayVideo }) {
   const [query, setQuery] = useState("");
   const [kind, setKind] = useState("all");
-  const { people, posts, loading, peopleError, postsError } = useExploreData();
-  const { peopleResults, postResults } = useExploreResults(people, posts, query);
+  const {
+    people, posts, peopleLoading, postsLoading, peopleError, postsError,
+    peopleHasMore, postsHasMore, loadMorePeople, loadMorePosts
+  } = useExploreData(query);
   const { videos, loading: videoLoading, error: videoError } = useYouTubeSearch(query, kind);
   const hasQuery = Boolean(query.trim());
 
@@ -31,17 +33,21 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
 
       {hasQuery && <>
         {(kind === "all" || kind === "people") && <PeopleResults
-          people={peopleResults}
-          loading={loading}
+          people={people}
+          loading={peopleLoading}
           error={peopleError}
+          hasMore={peopleHasMore}
+          onLoadMore={loadMorePeople}
           currentUserId={session.user.id}
           onOpenProfile={openProfile}
           onOpenChats={onOpenChats}
         />}
         {(kind === "all" || kind === "posts") && <PostResults
-          posts={postResults}
-          loading={loading}
+          posts={posts}
+          loading={postsLoading}
           error={postsError}
+          hasMore={postsHasMore}
+          onLoadMore={loadMorePosts}
           onOpenProfile={openProfile}
         />}
         {kind === "rooms" && <RoomsResults />}
