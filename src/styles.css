@@ -357,3 +357,17 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .chat-layout .welcome-chat h2{font-size:19px;letter-spacing:-.3px;margin:12px 0 5px}
 .chat-layout .welcome-chat p{max-width:280px;color:var(--muted);font-size:12px;line-height:1.6}
 @media(max-width:640px){.chat-layout{border-radius:14px}.chat-layout .sidebar{padding:14px 12px}.chat-layout .conversation-header{min-height:58px;padding:10px 12px}.chat-layout .message-list{padding:13px}.chat-layout .bubble{max-width:88%}}
+
+/* Explore: present a helpful start state; reveal category filters only after input */
+.search-start-prompt{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;min-height:220px;margin-top:18px;padding:24px;border:1px dashed var(--border);border-radius:16px;color:var(--muted);background:var(--surface)}
+.search-start-prompt>svg{color:#6c5ce7}.search-start-prompt strong{font-size:16px;color:var(--text)}.search-start-prompt p{max-width:330px;margin:0;font-size:13px;line-height:1.6}
+.search-kind-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 20px}.search-kind-tabs button{border:1px solid var(--border);background:var(--surface);border-radius:999px;padding:9px 15px;color:var(--muted);font-size:13px}.search-kind-tabs button.active{background:#6c5ce7;border-color:#6c5ce7;color:#fff}
+/* Align destination back navigation and page heading in one compact row */
+.destination-page{margin-top:0}.page-back-to-feed{margin:14px 0 0 18px}.page-back-to-feed + .destination-page{margin-top:0}
+/* Settings preference groups are comfortable to use on touch screens */
+.app-settings-destination-page .font-setting-group{padding:14px 2px;border-bottom:1px solid var(--border)}
+.app-settings-destination-page .font-setting-group>span{display:block;margin-bottom:10px;font-size:13px;font-weight:600;color:var(--text)}
+.app-settings-destination-page .style-choice-row{display:flex;flex-wrap:wrap;gap:8px}
+.app-settings-destination-page .style-choice-row button{min-height:36px;padding:8px 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);font-size:12px}
+.app-settings-destination-page .style-choice-row button.selected{background:#efedff;border-color:#6c5ce7;color:#5b4bd8;font-weight:650}
+@media(max-width:600px){.page-back-to-feed{margin:12px 0 0 14px}.search-start-prompt{min-height:190px;padding:18px}}
