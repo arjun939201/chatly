@@ -2894,3 +2894,36 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   background: var(--chatly-brand-soft, #f0edff);
 }
 
+
+
+/* Explore UI pass 7: stronger post hierarchy and comfortable text measure. */
+.search-page .search-post {
+  padding: 15px 16px;
+}
+.search-page .search-post-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-page .search-post-author b {
+  color: var(--text, #34334a);
+  font-size: 13px;
+}
+.search-page .search-post-author small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted, #9292a6);
+  font-size: 11px;
+}
+.search-page .search-post-body {
+  margin: 13px 0;
+  color: var(--text, #45445a);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.search-page .search-post-body mark {
+  border-radius: 3px;
+  background: #fff0b8;
+  color: #51451d;
+}
+
