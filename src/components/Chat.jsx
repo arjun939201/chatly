@@ -31,7 +31,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [messageSearch, setMessageSearch] = useState("");
   const [historyBusy, setHistoryBusy] = useState(false);
   const [hasOlderMessages, setHasOlderMessages] = useState(false);
-  const [replyTo, setReplyTo] = useState(null);\n  const [editingMessageId, setEditingMessageId] = useState(null);\n  const [editDraft, setEditDraft] = useState("");
+  const [replyTo, setReplyTo] = useState(null);
+  const [editingMessageId, setEditingMessageId] = useState(null);
+  const [editDraft, setEditDraft] = useState("");
   const [sendBusy, setSendBusy] = useState(false);
   const [messageActionBusy, setMessageActionBusy] = useState(null);
   const [error, setError] = useState("");
