@@ -27,11 +27,9 @@ export default function NotificationsDestination({ session }) {
       if (postsError) throw postsError;
       const postRows = posts || [];
       const postIds = postRows.map(post => post.id);
-      if (!postIds.length) { setItems([]); return; }
-
       const [likesResult, commentsResult, followsResult] = await Promise.all([
-        supabase.from("post_likes").select("post_id,user_id,created_at").in("post_id", postIds).neq("user_id", session.user.id),
-        supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id),
+        postIds.length ? supabase.from("post_likes").select("post_id,user_id,created_at").in("post_id", postIds).neq("user_id", session.user.id) : Promise.resolve({ data: [], error: null }),
+        postIds.length ? supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postIds).neq("user_id", session.user.id) : Promise.resolve({ data: [], error: null }),
         supabase.from("user_follows").select("follower_id,created_at").eq("following_id", session.user.id).neq("follower_id", session.user.id)
       ]);
       if (likesResult.error) throw likesResult.error;
