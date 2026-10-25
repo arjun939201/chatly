@@ -284,5 +284,16 @@ export default function App() {
       </section>
     </div>}
     {tab === "settings" && <SettingsDestination onSubpageChange={setSettingsSubpage} theme={theme} effectiveTheme={effectiveTheme} setTheme={setTheme} fontSize={fontSize} setFontSize={setFontSize} fontFamily={fontFamily} setFontFamily={setFontFamily} fontSizeExpanded={fontSizeExpanded} setFontSizeExpanded={setFontSizeExpanded} fontFamilyExpanded={fontFamilyExpanded} setFontFamilyExpanded={setFontFamilyExpanded} accountInfoExpanded={accountInfoExpanded} setAccountInfoExpanded={setAccountInfoExpanded} editProfileOpen={editProfileOpen} setEditProfileOpen={setEditProfileOpen} setNotice={setNotice} notice={notice} session={session} emailExpanded={emailExpanded} setEmailExpanded={setEmailExpanded} accountEmail={accountEmail} setAccountEmail={setAccountEmail} supabase={supabase} passwordExpanded={passwordExpanded} setPasswordExpanded={setPasswordExpanded} password={password} setPassword={setPassword} setNewPassword={setNewPassword} settingsExpanded={settingsExpanded} setSettingsExpanded={setSettingsExpanded} chatPrefs={chatPrefs} setChatPrefs={setChatPrefs} />}
+    {globalVideo && <aside className={"global-youtube-player" + (globalPlayerMinimized ? " is-minimized" : "")} aria-label="YouTube player">
+      <div className="global-youtube-player-head"><span>{globalVideo.snippet?.title || "YouTube video"}</span>
+        <div className="global-youtube-player-actions">
+          <button type="button" aria-label={globalPlayerMinimized ? "Restore player" : "Minimize player"} onClick={() => setGlobalPlayerMinimized(value => !value)}>{globalPlayerMinimized ? <Maximize2 size={16}/> : <Minimize2 size={16}/>}</button>
+          <button type="button" aria-label="Close player" onClick={() => { setGlobalVideo(null); setGlobalPlayerMinimized(false); }}><X size={16}/></button>
+        </div>
+      </div>
+      {!globalPlayerMinimized && <div className="global-youtube-player-frame">
+        <iframe key={globalVideo.id?.videoId} src={"https://www.youtube-nocookie.com/embed/" + encodeURIComponent(globalVideo.id?.videoId || "") + "?autoplay=1&rel=0&playsinline=1"} title={globalVideo.snippet?.title || "YouTube video player"} allow="autoplay; encrypted-media; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+      </div>}
+    </aside>}
   </div>;
 }
