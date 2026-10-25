@@ -1963,3 +1963,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile bio and edit action rhythm */
 .profile-bio{margin-top:4px}.profile-edit-button{margin-top:14px;min-height:44px}.profile-grid-heading{margin-top:20px}
+
+
+/* Profile grid avoids overflow */
+.profile-post-tile{min-height:150px;display:flex;flex-direction:column;justify-content:space-between;padding:12px}.profile-post-tile p{margin:0;overflow-wrap:anywhere}.profile-post-tile small{margin-top:18px}@media(max-width:600px){.profile-post-tile{min-height:124px;padding:10px}}
