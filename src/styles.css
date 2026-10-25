@@ -2825,6 +2825,11 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   justify-content: space-between;
   gap: 12px;
 }
+/* The Explore intro is an icon-and-copy pair, not a spaced-out toolbar. */
+.search-page .explore-home-heading {
+  justify-content: flex-start;
+  gap: 12px;
+}
 .search-page .explore-home-heading > div {
   min-width: 0;
 }
