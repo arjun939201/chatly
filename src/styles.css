@@ -311,3 +311,12 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .youtube-player-modal.fullscreen{height:100dvh;max-height:100dvh}
 @media(min-width:700px){.youtube-player-modal{width:min(760px,100%);height:min(50dvh,430px);border-radius:0 0 16px 16px}.youtube-player-modal.fullscreen{width:100vw;height:100dvh;max-height:100dvh;border-radius:0}}
 @media(max-width:520px){.youtube-result img{width:100px}.youtube-result{gap:9px;padding:8px}}
+
+
+/* Chats inbox enhancements */
+.chat-new-button{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:10px;background:#efedff;color:#6c5ce7;cursor:pointer}
+.chat-filter-row{display:flex;gap:6px;padding:10px 0;overflow-x:auto}
+.chat-filter-row button{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 12px;font-size:12px;white-space:nowrap;cursor:pointer}
+.chat-filter-row button.active{background:#6c5ce7;color:white;border-color:#6c5ce7}
+.chat-layout .person-row:first-child .avatar{background:#efedff;color:#6c5ce7}
+.chat-layout .person-copy small{line-height:1.35}
