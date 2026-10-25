@@ -1927,3 +1927,7 @@ img,video,iframe{max-width:100%}
 
 /* Restore the feed content column */
 .feed-page,.feed-page .feed-column{display:block;visibility:visible;opacity:1;min-width:0}
+
+
+/* Keep timeline posts visible in the unified feed */
+.feed-page .posts-list{display:grid;grid-template-columns:minmax(0,1fr);visibility:visible;opacity:1}
