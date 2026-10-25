@@ -304,9 +304,16 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     counts[peer] = (counts[peer] || 0) + 1;
     return counts;
   }, {});
+  const normalizedQuery = query.trim().toLocaleLowerCase();
   const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)]
-    .filter(p => `${p.username || ""} ${p.display_name || ""}`.toLowerCase().includes(query.trim().toLowerCase()))
-    .filter(p => filter === "archived" ? archivedChats.includes(p.id) : !archivedChats.includes(p.id) && (filter === "all" || (filter === "saved" && p.id === session.user.id) || (filter === "people" && p.id !== session.user.id) || (filter === "unread" && unreadCounts[p.id] > 0)))
+    .filter(person => {
+      const latestBody = lastMessages[person.id]?.body || "";
+      const searchable = `${person.username || ""} ${person.display_name || ""} ${latestBody}`.toLocaleLowerCase();
+      return !normalizedQuery || searchable.includes(normalizedQuery);
+    })
+    .filter(person => filter === "archived"
+      ? archivedChats.includes(person.id)
+      : !archivedChats.includes(person.id) && (filter === "all" || (filter === "saved" && person.id === session.user.id) || (filter === "people" && person.id !== session.user.id) || (filter === "unread" && unreadCounts[person.id] > 0)))
     .sort((a, b) => {
       if (a.id === session.user.id) return b.id === session.user.id ? 0 : -1;
       if (b.id === session.user.id) return 1;
@@ -321,13 +328,13 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   return <main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
       <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
-      <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/></div>
+      <div className="search-box"><Search size={17}/><input aria-label="Search conversations by name, username, or latest message" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/>{query && <button type="button" className="chat-search-clear" aria-label="Clear chat search" title="Clear search" onClick={() => setQuery("")}><X size={15}/></button>}</div>
       <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"],["archived","Archived"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setDrafts(current => ({ ...current, [active?.id || "__none"]: draft })); setDraft(drafts[person.id] || ""); setActive(person); setMessageSearch(""); setError(""); }}>
           <span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${person.display_name || person.username || "member"} profile`} onClick={event => { event.stopPropagation(); onOpenProfile?.(person); }} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); event.stopPropagation(); onOpenProfile?.(person); } }}><Avatar person={person}/></span>
           <span className="person-copy"><strong>{pinnedChats.includes(person.id) && <Pin size={12} aria-label="Pinned"/>} {mutedChats.includes(person.id) && <BellOff size={12} aria-label="Muted"/>} {person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{lastMessages[person.id] ? `${lastMessages[person.id].sender_id === session.user.id ? "You: " : ""}${lastMessages[person.id].body}` : person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span>{unreadCounts[person.id] > 0 && <span className="chat-unread-count" aria-label={`${unreadCounts[person.id]} unread messages`}>{unreadCounts[person.id] > 99 ? "99+" : unreadCounts[person.id]}</span>}<time className="chat-row-time">{lastMessages[person.id] ? new Date(lastMessages[person.id].created_at).toLocaleDateString([], { month: "short", day: "numeric" }) : ""}</time>
         </button>)}
-        {!visiblePeople.length && <p className="empty-small">{query ? "No matches found." : "No conversations yet. Start a new chat!"}</p>}
+        {!visiblePeople.length && <div className="empty-small chat-search-empty" role="status"><p>{query ? "No conversations match your search." : filter === "unread" ? "You’re all caught up." : filter === "saved" ? "Saved messages are always available here." : filter === "archived" ? "No archived conversations." : filter === "people" ? "No people to show yet." : "No conversations yet. Start a new chat!"}</p>{query && <button type="button" onClick={() => setQuery("")}>Clear search</button>}</div>}
       </div>
     </aside>
     <section className="conversation">
