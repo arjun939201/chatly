@@ -1559,3 +1559,7 @@ img,video,iframe{max-width:100%}
 
 /* Comment UX refinement 3 */
  .comments-modal .post-comment-body{box-shadow:0 1px 2px rgba(20,20,40,.025)} .comments-modal .post-comment-body p{word-break:normal} .comments-modal .post-comment-body a{color:#6f5fe0} .comments-modal .post-comment-body p::selection{background:rgba(129,114,233,.2)} .comments-modal .post-comment{animation:comment-row-in .18s ease-out both}@keyframes comment-row-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+
+/* Comment UX refinement 4 */
+ .comments-modal .comment-author-profile{border-radius:12px;transition:color .15s} .comments-modal .comment-author-profile:hover{color:#6f5fe0} .comments-modal .comment-author-profile:focus-visible{outline:2px solid #8c80f4;outline-offset:2px} .comments-modal .comment-author-profile .mini-avatar{overflow:hidden;border:1px solid rgba(120,120,140,.13)} .comments-modal .comment-author-profile .mini-avatar img{width:100%;height:100%;object-fit:cover}
