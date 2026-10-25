@@ -13,6 +13,7 @@ export default function Chat({ session, profile, targetId, onBackToFeed }) {
   const [active, setActive] = useState(null);
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
+  const [sendBusy, setSendBusy] = useState(false);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [lastMessages, setLastMessages] = useState({});
@@ -61,10 +62,19 @@ export default function Chat({ session, profile, targetId, onBackToFeed }) {
   async function sendMessage(event) {
     event.preventDefault();
     const body = draft.trim();
-    if (!body || !active) return;
+    if (!body || !active || sendBusy) return;
+    setSendBusy(true);
+    setError("");
     setDraft("");
-    const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: active.id, body });
-    if (err) { setDraft(body); setError(err.message); }
+    try {
+      const { error: err } = await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: active.id, body });
+      if (err) { setDraft(body); setError(err.message); }
+    } catch (err) {
+      setDraft(body);
+      setError(err?.message || "Could not send message. Please try again.");
+    } finally {
+      setSendBusy(false);
+    }
   }
 
   const self = { ...(profile || {}), id: session.user.id, display_name: "Saved messages", username: "You", avatar_url: profile?.avatar_url };
@@ -90,7 +100,7 @@ export default function Chat({ session, profile, targetId, onBackToFeed }) {
           {!messages.length && <div className="empty-chat"><MessageCircle size={32}/><p>{active.id === session.user.id ? "Save a note, link, or message for yourself." : `Say hello to ${active.display_name || active.username || "your new connection"}!`}</p></div>}
           <div ref={bottomRef}/>
         </div>
-        <form className="composer" onSubmit={sendMessage}><input value={draft} onChange={e => setDraft(e.target.value)} placeholder="Write a message…" maxLength={4000}/><button className="send-button" disabled={!draft.trim()} aria-label="Send message"><Send size={18}/></button></form>
+        <form className="composer" onSubmit={sendMessage}><input value={draft} onChange={e => setDraft(e.target.value)} placeholder="Write a message…" maxLength={4000}/><button className="send-button" disabled={!draft.trim() || sendBusy} aria-label="Send message"><Send size={18}/></button></form>
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner">{error}<button onClick={() => setError("")}>Dismiss</button></div>}
     </section>
