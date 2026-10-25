@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, MessageCircle, Heart, UserRound, Users, ArrowLeft, UserPlus, UserCheck, X, Minimize2, Maximize2, Youtube } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -25,6 +25,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   const [expandedVideo, setExpandedVideo] = useState(null);
   const [playerMinimized, setPlayerMinimized] = useState(false);
   const [playerPosition, setPlayerPosition] = useState(null);
+  const profileRequest = useRef(0);
 
   useEffect(() => {
     let alive = true;
@@ -70,6 +71,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   }, [query, kind]);
 
   async function openProfile(person) {
+    const request = ++profileRequest.current;
     setSelected(person);
     setNotice("");
     setProfileLoading(true);
@@ -84,13 +86,14 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
       ]);
       const error = followerRows.error || followingRows.error || mine.error;
       if (error) throw error;
+      if (request !== profileRequest.current) return;
       setFollowers(followerRows.count || 0);
       setFollowingCount(followingRows.count || 0);
       setFollowing(!!mine.data);
     } catch (error) {
-      setNotice(error.message || "Could not load this profile's follow information.");
+      if (request === profileRequest.current) setNotice(error.message || "Could not load this profile's follow information.");
     } finally {
-      setProfileLoading(false);
+      if (request === profileRequest.current) setProfileLoading(false);
     }
   }
 
@@ -121,7 +124,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   const activeVideoId = expandedVideo?.id?.videoId;
 
   if (selected) return <main className="search-page"><section className="profile-view">
-    <button className="profile-back" onClick={() => setSelected(null)}><ArrowLeft size={17}/> Back to search</button>
+    <button className="profile-back" onClick={() => { profileRequest.current += 1; setSelected(null); setProfileLoading(false); }}><ArrowLeft size={17}/> Back to search</button>
     <div className="profile-hero"><Avatar person={selected} size="profile-avatar"/><div className="profile-identity"><h1>{selected.display_name || "Chatly user"}</h1><p>{selected.username ? "@" + selected.username : "Chatly member"}</p><div className="profile-stats"><span><b>{profilePosts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div><div className="profile-actions">{!ownProfile && <><button className="primary-button" disabled={busy || profileLoading} onClick={toggleFollow}>{busy ? "Updating…" : profileLoading ? "Loading…" : following ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" onClick={onOpenChats}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
     <h2 className="profile-posts-title">Posts</h2>
     <div className="profile-post-grid">{profilePosts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{new Date(post.created_at).toLocaleDateString()}</small></article>)}{!profilePosts.length && <p className="profile-empty">No posts yet.</p>}</div>
