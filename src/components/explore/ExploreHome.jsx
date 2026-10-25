@@ -54,12 +54,12 @@ export default function ExploreHome({ onSearch }) {
     </div>
     <div className="explore-home-section-heading">
       <h3><TrendingUp size={17} /> Fresh from the community <span>Recent public posts</span></h3>
-      <button type="button" onClick={loadRecentPosts} disabled={loading} aria-label="Refresh recent posts"><RefreshCw size={15} /></button>
+      <button type="button" onClick={loadRecentPosts} disabled={loading} aria-label={loading ? "Refreshing recent posts" : "Refresh recent posts"} title={loading ? "Refreshing…" : "Refresh recent posts"}><RefreshCw size={15} /></button>
     </div>
     {loading ? <p role="status" className="explore-home-status">Loading recent posts…</p>
       : error ? <div className="explore-home-status" role="alert">{error}<button type="button" onClick={loadRecentPosts}>Retry</button></div>
       : posts.length ? <div className="explore-home-posts">{posts.map(post => <article className="explore-home-post" key={post.id}>
-          <div className="explore-home-post-author"><span className="explore-home-post-avatar">{(post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
+          <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
           <p>{post.body}</p>
           <time dateTime={post.created_at || undefined}>{post.created_at ? new Date(post.created_at).toLocaleDateString(undefined, { dateStyle: "medium" }) : "Recently"}</time>
         </article>)}</div>
