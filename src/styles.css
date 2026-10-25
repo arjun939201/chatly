@@ -1294,3 +1294,19 @@ img,video,iframe{max-width:100%}
 .chat-filter-row button{white-space:nowrap}
 .chat-filter-row{overflow-x:auto;scrollbar-width:none}
 .chat-filter-row::-webkit-scrollbar{display:none}
+
+
+/* Always provide a clear way to exit an open conversation. */
+.chat-layout .conversation-close{
+  flex:0 0 auto;
+  width:36px;height:36px;
+  display:grid;place-items:center;
+  border:1px solid var(--border,#e8e8f0);
+  border-radius:10px;
+  background:var(--surface,#fff);
+  color:var(--muted,#777);
+}
+.chat-layout .conversation-close:hover{
+  color:var(--chatly-brand,#6757e8);
+  background:var(--chatly-brand-soft,#f0edff);
+}
