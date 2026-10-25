@@ -14,6 +14,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   const [following, setFollowing] = useState(false);
   const [followers, setFollowers] = useState(0);
   const [followingCount, setFollowingCount] = useState(0);
+  const [profileLoading, setProfileLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
@@ -71,30 +72,45 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
   async function openProfile(person) {
     setSelected(person);
     setNotice("");
-    const [followerRows, followingRows, mine] = await Promise.all([
-      supabase.from("user_follows").select("follower_id").eq("following_id", person.id),
-      supabase.from("user_follows").select("following_id").eq("follower_id", person.id),
-      supabase.from("user_follows").select("follower_id").eq("follower_id", session.user.id).eq("following_id", person.id).maybeSingle()
-    ]);
-    setFollowers(followerRows.data?.length || 0);
-    setFollowingCount(followingRows.data?.length || 0);
-    setFollowing(!!mine.data);
-    if (followerRows.error || followingRows.error || mine.error) {
-      const err = followerRows.error || followingRows.error || mine.error;
-      if (!err.message.includes("user_follows")) setNotice(err.message);
+    setProfileLoading(true);
+    setFollowing(false);
+    setFollowers(0);
+    setFollowingCount(0);
+    try {
+      const [followerRows, followingRows, mine] = await Promise.all([
+        supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", person.id),
+        supabase.from("user_follows").select("following_id", { count: "exact", head: true }).eq("follower_id", person.id),
+        supabase.from("user_follows").select("follower_id").eq("follower_id", session.user.id).eq("following_id", person.id).maybeSingle()
+      ]);
+      const error = followerRows.error || followingRows.error || mine.error;
+      if (error) throw error;
+      setFollowers(followerRows.count || 0);
+      setFollowingCount(followingRows.count || 0);
+      setFollowing(!!mine.data);
+    } catch (error) {
+      setNotice(error.message || "Could not load this profile's follow information.");
+    } finally {
+      setProfileLoading(false);
     }
   }
 
   async function toggleFollow() {
     if (!selected || selected.id === session.user.id || busy) return;
-    setBusy(true); setNotice("");
-    const result = following
-      ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", selected.id)
-      : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: selected.id });
-    setBusy(false);
-    if (result.error) { setNotice(result.error.message); return; }
-    setFollowing(v => !v);
-    setFollowers(v => v + (following ? -1 : 1));
+    const wasFollowing = following;
+    setBusy(true);
+    setNotice("");
+    try {
+      const result = wasFollowing
+        ? await supabase.from("user_follows").delete().eq("follower_id", session.user.id).eq("following_id", selected.id)
+        : await supabase.from("user_follows").insert({ follower_id: session.user.id, following_id: selected.id });
+      if (result.error) throw result.error;
+      setFollowing(!wasFollowing);
+      setFollowers(count => Math.max(0, count + (wasFollowing ? -1 : 1)));
+    } catch (error) {
+      setNotice(error.message || "Could not update follow status.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   const q = query.trim().toLowerCase();
@@ -106,7 +122,7 @@ export default function SearchPeople({ session, onOpenChats, onPlayVideo }) {
 
   if (selected) return <main className="search-page"><section className="profile-view">
     <button className="profile-back" onClick={() => setSelected(null)}><ArrowLeft size={17}/> Back to search</button>
-    <div className="profile-hero"><Avatar person={selected} size="profile-avatar"/><div className="profile-identity"><h1>{selected.display_name || "Chatly user"}</h1><p>{selected.username ? "@" + selected.username : "Chatly member"}</p><div className="profile-stats"><span><b>{profilePosts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div><div className="profile-actions">{!ownProfile && <><button className="primary-button" disabled={busy} onClick={toggleFollow}>{following ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" onClick={onOpenChats}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
+    <div className="profile-hero"><Avatar person={selected} size="profile-avatar"/><div className="profile-identity"><h1>{selected.display_name || "Chatly user"}</h1><p>{selected.username ? "@" + selected.username : "Chatly member"}</p><div className="profile-stats"><span><b>{profilePosts.length}</b> posts</span><span><b>{followers}</b> followers</span><span><b>{followingCount}</b> following</span></div><div className="profile-actions">{!ownProfile && <><button className="primary-button" disabled={busy || profileLoading} onClick={toggleFollow}>{busy ? "Updating…" : profileLoading ? "Loading…" : following ? <><UserCheck size={16}/> Following</> : <><UserPlus size={16}/> Follow</>}</button><button className="secondary-button" onClick={onOpenChats}><MessageCircle size={16}/> Chat</button></>}</div></div></div>
     <h2 className="profile-posts-title">Posts</h2>
     <div className="profile-post-grid">{profilePosts.map(post => <article className="profile-post" key={post.id}><p>{post.body}</p><small>{new Date(post.created_at).toLocaleDateString()}</small></article>)}{!profilePosts.length && <p className="profile-empty">No posts yet.</p>}</div>
     {notice && <p className="search-notice">{notice}</p>}
