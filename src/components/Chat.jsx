@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen } from "lucide-react";
+import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, className = "" }) {
@@ -7,7 +7,7 @@ function Avatar({ person, className = "" }) {
   return <span className={`avatar ${className}`}>{person?.avatar_url ? <img src={person.avatar_url} alt=""/> : label}</span>;
 }
 
-export default function Chat({ session, profile, targetId }) {
+export default function Chat({ session, profile, targetId, onBackToFeed }) {
   const [people, setPeople] = useState([]);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
@@ -72,7 +72,7 @@ export default function Chat({ session, profile, targetId }) {
 
   return <main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
-      <div className="sidebar-heading"><div><MessageCircle size={18}/> Chats</div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
+      <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
       <div className="search-box"><Search size={17}/><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/></div>
       <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"]].map(([key,label])=><button key={key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setActive(person); setError(""); }}>
