@@ -25,7 +25,8 @@ export function useYouTubeSearch(query, category) {
 
     let alive = true;
     const controller = new AbortController();
-    setLoading(false);
+    setVideos([]);
+    setLoading(true);
     setError("");
 
     const timer = window.setTimeout(async () => {
