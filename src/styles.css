@@ -1672,3 +1672,11 @@ img,video,iframe{max-width:100%}
 /* Comment layout 08 — phone-first compact thread */
 @media(max-width:600px){.comments-modal .comments-dialog-header{padding:18px 18px 15px}.comments-modal .comment-list{padding:18px 16px}.comments-modal .comment-item{grid-template-columns:36px minmax(0,1fr);gap:10px;padding-bottom:18px}.comments-modal .comment-avatar-link,.comments-modal .comment-avatar-link .mini-avatar{width:36px;height:36px}.comments-modal .comment-name{font-size:12px}.comments-modal .comment-username,.comments-modal .comment-meta time{font-size:10px}.comments-modal .comment-message{max-width:100%;padding:10px 12px}.comments-modal .comment-message p{font-size:13px;line-height:1.55}.comments-modal .comment-composer{grid-template-columns:34px minmax(0,1fr) auto;gap:8px;padding:12px 12px max(12px,env(safe-area-inset-bottom))}.comments-modal .comment-composer .mini-avatar{width:34px;height:34px}.comments-modal .comment-composer>button{min-width:58px;min-height:40px;padding:0 12px}}
 @media(max-width:360px){.comments-modal .comment-composer{grid-template-columns:minmax(0,1fr) auto}.comments-modal .comment-composer>.mini-avatar{display:none}.comments-modal .comment-meta{column-gap:5px}.comments-modal .comment-you-label{margin-left:0}}
+
+
+/* Comment layout 09 — refined dialog frame */
+.comment-modal-backdrop{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:20px}
+.comments-modal{border:1px solid color-mix(in srgb,var(--border,#e7e7ef) 85%,transparent);border-radius:22px;box-shadow:0 28px 90px rgba(24,22,45,.2);overflow:hidden}
+.comments-modal .comment-list{overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#c8c4dc transparent}
+.comments-modal .comment-list::-webkit-scrollbar{width:5px}.comments-modal .comment-list::-webkit-scrollbar-thumb{background:#c8c4dc;border-radius:99px}
+@media(max-width:600px){.comment-modal-backdrop{padding:0}.comments-modal{border-radius:24px 24px 0 0;max-height:88dvh;max-width:100%;padding-bottom:env(safe-area-inset-bottom)}}
