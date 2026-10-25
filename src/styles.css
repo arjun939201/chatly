@@ -386,3 +386,50 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .chat-layout.has-active .conversation{display:flex;width:100%;min-width:0;height:100%;min-height:0;border:1px solid var(--border);border-radius:18px;background:var(--surface);overflow:hidden}
 .chat-layout .sidebar-heading,.chat-layout .search-box,.chat-layout .chat-filter-row,.chat-layout .people-list{padding-left:18px;padding-right:18px}
 @media(max-width:600px){.chat-layout{height:calc(100dvh - 190px);min-height:calc(100dvh - 190px);padding:0 10px 12px}.chat-layout .sidebar,.chat-layout.has-active .conversation{border-radius:16px}}
+
+
+/* Global destination-page polish: aligned navigation, full-height content, and consistent responsive framing */
+.app-shell:not(:has(.topbar)){min-height:100dvh;display:flex;flex-direction:column}
+.destination-topline{width:100%;max-width:none;box-sizing:border-box;margin:0;padding:10px clamp(14px,3vw,28px);min-height:58px;gap:12px;background:var(--app-bg);border-bottom:1px solid var(--border)}
+.destination-topline .page-back-to-feed{margin:0;width:36px;height:36px;min-width:36px;padding:0;display:grid;place-items:center;border-radius:11px;background:var(--surface);border:1px solid var(--border);box-shadow:0 1px 2px #17171d06}
+.destination-current-title{font-size:18px;font-weight:700;letter-spacing:-.35px;color:var(--text)}
+.destination-page,.search-page,.chat-layout,.profile-page{width:100%;max-width:none;box-sizing:border-box;margin:0;flex:1;min-height:0;border-radius:0}
+.destination-page{padding:clamp(16px,3vw,28px);border:0;box-shadow:none;overflow:auto}
+.search-page{padding:clamp(18px,3vw,30px) clamp(14px,3vw,28px) 24px;overflow:auto}
+.search-people{width:min(100%,920px);margin:0 auto}
+.search-people h1{font-size:clamp(23px,3vw,30px);letter-spacing:-.65px}
+.search-people>p{font-size:14px;line-height:1.55;margin-bottom:22px}
+.search-page-input{min-height:48px;border-radius:14px;box-shadow:0 2px 8px #17171d04}
+.search-start-prompt{margin-top:20px;border:1px dashed var(--border);border-radius:18px;background:var(--surface);min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;color:var(--muted)}
+.search-start-prompt svg{color:#6c5ce7}
+.search-start-prompt strong{font-size:17px;color:var(--text)}
+.search-start-prompt p{max-width:520px;margin:0;font-size:14px;line-height:1.65}
+.search-kind-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 22px}
+.search-kind-tabs button{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:9px 16px;font-size:13px;font-weight:550}
+.search-kind-tabs button.active{background:#6c5ce7;color:#fff;border-color:#6c5ce7}
+.search-section-title{margin:22px 0 12px;font-size:17px;letter-spacing:-.2px}
+.search-results,.youtube-results{margin-top:0;border-radius:16px;background:var(--surface);border-color:var(--border)}
+.notification-destination-page .notifications-empty{min-height:min(42vh,320px)}
+.app-shell:has(.chat-layout){min-height:100dvh}
+.chat-layout{height:auto;min-height:0;padding:14px clamp(10px,2vw,24px) 18px;background:var(--app-bg);border:0;border-radius:0;box-shadow:none}
+.chat-layout .sidebar,.chat-layout.has-active .conversation{border-radius:18px;border:1px solid var(--border);box-shadow:0 3px 18px #17171d04}
+.chat-layout .sidebar{padding:clamp(14px,2vw,24px)}
+.chat-layout .sidebar-heading{font-size:21px;padding-bottom:18px}
+.chat-layout .search-box{margin:0 0 12px}
+.chat-layout .chat-filter-row{padding:10px 0 16px}
+.chat-layout .people-list{padding:0;gap:4px}
+.chat-layout .person-row{padding:13px 10px}
+.chat-layout.has-active .conversation{overflow:hidden}
+.profile-page{padding:20px clamp(14px,3vw,28px) 30px;overflow:auto}
+@media(max-width:600px){
+ .destination-topline{min-height:52px;padding:8px 14px;gap:10px}
+ .destination-current-title{font-size:17px}
+ .destination-page{padding:16px 14px 24px}
+ .search-page{padding:18px 14px 24px}
+ .search-start-prompt{min-height:170px;padding:18px}
+ .chat-layout{height:auto;min-height:0;padding:10px 10px 16px}
+ .chat-layout .sidebar,.chat-layout.has-active .conversation{border-radius:16px}
+ .chat-layout .sidebar-heading,.chat-layout .search-box,.chat-layout .chat-filter-row,.chat-layout .people-list{padding-left:12px;padding-right:12px}
+ .chat-layout .search-box{margin:0 0 10px}
+ .chat-layout .chat-filter-row{padding-top:10px;padding-bottom:12px}
+}
