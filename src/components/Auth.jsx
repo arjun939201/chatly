@@ -1,69 +1,63 @@
 import { useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Mail, Chrome, ArrowLeft } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 export default function Auth() {
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState("start");
   const [displayName, setDisplayName] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [sent, setSent] = useState(false);
 
-  async function submit(event) {
-    event.preventDefault();
-    setBusy(true);
-    setMessage("");
+  async function googleSignIn() {
+    setBusy(true); setMessage("");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin }
+    });
+    if (error) { setMessage(error.message); setBusy(false); }
+  }
+
+  async function emailSignIn(event) {
+    event.preventDefault(); setBusy(true); setMessage("");
     try {
-      if (mode === "register") {
-        const cleanUsername = username.trim().toLowerCase();
-        if (!/^[a-z0-9_]{3,20}$/.test(cleanUsername)) {
-          setMessage("Username must be 3–20 characters: letters, numbers, or underscores.");
-          return;
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim(),
+        options: {
+          emailRedirectTo: window.location.origin,
+          shouldCreateUser: true,
+          data: { display_name: displayName.trim() || email.split("@")[0] }
         }
-        const { data, error } = await supabase.auth.signUp({
-          email: email.trim(),
-          password,
-          options: { data: { username: cleanUsername, display_name: displayName.trim() || cleanUsername } }
-        });
-        if (error) throw error;
-        if (data.user && !data.session) {
-          setMessage("Check your email to confirm your account, then sign in.");
-        } else {
-          setMessage("Account created. You're ready to chat!");
-        }
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-        if (error) throw error;
-      }
-    } catch (error) {
-      setMessage(error.message || "Something went wrong.");
-    } finally {
-      setBusy(false);
-    }
+      });
+      if (error) throw error;
+      setSent(true);
+      setMessage("Check your email for your secure sign-in link.");
+    } catch (error) { setMessage(error.message || "Could not send the email."); }
+    finally { setBusy(false); }
   }
 
   return <main className="auth-screen">
-    <section className="auth-card">
-      <div className="auth-brand"><span className="brand-mark"><MessageCircle size={22} /></span><span>Chatly</span></div>
-      <h1>{mode === "login" ? "Welcome back" : "Create your account"}</h1>
-      <p className="muted">{mode === "login" ? "Sign in to continue your conversations." : "Find friends and start chatting."}</p>
-      <form onSubmit={submit}>
-        {mode === "register" && <>
-          <label>Display name<input value={displayName} onChange={e => setDisplayName(e.target.value)} placeholder="Your name" maxLength={40} /></label>
-          <label>Username<input value={username} onChange={e => setUsername(e.target.value)} placeholder="e.g. alex_12" required /></label>
-        </>}
-        <label>Email<input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required /></label>
-        <label>Password<input type="password" value={password} onChange={e => setPassword(e.target.value)} minLength={6} required placeholder="At least 6 characters" /></label>
-        <button className="primary-button" disabled={busy}>{busy ? "Please wait…" : mode === "login" ? "Sign in" : "Create account"}</button>
-      </form>
+    <section className="auth-card auth-card-modern">
+      <div className="auth-brand"><span className="brand-mark"><MessageCircle size={22}/></span><span>Chatly</span></div>
+      {mode === "start" ? <>
+        <div className="auth-heading"><h1>Conversations start here.</h1><p>Connect with people, simply and securely.</p></div>
+        <button className="oauth-button" onClick={googleSignIn} disabled={busy}><Chrome size={18}/> Continue with Google</button>
+        <div className="auth-divider"><span>or</span></div>
+        <button className="primary-button auth-email-button" onClick={() => { setMode("email"); setSent(false); setMessage(""); }}><Mail size={17}/> Continue with email</button>
+        <p className="auth-legal">By continuing, you agree to use Chatly respectfully.</p>
+      </> : <>
+        <button className="back-button" onClick={() => { setMode("start"); setMessage(""); }}><ArrowLeft size={16}/> Back</button>
+        <h1>{sent ? "Check your inbox" : "Continue with email"}</h1>
+        <p className="muted">{sent ? "Use the secure link we sent you to sign in to Chatly." : "We'll email you a secure sign-in link. No password needed."}</p>
+        {!sent && <form onSubmit={emailSignIn}>
+          <label>Your name <span className="field-hint">Optional for existing accounts</span><input value={displayName} onChange={e => setDisplayName(e.target.value)} placeholder="Your name" maxLength={40}/></label>
+          <label>Email address<input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" required/></label>
+          <button className="primary-button" disabled={busy}>{busy ? "Sending…" : "Send sign-in link"}</button>
+        </form>}
+        {sent && <button className="secondary-button" onClick={() => { setSent(false); setMessage(""); }}>Use another email</button>}
+      </>}
       {message && <p className="form-message">{message}</p>}
-      <p className="switch-mode">{mode === "login" ? "New to Chatly?" : "Already have an account?"}
-        <button onClick={() => { setMode(mode === "login" ? "register" : "login"); setMessage(""); }}>
-          {mode === "login" ? "Create account" : "Sign in"}
-        </button>
-      </p>
     </section>
   </main>;
 }
