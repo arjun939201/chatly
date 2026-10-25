@@ -2271,3 +2271,11 @@ html,body,#root{min-height:100%;max-width:100%;margin:0}body{overflow-x:hidden}.
 /* Hide the page scrollbar on Feed without disabling scrolling, including during load/refresh. */
 html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollbar{display:none}
 .feed-page,.feed-page *{scrollbar-width:none}.feed-page *::-webkit-scrollbar{display:none}
+
+/* Profile posts loading placeholders and retry state */
+.profile-post-grid-skeleton .profile-post-skeleton { min-height: 150px; display: flex; flex-direction: column; justify-content: flex-end; gap: 9px; padding: 16px; overflow: hidden; }
+.profile-post-skeleton span { display: block; height: 8px; width: 72%; border-radius: 8px; background: var(--border, #e4e4e9); animation: profile-skeleton-pulse 1.25s ease-in-out infinite alternate; }
+.profile-post-skeleton span:nth-child(2) { width: 92%; }
+.profile-post-skeleton span:nth-child(3) { width: 48%; }
+@keyframes profile-skeleton-pulse { from { opacity: .45; } to { opacity: .95; } }
+@media (prefers-reduced-motion: reduce) { .profile-post-skeleton span { animation: none; } }
