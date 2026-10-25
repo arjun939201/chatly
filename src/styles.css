@@ -2083,3 +2083,7 @@ img,video,iframe{max-width:100%}
 
 /* Restrained shared surfaces */
 .post-card,.profile-post,.notifications-empty,.settings-section,.search-start-prompt{border-radius:var(--radius-card);box-shadow:0 2px 10px #20203306}.post-card,.profile-post{border-color:var(--border,#e4e4e9)}
+
+
+/* Profile content starts directly under the destination title */
+.profile-page{padding-top:8px!important}.profile-page-head{margin:0 0 10px!important;padding:0 0 8px!important;border-bottom:0!important}.profile-summary{margin:0!important;padding:8px 0!important}.profile-grid-heading{margin:12px 0 8px!important;border:0!important}
