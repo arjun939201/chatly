@@ -3996,3 +3996,18 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-post-thumbnail{margin:7px 0 0;width:48px;height:58px;flex:0 0 48px;border-radius:9px;object-fit:cover}
 .notification-activity-copy .notification-post-preview+.notification-post-thumbnail{margin-top:7px}
 .notification-activity-item .notification-activity-icon{flex:0 0 36px;width:36px;height:36px;display:grid;place-items:center;border-radius:11px}
+
+/* Notification page responsive spacing refinements */
+@media(max-width:600px){
+ .notification-destination-page{padding:12px 12px 24px}
+ .notification-feed{gap:10px}
+ .notification-feed-heading{padding:2px 0 6px}
+ .notification-activity-item{gap:10px;padding:13px 12px}
+ .notification-date-heading{margin:14px 0 7px}
+ .notification-filter-row{margin-bottom:2px;gap:6px}
+ .notification-filter-row button{padding:7px 11px}
+}
+@media(min-width:900px){
+ .notification-destination-page{padding-top:24px}
+ .notification-activity-item{padding:16px 18px}
+}
