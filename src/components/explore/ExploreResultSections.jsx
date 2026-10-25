@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Heart, MessageCircle, UserRound, Users, Youtube } from "lucide-react";
 
 function Avatar({ person }) {
@@ -38,7 +39,7 @@ export function PeopleResults({ people, loading, error, hasMore, onLoadMore, cur
   </section>;
 }
 
-export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpenProfile }) {
+export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpenProfile, query = "" }) {
   return <section className="explore-result-section">
     <h2 className="search-section-title"><Heart size={17} /> Posts</h2>
     <div className="search-results">
@@ -46,11 +47,11 @@ export function PostResults({ posts, loading, error, hasMore, onLoadMore, onOpen
       {posts.length ? posts.map(post => <article className="search-post" key={post.id}>
         <button type="button" className="search-post-author" onClick={() => post.author?.id && onOpenProfile(post.author)} aria-label={`View ${post.author?.display_name || "member"} profile`}>
           <Avatar person={post.author} />
-          <span><b>{post.author?.display_name || "Chatly member"}</b><small>{post.author?.username ? "@" + post.author.username : ""}</small></span>
+          <span><b><HighlightMatch text={post.author?.display_name || "Chatly member"} query={query} /></b><small>{post.author?.username ? "@" + post.author.username : ""}</small></span>
         </button>
         <p>{post.body}</p>
         <small>{post.created_at ? new Date(post.created_at).toLocaleString() : "Recently"}</small>
-      </article>) : !loading && !error ? <p>No posts found.</p> : null}
+      </article>) : !loading && !error ? <p>No posts found. Try different keywords.</p> : null}
       {loading && <p role="status">Loading posts…</p>}
       {hasMore && !loading && <button type="button" className="explore-load-more" onClick={onLoadMore}>Load more posts</button>}
     </div>
