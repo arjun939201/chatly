@@ -2007,3 +2007,7 @@ img,video,iframe{max-width:100%}
 
 /* Post menu stays aligned with author identity on small screens */
 .post-card .post-options-wrap{margin-left:auto;flex:0 0 auto}.post-card .post-options-trigger{cursor:pointer}.post-card .post-options-trigger:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
+
+
+/* Feed status messages remain visible and readable */
+.feed-page .feed-notice{margin:8px 0;border:1px solid var(--border,#e7e7ef);border-radius:12px;background:var(--surface,#fff);line-height:1.5}
