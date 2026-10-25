@@ -3434,3 +3434,53 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @media(prefers-reduced-motion:reduce){
  .chat-layout *, .chat-layout *::before,.chat-layout *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
+
+
+/* Feed comments: polished Edit and Delete controls for the author's own comments */
+.feed-page .comment-own-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:8px 0 0;
+}
+.feed-page .comment-own-actions button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  padding:5px 11px;
+  border:1px solid color-mix(in srgb,var(--chatly-brand,#6757e8) 22%,var(--border,#e5e4ef));
+  border-radius:9px;
+  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 5%,var(--surface,#fff));
+  color:var(--chatly-brand,#6256d5);
+  font-size:11px;
+  font-weight:650;
+  line-height:1.2;
+  cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease,transform .15s ease;
+}
+.feed-page .comment-own-actions button:hover{
+  background:color-mix(in srgb,var(--chatly-brand,#6757e8) 10%,var(--surface,#fff));
+  border-color:color-mix(in srgb,var(--chatly-brand,#6757e8) 38%,var(--border,#e5e4ef));
+}
+.feed-page .comment-own-actions button:last-child{
+  color:#bd3b50;
+  border-color:#f0d5da;
+  background:#fff8f9;
+}
+.feed-page .comment-own-actions button:last-child:hover{
+  color:#a6293e;
+  border-color:#eab9c2;
+  background:#fff0f2;
+}
+.feed-page .comment-own-actions button:active{transform:translateY(1px)}
+.feed-page .comment-own-actions button:focus-visible{
+  outline:2px solid var(--chatly-brand,#6757e8);
+  outline-offset:2px;
+}
+@media(max-width:600px){
+  .feed-page .comment-own-actions{gap:6px;margin-top:7px}
+  .feed-page .comment-own-actions button{min-height:32px;padding:6px 12px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.feed-page .comment-own-actions button{transition:none!important}}
