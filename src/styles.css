@@ -1651,3 +1651,11 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-item:last-child{padding-bottom:0}
 .comments-modal .comment-content{gap:7px}
 .comments-modal .comment-message{max-width:min(100%,560px)}
+
+
+/* Comment layout 06 — clear dialog heading */
+.comments-modal .comments-dialog-header{padding:22px 24px 18px;gap:14px;border-bottom:1px solid var(--border,#e7e7ef)}
+.comments-modal .comments-dialog-header h2{font-size:21px;line-height:1.25;font-weight:750;letter-spacing:-.035em}
+.comments-modal .comments-dialog-header p{margin-top:5px;font-size:12px;line-height:1.45;color:var(--muted,#858597)}
+.comments-modal .comments-dialog-header button{width:38px;height:38px;flex:0 0 38px;border-radius:50%}
+.comments-modal .comments-dialog-header button:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
