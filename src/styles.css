@@ -1832,3 +1832,7 @@ img,video,iframe{max-width:100%}
 .compose-modal .compose-footer button{min-height:42px;min-width:88px;border-radius:12px;font-weight:700}
 .compose-modal textarea:focus-visible{box-shadow:inset 0 0 0 2px rgba(129,114,233,.16)}
 @media(max-width:600px){.compose-modal{width:100%;border-radius:22px 22px 0 0}.compose-modal>header{padding:17px 16px}.compose-modal .compose-author{padding:13px 16px 6px}.compose-modal textarea{min-height:140px;padding:12px 16px}.compose-modal .compose-footer{padding:12px 16px max(12px,env(safe-area-inset-bottom))}}
+
+
+/* Batch 2 / component 1: Feed */
+.feed-page .feed-column{min-width:0}.feed-page .feed-top-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.feed-page .feed-scope-tabs{display:flex;gap:6px;padding:4px;border:1px solid var(--border,#e6e6ee);border-radius:14px;background:var(--surface,#fff)}.feed-page .feed-scope-tabs button{min-height:38px;padding:0 13px;border-radius:10px;font-size:12px;font-weight:650}.feed-page .feed-empty{max-width:480px;margin:30px auto;padding:30px 22px;border:1px dashed var(--border,#e6e6ee);border-radius:20px;text-align:center}.feed-page .posts-list{display:grid;gap:16px}@media(max-width:600px){.feed-page .posts-list{gap:12px}}
