@@ -1619,3 +1619,11 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-meta{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;min-height:20px}
 .comments-modal .comment-message{justify-self:start;max-width:100%;width:fit-content;min-width:0}
 .comments-modal .comment-message p{margin:0;text-align:left;line-height:1.6;overflow-wrap:anywhere}
+
+
+/* Comment layout 02 — readable metadata */
+.comments-modal .comment-name{font-size:13px;font-weight:700;letter-spacing:-.01em;line-height:1.35;color:var(--text,#202033)}
+.comments-modal .comment-username{font-size:11px;font-weight:500;color:var(--muted,#858597)}
+.comments-modal .comment-meta time{font-size:11px;font-weight:400;color:var(--muted,#858597);white-space:nowrap}
+.comments-modal .comment-meta-dot{display:none}
+.comments-modal .comment-you-label{margin-left:auto;font-size:10px;line-height:1.2;padding:3px 7px;border-radius:999px}
