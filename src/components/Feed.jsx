@@ -53,11 +53,20 @@ const [commentBusy, setCommentBusy] = useState(false);
     const map = Object.fromEntries((profiles || []).map(p => [p.id,p]));
     const { data: likes, error: likesError } = await supabase.from("post_likes").select("post_id,user_id");
     if (likesError) throw likesError;
-    const postRows = data || [];
+    // Keep one record per post even if a joined/merged response contains duplicates.
+    const postRows = [...new Map((data || []).map(post => [post.id, post])).values()];
     if (request !== requestId.current) return;
-    setPosts(postRows.map(p => ({ ...p, author: map[p.user_id] || {}, likes: (likes || []).filter(l => l.post_id === p.id).length, liked: (likes || []).some(l => l.post_id === p.id && l.user_id === session.user.id) })));
+    setPosts(postRows.map(p => ({
+      ...p,
+      author: map[p.user_id] || {},
+      likes: (likes || []).filter(l => l.post_id === p.id).length,
+      liked: (likes || []).some(l => l.post_id === p.id && l.user_id === session.user.id)
+    })));
     if (postRows.length) { const { data: commentRows, error: commentsError } = await supabase.from("post_comments").select("id,post_id,user_id,body,created_at").in("post_id", postRows.map(p => p.id)).order("created_at"); if (commentsError) throw commentsError; const commentIds = [...new Set((commentRows || []).map(c => c.user_id))]; const { data: commentProfiles, error: commentProfilesError } = commentIds.length ? await supabase.from("profiles").select("id,display_name,username,avatar_url").in("id", commentIds) : { data: [], error: null }; if (commentProfilesError) throw commentProfilesError; const authors = Object.fromEntries((commentProfiles || []).map(p => [p.id,p])); if (request !== requestId.current) return; setComments(Object.fromEntries(postRows.map(p => [p.id,(commentRows || []).filter(c => c.post_id === p.id).map(c => ({...c,author:authors[c.user_id] || {}}))]))); } else { if (request !== requestId.current) return; setComments({}); }
-    } catch (error) { if (request === requestId.current) setNotice(`Could not load feed: ${error.message || "Please try again."}`); }
+    } catch (error) {
+      console.error("Feed load failed:", error);
+      if (request === requestId.current) setNotice("The feed could not be refreshed. Please try again.");
+    }
     finally { if (request === requestId.current) setFeedLoading(false); }
   }
   useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, [feedScope]);
