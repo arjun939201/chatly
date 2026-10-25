@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useExploreData } from "./explore/useExploreData";
 import { useYouTubeSearch } from "./explore/useYouTubeSearch";
-import { ExploreCategoryTabs, ExploreSearchInput, ExploreSearchPrompt } from "./explore/ExploreSearchControls";
+import ExploreHome from "./explore/ExploreHome";
+import { ExploreCategoryTabs, ExploreSearchInput } from "./explore/ExploreSearchControls";
 import { PeopleResults, PostResults, RoomsResults, YouTubeResults } from "./explore/ExploreResultSections";
 
 export default function SearchPeople({ session, requestedProfile, onProfileRequestHandled, onOpenProfile, onOpenChats, onPlayVideo }) {
@@ -29,7 +30,7 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
       <h1>Explore</h1>
       <p>Discover people, rooms, posts, and songs.</p>
       <ExploreSearchInput query={query} onQueryChange={setQuery} />
-      {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreSearchPrompt />}
+      {hasQuery ? <ExploreCategoryTabs activeCategory={kind} onCategoryChange={setKind} /> : <ExploreHome onSearch={category => { setKind(category); setQuery(category); }} />}
 
       {hasQuery && <>
         {(kind === "all" || kind === "people") && <PeopleResults
