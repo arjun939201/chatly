@@ -1310,3 +1310,18 @@ img,video,iframe{max-width:100%}
   color:var(--chatly-brand,#6757e8);
   background:var(--chatly-brand-soft,#f0edff);
 }
+
+
+/* Reply-to-message interaction */
+.chat-layout .message-reply{position:absolute;right:27px;top:6px;display:inline-flex;align-items:center;justify-content:center;border:0;background:transparent;color:inherit;opacity:.52;padding:3px;border-radius:5px;cursor:pointer}
+.chat-layout .message-reply:hover{opacity:1;background:rgba(127,127,127,.14)}
+.chat-layout .message .bubble{padding-right:52px}
+.chat-layout .message-reply-preview{margin:-2px -4px 8px;padding:7px 9px;border-left:3px solid var(--chatly-brand,#6757e8);border-radius:5px;background:rgba(127,127,127,.09);font-size:11px;line-height:1.35}
+.chat-layout .message-reply-preview span{display:block;font-weight:700;opacity:.75;margin-bottom:3px}
+.chat-layout .message-reply-preview p{margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.chat-layout .composer{flex-wrap:wrap}
+.chat-layout .composer-reply-preview{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:8px 10px;border-left:3px solid var(--chatly-brand,#6757e8);border-radius:8px;background:var(--chatly-brand-soft,#f0edff);color:var(--text,#222)}
+.chat-layout .composer-reply-preview>div{display:flex;flex-direction:column;gap:3px;min-width:0}
+.chat-layout .composer-reply-preview strong{font-size:11px}
+.chat-layout .composer-reply-preview span{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.chat-layout .composer-reply-preview button{flex:none;border:0;background:transparent;color:inherit;display:grid;place-items:center;width:30px;height:30px;border-radius:7px}
