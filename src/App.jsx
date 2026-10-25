@@ -183,7 +183,6 @@ export default function App() {
             <div className="font-setting-group"><span>Font family</span><div className="style-choice-row">{[{value:"system",label:"System"},{value:"sans",label:"Sans"},{value:"serif",label:"Serif"}].map(item => <button key={item.value} className={fontFamily === item.value ? "selected" : ""} onClick={() => setFontFamily(item.value)}>{item.label}</button>)}</div></div>
           </>}
         </section>}
-        <button type="button" className="logout-settings modal-logout" onClick={() => supabase.auth.signOut()}><LogOut size={16}/> Log out</button>
         {notice && <p className="form-message">{notice}</p>}
       </section>
     </div>}
