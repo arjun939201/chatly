@@ -9,6 +9,14 @@ export default function Feed({ session, profile, onFindFriends }) {
   const [friendMenu, setFriendMenu] = useState(false);
 const [search, setSearch] = useState("");
 const [createMenu, setCreateMenu] = useState(false);
+useEffect(() => {
+  if (!createMenu) return;
+  function closeOnOutsideClick(event) {
+    if (!event.target.closest(".create-menu-wrap")) setCreateMenu(false);
+  }
+  document.addEventListener("pointerdown", closeOnOutsideClick);
+  return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+}, [createMenu]);
 
 const [openComments, setOpenComments] = useState(null);
 const [comments, setComments] = useState({});
