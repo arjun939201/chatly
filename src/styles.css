@@ -371,3 +371,18 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .app-settings-destination-page .style-choice-row button{min-height:36px;padding:8px 13px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--muted);font-size:12px}
 .app-settings-destination-page .style-choice-row button.selected{background:#efedff;border-color:#6c5ce7;color:#5b4bd8;font-weight:650}
 @media(max-width:600px){.page-back-to-feed{margin:12px 0 0 14px}.search-start-prompt{min-height:190px;padding:18px}}
+
+/* Unified, horizontal destination navigation */
+.destination-topline{width:min(100% - 32px,760px);box-sizing:border-box;margin:10px auto 8px;display:flex;align-items:center;gap:10px;min-height:40px}
+.destination-topline .page-back-to-feed{margin:0;padding:0;width:38px;height:38px;justify-content:center;border-radius:50%;background:var(--surface);color:var(--text);flex:0 0 auto}
+.destination-current-title{font-size:19px;font-weight:700;letter-spacing:-.35px;color:var(--text)}
+@media(max-width:600px){.destination-topline{width:calc(100% - 28px);margin:8px auto 8px;min-height:38px}.destination-topline .page-back-to-feed{width:36px;height:36px}}
+/* Chats destination uses the available viewport rather than a small centered card */
+.app-shell:has(.chat-layout){min-height:100dvh}
+.chat-layout{width:100%;max-width:none;min-height:calc(100dvh - 205px);height:calc(100dvh - 205px);box-sizing:border-box;margin:0;padding:0 14px 18px;display:flex;gap:0;overflow:hidden}
+.chat-layout .sidebar{width:100%;max-width:none;min-width:0;min-height:0;height:100%;border:1px solid var(--border);border-radius:18px;background:var(--surface);box-sizing:border-box;overflow:auto}
+.chat-layout .conversation{display:none}
+.chat-layout.has-active .sidebar{display:none}
+.chat-layout.has-active .conversation{display:flex;width:100%;min-width:0;height:100%;min-height:0;border:1px solid var(--border);border-radius:18px;background:var(--surface);overflow:hidden}
+.chat-layout .sidebar-heading,.chat-layout .search-box,.chat-layout .chat-filter-row,.chat-layout .people-list{padding-left:18px;padding-right:18px}
+@media(max-width:600px){.chat-layout{height:calc(100dvh - 190px);min-height:calc(100dvh - 190px);padding:0 10px 12px}.chat-layout .sidebar,.chat-layout.has-active .conversation{border-radius:16px}}
