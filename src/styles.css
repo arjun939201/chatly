@@ -240,3 +240,13 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 /* Keep the profile control at the far right of the Chatly header. */
 .topbar{justify-content:space-between}
 .global-profile-menu{margin-left:auto}
+
+
+/* Dedicated account and settings destinations with feed-back navigation. */
+.destination-page{width:min(100% - 32px,560px);margin:10px auto 40px;padding:22px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:20px}
+.destination-page-header{display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--border);color:#6757e8}
+.destination-page-header h2{margin:0;color:var(--text);font-size:21px}
+.destination-page-header p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.destination-page .settings-section{border-bottom:0}
+.page-back-to-feed{order:-1;margin:12px 18px 0}
+@media(max-width:600px){.destination-page{width:calc(100% - 28px);box-sizing:border-box;padding:18px;border-radius:16px}}
