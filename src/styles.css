@@ -1690,3 +1690,19 @@ img,video,iframe{max-width:100%}
 .comments-modal .comment-composer>button:disabled{opacity:.42;cursor:not-allowed}
 @media(prefers-reduced-motion:reduce){.comments-modal,.comments-modal *{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 
+
+
+/* Feed component — refinement batch: clarity, spacing, and states */
+.feed-page{width:min(100%,760px);margin-inline:auto;padding:22px 18px 110px}
+.feed-tabs{position:sticky;top:var(--topbar-height,72px);z-index:5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.feed-tabs button{min-height:44px;border-radius:13px;font-weight:650;transition:background .18s,color .18s,transform .18s}
+.feed-tabs button:active{transform:scale(.98)}
+.feed-tabs button:focus-visible{outline:2px solid #8172e9;outline-offset:2px}
+.feed-empty-state{max-width:460px;margin:30px auto;padding:30px 22px;text-align:center;border:1px dashed var(--border,#e6e6ee);border-radius:22px;background:var(--surface,#fff)}
+.feed-empty-state h3{margin:12px 0 6px;font-size:17px;letter-spacing:-.02em}
+.feed-empty-state p{margin:0;color:var(--muted,#858597);font-size:13px;line-height:1.6}
+.feed-loading-skeleton{border-radius:20px;overflow:hidden;background:linear-gradient(100deg,var(--app-bg,#f5f5fa) 20%,var(--surface,#fff) 40%,var(--app-bg,#f5f5fa) 60%);background-size:200% 100%;animation:feed-sheen 1.3s ease-in-out infinite}
+@keyframes feed-sheen{to{background-position-x:-200%}}
+.feed-page :is(button,a){touch-action:manipulation}
+@media(max-width:600px){.feed-page{padding:14px 12px 96px}.feed-tabs{top:60px}}
+@media(prefers-reduced-motion:reduce){.feed-loading-skeleton{animation:none}.feed-tabs button{transition:none}}
