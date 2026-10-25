@@ -2649,3 +2649,57 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .chat-layout .person-row{padding-inline:9px}
  .chat-layout .person-copy strong{font-size:12px}
 }
+
+
+/* Explore discovery: consistent focus, compact tab rail, and mobile-safe result layouts. */
+.search-page .search-page-input{min-width:0;box-shadow:0 2px 10px rgba(32,28,72,.025)}
+.search-page .search-page-input:focus-within{border-color:#a49af4;box-shadow:0 0 0 3px rgba(103,87,232,.1)}
+.search-page .search-clear-button{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:0;border-radius:8px;background:transparent;color:#77778d;padding:0}
+.search-page .search-clear-button:hover{background:#f1efff;color:#6757e8}
+.search-page .search-kind-tabs{gap:6px;overscroll-behavior-x:contain;scrollbar-width:none;padding:2px 1px 5px}
+.search-page .search-kind-tabs::-webkit-scrollbar{display:none}
+.search-page .search-kind-tabs button{min-height:36px;padding:8px 14px;transition:background .15s,border-color .15s,color .15s}
+.search-page .search-kind-tabs button:focus-visible,.search-page button:focus-visible{outline:2px solid #6757e8;outline-offset:2px}
+.search-page .search-section-title{margin-top:20px}
+.search-page .search-results{overflow:visible}
+.search-page .search-person,.search-page .search-post{min-width:0}
+.search-page .search-person-profile{display:flex;align-items:center;gap:11px;flex:1;min-width:0;padding:0;border:0;background:transparent;text-align:left}
+.search-page .search-person-details{min-width:0;overflow-wrap:anywhere}
+.search-page .search-person-action{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:8px 11px;border-radius:10px}
+.search-page .search-person-action span{font-size:11px}
+.search-page .search-post-author{max-width:100%;padding:0;border:0;background:transparent;text-align:left}
+.search-page .search-post-author>span:last-child{min-width:0;overflow-wrap:anywhere}
+.search-page .search-post-body{overflow-wrap:anywhere;word-break:normal}
+.search-page .search-post time{display:block;color:#9292a6;font-size:10px}
+.search-page .explore-empty-state,.search-page .explore-loading-state{margin:0;padding:17px 15px;color:#85859a;font-size:13px;line-height:1.6}
+.search-page .explore-load-more{display:block;width:calc(100% - 28px);margin:12px 14px;padding:10px 13px;border:1px solid #e7e5f2;border-radius:10px;background:#faf9ff;color:#6757e8;font-size:12px;font-weight:650}
+.search-page .explore-load-more:hover{background:#f1efff}
+.search-page .youtube-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.search-page .youtube-result{display:flex;align-items:flex-start;gap:10px;min-width:0;padding:10px;border:1px solid #e8e8f0;border-radius:12px;background:#fff;text-align:left}
+.search-page .youtube-result:hover{border-color:#c8c2f5;background:#fcfbff}
+.search-page .youtube-result img,.search-page .youtube-result-thumbnail{width:88px;aspect-ratio:16/9;flex:0 0 88px;object-fit:cover;border-radius:7px;background:#f1f0f8}
+.search-page .youtube-result-thumbnail{display:grid;place-items:center;color:#6757e8}
+.search-page .youtube-result>span:last-child{display:flex;flex-direction:column;gap:5px;min-width:0}
+.search-page .youtube-result b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;line-height:1.45;color:#34334a}
+.search-page .youtube-result small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:#9292a6}
+@media(max-width:600px){
+ .search-page{padding:18px 11px calc(90px + env(safe-area-inset-bottom,0px))}
+ .search-page .search-people h1{font-size:23px}
+ .search-page .search-kind-tabs{margin:12px 0 17px}
+ .search-page .search-kind-tabs button{padding-inline:12px}
+ .search-page .search-person{gap:8px;padding:12px}
+ .search-page .search-person-action{padding:8px;min-width:36px}
+ .search-page .search-person-action span{display:none}
+ .search-page .search-post{padding:13px}
+ .search-page .youtube-results{grid-template-columns:minmax(0,1fr)}
+ .search-page .youtube-result img,.search-page .youtube-result-thumbnail{width:104px;flex-basis:104px}
+}
+@media(max-width:360px){
+ .search-page{padding-inline:8px}
+ .search-page .search-person{padding:10px}
+ .search-page .search-person .mini-avatar{width:32px;height:32px}
+ .search-page .search-person b{font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ .search-page *, .search-page *::before, .search-page *::after{scroll-behavior:auto!important;transition:none!important}
+}
