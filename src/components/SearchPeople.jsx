@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search, MessageCircle, Heart, UserRound, Users, ArrowLeft, UserPlus, UserCheck } from "lucide-react";
+import { Search, MessageCircle, Heart, UserRound, Users, ArrowLeft, UserPlus, UserCheck, X, Maximize2, Youtube } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function Avatar({ person, size = "mini-avatar" }) {
@@ -18,6 +18,11 @@ export default function SearchPeople({ session, onOpenChats }) {
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
   const [kind, setKind] = useState("all");
+  const [videos, setVideos] = useState([]);
+  const [videoLoading, setVideoLoading] = useState(false);
+  const [videoError, setVideoError] = useState("");
+  const [expandedVideo, setExpandedVideo] = useState(null);
+  const [playerFullscreen, setPlayerFullscreen] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -42,6 +47,8 @@ export default function SearchPeople({ session, onOpenChats }) {
     return () => { alive = false; };
   }, []);
 
+
+  useEffect(() => {\n    const searchKey = import.meta.env.VITE_YOUTUBE_API_KEY;\n    if (!query.trim() || !searchKey) { setVideos([]); setVideoError(""); setVideoLoading(false); return; }\n    let alive = true;\n    const timer = window.setTimeout(async () => {\n      setVideoLoading(true); setVideoError("");\n      try {\n        const params = new URLSearchParams({ part: "snippet", type: "video", maxResults: "20", q: query.trim(), key: searchKey });\n        const response = await fetch("https://www.googleapis.com/youtube/v3/search?" + params.toString());\n        const data = await response.json();\n        if (!response.ok) throw new Error(data.error?.message || "YouTube search failed.");\n        if (alive) setVideos(data.items || []);\n      } catch (error) { if (alive) { setVideos([]); setVideoError(error.message || "Unable to search YouTube."); } }\n      finally { if (alive) setVideoLoading(false); }\n    }, 350);\n    return () => { alive = false; window.clearTimeout(timer); };\n  }, [query]);\n
   async function openProfile(person) {
     setSelected(person);
     setNotice("");
@@ -75,7 +82,7 @@ export default function SearchPeople({ session, onOpenChats }) {
   const peopleResults = useMemo(() => people.filter(p => `${p.display_name || ""} ${p.username || ""}`.toLowerCase().includes(q)), [people,q]);
   const postResults = useMemo(() => posts.filter(p => `${p.body || ""} ${p.author?.display_name || ""} ${p.author?.username || ""}`.toLowerCase().includes(q)), [posts,q]);
   const profilePosts = posts.filter(p => p.user_id === selected?.id);
-  const ownProfile = selected?.id === session.user.id;
+  const ownProfile = selected?.id === session.user.id;\n  const activeVideoId = expandedVideo?.id?.videoId;
 
   if (selected) return <main className="search-page"><section className="profile-view">
     <button className="profile-back" onClick={() => setSelected(null)}><ArrowLeft size={17}/> Back to search</button>
@@ -86,12 +93,14 @@ export default function SearchPeople({ session, onOpenChats }) {
   </section></main>;
 
   return <main className="search-page"><section className="search-people">
-    <h1>Explore</h1><p>Search posts, people, and groups on Chatly.</p>
-    <label className="search-page-input"><Search size={18}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search posts, people, groups…"/></label>
-    <div className="search-kind-tabs">{["all","posts","people","groups"].map(t=><button key={t} className={kind===t?"active":""} onClick={()=>setKind(t)}>{t[0].toUpperCase()+t.slice(1)}</button>)}</div>
+    <h1>Explore</h1><p>Discover people, rooms, posts, and YouTube videos.</p>
+    <label className="search-page-input"><Search size={18}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search people, rooms, posts, videos…"/></label>
+    <div className="search-kind-tabs">{["all","people","rooms","posts","youtube"].map(t=><button key={t} className={kind===t?"active":""} onClick={()=>setKind(t)}>{t[0].toUpperCase()+t.slice(1)}</button>)}</div>
     {(kind==="all"||kind==="people") && <><h2 className="search-section-title"><UserRound size={17}/> People</h2><div className="search-results">{loading?<p>Loading people…</p>:peopleResults.length?peopleResults.map(p=><article className="search-person" key={p.id} onClick={()=>openProfile(p)} role="button" tabIndex={0} onKeyDown={e=>e.key==="Enter"&&openProfile(p)}><Avatar person={p}/><span><b>{p.display_name||"Chatly user"}{p.id===session.user.id?" (You)":""}</b><small>{p.username?"@"+p.username:"Chatly member"}</small></span><button onClick={e=>{e.stopPropagation();if(p.id===session.user.id)openProfile(p);else onOpenChats(p.id)}} aria-label={p.id===session.user.id?"View profile":"Open chat"}>{p.id===session.user.id?<UserRound size={17}/>:<MessageCircle size={17}/>}</button></article>):<p>No people found.</p>}</div></>}
     {(kind==="all"||kind==="posts") && <><h2 className="search-section-title"><Heart size={17}/> Posts</h2><div className="search-results">{loading?<p>Loading posts…</p>:postResults.length?postResults.map(p=><article className="search-post" key={p.id}><div className="search-post-author" role="button" onClick={()=>openProfile(p.author)}><Avatar person={p.author}/><span><b>{p.author?.display_name||"Chatly member"}</b><small>{p.author?.username?"@"+p.author.username:""}</small></span></div><p>{p.body}</p><small>{new Date(p.created_at).toLocaleString()}</small></article>):<p>No posts found.</p>}</div></>}
-    {(kind==="all"||kind==="groups") && <><h2 className="search-section-title"><Users size={17}/> Groups</h2><div className="search-results"><p>Groups are not available yet.</p></div></>}
+    {(kind==="all"||kind==="rooms") && <><h2 className="search-section-title"><Users size={17}/> Rooms</h2><div className="search-results"><p>Rooms are not available yet.</p></div></>}
+    {(kind==="all"||kind==="youtube") && <><h2 className="search-section-title"><Youtube size={17}/> YouTube videos</h2><div className="youtube-results">{!q?<p>Search for videos to see YouTube results.</p>:videoLoading?<p>Searching YouTube…</p>:videoError?<p>{videoError.includes("VITE_YOUTUBE_API_KEY")?"YouTube search needs a VITE_YOUTUBE_API_KEY configured in your deployment.":videoError}</p>:videos.length?videos.map(video=><button className="youtube-result" key={video.id.videoId} onClick={()=>{setExpandedVideo(video);setPlayerFullscreen(false)}}><img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default?.url} alt=""/><span><b>{video.snippet.title}</b><small>{video.snippet.channelTitle}</small></span></button>):<p>No YouTube videos found.</p>}</div></>}
+    {expandedVideo && <div className="youtube-player-backdrop" onClick={()=>{setExpandedVideo(null);setPlayerFullscreen(false)}}><section className={playerFullscreen?"youtube-player-modal fullscreen":"youtube-player-modal"} onClick={event=>event.stopPropagation()}><header><span>{expandedVideo.snippet.title}</span><div><button aria-label="Full screen" onClick={()=>setPlayerFullscreen(v=>!v)}><Maximize2 size={18}/></button><button aria-label="Close video" onClick={()=>{setExpandedVideo(null);setPlayerFullscreen(false)}}><X size={20}/></button></div></header><iframe title={expandedVideo.snippet.title} src={"https://www.youtube.com/embed/"+activeVideoId+"?autoplay=1&rel=0"} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen/></section></div>}
     {notice && <p className="search-notice">{notice}</p>}
   </section></main>;
 }
