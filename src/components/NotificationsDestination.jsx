@@ -29,7 +29,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState("all");\n  const [unreadOnly, setUnreadOnly] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
   const unreadCount = items.filter(item => !item.read_at).length;
 
@@ -46,7 +46,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }
     setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: timestamp }));
   }, [session?.user?.id, unreadCount]);
-  const filteredItems = items.filter(item => filter === "all" || item.type === filter);
+  const filteredItems = items.filter(item => (filter === "all" || item.type === filter) && (!unreadOnly || !item.read_at));
 
   const loadNotifications = useCallback(async () => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
@@ -109,7 +109,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
       <div className="notification-content">
         <section className="notification-feed" aria-label="Recent activity">
           <div className="notification-feed-heading"><h2>Activity {unreadCount > 0 && <span aria-label={`${unreadCount} unread`}>({unreadCount})</span>}</h2><div className="notification-heading-actions">{unreadCount > 0 && <button type="button" className="notification-mark-all-read" onClick={markAllRead}>Mark all read</button>}<button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
-          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div>
+          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}<button type="button" className={unreadOnly ? "active" : ""} aria-pressed={unreadOnly} onClick={() => { setUnreadOnly(value => !value); setVisibleCount(20); }}>Unread</button></div>
           {loading ? (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
           ) : error ? (
