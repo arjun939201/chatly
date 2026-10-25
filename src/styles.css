@@ -1959,3 +1959,7 @@ img,video,iframe{max-width:100%}
 
 /* Profile destination compact spacing */
 .profile-page{padding-top:4px}.profile-page-head{height:auto;min-height:40px;margin:0 0 8px}.profile-page-head h2{font-size:20px;line-height:1.25;margin:0}.profile-summary{padding-top:10px;padding-bottom:10px}
+
+
+/* Profile bio and edit action rhythm */
+.profile-bio{margin-top:4px}.profile-edit-button{margin-top:14px;min-height:44px}.profile-grid-heading{margin-top:20px}
