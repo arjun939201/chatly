@@ -2099,3 +2099,7 @@ img,video,iframe{max-width:100%}
 
 /* Compact settings rows while preserving tap targets */
 .settings-page .settings-accordion,.settings-page .settings-row{min-height:48px!important;padding:10px 12px!important}.settings-page .settings-section{margin:10px 0!important;padding:12px!important}.settings-page .account-options-label{margin:12px 0 6px!important}
+
+
+/* Notifications header and empty-state spacing */
+.notification-destination-page{padding-top:8px!important}.notification-destination-page .destination-page-header{margin:0 0 8px!important;padding:8px 0!important;border:0!important;box-shadow:none!important;background:transparent!important}.notification-destination-page .settings-section{margin:8px 0!important;padding:0!important;border:0!important;background:transparent!important}.notification-destination-page .notifications-empty{min-height:160px!important;padding:20px!important}
