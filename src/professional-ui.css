@@ -515,3 +515,10 @@
 .skeleton, .loading-skeleton { background: linear-gradient(90deg, var(--chatly-canvas) 20%, var(--chatly-border) 45%, var(--chatly-canvas) 70%); background-size: 220% 100%; animation: chatly-skeleton 1.35s ease-in-out infinite; }
 @keyframes chatly-skeleton { to { background-position: -220% 0; } }
 @media (prefers-reduced-motion: reduce) { .skeleton, .loading-skeleton { animation: none; } }
+
+/* Batch 2.9 — small-screen navigation */
+@media (max-width: 760px) {
+  .bottom-nav, .mobile-nav { padding-bottom: env(safe-area-inset-bottom); background: var(--surface, #fff); border-top: 1px solid var(--chatly-border); }
+  .bottom-nav button, .mobile-nav button { min-width: 44px; min-height: 44px; border-radius: 12px; }
+  .bottom-nav button[aria-current="page"], .mobile-nav button[aria-current="page"] { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+}
