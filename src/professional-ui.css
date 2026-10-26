@@ -1323,3 +1323,11 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page .notification-avatar img { width: 100%; height: 100%; object-fit: cover; }
 .notifications-page .notification-type-icon { display: grid; place-items: center; flex: 0 0 auto; width: 30px; height: 30px; margin-left: -21px; align-self: flex-end; border: 2px solid var(--surface, #fff); border-radius: 50%; background: var(--chatly-accent); color: #fff; }
 .notifications-page .notification-avatar-wrap { display: flex; align-items: flex-start; flex: 0 0 auto; }
+
+
+/* Batch 6.5 — notification actions and navigation affordances */
+.notifications-page .notification-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+.notifications-page .notification-actions button, .notifications-page .notification-actions a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 7px 11px; border: 1px solid var(--chatly-border); border-radius: 9px; font-size: 12px; font-weight: 650; }
+.notifications-page .notification-actions .primary, .notifications-page .notification-actions button[ data-primary="true" ] { border-color: var(--chatly-accent); background: var(--chatly-accent); color: #fff; }
+.notifications-page .notification-actions button:hover, .notifications-page .notification-actions a:hover { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.notifications-page .notification-item button:focus-visible, .notifications-page .notification-card button:focus-visible { outline-offset: 3px; }
