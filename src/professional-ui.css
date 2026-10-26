@@ -2111,3 +2111,10 @@ html { -webkit-text-size-adjust: 100%; }
   min-width: 0; overflow-wrap: anywhere;
 }
 
+
+
+/* Batch 16.4 — flexible row QA */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) {
+  min-width: 0; align-items: center; flex-wrap: wrap;
+}
+
