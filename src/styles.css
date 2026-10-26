@@ -4419,3 +4419,89 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     word-break: normal;
   }
 }
+
+
+/* Reply preview: explicit contrast and a stable two-line quote on all screen sizes. */
+.chat-layout .message .bubble > button.message-reply-preview {
+  appearance: none !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-content: start !important;
+  gap: 3px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 0 8px !important;
+  padding: 8px 10px !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  border-left: 3px solid currentColor !important;
+  border-radius: 6px !important;
+  background: rgba(0, 0, 0, .08) !important;
+  color: inherit !important;
+  font: inherit !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+  white-space: normal !important;
+  overflow: hidden !important;
+  cursor: pointer;
+}
+.chat-layout .message.mine .bubble > button.message-reply-preview {
+  border-left-color: rgba(255, 255, 255, .9) !important;
+  background: rgba(12, 20, 55, .2) !important;
+  color: #fff !important;
+}
+.chat-layout .message.theirs .bubble > button.message-reply-preview {
+  border-left-color: var(--chatly-brand, #6757e8) !important;
+  background: rgba(103, 87, 232, .08) !important;
+  color: var(--text, #24242b) !important;
+}
+.chat-layout .message .bubble > button.message-reply-preview > span {
+  display: block !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  opacity: 1 !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+  text-overflow: clip !important;
+}
+.chat-layout .message .bubble > button.message-reply-preview > p {
+  display: block !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  opacity: .88 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+.chat-layout .message .bubble > button.message-reply-preview:hover {
+  filter: brightness(.98);
+}
+@media (max-width: 600px) {
+  .chat-layout .message .bubble > button.message-reply-preview {
+    padding: 7px 9px !important;
+    gap: 2px !important;
+    margin-bottom: 7px !important;
+    font-size: 11px !important;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview > p {
+    font-size: 11px !important;
+  }
+}
