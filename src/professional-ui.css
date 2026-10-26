@@ -1942,3 +1942,10 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.modal-header, .comments-dialog-header) { padding-inline: 14px; }
 }
 
+
+
+/* Batch 13.9 — theme and contrast inheritance */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card,
+  .compose-modal, .comments-dialog, .profile-modal) { color: inherit; }
+.app-shell :is(.post-divider, .profile-divider, .notification-divider) { border-color: var(--border, var(--chatly-border)); }
+
