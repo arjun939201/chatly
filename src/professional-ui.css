@@ -1728,3 +1728,11 @@ html { -webkit-text-size-adjust: 100%; }
   .comments-dialog, .profile-modal) { border-radius: var(--chatly-radius-lg); }
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown) { border-radius: 13px; }
 
+
+
+/* Batch 11.3 — component spacing alignment */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { padding: clamp(12px, 2vw, 18px); }
+.app-shell :is(.compose-footer, .comment-composer) { gap: 10px; }
+.app-shell :is(.modal-header, .comments-dialog-header) { gap: 12px; }
+.app-shell :is(.profile-grid-heading, .profile-posts-title) { margin-top: 20px; }
+
