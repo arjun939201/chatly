@@ -2048,3 +2048,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) :is(svg, img) { flex: 0 0 auto; }
 .app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) { vertical-align: middle; }
 
+
+
+/* Batch 15.5 — form readiness polish */
+.app-shell :is(input, textarea, select):focus { outline-color: var(--chatly-accent, #6557e8); }
+.app-shell :is(input, textarea, select):disabled { cursor: not-allowed; }
+.app-shell :is(input, textarea, select)::placeholder { text-overflow: ellipsis; }
+
