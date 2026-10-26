@@ -1745,3 +1745,11 @@ html { -webkit-text-size-adjust: 100%; }
   .chat-filter-row button, .notification-filters button) { line-height: 1.35; }
 .app-shell :is(.post-timestamp-wrap, .notification-copy time, .person-copy p) { font-variant-numeric: tabular-nums; }
 
+
+
+/* Batch 11.5 — action rows and icon button consistency */
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button,
+  .global-profile-trigger, .send-button) { display: inline-grid; place-items: center; }
+.app-shell :is(.post-actions, .notification-actions, .profile-actions) { align-items: center; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button) { border-radius: 10px; }
+
