@@ -2167,3 +2167,175 @@ html { -webkit-text-size-adjust: 100%; }
   }
 }
 
+
+
+/* Batch 17.1 — semantic design tokens */
+:root {
+  --chatly-font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --chatly-space-1: 4px; --chatly-space-2: 8px; --chatly-space-3: 12px;
+  --chatly-space-4: 16px; --chatly-space-5: 20px; --chatly-space-6: 24px;
+  --chatly-space-8: 32px; --chatly-space-10: 40px; --chatly-space-12: 48px;
+  --chatly-control-height: 42px; --chatly-control-height-compact: 36px;
+  --chatly-radius-pill: 999px; --chatly-shadow-raised: 0 8px 28px rgb(20 20 40 / 9%);
+  --chatly-layer-header: 15; --chatly-layer-menu: 30; --chatly-layer-modal: 50;
+}
+
+
+
+/* Batch 17.2 — theme-aware semantic surfaces */
+.app-shell {
+  --chatly-page: var(--app-bg, var(--chatly-canvas));
+  --chatly-surface-current: var(--surface, var(--chatly-surface));
+  --chatly-text-current: var(--text, var(--chatly-ink));
+  --chatly-muted-current: var(--muted, var(--chatly-muted));
+  --chatly-border-current: var(--border, var(--chatly-border));
+}
+.app-shell.theme-dark {
+  --chatly-accent-soft: #302b4d;
+  --chatly-shadow-card: 0 2px 14px rgb(0 0 0 / 18%);
+  --chatly-shadow-popover: 0 16px 44px rgb(0 0 0 / 42%);
+}
+
+
+
+/* Batch 17.3 — typography and readable content */
+.app-shell { font-family: var(--chatly-font-sans); line-height: 1.5; }
+.app-shell :is(h1,h2,h3,h4,p) { text-wrap: pretty; }
+.app-shell :is(.post-body, .post-content, .profile-bio, .bubble, .notification-activity-copy) {
+  color: var(--chatly-text-current); overflow-wrap: anywhere;
+}
+.app-shell :is(small, .muted, .field-hint) { color: var(--chatly-muted-current); }
+
+
+
+/* Batch 18.1 — shared button geometry */
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .send-button, .profile-edit-button,
+  .icon-button, .text-button, .back-button, .page-back-to-feed) {
+  font-family: inherit; font-weight: 600; line-height: 1.2; touch-action: manipulation;
+}
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .profile-edit-button) {
+  min-height: var(--chatly-control-height); border-radius: var(--chatly-radius-md);
+}
+
+
+
+/* Batch 18.2 — form control foundation */
+.app-shell :is(input, textarea, select) {
+  font-family: inherit; font-size: 14px; line-height: 1.45;
+  border-radius: var(--chatly-radius-sm); min-width: 0;
+}
+.app-shell :is(input, textarea, select):disabled { opacity: .62; cursor: not-allowed; }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--chatly-muted-current, #888894); }
+
+
+
+/* Batch 18.3 — icon controls and link affordance */
+.app-shell :is(.icon-button, .global-profile-trigger, .profile-menu-trigger, .notification-refresh-button) {
+  display: inline-grid; place-items: center; flex: 0 0 auto;
+}
+.app-shell :is(.icon-button, .profile-menu-trigger, .notification-refresh-button) { min-width: 40px; min-height: 40px; }
+.app-shell a { text-underline-offset: 3px; }
+
+
+
+/* Batch 19.1 — global header foundation */
+.app-shell .topbar {
+  min-height: 64px; height: auto; padding-block: 8px;
+  padding-inline: clamp(12px, 3vw, 36px); gap: var(--chatly-space-4);
+  z-index: var(--chatly-layer-header);
+}
+.app-shell .brand { line-height: 1; letter-spacing: -.035em; }
+.app-shell .global-profile-menu { position: relative; flex: 0 0 auto; }
+
+
+
+/* Batch 19.2 — navigation menu patterns */
+.app-shell :is(.global-profile-dropdown, .profile-dropdown) {
+  z-index: var(--chatly-layer-menu); min-width: 180px; max-width: min(280px, calc(100vw - 24px));
+}
+.app-shell :is(.destination-topline, .feed-heading-row, .profile-page-head, .notification-feed-heading) {
+  min-width: 0; gap: var(--chatly-space-3);
+}
+.app-shell .destination-current-title { min-width: 0; overflow-wrap: anywhere; }
+
+
+
+/* Batch 19.3 — page container sizing */
+.app-shell :is(.feed-column, .profile-page, .profile-view, .notification-content, .search-page) {
+  min-width: 0; max-width: 100%;
+}
+.app-shell :is(.feed-page, .profile-page, .search-page, .destination-page) {
+  scroll-padding-block: var(--chatly-space-4);
+}
+
+
+
+/* Batch 20.1 — component boundary safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-activity-item, .person-row, .conversation,
+  .sidebar, .composer, .profile-summary, .st-card) {
+  box-sizing: border-box; min-width: 0;
+}
+.app-shell :is(.post-card, .profile-post, .notification-activity-item, .person-row) > * { min-width: 0; }
+
+
+
+/* Batch 20.2 — overlay stacking system */
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { z-index: var(--chatly-layer-modal); }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  max-width: min(100%, 100vw); max-height: min(92dvh, 900px);
+  overscroll-behavior: contain; isolation: isolate;
+}
+
+
+
+/* Batch 20.3 — responsive layout foundation */
+.app-shell :is(.feed-page, .chat-layout, .profile-page, .search-page, .destination-page) {
+  width: auto; max-width: 100%; min-width: 0;
+}
+@media (max-width: 600px) {
+  .app-shell :is(.feed-page, .profile-page, .search-page, .destination-page) { padding-inline: 12px; }
+  .app-shell :is(.feed-heading-row, .profile-page-head, .notification-feed-heading) { flex-wrap: wrap; }
+}
+
+
+
+/* Batch 21.1 — unified focus visibility */
+.app-shell :is(button, a, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--chatly-accent); outline-offset: 2px;
+}
+.app-shell :is(input, textarea, select):focus-visible { box-shadow: var(--chatly-focus); }
+
+
+
+/* Batch 21.2 — motion and contrast preferences */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+}
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+}
+
+
+
+/* Batch 21.3 — global resilience pass */
+.app-shell :is(img, video, iframe, svg) { max-width: 100%; }
+.app-shell :is(button, a) { -webkit-tap-highlight-color: transparent; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+@media (max-width: 360px) {
+  .app-shell .topbar { padding-inline: 10px; gap: 8px; }
+  .app-shell .global-profile-avatar { width: 34px; height: 34px; }
+}
+
+
+
+/* Batch 20.4 — preserve bounded profile and chat containers */
+.app-shell .profile-page { width: min(100% - 32px, 900px); margin-inline: auto; }
+.app-shell .profile-view { width: min(100% - 32px, 900px); margin-inline: auto; }
+.app-shell .chat-layout { width: min(1320px, calc(100% - 40px)); margin-inline: auto; }
+@media (max-width: 600px) {
+  .app-shell .profile-page, .app-shell .profile-view { width: calc(100% - 24px); }
+  .app-shell .chat-layout { width: calc(100% - 16px); }
+}
