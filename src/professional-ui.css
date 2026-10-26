@@ -3605,3 +3605,21 @@ html { -webkit-text-size-adjust: 100%; }
     transition: none;
   }
 }
+
+
+/* Simplicity pass 3/4: shared interaction and layout guardrails. */
+/* 11. Prevent long labels and nested content from forcing horizontal overflow. */
+.app-shell :is(.feed-page,.search-page,.chat-layout,.profile-page,.app-settings-destination-page){min-width:0;max-width:100%}
+.app-shell :is(.feed-page,.search-page,.profile-page) :is(h1,h2,h3,p){overflow-wrap:anywhere}
+/* 12. Keep media inside its parent on every viewport. */
+.app-shell :is(img,video,iframe,canvas){max-width:100%}
+.app-shell :is(.post-card,.profile-post,.chat-layout){min-width:0}
+/* 13. Make disabled controls visibly unavailable without changing their layout. */
+.app-shell button:disabled,.app-shell [aria-disabled="true"]{cursor:not-allowed}
+.app-shell button:disabled{opacity:.58;box-shadow:none!important;transform:none!important}
+/* 14. Use one clear keyboard focus treatment across common controls. */
+.app-shell :is(button,a,input,textarea,select,[role="button"]):focus-visible{outline:2px solid var(--chatly-brand,var(--accent,#7566e8));outline-offset:2px}
+/* 15. Respect reduced-motion preferences across shared UI animations. */
+@media(prefers-reduced-motion:reduce){
+ .app-shell *, .app-shell *::before, .app-shell *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
