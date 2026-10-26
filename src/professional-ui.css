@@ -1607,3 +1607,12 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) { transition: none !important; }
 }
 
+
+
+/* Batch 10.1 — loading-state layout and spacing */
+.app-shell :is(.feed-loading-state, .notifications-loading, .chat-loading, .profile-loading) {
+  min-width: 0; gap: 14px; color: var(--chatly-muted);
+}
+.app-shell :is(.feed-loading-state, .notifications-loading) > * { min-width: 0; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+
