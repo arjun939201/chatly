@@ -159,3 +159,12 @@ test("profile connection lists have responsive, keyboard-visible interaction sty
   assert.match(styles, /\.profile-connections-list \{[\s\S]*?overflow-y: auto/);
   assert.match(styles, /@media \(max-width: 600px\)[\s\S]*?\.profile-counts > \.profile-stat-button/);
 });
+
+
+test("closing a profile connection list invalidates pending requests", async () => {
+  const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(app, /const profileConnectionsRequest = useRef\(0\)/);
+  assert.match(app, /const requestId = \+\+profileConnectionsRequest\.current/);
+  assert.match(app, /requestId !== profileConnectionsRequest\.current/);
+  assert.match(app, /profileConnectionsRequest\.current \+= 1/);
+});
