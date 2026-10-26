@@ -1309,3 +1309,10 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page .notification-copy { flex: 1 1 auto; overflow-wrap: anywhere; }
 .notifications-page .notification-copy p { margin: 0; font-size: 13px; line-height: 1.55; }
 .notifications-page .notification-copy time { display: block; margin-top: 5px; color: var(--chatly-muted); font-size: 11px; }
+
+
+/* Batch 6.3 — unread notification emphasis */
+.notifications-page .notification-item.is-unread, .notifications-page .notification-card.is-unread, .notifications-page [data-unread="true"] { border-color: color-mix(in srgb, var(--chatly-accent) 30%, var(--chatly-border)); background: color-mix(in srgb, var(--chatly-accent-soft) 35%, var(--surface, #fff)); }
+.notifications-page .notification-item.is-unread .notification-copy p, .notifications-page .notification-card.is-unread .notification-copy p { font-weight: 550; }
+.notifications-page .notification-unread-dot { flex: 0 0 auto; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--chatly-accent); }
+.notifications-page .notification-read-state { color: var(--chatly-muted); font-size: 11px; }
