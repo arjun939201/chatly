@@ -35,3 +35,36 @@
   .st-group>h2{margin-bottom:6px}
   .st-group+.st-group{margin-top:8px}
 }
+
+
+/* Compact, polished settings home layout, especially on narrow screens. */
+.st-settings { padding:clamp(10px,2vw,18px)!important; }
+.st-intro { padding:2px 2px 8px!important; }
+.st-intro h1 { margin:3px 0!important; font-size:24px!important; line-height:1.16!important; }
+.st-intro p { margin:3px 0!important; font-size:13px!important; }
+.st-search { margin:5px 0 10px!important; }
+.st-search input { min-height:38px!important; padding:8px 12px!important; font-size:13px!important; }
+.st-group { margin:11px 0!important; }
+.st-group>h2 { margin:0 0 6px 3px!important; font-size:9.5px!important; letter-spacing:.08em!important; }
+.st-nav-card,.st-card { border-radius:14px!important; }
+.st-nav-row { min-height:56px!important; padding:8px 10px!important; gap:10px!important; }
+.st-icon { width:34px!important; height:34px!important; flex-basis:34px!important; border-radius:10px!important; }
+.st-icon svg { width:17px!important; height:17px!important; }
+.st-nav-copy { gap:2px!important; }
+.st-nav-copy strong { font-size:12.5px!important; line-height:1.3!important; }
+.st-nav-copy small { font-size:11px!important; line-height:1.35!important; }
+.st-chevron { width:15px!important; height:15px!important; }
+@media(max-width:600px) {
+ .st-settings { padding:8px 10px 14px!important; }
+ .st-intro { padding:0 2px 6px!important; }
+ .st-intro h1 { font-size:22px!important; }
+ .st-intro p { font-size:12.5px!important; }
+ .st-search { margin:4px 0 8px!important; }
+ .st-search input { min-height:36px!important; padding:7px 11px!important; }
+ .st-group { margin:9px 0!important; }
+ .st-group>h2 { margin-bottom:5px!important; font-size:9px!important; }
+ .st-nav-row { min-height:52px!important; padding:7px 9px!important; gap:9px!important; }
+ .st-icon { width:32px!important; height:32px!important; flex-basis:32px!important; border-radius:9px!important; }
+ .st-nav-copy strong { font-size:12px!important; }
+ .st-nav-copy small { font-size:10.5px!important; line-height:1.3!important; }
+}
