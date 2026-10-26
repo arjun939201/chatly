@@ -49,18 +49,24 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   }, [session?.user?.id, unreadCount]);
   const filteredItems = items.filter(item => (filter === "all" || item.type === filter) && (!unreadOnly || !item.read_at));
 
-  const loadNotifications = useCallback(async () => {
+  const loadNotifications = useCallback(async (silent = false) => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
-    setLoading(true); setError("");
+    if (!silent) setLoading(true); setError("");
     try {
-      const { data: rows, error: notificationError } = await supabase
-        .from("notifications")
-        .select("id,recipient_id,actor_id,type,post_id,comment_id,created_at,read_at")
-        .eq("recipient_id", session.user.id)
-        .order("created_at", { ascending: false })
-        .order("id", { ascending: false })
-        .limit(100);
-      if (notificationError) throw notificationError;
+      const pageSize = 100;
+      let rows = [];
+      for (let offset = 0; ; offset += pageSize) {
+        const { data: page, error: notificationError } = await supabase
+          .from("notifications")
+          .select("id,recipient_id,actor_id,type,post_id,comment_id,created_at,read_at")
+          .eq("recipient_id", session.user.id)
+          .order("created_at", { ascending: false })
+          .order("id", { ascending: false })
+          .range(offset, offset + pageSize - 1);
+        if (notificationError) throw notificationError;
+        rows = rows.concat(page || []);
+        if (!page || page.length < pageSize) break;
+      }
       const notifications = rows || [];
       if (!notifications.length) { setItems([]); return; }
 
@@ -100,7 +106,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   useEffect(() => {
     if (!session?.user?.id) return undefined;
     const channel = supabase.channel(`notifications-${session.user.id}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: "recipient_id=eq." + session.user.id }, loadNotifications)
+      .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: "recipient_id=eq." + session.user.id }, () => loadNotifications(true))
       .subscribe();
     return () => { supabase.removeChannel(channel); };
   }, [session?.user?.id, loadNotifications]);
