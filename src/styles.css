@@ -4689,3 +4689,9 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .search-page{min-width:0;width:min(100%,1040px);margin-inline:auto;padding:clamp(16px,3vw,28px)}
 .search-page input:focus{border-color:var(--chatly-focus);box-shadow:0 0 0 3px rgba(139,124,246,.14);outline:none}
 
+
+/* Chatly UI batch 07: notification readability */
+.notification-destination-page{width:min(100%,900px);margin-inline:auto}
+.notification-activity-copy{min-width:0;overflow-wrap:anywhere}
+.notification-actor-avatar{flex:0 0 auto}
+
