@@ -1379,3 +1379,231 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 }
 @media (max-width: 380px) { .notifications-page .notification-copy p { font-size: 12px; } .notifications-page .notification-filters button { padding-inline: 10px; } }
 @media (prefers-reduced-motion: reduce) { .notifications-page *, .notifications-page *::before, .notifications-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Batch 7.1 — viewport and safe-area foundations */
+html { -webkit-text-size-adjust: 100%; }
+.app-shell { width: 100%; max-width: 100vw; overflow-x: clip; }
+@supports (padding: max(0px)) { .app-shell { padding-bottom: env(safe-area-inset-bottom); } }
+@media (max-width: 600px) { .app-shell { min-width: 320px; } }
+
+/* Batch 7.2 — mobile navigation sizing */
+@media (max-width: 600px) { .topbar { min-height: 56px; gap: 8px; } .topbar > * { min-width: 0; } .global-profile-trigger, .topbar button { flex: 0 0 auto; } .brand { max-width: 45vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+@media (max-width: 360px) { .topbar { padding-inline: 9px; } .brand { font-size: 24px; } }
+
+/* Batch 7.3 — touch target and tap feedback */
+@media (pointer: coarse) { .app-shell :is(button, a, [role="button"]) { touch-action: manipulation; } .app-shell :is(.post-actions button, .chat-filter-row button, .notification-filters button) { min-height: 40px; } .app-shell :is(button, a, [role="button"]):active { opacity: .86; } }
+
+/* Batch 7.4 — feed and post overflow prevention */
+.feed-page, .feed-column, .posts-list, .post-card { min-width: 0; }
+.post-card :is(img, video, iframe) { max-width: 100%; }
+.post-author-profile, .post-author-profile > * { min-width: 0; }
+@media (max-width: 480px) { .post-card { padding: 12px; } .post-body { font-size: 14px; line-height: 1.6; } .post-actions { align-items: stretch; } }
+
+/* Batch 7.5 — mobile feed composer and dialogs */
+@media (max-width: 600px) { .floating-create { right: max(16px, env(safe-area-inset-right)); bottom: max(78px, calc(64px + env(safe-area-inset-bottom))); } .compose-modal, .comments-dialog, .report-post-modal { width: 100%; max-width: 100%; } .compose-modal textarea, .comment-composer textarea { font-size: 16px; } }
+
+/* Batch 7.6 — profile grid and summary responsive behavior */
+@media (max-width: 600px) { .profile-page, .profile-view { max-width: 100%; } .profile-summary, .profile-hero { min-width: 0; } .profile-bio, .profile-bio p { overflow-wrap: anywhere; } .profile-post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 340px) { .profile-post-grid { grid-template-columns: 1fr; } }
+
+/* Batch 7.7 — chat workspace small-screen layout */
+@media (max-width: 760px) { .chat-layout { width: calc(100% - 8px); margin: 4px auto; } .sidebar, .conversation { min-width: 0; } .person-row { min-width: 0; } .person-copy { overflow: hidden; } }
+@media (max-width: 480px) { .chat-layout { height: calc(100dvh - 64px - env(safe-area-inset-bottom)); } .conversation-header { min-height: 60px; gap: 8px; } .message-list { min-width: 0; } }
+
+/* Batch 7.8 — chat message and composer ergonomics */
+.message, .bubble { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
+@media (max-width: 600px) { .bubble { padding: 10px 12px; } .composer textarea, .composer input { min-width: 0; font-size: 16px; } .composer button { flex: 0 0 auto; } .send-button { min-width: 42px; min-height: 42px; } }
+
+/* Batch 7.9 — settings and notifications narrow layouts */
+@media (max-width: 480px) { .st-settings, .notifications-page { width: calc(100% - 20px); } .st-subheader { gap: 9px; } .st-subheader h1, .notifications-page h1 { overflow-wrap: anywhere; } .st-theme-options { gap: 6px; } .st-theme-options button { padding-inline: 5px; } .notifications-page .notification-item, .notifications-page .notification-card { align-items: flex-start; } }
+
+/* Batch 7.10 — responsive accessibility and motion finishing */
+.app-shell :is(button, a, input, textarea, select):focus-visible { scroll-margin-block: 12px; }
+@media (max-width: 600px) { .app-shell [role="dialog"] { max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); } }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.post-card, .person-row, .notification-item, .notification-card) { transition: none !important; } }
+
+/* Batch 8.1 — consistent visible keyboard focus */
+.app-shell :is(button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--chatly-accent);
+  outline-offset: 3px;
+}
+.app-shell :is(button, a, input, textarea, select):focus:not(:focus-visible) { outline: none; }
+
+/* Batch 8.2 — high contrast states and disabled controls */
+.app-shell :is(button, input, textarea, select):disabled,
+.app-shell [aria-disabled="true"] { cursor: not-allowed; opacity: .58; }
+.app-shell :is(button, a):is([aria-current="page"], [aria-pressed="true"]) { color: var(--chatly-accent); }
+.app-shell :is(button, a):focus-visible { position: relative; z-index: 2; }
+
+/* Batch 8.3 — accessible icon-only action affordances */
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .global-profile-trigger) {
+  -webkit-tap-highlight-color: transparent;
+}
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button):hover { outline-color: transparent; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button):focus-visible { box-shadow: var(--chatly-focus); }
+
+/* Batch 8.4 — form validation and required fields */
+.app-shell :is(input, textarea, select)[aria-invalid="true"] {
+  border-color: #c83e4d;
+  box-shadow: 0 0 0 2px rgb(200 62 77 / 12%);
+}
+.app-shell :is(input, textarea, select)[aria-invalid="true"]:focus-visible { outline-color: #c83e4d; }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--chatly-muted); opacity: .9; }
+
+/* Batch 8.5 — menus, popovers, and layered keyboard navigation */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) { z-index: 40; }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) :is(button, a) { min-height: 40px; text-align: left; }
+.app-shell [role="menuitem"]:focus-visible { outline-offset: -2px; background: var(--chatly-accent-soft); }
+
+/* Batch 8.6 — dialog focus clarity and readable scrolling */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog, [role="dialog"]) {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog, [role="dialog"]) :is(button, input, textarea):focus-visible { z-index: 1; }
+
+/* Batch 8.7 — interactive states without color-only reliance */
+.app-shell :is(.post-actions button, .notification-actions button, .st-choice button):focus-visible {
+  outline: 2px solid var(--chatly-accent);
+  outline-offset: 2px;
+}
+.app-shell :is(.post-actions button[aria-pressed="true"], .notification-filters button[aria-pressed="true"]) { font-weight: 750; }
+
+/* Batch 8.8 — link readability and content navigation */
+.app-shell a { text-underline-offset: .18em; }
+.app-shell :is(.post-body, .comment-message, .notification-copy, .person-copy) { overflow-wrap: anywhere; }
+.app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 84px; }
+@media (max-width: 600px) { .app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 68px; } }
+
+/* Batch 8.9 — reduced transparency and motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { backdrop-filter: none; }
+}
+
+/* Batch 8.10 — accessibility finish and touch feedback */
+.app-shell :is(button, a, [role="button"]) { cursor: pointer; }
+.app-shell :is(button, a, [role="button"]):active { transform: translateY(0); }
+.app-shell :is(.post-card, .notification-item, .notification-card) { scroll-margin-block: 88px; }
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+  .app-shell :is(.post-card, .notification-item, .notification-card, .st-nav-card) { border: 1px solid CanvasText; }
+}
+
+
+/* Batch 9.1 — shared spacing and surface tokens */
+:root {
+  --chatly-space-1: 4px; --chatly-space-2: 8px; --chatly-space-3: 12px;
+  --chatly-space-4: 16px; --chatly-space-5: 20px; --chatly-space-6: 24px;
+  --chatly-control-height: 40px; --chatly-control-radius: 11px;
+}
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .st-card) {
+  border-color: var(--border, var(--chatly-border));
+}
+.app-shell :is(.feed-notice, .error-banner, .chat-action-notice) { line-height: 1.5; }
+
+
+
+/* Batch 9.2 — unified button sizing and typography */
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .profile-edit-button,
+  .post-follow-button, .notification-actions button, .st-dialog footer button) {
+  font-weight: 650; letter-spacing: -.01em;
+}
+.app-shell :is(.primary-button, .secondary-button, .oauth-button) { min-height: var(--chatly-control-height); }
+.app-shell :is(.secondary-button, .oauth-button) { background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
+
+
+
+/* Batch 9.3 — heading rhythm and text hierarchy */
+.app-shell :is(.feed-heading-row, .sidebar-heading, .st-subheader) { line-height: 1.25; }
+.app-shell :is(.post-author-profile strong, .person-copy strong, .notification-copy strong) { letter-spacing: -.012em; }
+.app-shell :is(.post-timestamp-wrap, .person-copy p, .notification-copy time) { line-height: 1.4; }
+.app-shell :is(.profile-bio, .post-body, .comment-message) { text-wrap: pretty; }
+
+
+
+/* Batch 9.4 — consistent card border and elevation */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card) { box-shadow: var(--chatly-shadow-card); }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) {
+  background-clip: padding-box;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state) { box-shadow: none; }
+
+
+
+/* Batch 9.5 — interaction state consistency */
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button,
+  .post-actions button, .profile-menu-trigger, .chat-new-button) {
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button):active {
+  background-color: var(--chatly-accent-soft);
+}
+.app-shell :is(button, [role="button"]):disabled { filter: saturate(.65); }
+
+
+
+/* Batch 9.6 — unified form field treatment */
+.app-shell :is(input, textarea, select, .search-box, .composer textarea, .composer input) {
+  border-radius: var(--chatly-control-radius);
+}
+.app-shell :is(input, textarea, select):not([type="checkbox"], [type="radio"]) { color: var(--text, var(--chatly-ink)); }
+.app-shell :is(input, textarea, select):focus { outline: none; }
+.app-shell :is(input, textarea, select)::placeholder { letter-spacing: 0; }
+
+
+
+/* Batch 9.7 — avatar and image consistency */
+.app-shell :is(.global-profile-avatar, .profile-avatar, .notification-avatar, .person-row img) {
+  flex-shrink: 0; object-fit: cover;
+}
+.app-shell :is(.post-author-profile img, .compose-author img, .comment-item img) {
+  flex: 0 0 auto; object-fit: cover;
+}
+.app-shell :is(.post-media, .profile-post-tile) { isolation: isolate; }
+
+
+
+/* Batch 9.8 — menu and popover consistency */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) {
+  background: var(--surface, #fff); color: var(--text, var(--chatly-ink));
+  border-color: var(--chatly-border); box-shadow: var(--chatly-shadow-popover);
+}
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) button {
+  border-radius: 9px; font-size: 13px;
+}
+
+
+
+/* Batch 9.9 — responsive spacing and density */
+@media (max-width: 600px) {
+  .app-shell :is(.feed-notice, .error-banner, .chat-action-notice) { padding: 10px 12px; }
+  .app-shell :is(.profile-post, .st-dialog, .st-card) { overflow-wrap: anywhere; }
+  .app-shell :is(.notifications-page, .profile-page) { padding-bottom: max(84px, env(safe-area-inset-bottom)); }
+}
+@media (min-width: 900px) {
+  .feed-column { width: min(100%, 700px); }
+  .notifications-page { width: min(100% - 32px, 780px); }
+}
+
+
+
+/* Batch 9.10 — visual consistency finishing pass */
+.app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) {
+  transition: box-shadow .18s ease, border-color .18s ease, background-color .18s ease;
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  box-shadow: 0 22px 64px rgb(18 18 32 / 20%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) { transition: none !important; }
+}
+
