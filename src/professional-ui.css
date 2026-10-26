@@ -1448,7 +1448,7 @@ html { -webkit-text-size-adjust: 100%; }
   box-shadow: 0 0 0 2px rgb(200 62 77 / 12%);
 }
 .app-shell :is(input, textarea, select)[aria-invalid="true"]:focus-visible { outline-color: #c83e4d; }
-.app-shell :is(input, textarea, select]::placeholder { color: var(--chatly-muted); opacity: .9; }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--chatly-muted); opacity: .9; }
 
 /* Batch 8.5 — menus, popovers, and layered keyboard navigation */
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) { z-index: 40; }
