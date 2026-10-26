@@ -1392,3 +1392,9 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 7.3 — touch target and tap feedback */
 @media (pointer: coarse) { .app-shell :is(button, a, [role="button"]) { touch-action: manipulation; } .app-shell :is(.post-actions button, .chat-filter-row button, .notification-filters button) { min-height: 40px; } .app-shell :is(button, a, [role="button"]):active { opacity: .86; } }
+
+/* Batch 7.4 — feed and post overflow prevention */
+.feed-page, .feed-column, .posts-list, .post-card { min-width: 0; }
+.post-card :is(img, video, iframe) { max-width: 100%; }
+.post-author-profile, .post-author-profile > * { min-width: 0; }
+@media (max-width: 480px) { .post-card { padding: 12px; } .post-body { font-size: 14px; line-height: 1.6; } .post-actions { align-items: stretch; } }
