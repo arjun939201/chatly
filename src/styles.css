@@ -5412,3 +5412,78 @@ textarea{max-width:100%;resize:vertical;}
   .feed-page .comments-modal .comment-message { max-width: 100%; padding: 11px 13px 52px; }
   .feed-page .comments-modal .comment-message > p { font-size: 13.5px; }
 }
+
+
+/* Composer — balanced controls, multiline growth, and clear submit feedback. */
+.feed-page .comments-modal .comment-composer {
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 10px;
+  row-gap: 5px;
+  padding: 13px 18px max(13px, env(safe-area-inset-bottom));
+}
+.feed-page .comments-modal .comment-composer textarea {
+  min-height: 46px;
+  max-height: 132px;
+  resize: none;
+  overflow-y: auto;
+  border-radius: 15px;
+  padding: 12px 14px;
+  line-height: 1.45;
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.feed-page .comments-modal .comment-composer textarea::placeholder {
+  color: color-mix(in srgb, var(--muted, #858597) 88%, transparent);
+}
+.feed-page .comments-modal .comment-composer > button[type="submit"] {
+  min-width: 68px;
+  min-height: 44px;
+  border-radius: 13px;
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--chatly-brand, #8172e9) 18%, transparent);
+}
+.feed-page .comments-modal .comment-composer > button[type="submit"]:not(:disabled):active {
+  transform: translateY(1px);
+}
+.feed-page .comments-modal .comment-character-count {
+  grid-column: 2;
+  justify-self: end;
+  margin: 0 4px 0 0;
+  font-size: 10px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.feed-page .comments-modal .comment-submit-error {
+  grid-column: 2 / -1;
+  margin: 2px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #c43d4b;
+}
+@media (max-width: 600px) {
+  .feed-page .comments-modal .comment-composer {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 7px;
+    padding: 11px 12px max(12px, env(safe-area-inset-bottom));
+  }
+  .feed-page .comments-modal .comment-composer textarea {
+    min-height: 43px;
+    max-height: 116px;
+    padding: 10px 11px;
+    font-size: 13px;
+  }
+  .feed-page .comments-modal .comment-composer > button[type="submit"] {
+    min-width: 56px;
+    min-height: 42px;
+    padding: 0 11px;
+  }
+}
+@media (max-width: 380px) {
+  .feed-page .comments-modal .comment-composer {
+    grid-template-columns: 30px minmax(0, 1fr) auto;
+    gap: 6px;
+  }
+  .feed-page .comments-modal .comment-composer > button[type="submit"] {
+    min-width: 49px;
+    padding: 0 8px;
+  }
+}
