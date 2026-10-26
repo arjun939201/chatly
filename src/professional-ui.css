@@ -2206,3 +2206,14 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(small, .muted, .field-hint) { color: var(--chatly-muted-current); }
 
+
+
+/* Batch 18.1 — shared button geometry */
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .send-button, .profile-edit-button,
+  .icon-button, .text-button, .back-button, .page-back-to-feed) {
+  font-family: inherit; font-weight: 600; line-height: 1.2; touch-action: manipulation;
+}
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .profile-edit-button) {
+  min-height: var(--chatly-control-height); border-radius: var(--chatly-radius-md);
+}
+
