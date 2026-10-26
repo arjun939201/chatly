@@ -108,7 +108,7 @@ export default function ExploreHome({ onSearch, onPlayVideo }) {
       <div className="explore-welcome-art" aria-hidden="true"><Compass size={42} strokeWidth={1.4} /><span /><i /></div>
     </div>
 
-    <button type="button" className="explore-open-search" onClick={() => onSearch?.("")}>
+    <button type="button" className="explore-open-search" onClick={() => onSearch?.("")} aria-label="Search people and posts">
       <Search size={18} aria-hidden="true" /><span>Search people and posts</span><ArrowRight size={16} className="explore-search-arrow" aria-hidden="true" />
     </button>
 
