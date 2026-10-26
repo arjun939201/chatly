@@ -1719,3 +1719,12 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
   .notification-item, .notification-card) { border-style: solid; }
 
+
+
+/* Batch 11.2 — component corner radius system */
+.app-shell :is(.feed-notice, .error-banner, .success-banner, .success-notice,
+  .search-box, .composer textarea, .composer input) { border-radius: var(--chatly-control-radius); }
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .compose-modal,
+  .comments-dialog, .profile-modal) { border-radius: var(--chatly-radius-lg); }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown) { border-radius: 13px; }
+
