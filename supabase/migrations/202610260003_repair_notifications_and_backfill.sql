@@ -1,34 +1,16 @@
 -- Repair/complete Chatly notifications schema and backfill activity that predates triggers.
--- Comment IDs are bigint in public.post_comments (see schema.sql).
+-- Comment IDs are UUIDs in public.post_comments.
 create table if not exists public.notifications (
   id bigint generated always as identity primary key,
   recipient_id uuid not null references public.profiles(id) on delete cascade,
   actor_id uuid not null references public.profiles(id) on delete cascade,
   type text not null check (type in ('like','comment','follow')),
   post_id bigint references public.posts(id) on delete cascade,
-  comment_id bigint references public.post_comments(id) on delete cascade,
+  comment_id uuid references public.post_comments(id) on delete cascade,
   created_at timestamptz not null default now(),
   read_at timestamptz,
   constraint notifications_no_self_activity check (recipient_id <> actor_id)
 );
-
--- If the earlier migration created comment_id with the wrong UUID type, clear only
--- invalid comment references before converting; the notification rows themselves remain.
-do $$
-declare current_type text;
-begin
-  select data_type into current_type
-  from information_schema.columns
-  where table_schema='public' and table_name='notifications' and column_name='comment_id';
-  if current_type = 'uuid' then
-    alter table public.notifications drop constraint if exists notifications_comment_id_fkey;
-    update public.notifications set comment_id = null where comment_id is not null;
-    alter table public.notifications alter column comment_id type bigint using null::bigint;
-    alter table public.notifications
-      add constraint notifications_comment_id_fkey foreign key (comment_id)
-      references public.post_comments(id) on delete cascade;
-  end if;
-end $$;
 
 create index if not exists notifications_recipient_time_idx
   on public.notifications (recipient_id, created_at desc, id desc);
