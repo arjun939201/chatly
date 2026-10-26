@@ -5140,3 +5140,93 @@ textarea{max-width:100%;resize:vertical;}
     font-size: 11px;
   }
 }
+
+/* Chatly — refined feed post cards */
+.post-card {
+  background: #fff;
+  border: 1px solid #e9e7f2;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 3px 14px rgba(42, 35, 82, 0.04);
+  transition: border-color 180ms ease, box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.post-card:hover {
+  border-color: #ded9f3;
+  box-shadow: 0 8px 24px rgba(42, 35, 82, 0.08);
+}
+
+.post-author {
+  gap: 12px;
+}
+
+.post-body {
+  color: #37364b;
+  font-size: 15px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  margin: 16px 0;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #f0eef6;
+  padding-top: 12px;
+}
+
+.post-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #77758d;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.post-actions button:hover {
+  background: #f4f1ff;
+  color: #6d4be8;
+}
+
+.post-actions button.liked {
+  background: #fff0f5;
+  color: #e05283;
+}
+
+.post-actions button:focus-visible {
+  outline: 2px solid #8065e8;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .post-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .post-body {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .post-actions {
+    gap: 3px;
+  }
+
+  .post-actions button {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
