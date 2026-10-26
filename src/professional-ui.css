@@ -1616,3 +1616,15 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.feed-loading-state, .notifications-loading) > * { min-width: 0; }
 .app-shell [aria-busy="true"] { cursor: progress; }
 
+
+
+/* Batch 10.2 — skeleton surfaces */
+.app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) {
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--chatly-canvas) 25%, color-mix(in srgb, var(--chatly-border) 65%, white) 50%, var(--chatly-canvas) 75%);
+  background-size: 200% 100%;
+  animation: chatly-skeleton-wave 1.35s ease-in-out infinite;
+}
+@keyframes chatly-skeleton-wave { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none; } }
+
