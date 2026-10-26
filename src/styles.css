@@ -4012,6 +4012,8 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
  .notification-activity-item{padding:16px 18px}
 }
 
-/* Keep the saved-posts switch anchored consistently across feed views. */
-.feed-page .feed-heading-row{align-items:center}
-.feed-page .feed-heading-row>div:first-child{display:flex;flex-direction:column;justify-content:center;min-height:48px}
+/* Reserve the same heading height in both views so the Saved posts switch never shifts. */
+.feed-page .feed-heading-row{align-items:center;min-height:58px;height:58px}
+.feed-page .feed-heading-row>div:first-child{display:flex;flex-direction:column;justify-content:center;height:58px;min-height:58px;min-width:0}
+.feed-page .feed-heading-row>div:first-child p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:18px}
+.feed-page .feed-saved-view-toggle{flex:0 0 auto;align-self:center}
