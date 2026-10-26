@@ -131,3 +131,31 @@ test("profile post grid keeps metadata aligned and text readable", async () => {
   assert.match(styles, /\.app-shell \.profile-post-tile small \{[\s\S]*?margin-top: auto/);
   assert.match(styles, /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?\.profile-post-tile:hover/);
 });
+
+
+test("profile relationship counts open real follower and following lists", async () => {
+  const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(app, /async function openProfileConnections\(kind\)/);
+  assert.match(app, /kind === "followers" \? "follower_id" : "following_id"/);
+  assert.match(app, /supabase\.from\("user_follows"\)\.select\(idColumn\)/);
+  assert.match(app, /supabase\.from\("profiles"\)\.select\("id,username,display_name,avatar_url,bio"\)\.in\("id", ids\)/);
+  assert.match(app, /className="profile-stat-button"/);
+  assert.match(app, /profileConnections\.people\.map\(person =>/);
+  assert.match(app, /openPublicProfile\(person\)/);
+});
+
+test("profile statistics show loading and recover from failed count queries", async () => {
+  const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(app, /const \[profileStatsLoading, setProfileStatsLoading\] = useState\(false\)/);
+  assert.match(app, /setProfileStatsError\(true\)/);
+  assert.match(app, /profileStatsLoading \? "—" : profileStats\.followers/);
+  assert.match(app, /setProfileStatsRetry\(value => value \+ 1\)/);
+  assert.match(app, /if \(!countResult\.error\) setProfileStats\(current => \(\{ \.\.\.current, posts: countResult\.count \|\| 0 \}\)\)/);
+});
+
+test("profile connection lists have responsive, keyboard-visible interaction styling", async () => {
+  const styles = await readFile(new URL("../src/professional-ui.css", import.meta.url), "utf8");
+  assert.match(styles, /\.profile-counts > \.profile-stat-button:hover,[\s\S]*?\.profile-counts > \.profile-stat-button:focus-visible/);
+  assert.match(styles, /\.profile-connections-list \{[\s\S]*?overflow-y: auto/);
+  assert.match(styles, /@media \(max-width: 600px\)[\s\S]*?\.profile-counts > \.profile-stat-button/);
+});
