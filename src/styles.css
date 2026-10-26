@@ -4794,3 +4794,6 @@ button:disabled,[aria-disabled="true"]{cursor:not-allowed;opacity:.58;}
 
 /* Round 3 / 05 — keyboard focus consistency */
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent,#6c63ff);outline-offset:2px;}
+
+/* Round 3 / 06 — prevent flex overflow */
+.global-profile-menu,.global-profile-dropdown,.destination-topline,.chat-list-item,.post-header{min-width:0;}
