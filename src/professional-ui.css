@@ -816,3 +816,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .post-card .post-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .feed-page .post-card .post-actions > * { min-width: 0; }
 .feed-page .post-card:focus-within { border-color: color-mix(in srgb, var(--chatly-accent) 28%, var(--chatly-border)); }
+
+
+/* Batch 2.3 — author identity and follow affordance */
+.feed-page .post-author-profile { display: flex; align-items: center; gap: 10px; text-align: left; }
+.feed-page .post-author-profile > span:not(.mini-avatar) { display: grid; min-width: 0; gap: 3px; }
+.feed-page .post-author-profile b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+.feed-page .post-author-profile small { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; color: var(--muted, var(--chatly-muted)); font-size: 12px; }
+.feed-page .post-author-profile .mini-avatar { width: 42px; height: 42px; }
+.feed-page .post-follow-button { min-height: 34px; border: 1px solid var(--chatly-border); background: var(--surface, #fff); }
+.feed-page .post-follow-button:not(.is-following) { color: var(--chatly-accent); }
+.feed-page .post-follow-button.is-following { border-color: transparent; }
+.feed-page .post-timestamp { min-height: 24px; padding: 0; color: inherit; font-size: inherit; font-weight: 500; }
+.feed-page .post-timestamp-popup { z-index: 5; max-width: min(80vw, 280px); padding: 8px 10px; border-radius: 9px; background: var(--chatly-ink); color: #fff; box-shadow: var(--chatly-shadow-popover); }
+.feed-page .post-author-profile:focus-visible { outline-offset: 3px; }
