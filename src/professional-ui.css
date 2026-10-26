@@ -2570,3 +2570,15 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .feed-page .post-card .post-engagement-meta time{font-size:14px;color:var(--chatly-muted)}
 .app-shell .feed-page .post-card .post-view-count{display:inline-flex;align-items:center;gap:5px}
 @media(max-width:480px){.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-save-button{min-width:36px;padding-inline:8px}}
+
+
+/* Feed layout correction: preserve container width and compact, ordered icon actions. */
+.app-shell .feed-page{width:100%;max-width:none;box-sizing:border-box}
+.app-shell .feed-page .feed-header-section{width:100%;max-width:none;box-sizing:border-box;margin:0 0 10px}
+.app-shell .feed-page .posts-list{width:100%;max-width:none;min-width:0;box-sizing:border-box;gap:16px}
+.app-shell .feed-page .post-card{width:100%;max-width:none;min-width:0;box-sizing:border-box}
+.app-shell .feed-page .post-card .post-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:0;width:100%;}
+.app-shell .feed-page .post-card .post-actions-primary{display:flex;flex:0 1 auto;min-width:0;align-items:center;justify-content:flex-start;gap:clamp(12px,4vw,28px);flex-wrap:nowrap}
+.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-save-button{flex:0 0 auto;min-width:40px;min-height:40px;padding:8px;justify-content:center;}
+.app-shell .feed-page .post-card .post-actions>.post-save-button{margin-left:auto}
+@media(max-width:520px){.app-shell .feed-page{padding-inline:10px}.app-shell .feed-page .post-card .post-actions-primary{gap:clamp(10px,3vw,18px)}.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-save-button{min-width:40px;padding:8px}}
