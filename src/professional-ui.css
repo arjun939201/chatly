@@ -2134,3 +2134,11 @@ html { -webkit-text-size-adjust: 100%; }
   max-width: min(100%, 100vw); overscroll-behavior: contain;
 }
 
+
+
+/* Batch 16.7 — media sizing QA */
+.app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) {
+  max-width: 100%; min-width: 0; overflow: hidden;
+}
+.app-shell :is(.post-media img, .profile-post-media img) { max-width: 100%; object-fit: contain; }
+
