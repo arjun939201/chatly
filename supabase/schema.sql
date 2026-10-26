@@ -46,14 +46,40 @@ drop policy if exists "Users can send messages as themselves" on public.messages
 create policy "Users can send messages as themselves" on public.messages
   for insert to authenticated with check (auth.uid() = sender_id and sender_id <> recipient_id);
 
+-- Secure message update permissions.
+revoke update on table public.messages from authenticated;
+grant update (body) on table public.messages to authenticated;
+
 drop policy if exists "Recipients can mark messages as read" on public.messages;
 drop policy if exists "Recipients can mark messages as delivered" on public.messages;
-create policy "Recipients can mark messages as delivered" on public.messages
-  for update to authenticated using (auth.uid() = recipient_id)
-  with check (auth.uid() = recipient_id);
-create policy "Recipients can mark messages as read" on public.messages
-  for update to authenticated using (auth.uid() = recipient_id)
-  with check (auth.uid() = recipient_id);
+drop policy if exists "Senders can edit their own messages" on public.messages;
+create policy "Senders can edit their own messages" on public.messages
+  for update to authenticated
+  using (auth.uid() = sender_id)
+  with check (auth.uid() = sender_id);
+
+drop policy if exists "Senders can delete their own messages" on public.messages;
+create policy "Senders can delete their own messages" on public.messages
+  for delete to authenticated
+  using (auth.uid() = sender_id);
+
+create or replace function public.mark_message_read(p_message_id bigint)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $function$
+begin
+  update public.messages
+  set read_at = pg_catalog.now()
+  where id = p_message_id
+    and recipient_id = auth.uid()
+    and read_at is null;
+end;
+$function$;
+
+revoke all on function public.mark_message_read(bigint) from public, anon;
+grant execute on function public.mark_message_read(bigint) to authenticated;
 
 -- Create/refresh profile on email or OAuth account creation. Username is optional.
 create or replace function public.handle_new_user()
