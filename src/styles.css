@@ -5470,3 +5470,30 @@ textarea{max-width:100%;resize:vertical;}
   .feed-loading-state .skeleton-post-copy .skeleton-line-wide { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .feed-loading-state .post-skeleton * { animation: none !important; } }
+
+
+/* Instagram-inspired compact conversation thread. */
+.comments-modal{width:min(560px,calc(100vw - 24px));max-height:min(88dvh,820px);min-height:min(420px,70dvh);border-radius:22px;overflow:hidden;background:var(--surface,#fff)}
+.comments-modal .comments-dialog-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border,#ececf1)}
+.comments-modal .comments-dialog-header h2{margin:0;font-size:18px;font-weight:750;letter-spacing:-.025em}.comments-modal .comments-dialog-header p{margin:4px 0 0;color:var(--muted,#888894);font-size:12px}
+.comments-modal .comment-list{display:flex;flex:1 1 auto;flex-direction:column;gap:0;min-height:0;padding:18px 20px;overflow-y:auto;overscroll-behavior:contain}
+.comments-modal .comment-item{display:grid;grid-template-columns:38px minmax(0,1fr);align-items:start;gap:10px;padding:0 0 18px;margin:0}.comments-modal .comment-item+.comment-item{padding-top:2px}
+.comments-modal .comment-avatar-link,.comments-modal .comment-avatar-link .mini-avatar{width:38px;height:38px}
+.comments-modal .comment-content{display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:0}.comments-modal .comment-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 7px;min-height:0;line-height:1.35}
+.comments-modal .comment-name{color:var(--text,#24242b);font-size:13px;font-weight:700;line-height:1.35}.comments-modal .comment-username{color:var(--muted,#92929c);font-size:11px}.comments-modal .comment-you-label{padding:1px 6px;border-radius:8px;font-size:10px}
+.comments-modal .comment-message,.comments-modal .comment-item-own .comment-message{display:block;width:100%;max-width:100%;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--text,#292932)}
+.comments-modal .comment-message p{margin:0;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.comments-modal .comment-footer{display:flex;align-items:center;flex-wrap:wrap;gap:7px;min-height:22px;margin-top:3px}.comments-modal .comment-timestamp{color:var(--muted,#92929c);font-size:11px;line-height:1.3;white-space:nowrap}
+.comments-modal .comment-actions-reserved{display:flex;align-items:center;flex:0 0 136px;width:136px;min-height:24px}
+.comments-modal .comment-own-actions{position:static;display:flex;align-items:center;gap:1px;width:max-content;max-width:100%;margin:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;opacity:0;visibility:hidden;transform:none;pointer-events:none;transition:opacity .14s ease,visibility .14s ease}
+.comments-modal .comment-item-own:hover .comment-own-actions,.comments-modal .comment-item-own:focus-within .comment-own-actions,.comments-modal .comment-message.comment-actions-open .comment-own-actions{opacity:1;visibility:visible;pointer-events:auto}
+.comments-modal .comment-own-actions .comment-action-button{width:30px;min-width:30px;height:26px;min-height:26px;border-radius:7px}.comments-modal .comment-own-actions .comment-action-button:hover{background:color-mix(in srgb,var(--chatly-brand,#8172e9) 9%,var(--surface,#fff))}
+.comments-modal .comment-composer{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:9px;flex:0 0 auto;margin:0;padding:12px 16px max(12px,env(safe-area-inset-bottom));border-top:1px solid var(--border,#ececf1);background:var(--surface,#fff)}
+.comments-modal .comment-composer .comment-avatar-link,.comments-modal .comment-composer .mini-avatar{width:34px;height:34px}
+.comments-modal .comment-composer textarea{box-sizing:border-box;width:100%;min-width:0;min-height:42px;max-height:110px;padding:10px 13px;border:1px solid var(--border,#e5e5ec);border-radius:22px;background:var(--app-bg,#f7f7fa);color:var(--text,#292932);font:inherit;font-size:13px;line-height:1.45;resize:none}
+.comments-modal .comment-composer textarea:focus{border-color:color-mix(in srgb,var(--chatly-brand,#8172e9) 55%,var(--border,#e5e5ec));outline:none}
+.comments-modal .comment-composer>button[type=submit]{grid-column:3;grid-row:1;min-height:36px;padding:7px 13px;border:0;border-radius:18px;background:var(--chatly-brand,#8172e9);color:#fff;font-size:12px;font-weight:650}
+.comments-modal .comment-character-count{grid-column:2;justify-self:end;margin-top:-4px;font-size:10px}.comments-modal .comment-submit-error{grid-column:2/-1;margin:0;font-size:11px}
+@media(hover:none),(pointer:coarse){.comments-modal .comment-own-actions{opacity:1;visibility:visible;pointer-events:auto}.comments-modal .comment-actions-reserved{flex-basis:132px;width:132px}}
+@media(max-width:600px){.comments-modal{width:100%;max-width:none;max-height:88dvh;min-height:55dvh;border-radius:22px 22px 0 0}.comments-modal .comments-dialog-header{justify-content:center;padding:16px;text-align:center}.comments-modal .comments-dialog-header>button{position:absolute;right:14px}.comments-modal .comment-list{padding:18px 16px}.comments-modal .comment-item{grid-template-columns:34px minmax(0,1fr);gap:9px;padding-bottom:17px}.comments-modal .comment-avatar-link,.comments-modal .comment-avatar-link .mini-avatar{width:34px;height:34px}.comments-modal .comment-message p{font-size:13px}.comments-modal .comment-composer{grid-template-columns:32px minmax(0,1fr) auto;gap:7px;padding-inline:12px}.comments-modal .comment-composer .comment-avatar-link,.comments-modal .comment-composer .mini-avatar{width:32px;height:32px}}
+@media(prefers-reduced-motion:reduce){.comments-modal .comment-own-actions{transition:none}}
