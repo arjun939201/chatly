@@ -23,3 +23,15 @@
 .st-unavailable{cursor:default;color:var(--muted)}.st-unavailable:hover{background:transparent!important}.st-unavailable-label{flex:0 0 auto;padding:4px 7px;border:1px solid var(--border);border-radius:7px;color:var(--muted);font-size:10px;font-weight:650;white-space:nowrap}.st-message.is-error{border:1px solid color-mix(in srgb,#c34455 45%,var(--border));color:#c34455}.st-message.is-success{border:1px solid color-mix(in srgb,#16834a 40%,var(--border));color:#16834a}
 
 .st-home-heading{display:flex;align-items:center;gap:11px;min-width:0}.st-home-heading>div{min-width:0}.st-global-back{display:grid;place-items:center;width:38px;height:38px;flex:0 0 38px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);cursor:pointer}.st-global-back svg{width:19px;height:19px}.st-global-back:hover{background:color-mix(in srgb,var(--surface) 90%,var(--text) 10%)}.st-global-back:focus-visible{outline:2px solid #7566e8;outline-offset:2px}
+
+
+/* Settings mobile layout: reclaim excessive vertical gaps around search and groups. */
+@media(max-width:600px){
+  .st-settings{padding-top:6px;padding-bottom:24px}
+  .st-intro{padding:2px 2px 6px}
+  .st-intro p{margin:3px 0}
+  .st-search{margin:4px 0 8px}
+  .st-group{margin:8px 0}
+  .st-group>h2{margin-bottom:6px}
+  .st-group+.st-group{margin-top:8px}
+}
