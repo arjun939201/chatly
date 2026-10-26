@@ -1421,3 +1421,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(button, a, input, textarea, select):focus-visible { scroll-margin-block: 12px; }
 @media (max-width: 600px) { .app-shell [role="dialog"] { max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); } }
 @media (prefers-reduced-motion: reduce) { .app-shell :is(.post-card, .person-row, .notification-item, .notification-card) { transition: none !important; } }
+
+/* Batch 8.1 — consistent visible keyboard focus */
+.app-shell :is(button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: 2px solid var(--chatly-accent);
+  outline-offset: 3px;
+}
+.app-shell :is(button, a, input, textarea, select):focus:not(:focus-visible) { outline: none; }
