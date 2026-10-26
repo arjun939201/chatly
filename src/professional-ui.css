@@ -2978,3 +2978,136 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Profile layout correction — ensure statistic cells use the intended responsive grid. */
 .app-shell .profile-counts { display: grid; }
+
+
+/* Profile audit: interactive relationship counts and accessible connection list. */
+.app-shell .profile-counts > .profile-stat-button {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px 6px;
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: 13px;
+  background: var(--app-bg, var(--chatly-canvas));
+  color: var(--text, var(--chatly-ink));
+  cursor: pointer;
+  transition: border-color .16s ease, background-color .16s ease;
+}
+.app-shell .profile-counts > .profile-stat-button b {
+  font-size: clamp(17px, 2.4vw, 22px);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.035em;
+}
+.app-shell .profile-counts > .profile-stat-button span {
+  color: var(--muted, var(--chatly-muted));
+  font-size: 12px;
+  font-weight: 550;
+  text-transform: capitalize;
+}
+.app-shell .profile-counts > .profile-stat-button:hover,
+.app-shell .profile-counts > .profile-stat-button:focus-visible {
+  border-color: var(--chatly-accent);
+  background: var(--chatly-accent-soft);
+  outline: none;
+}
+.app-shell .profile-stats-error {
+  margin: 8px 2px 0;
+  color: var(--muted, var(--chatly-muted));
+  font-size: 12px;
+}
+.app-shell .profile-stats-error button {
+  padding: 2px 5px;
+  color: var(--chatly-accent);
+  font-weight: 650;
+  text-decoration: underline;
+}
+.app-shell .profile-connections-dialog {
+  width: min(100%, 460px);
+  max-height: min(82dvh, 680px);
+  overflow: hidden;
+}
+.app-shell .profile-connections-dialog .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border, var(--chatly-border));
+}
+.app-shell .profile-connections-dialog .modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 750;
+}
+.app-shell .profile-connections-list {
+  display: grid;
+  gap: 2px;
+  max-height: min(65dvh, 560px);
+  padding: 8px;
+  overflow-y: auto;
+}
+.app-shell .profile-connection-person {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text, var(--chatly-ink));
+  text-align: left;
+}
+.app-shell .profile-connection-person:hover,
+.app-shell .profile-connection-person:focus-visible {
+  background: var(--chatly-accent-soft);
+  outline: none;
+}
+.app-shell .profile-connection-avatar {
+  display: grid;
+  place-items: center;
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--chatly-accent-soft);
+  color: var(--chatly-accent);
+  font-weight: 750;
+}
+.app-shell .profile-connection-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.app-shell .profile-connection-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.app-shell .profile-connection-copy strong,
+.app-shell .profile-connection-copy small {
+  overflow-wrap: anywhere;
+}
+.app-shell .profile-connection-copy strong {
+  font-size: 14px;
+}
+.app-shell .profile-connection-copy small,
+.app-shell .profile-connections-message {
+  color: var(--muted, var(--chatly-muted));
+  font-size: 13px;
+}
+.app-shell .profile-connections-message {
+  margin: 0;
+  padding: 22px 20px;
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .app-shell .profile-counts > .profile-stat-button {
+    padding: 10px 3px;
+    border-radius: 10px;
+  }
+  .app-shell .profile-counts > .profile-stat-button span { font-size: 11px; }
+}
