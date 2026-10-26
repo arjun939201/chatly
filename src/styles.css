@@ -4827,3 +4827,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 16 — empty-state text width */
 .empty-state p,.feed-empty-state p,.chat-empty-state p{max-width:46ch;margin-inline:auto;line-height:1.6;}
+
+/* Round 3 / 17 — dense screens */
+@media(max-width:420px){.page-header,.destination-topline{gap:10px}.page-header h1,.destination-topline h1{font-size:clamp(1.15rem,5vw,1.5rem)}}
