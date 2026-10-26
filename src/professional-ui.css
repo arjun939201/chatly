@@ -1803,3 +1803,84 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transition: none !important; }
 }
 
+
+
+/* Batch 12.1 — subtle hover transitions */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card,
+  .person-card, .st-card) { transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
+.app-shell :is(.post-card, .profile-post, .person-card):hover { transform: translateY(-1px); }
+
+
+
+/* Batch 12.2 — button interaction feedback */
+.app-shell button:not(:disabled):active { transform: translateY(1px); }
+.app-shell :is(.post-actions button, .notification-actions button, .profile-actions button):active { opacity: .82; }
+.app-shell button:disabled { cursor: not-allowed; }
+
+
+
+/* Batch 12.3 — keyboard focus polish */
+.app-shell :is(a, button, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--chatly-accent, #6557e8); outline-offset: 3px;
+}
+.app-shell :is(.post-options-trigger, .profile-menu-trigger):focus-visible { border-radius: 10px; }
+
+
+
+/* Batch 12.4 — restrained icon micro-interactions */
+.app-shell :is(.post-actions button, .notification-actions button, .profile-menu-trigger) svg {
+  transition: transform 150ms ease;
+}
+.app-shell :is(.post-actions button, .notification-actions button):hover svg { transform: scale(1.06); }
+
+
+
+/* Batch 12.5 — active tab feedback */
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button) {
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+.app-shell :is(.feed-filter-tabs button[aria-selected="true"], .chat-filter-row button[aria-selected="true"],
+  .notification-filters button[aria-selected="true"]) { font-weight: 750; }
+
+
+
+/* Batch 12.6 — link and text action polish */
+.app-shell :is(.post-follow-button, .notification-link, .profile-link, .chat-link) {
+  transition: color 140ms ease, opacity 140ms ease;
+}
+.app-shell :is(.post-follow-button, .notification-link, .profile-link, .chat-link):hover { opacity: .86; }
+
+
+
+/* Batch 12.7 — menu interaction refinement */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown) {
+  transform-origin: top right;
+  animation: chatly-menu-in 130ms ease-out both;
+}
+@keyframes chatly-menu-in { from { opacity: 0; transform: translateY(-4px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+
+
+/* Batch 12.8 — modal entrance refinement */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  animation: chatly-dialog-in 170ms cubic-bezier(.2,.75,.25,1) both;
+}
+@keyframes chatly-dialog-in { from { opacity: .65; transform: translateY(6px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+
+
+/* Batch 12.9 — reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+}
+
+
+
+/* Batch 12.10 — micro-interaction finishing pass */
+.app-shell :is(.post-card, .profile-post, .person-card, .notification-card):active { transition-duration: 90ms; }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown,
+  .compose-modal, .comments-dialog, .profile-modal, .st-dialog) { will-change: opacity, transform; }
+
