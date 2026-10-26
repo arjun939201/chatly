@@ -4788,3 +4788,6 @@ label{min-width:0}
 
 /* Round 3 / 03 — shared control transitions */
 button,input,textarea,select{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease;}
+
+/* Round 3 / 04 — disabled control clarity */
+button:disabled,[aria-disabled="true"]{cursor:not-allowed;opacity:.58;}
