@@ -4854,3 +4854,6 @@ textarea{max-width:100%;resize:vertical;}
 
 /* Round 3 / 25 — sticky headers paint */
 .modal-header,.chat-header,.destination-header{backface-visibility:hidden;}
+
+/* Round 3 / 26 — compact profile action layout */
+@media(max-width:480px){.profile-action-row{gap:6px}.profile-action-row button{flex:1 1 auto;}}
