@@ -4857,3 +4857,6 @@ textarea{max-width:100%;resize:vertical;}
 
 /* Round 3 / 26 — compact profile action layout */
 @media(max-width:480px){.profile-action-row{gap:6px}.profile-action-row button{flex:1 1 auto;}}
+
+/* Round 3 / 27 — feed media overflow */
+.post-media,.post-image-container,.feed-media{max-width:100%;overflow:hidden;}
