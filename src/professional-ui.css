@@ -1970,3 +1970,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) { min-width: 0; max-width: 100%; }
 .app-shell :is(.post-media img, .profile-post-media img, .chat-attachment img, .message-attachment img) { max-width: 100%; height: auto; object-fit: contain; }
 
+
+
+/* Batch 14.3 — action row wrapping */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) { min-width: 0; flex-wrap: wrap; }
+.app-shell :is(.post-actions button, .profile-actions button, .notification-actions button) { max-width: 100%; }
+
