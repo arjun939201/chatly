@@ -87,10 +87,16 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       message.sender_id === active.id && message.recipient_id === session.user.id && !message.read_at
     );
     if (!unreadIncoming.length) return;
-    const ids = unreadIncoming.map(message => message.id);
+    // Optimistic messages use string IDs such as "pending-...". The RPC accepts
+    // only persisted messages whose IDs are numeric PostgreSQL bigint values.
+    const ids = unreadIncoming
+      .map(message => message.id)
+      .filter(id => typeof id === "number" || (typeof id === "string" && /^\\d+$/.test(id)));
+    if (!ids.length) return;
+
     const readAt = new Date().toISOString();
     setMessages(current => current.map(message => ids.includes(message.id) ? { ...message, read_at: readAt } : message));
-    Promise.all(ids.map(id => supabase.rpc("mark_message_read", { p_message_id: id })))
+    Promise.all(ids.map(id => supabase.rpc("mark_message_read", { p_message_id: Number(id) })))
       .then(results => {
         const failed = results.find(({ error: err }) => err);
         if (failed?.error) setError(failed.error.message || "Could not update read receipts.");
