@@ -2351,3 +2351,6 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 23.2 — Prevent loading layout shifts */
 .app-shell .posts-list[aria-busy=true]{min-height:0}.app-shell .post-skeleton,.app-shell .post-card{contain:layout style}.app-shell .feed-loading-state[aria-label="Loading posts"]{min-height:0}.app-shell .post-skeleton i{background:linear-gradient(100deg,#eeedf3 20%,#f7f6fa 45%,#eeedf3 70%);background-size:220% 100%;animation:chatly-feed-skeleton 1.25s ease-in-out infinite}@keyframes chatly-feed-skeleton{to{background-position-x:-220%}}@media(prefers-reduced-motion:reduce){.app-shell .post-skeleton i{animation:none}}
+
+/* Batch 23.3 — Normalize feed loading and empty feedback */
+.app-shell .feed-notice{box-sizing:border-box;width:100%;margin:0 0 12px;padding:12px 14px;border-radius:12px;overflow-wrap:anywhere}.app-shell .feed-load-more{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px}.app-shell .feed-load-more button{min-height:40px;padding:8px 16px;border-radius:10px}.app-shell .feed-empty{margin-top:8px;text-align:center}
