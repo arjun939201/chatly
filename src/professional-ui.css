@@ -1763,3 +1763,13 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.search-box, .st-search, .people-search) { min-width: 0; }
 
+
+
+/* Batch 11.7 — card interaction consistency */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card):hover {
+  border-color: color-mix(in srgb, var(--chatly-accent) 22%, var(--chatly-border));
+}
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card):focus-within {
+  outline: 0; box-shadow: var(--chatly-shadow-card), 0 0 0 2px rgb(101 87 232 / 10%);
+}
+
