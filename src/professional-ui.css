@@ -2024,3 +2024,69 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) * { min-width: 0; }
 @media (prefers-reduced-motion: reduce) { .app-shell * { scroll-behavior: auto !important; } }
 
+
+
+/* Batch 15.1 — shared sizing cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { box-sizing: border-box; min-width: 0; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) > * { min-width: 0; }
+
+
+
+/* Batch 15.2 — border token cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card,
+  .compose-modal, .comments-dialog, .profile-modal) { border-color: var(--border, var(--chatly-border)); }
+
+
+
+/* Batch 15.3 — typography inheritance cleanup */
+.app-shell :is(button, input, textarea, select, [role="button"]) { font: inherit; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { line-height: 1.45; }
+
+
+
+/* Batch 15.4 — icon alignment cleanup */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) :is(svg, img) { flex: 0 0 auto; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) { vertical-align: middle; }
+
+
+
+/* Batch 15.5 — form readiness polish */
+.app-shell :is(input, textarea, select):focus { outline-color: var(--chatly-accent, #6557e8); }
+.app-shell :is(input, textarea, select):disabled { cursor: not-allowed; }
+.app-shell :is(input, textarea, select)::placeholder { text-overflow: ellipsis; }
+
+
+
+/* Batch 15.6 — content rhythm cleanup */
+.app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) > :last-child { margin-bottom: 0; }
+.app-shell :is(.post-actions, .profile-actions, .notification-actions) { column-gap: 8px; row-gap: 6px; }
+
+
+
+/* Batch 15.7 — surface transition cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) {
+  transition-property: border-color, box-shadow, background-color;
+}
+
+
+
+/* Batch 15.8 — mobile control readiness */
+@media (max-width: 600px) {
+  .app-shell :is(input, textarea, select) { max-width: 100%; }
+  .app-shell :is(.post-actions, .profile-actions, .notification-actions) { align-items: flex-start; }
+}
+
+
+
+/* Batch 15.9 — overlay behavior cleanup */
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { touch-action: pan-y; }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { overscroll-behavior: contain; }
+
+
+
+/* Batch 15.10 — final readiness safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { overflow-wrap: break-word; }
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+}
+
