@@ -1428,3 +1428,9 @@ html { -webkit-text-size-adjust: 100%; }
   outline-offset: 3px;
 }
 .app-shell :is(button, a, input, textarea, select):focus:not(:focus-visible) { outline: none; }
+
+/* Batch 8.2 — high contrast states and disabled controls */
+.app-shell :is(button, input, textarea, select):disabled,
+.app-shell [aria-disabled="true"] { cursor: not-allowed; opacity: .58; }
+.app-shell :is(button, a):is([aria-current="page"], [aria-pressed="true"]) { color: var(--chatly-accent); }
+.app-shell :is(button, a):focus-visible { position: relative; z-index: 2; }
