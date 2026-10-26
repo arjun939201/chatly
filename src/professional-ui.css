@@ -1581,3 +1581,16 @@ html { -webkit-text-size-adjust: 100%; }
   border-radius: 9px; font-size: 13px;
 }
 
+
+
+/* Batch 9.9 — responsive spacing and density */
+@media (max-width: 600px) {
+  .app-shell :is(.feed-notice, .error-banner, .chat-action-notice) { padding: 10px 12px; }
+  .app-shell :is(.profile-post, .st-dialog, .st-card) { overflow-wrap: anywhere; }
+  .app-shell :is(.notifications-page, .profile-page) { padding-bottom: max(84px, env(safe-area-inset-bottom)); }
+}
+@media (min-width: 900px) {
+  .feed-column { width: min(100%, 700px); }
+  .notifications-page { width: min(100% - 32px, 780px); }
+}
+
