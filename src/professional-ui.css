@@ -744,3 +744,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell :is(.modal-backdrop, .comment-modal-backdrop) { isolation: isolate; }
 .app-shell :is(.modal-backdrop, .comment-modal-backdrop) > :is(dialog, .modal, .compose-modal, .comments-dialog) { max-width: calc(100vw - 24px); }
 
+
+
+/* Batch 1.9 — feedback, loading, and status states */
+.app-shell :is(.error-banner, .error-state, .form-error, [role="alert"]) { color: var(--chatly-danger); }
+.app-shell :is(.error-banner, .error-state, .form-error) { border-color: color-mix(in srgb, var(--chatly-danger) 24%, transparent); background: var(--chatly-danger-soft); }
+.app-shell :is(.success-banner, .success-state) { color: var(--chatly-success); background: var(--chatly-success-soft); }
+.app-shell :is(.warning-banner, .warning-state) { color: var(--chatly-warning); background: var(--chatly-warning-soft); }
+.app-shell :is(.error-state, .success-state, .warning-state, .info-state) { padding: 12px 14px; border-radius: 12px; font-size: 13px; line-height: 1.55; }
+.app-shell :is(.loading-state, .empty-state) { display: grid; place-items: center; gap: 10px; text-align: center; }
+.app-shell :is(.skeleton, .loading-skeleton) { border-radius: 8px; background: linear-gradient(90deg, var(--chatly-surface-muted), color-mix(in srgb, var(--chatly-surface-muted) 60%, var(--surface, #fff)), var(--chatly-surface-muted)); }
+.app-shell :is(.skeleton, .loading-skeleton) { background-size: 200% 100%; animation: chatly-skeleton-pulse 1.4s ease-in-out infinite; }
+@keyframes chatly-skeleton-pulse { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+.app-shell [aria-live="polite"] { overflow-wrap: anywhere; }
+
