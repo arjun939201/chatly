@@ -1527,3 +1527,13 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-timestamp-wrap, .person-copy p, .notification-copy time) { line-height: 1.4; }
 .app-shell :is(.profile-bio, .post-body, .comment-message) { text-wrap: pretty; }
 
+
+
+/* Batch 9.4 — consistent card border and elevation */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card) { box-shadow: var(--chatly-shadow-card); }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) {
+  background-clip: padding-box;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state) { box-shadow: none; }
+
