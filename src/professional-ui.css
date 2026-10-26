@@ -2463,3 +2463,15 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .notification-mark-read:hover,.app-shell .notification-mark-all-read:hover{border-color:var(--chatly-accent);color:var(--chatly-accent)}
 @media(max-width:480px){.app-shell .notification-heading-actions{gap:5px}.app-shell .notification-mark-all-read{min-height:32px;padding:5px 8px}.app-shell .notification-activity-item.is-unread:before{left:5px}}
 @media(prefers-reduced-motion:reduce){.app-shell .notification-activity-item{transition:none}}
+
+
+/* Group 5 — Shared interaction and responsive polish */
+.app-shell .st-settings :is(button,input,textarea,select){touch-action:manipulation}
+.app-shell .st-settings :is(button,input,textarea,select):focus-visible{outline:2px solid var(--chatly-accent);outline-offset:2px}
+.app-shell .st-search-wrap{min-width:0;gap:8px}
+.app-shell .st-search-wrap .st-search{min-width:0;flex:1}
+.app-shell .st-search-clear{flex:0 0 auto;min-height:38px;padding-inline:10px}
+.app-shell .comment-actions-toggle{opacity:.78;transition:opacity .14s ease,background-color .14s ease,border-color .14s ease}
+.app-shell .comment-item:hover .comment-actions-toggle,.app-shell .comment-item:focus-within .comment-actions-toggle,.app-shell .comment-actions-open .comment-actions-toggle{opacity:1;border-color:var(--chatly-accent)}
+@media(max-width:699px){.app-shell .comment-actions-toggle{opacity:1}.app-shell .comment-own-actions{padding-top:5px}}
+@media(prefers-reduced-motion:reduce){.app-shell .comment-actions-toggle{transition:none}}
