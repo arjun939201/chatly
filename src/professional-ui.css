@@ -1316,3 +1316,10 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page .notification-item.is-unread .notification-copy p, .notifications-page .notification-card.is-unread .notification-copy p { font-weight: 550; }
 .notifications-page .notification-unread-dot { flex: 0 0 auto; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--chatly-accent); }
 .notifications-page .notification-read-state { color: var(--chatly-muted); font-size: 11px; }
+
+
+/* Batch 6.4 — actor avatars and notification type icons */
+.notifications-page .notification-avatar { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; overflow: hidden; border-radius: 50%; background: var(--chatly-accent-soft); color: var(--chatly-accent); font-weight: 750; }
+.notifications-page .notification-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.notifications-page .notification-type-icon { display: grid; place-items: center; flex: 0 0 auto; width: 30px; height: 30px; margin-left: -21px; align-self: flex-end; border: 2px solid var(--surface, #fff); border-radius: 50%; background: var(--chatly-accent); color: #fff; }
+.notifications-page .notification-avatar-wrap { display: flex; align-items: flex-start; flex: 0 0 auto; }
