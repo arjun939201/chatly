@@ -1990,3 +1990,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main, .notifications-main) { max-width: 100%; }
 .app-shell :is(.feed-filter-tabs, .chat-filter-row, .notification-filters) { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
 
+
+
+/* Batch 14.6 — disabled and busy states */
+.app-shell :is(button[aria-busy="true"], [role="button"][aria-busy="true"]) { cursor: progress; }
+.app-shell :is(button:disabled, [aria-disabled="true"]) { opacity: .58; }
+.app-shell [aria-busy="true"] { pointer-events: none; }
+
