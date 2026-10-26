@@ -2318,3 +2318,14 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
 }
 
+
+
+/* Batch 21.3 — global resilience pass */
+.app-shell :is(img, video, iframe, svg) { max-width: 100%; }
+.app-shell :is(button, a) { -webkit-tap-highlight-color: transparent; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+@media (max-width: 360px) {
+  .app-shell .topbar { padding-inline: 10px; gap: 8px; }
+  .app-shell .global-profile-avatar { width: 34px; height: 34px; }
+}
+
