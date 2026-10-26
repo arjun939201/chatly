@@ -124,7 +124,22 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
         <section className="notification-feed" aria-label="Recent activity">
           <div className="notification-controls-row"><div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div><div className="notification-heading-actions">{unreadCount > 0 && <button type="button" className="notification-mark-all-read" onClick={markAllRead}>Mark all read <span>{unreadCount}</span></button>}<button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh notifications" title="Refresh notifications"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
           {loading ? (
-            <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
+            <div className="notification-skeleton-list" role="status" aria-label="Loading notifications" aria-busy="true">
+              <span className="sr-only">Loading notifications…</span>
+              {Array.from({ length: 6 }, (_, index) => (
+                <div className="notification-skeleton-row" key={index} aria-hidden="true">
+                  <span className="notification-skeleton-avatar"/>
+                  <div className="notification-skeleton-copy">
+                    <div className="notification-skeleton-topline">
+                      <span className="notification-skeleton-name"/>
+                      <span className="notification-skeleton-action"/>
+                      <span className="notification-skeleton-time"/>
+                    </div>
+                    {index % 3 !== 2 && <span className={`notification-skeleton-detail ${index % 2 ? "is-short" : ""}`}/>}
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : error ? (
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
