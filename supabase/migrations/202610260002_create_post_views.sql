@@ -1,6 +1,6 @@
 -- Unique authenticated views: one viewer per post for the lifetime of that post.
 create table if not exists public.post_views (
-  post_id uuid not null references public.posts(id) on delete cascade,
+  post_id bigint not null references public.posts(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
   viewed_at timestamptz not null default now(),
   primary key (post_id, user_id)
@@ -17,7 +17,7 @@ create policy "Users can record their own post views"
     user_id = auth.uid()
     and exists (
       select 1 from public.posts p
-      where p.id = post_id and p.user_id <> auth.uid()
+      where p.id = post_id
     )
   );
 
@@ -26,7 +26,7 @@ create policy "Users can read their own post views"
   on public.post_views for select to authenticated
   using (user_id = auth.uid());
 
-create or replace function public.record_post_view(p_post_id uuid)
+create or replace function public.record_post_view(p_post_id bigint)
 returns boolean
 language plpgsql
 security definer
@@ -41,7 +41,7 @@ begin
 
   if not exists (
     select 1 from public.posts p
-    where p.id = p_post_id and p.user_id <> auth.uid()
+    where p.id = p_post_id
   ) then
     return false;
   end if;
@@ -55,8 +55,8 @@ begin
 end;
 $$;
 
-create or replace function public.get_post_view_counts(post_ids uuid[])
-returns table(post_id uuid, view_count bigint)
+create or replace function public.get_post_view_counts(post_ids bigint[])
+returns table(post_id bigint, view_count bigint)
 language sql
 stable
 security definer
@@ -68,7 +68,7 @@ as $$
   group by v.post_id;
 $$;
 
-revoke all on function public.record_post_view(uuid) from public;
-grant execute on function public.record_post_view(uuid) to authenticated;
-revoke all on function public.get_post_view_counts(uuid[]) from public;
-grant execute on function public.get_post_view_counts(uuid[]) to authenticated;
+revoke all on function public.record_post_view(bigint) from public;
+grant execute on function public.record_post_view(bigint) to authenticated;
+revoke all on function public.get_post_view_counts(bigint[]) from public;
+grant execute on function public.get_post_view_counts(bigint[]) to authenticated;
