@@ -802,3 +802,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .feed-filter-tabs button { white-space: nowrap; min-height: 42px; }
 .feed-page .feed-filter-tabs button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
 @media (max-width: 420px) { .feed-page .feed-heading-row { align-items: flex-start; } .feed-page .feed-saved-view-toggle span { display: none; } }
+
+
+/* Batch 2.2 — post card hierarchy */
+.feed-page .posts-list { display: grid; align-content: start; gap: 16px; min-width: 0; }
+.feed-page .post-card { position: relative; min-width: 0; overflow: visible; }
+.feed-page .post-card > header { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.feed-page .post-card > header .post-author-profile { flex: 1 1 auto; min-width: 0; }
+.feed-page .post-card > header .post-follow-button { flex: 0 0 auto; }
+.feed-page .post-card > header .post-options-wrap { flex: 0 0 auto; }
+.feed-page .post-card .post-body { margin: 14px 0; white-space: pre-wrap; }
+.feed-page .post-card .post-body:empty { display: none; }
+.feed-page .post-card .post-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.feed-page .post-card .post-actions > * { min-width: 0; }
+.feed-page .post-card:focus-within { border-color: color-mix(in srgb, var(--chatly-accent) 28%, var(--chatly-border)); }
