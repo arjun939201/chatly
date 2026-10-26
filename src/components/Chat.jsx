@@ -90,8 +90,11 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     const ids = unreadIncoming.map(message => message.id);
     const readAt = new Date().toISOString();
     setMessages(current => current.map(message => ids.includes(message.id) ? { ...message, read_at: readAt } : message));
-    supabase.from("messages").update({ read_at: readAt }).in("id", ids).eq("recipient_id", session.user.id)
-      .then(({ error: err }) => { if (err) setError(err.message || "Could not update read receipts."); });
+    Promise.all(ids.map(id => supabase.rpc("mark_message_read", { p_message_id: id })))
+      .then(results => {
+        const failed = results.find(({ error: err }) => err);
+        if (failed?.error) setError(failed.error.message || "Could not update read receipts.");
+      });
   }, [active, messages, session.user.id]);
 
   useEffect(() => {
