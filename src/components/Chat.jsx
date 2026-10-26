@@ -325,7 +325,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     return counts;
   }, {});
   const normalizedQuery = query.trim().toLocaleLowerCase();
-  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id)]
+  // Only list users with an existing message relationship; do not expose every registered profile in Chats.
+  const contactedUserIds = new Set(recentMessages.map(message => message.sender_id === session.user.id ? message.recipient_id : message.sender_id));
+  const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id && contactedUserIds.has(p.id))]
     .filter(person => {
       const latestBody = lastMessages[person.id]?.body || "";
       const searchable = `${person.username || ""} ${person.display_name || ""} ${latestBody}`.toLocaleLowerCase();
