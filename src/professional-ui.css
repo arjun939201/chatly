@@ -1793,3 +1793,13 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { max-width: 100%; }
 }
 
+
+
+/* Batch 11.10 — component styling finishing pass */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post,
+  .notification-item, .notification-card, .st-card) { background-clip: padding-box; }
+.app-shell :is(button, input, textarea, select) { font-family: inherit; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transition: none !important; }
+}
+
