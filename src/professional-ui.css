@@ -1949,3 +1949,12 @@ html { -webkit-text-size-adjust: 100%; }
   .compose-modal, .comments-dialog, .profile-modal) { color: inherit; }
 .app-shell :is(.post-divider, .profile-divider, .notification-divider) { border-color: var(--border, var(--chatly-border)); }
 
+
+
+/* Batch 13.10 — final UI quality polish */
+.app-shell :is(button, a, input, textarea, select) { -webkit-tap-highlight-color: transparent; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { backface-visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transform: none !important; }
+}
+
