@@ -99,3 +99,14 @@ test("notification load-more appends deduplicated activity on demand", async () 
   assert.match(source, /disabled=\{loadingMore\}/);
   assert.match(source, /Loading activity…/);
 });
+
+
+test("shared UI respects reduced-motion preferences", () => {
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.app-shell \*[\s\S]*?animation: none !important/);
+  assert.match(styles, /transition: none !important/);
+});
+
+test("background notification refresh errors do not replace loaded activity", async () => {
+  const source = await readFile(new URL("../src/components/NotificationsDestination.jsx", import.meta.url), "utf8");
+  assert.match(source, /if \(!silent\) setError\(err\.message \|\| "Could not load notifications\."\)/);
+});
