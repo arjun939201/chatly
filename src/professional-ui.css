@@ -1193,3 +1193,14 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .profile-form input:not([type="file"]), .profile-form textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--chatly-border); border-radius: 11px; background: var(--app-bg, #fafafd); color: var(--text, var(--chatly-ink)); font-weight: 400; }
 .profile-form textarea { resize: vertical; }
 .profile-form .primary-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; }
+
+
+/* Batch 5.5 — avatar upload and username affordances */
+.profile-edit-avatar-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-bottom: 15px; border-bottom: 1px solid var(--chatly-border); }
+.profile-edit-avatar-row .avatar-large { display: grid; place-items: center; width: 68px; height: 68px; overflow: hidden; border-radius: 50%; background: var(--chatly-accent-soft); color: var(--chatly-accent); font-size: 25px; font-weight: 750; }
+.profile-edit-avatar-row .avatar-large img { width: 100%; height: 100%; object-fit: cover; }
+.profile-edit-avatar-row .upload-avatar { display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 8px 12px; border: 1px solid var(--chatly-border); border-radius: 10px; cursor: pointer; color: var(--text, var(--chatly-ink)); }
+.profile-edit-avatar-row .upload-avatar:hover { background: var(--chatly-accent-soft); color: var(--chatly-accent); }
+.profile-edit-avatar-row .upload-avatar input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.profile-form .username-input { display: flex; align-items: center; gap: 8px; padding-left: 11px; border: 1px solid var(--chatly-border); border-radius: 11px; background: var(--app-bg, #fafafd); color: var(--chatly-muted); }
+.profile-form .username-input input { border: 0; background: transparent; }
