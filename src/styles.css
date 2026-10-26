@@ -5708,3 +5708,42 @@ textarea{max-width:100%;resize:vertical;}
  .notification-destination-page .notification-activity-copy > span { font-size:10px; }
  .notification-destination-page .notification-post-preview { font-size:10.5px; }
 }
+
+
+/* Mobile comments: keep timestamp and all four controls on one tidy line. */
+.feed-page .comments-modal .comment-footer {
+  display:flex!important; flex-flow:row nowrap!important; align-items:center!important;
+  justify-content:flex-start!important; gap:8px!important; width:100%; min-width:0;
+  min-height:26px; margin-top:5px!important; overflow:visible;
+}
+.feed-page .comments-modal .comment-timestamp {
+  flex:0 1 auto!important; min-width:0; white-space:nowrap;
+  font-size:10.5px!important; line-height:26px!important;
+}
+.feed-page .comments-modal .comment-actions-reserved {
+  display:flex!important; flex:0 0 116px!important; width:116px!important; min-width:116px!important;
+  height:26px; min-height:26px; align-items:center; justify-content:flex-start; margin:0!important;
+}
+.feed-page .comments-modal .comment-own-actions {
+  display:flex!important; flex-flow:row nowrap!important; align-items:center!important;
+  justify-content:flex-start!important; gap:2px!important; width:116px!important; max-width:116px!important;
+  height:26px; min-height:26px; margin:0!important; padding:0!important;
+  position:static!important; transform:none!important; overflow:visible!important;
+  border:0!important; border-radius:0!important; background:transparent!important; box-shadow:none!important;
+}
+.feed-page .comments-modal .comment-own-actions .comment-action-button {
+  display:inline-flex!important; flex:0 0 27px!important; width:27px!important; min-width:27px!important;
+  height:26px!important; min-height:26px!important; padding:0!important; margin:0!important;
+  align-items:center!important; justify-content:center!important;
+}
+.feed-page .comments-modal .comment-list { padding-bottom:14px!important; }
+.feed-page .comments-modal .comment-item { padding-bottom:12px!important; }
+.feed-page .comments-modal .comment-content { gap:2px!important; }
+.feed-page .comments-modal .comments-dialog-header { text-align:center; }
+.feed-page .comments-modal .comments-dialog-header p { text-align:center; }
+@media(max-width:600px) {
+ .feed-page .comments-modal .comment-footer { gap:6px!important; }
+ .feed-page .comments-modal .comment-timestamp { font-size:9.5px!important; }
+ .feed-page .comments-modal .comment-actions-reserved,.feed-page .comments-modal .comment-own-actions { flex-basis:112px!important; width:112px!important; min-width:112px!important; max-width:112px!important; }
+ .feed-page .comments-modal .comment-own-actions .comment-action-button { flex-basis:26px!important; width:26px!important; min-width:26px!important; }
+}
