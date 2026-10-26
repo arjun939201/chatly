@@ -1117,3 +1117,12 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .youtube-result > span:last-child { display: grid; min-width: 0; gap: 5px; }
 .search-page .youtube-result b { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4; }
 .search-page .youtube-result small { overflow: hidden; color: var(--chatly-muted); text-overflow: ellipsis; white-space: nowrap; }
+
+
+/* Batch 4.8 — Explore loading, empty, and error states */
+.search-page :is(.explore-results-status, .explore-empty, .explore-error, .explore-home-status) { padding: 18px 14px; border-radius: 13px; color: var(--chatly-muted); text-align: center; line-height: 1.6; }
+.search-page :is(.explore-error, [role="alert"]) { color: var(--chatly-danger); }
+.search-page .explore-retry-button { min-height: 40px; margin-top: 8px; padding-inline: 14px; }
+.search-page .explore-loading-indicator { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.search-page .explore-skeleton-card { min-width: 0; overflow: hidden; }
+.search-page .explore-skeleton-card .skeleton-line { display: block; height: 11px; margin-top: 9px; }
