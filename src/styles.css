@@ -4319,3 +4319,75 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   overflow-wrap: normal;
   word-break: normal;
 }
+
+
+/* Polished, responsive quoted-reply treatment for desktop and mobile. */
+.chat-layout .message .bubble > button.message-reply-preview {
+  appearance: none;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: 3px;
+  width: min(100%, 340px);
+  min-width: 0;
+  margin: 0 0 9px;
+  padding: 8px 11px;
+  border: 0;
+  border-left: 3px solid var(--chatly-brand, #6757e8);
+  border-radius: 7px;
+  background: rgba(127, 127, 127, 0.11);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+.chat-layout .message .bubble > button.message-reply-preview:hover {
+  background: rgba(127, 127, 127, 0.17);
+  border-left-color: var(--chatly-brand, #6757e8);
+}
+.chat-layout .message .bubble > button.message-reply-preview > span {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  color: var(--chatly-brand, #6757e8);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chat-layout .message .bubble > button.message-reply-preview > p {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+  word-break: normal;
+  opacity: 0.82;
+}
+@media (max-width: 600px) {
+  .chat-layout .message .bubble > button.message-reply-preview {
+    width: 100%;
+    max-width: 100%;
+    padding: 7px 9px;
+    margin-bottom: 7px;
+    border-radius: 6px;
+    font-size: 11px;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview > p {
+    font-size: 11px;
+  }
+}
