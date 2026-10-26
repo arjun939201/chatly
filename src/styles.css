@@ -5615,3 +5615,46 @@ textarea{max-width:100%;resize:vertical;}
   .feed-page .comments-modal .comment-own-actions { max-width: 120px; gap: 1px; }
   .feed-page .comments-modal .comment-own-actions .comment-action-button { flex-basis: 27px; width: 27px; min-width: 27px; }
 }
+
+
+/* Professional comments polish: consistent typography, rhythm, and unobtrusive controls. */
+.feed-page .comments-modal {
+  display:flex; flex-direction:column; isolation:isolate;
+  border:1px solid color-mix(in srgb,var(--chatly-border,#e5e5ec) 80%,transparent);
+  box-shadow:0 24px 70px rgba(20,20,35,.16);
+}
+.feed-page .comments-modal .comments-dialog-header {
+  position:relative; flex:0 0 auto; padding:18px 22px 15px;
+  background:var(--surface,#fff); border-bottom:1px solid var(--chatly-border,#ececf1);
+}
+.feed-page .comments-modal .comments-dialog-header h2 { font-size:17px; font-weight:700; letter-spacing:-.02em; }
+.feed-page .comments-modal .comments-dialog-header p { font-size:12px; color:var(--muted,#858592); }
+.feed-page .comments-modal .comment-list { flex:1 1 auto; min-height:0; gap:0; padding:18px 22px; }
+.feed-page .comments-modal .comment-item { align-items:start; padding:0 0 16px; }
+.feed-page .comments-modal .comment-item + .comment-item { padding-top:0; }
+.feed-page .comments-modal .comment-content { gap:3px; }
+.feed-page .comments-modal .comment-meta { gap:5px 8px; }
+.feed-page .comments-modal .comment-name { font-size:13px; font-weight:650; }
+.feed-page .comments-modal .comment-username { font-size:11px; }
+.feed-page .comments-modal .comment-message p { font-size:13.5px; line-height:1.5; color:var(--text,#262630); }
+.feed-page .comments-modal .comment-footer { gap:10px; min-height:24px; margin-top:2px; }
+.feed-page .comments-modal .comment-timestamp { color:var(--muted,#8a8a95); font-size:11px; font-weight:500; }
+.feed-page .comments-modal .comment-actions-reserved { flex-basis:116px; width:116px; min-width:116px; }
+.feed-page .comments-modal .comment-own-actions { gap:3px; }
+.feed-page .comments-modal .comment-own-actions .comment-action-button { color:var(--muted,#888894); border-radius:7px; transition:color .15s ease,background .15s ease; }
+.feed-page .comments-modal .comment-own-actions .comment-action-button:hover { color:var(--chatly-brand,#7968df); background:color-mix(in srgb,var(--chatly-brand,#7968df) 9%,transparent); }
+.feed-page .comments-modal .comment-composer { gap:10px; padding:14px 18px max(14px,env(safe-area-inset-bottom)); background:var(--surface,#fff); }
+.feed-page .comments-modal .comment-composer textarea { border-radius:16px; background:var(--app-bg,#f7f7fa); border-color:var(--chatly-border,#e5e5ec); font-size:13px; }
+.feed-page .comments-modal .comment-composer textarea:focus { box-shadow:0 0 0 3px color-mix(in srgb,var(--chatly-brand,#7968df) 12%,transparent); }
+.feed-page .comments-modal .comment-composer > button[type=submit] { border-radius:12px; font-size:12px; font-weight:700; transition:filter .15s ease,transform .15s ease; }
+.feed-page .comments-modal .comment-composer > button[type=submit]:hover { filter:brightness(.97); }
+@media (max-width:600px) {
+ .feed-page .comments-modal .comments-dialog-header { padding:16px 18px 14px; }
+ .feed-page .comments-modal .comment-list { padding:16px 16px; }
+ .feed-page .comments-modal .comment-item { padding-bottom:14px; }
+ .feed-page .comments-modal .comment-message p { font-size:13px; }
+ .feed-page .comments-modal .comment-actions-reserved { flex-basis:108px; width:108px; min-width:108px; }
+ .feed-page .comments-modal .comment-own-actions .comment-action-button { flex-basis:26px; width:26px; min-width:26px; }
+ .feed-page .comments-modal .comment-composer { padding-inline:12px; }
+}
+@media (prefers-reduced-motion:reduce) { .feed-page .comments-modal .comment-own-actions .comment-action-button,.feed-page .comments-modal .comment-composer > button[type=submit] { transition:none; } }
