@@ -4969,3 +4969,48 @@ textarea{max-width:100%;resize:vertical;}
  .feed-page .comments-modal .comment-message .comment-own-actions{gap:2px;padding:3px;right:46px;}
 }
 @media(prefers-reduced-motion:reduce){.feed-page .comments-modal .comment-message .comment-actions-toggle,.feed-page .comments-modal .comment-message .comment-own-actions{transition:none!important;}}
+
+
+/* Group creation refresh: clearer hierarchy, selected-member chips, and resilient mobile layout. */
+.group-create-dialog{display:flex;flex-direction:column;gap:0}
+.group-create-dialog>header{align-items:flex-start}
+.group-create-heading{min-width:0;flex:1}
+.group-create-heading p{line-height:1.45}
+.group-create-dialog form{min-height:0}
+.group-create-dialog .group-create-field>span{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.group-create-dialog .group-create-field>span small{font-size:11px;font-weight:500;color:var(--muted,#858797)}
+.group-create-dialog .group-create-field input{min-height:44px}
+.group-create-dialog .group-create-field textarea{min-height:76px;resize:vertical;line-height:1.5}
+.group-create-dialog .group-member-picker{padding:14px}
+.group-create-dialog .group-member-picker-title{align-items:flex-start;gap:10px}
+.group-create-dialog .group-member-picker-title>div{display:grid;gap:4px}
+.group-create-dialog .group-member-picker-title>div>span{font-size:11px;font-weight:400;color:var(--muted,#858797)}
+.group-create-dialog .group-selected-count{flex:none;padding:4px 8px;border-radius:999px;background:var(--accent-soft,#f0efff);color:var(--accent,#6558d3);font-size:11px;font-weight:700}
+.group-selected-members{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0 0 11px}
+.group-selected-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:4px 5px 4px 4px;border:1px solid var(--border,#e7e8ec);border-radius:999px;background:var(--surface,#fff);font-size:11px;font-weight:600}
+.group-selected-chip>span:nth-child(2){max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.group-chip-avatar{display:grid;place-items:center;width:24px;height:24px;flex:none;overflow:hidden;border-radius:50%;background:var(--accent-soft,#efefff);color:var(--accent,#6558d3);font-size:10px;font-weight:700}
+.group-chip-avatar img{width:100%;height:100%;object-fit:cover}
+.group-selected-chip button{display:grid;place-items:center;width:22px;height:22px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted,#737782)}
+.group-selected-chip button:hover{background:var(--hover-bg,#f4f4f8);color:var(--text,#171923)}
+.group-clear-selection{display:inline-flex;align-items:center;gap:4px;padding:5px 7px;border:0;background:transparent;color:var(--muted,#737782);font-size:11px;font-weight:600}
+.group-create-dialog .group-member-search{min-height:42px}
+.group-create-dialog .group-member-search input{min-height:40px}
+.group-create-dialog .group-member-search>button{display:grid;place-items:center;padding:4px;border:0;background:transparent;color:var(--muted,#737782)}
+.group-create-dialog .group-member-options{max-height:260px;overscroll-behavior:contain}
+.group-create-dialog .group-member-options>button{min-height:56px}
+.group-create-dialog .group-member-person-copy{flex:1;min-width:0;display:grid;gap:3px}
+.group-create-dialog .group-member-person-copy strong,.group-create-dialog .group-member-person-copy small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.group-create-dialog .group-picker-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:95px;margin:0;font-size:12px}
+.group-create-dialog button:focus-visible{outline:2px solid var(--accent,#6558d3);outline-offset:2px}
+.group-create-dialog input:focus-visible,.group-create-dialog textarea:focus-visible{outline:none}
+.group-create-dialog footer{align-items:center}
+@media(max-width:540px){
+ .group-create-dialog{gap:0}
+ .group-create-dialog form{gap:13px}
+ .group-create-dialog .group-member-picker{padding:11px}
+ .group-create-dialog .group-member-options{max-height:28dvh}
+ .group-selected-chip>span:nth-child(2){max-width:110px}
+ .group-create-dialog footer{position:sticky;bottom:0;padding:12px 0 max(2px,env(safe-area-inset-bottom));background:var(--surface,#fff)}
+}
+@media(prefers-reduced-motion:reduce){.group-create-dialog *{scroll-behavior:auto!important;transition:none!important}}
