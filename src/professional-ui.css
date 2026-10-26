@@ -2157,3 +2157,13 @@ html { -webkit-text-size-adjust: 100%; }
   }
 }
 
+
+
+/* Batch 16.10 — final visual QA */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important; transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
