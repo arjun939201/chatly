@@ -2369,3 +2369,54 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 25.3 — Fix comments composer and safe-area layout */
 .app-shell .comment-composer{position:relative;flex:0 0 auto;display:flex;align-items:flex-end;gap:8px;padding:12px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--chatly-border);background:var(--chatly-surface)}.app-shell .comment-composer textarea{box-sizing:border-box;flex:1 1 auto;min-width:0;min-height:42px;max-height:120px;resize:vertical;padding:10px 12px;border:1px solid var(--chatly-border);border-radius:13px;font:inherit;line-height:1.4;outline:none;box-shadow:none}.app-shell .comment-composer textarea:focus{border-color:var(--chatly-accent);box-shadow:0 0 0 2px rgb(101 87 232 / 15%)}.app-shell .comment-composer>button[type=submit]{flex:0 0 auto;min-height:42px;padding:0 16px;border-radius:12px}.app-shell .comment-character-count{position:absolute;right:84px;bottom:2px;font-size:10px;color:var(--chatly-muted)}.app-shell .comment-submit-error{flex:0 0 100%;margin:0;font-size:12px;color:#c43f54}@media(min-width:700px){.app-shell .comment-modal-backdrop{align-items:center;padding:20px}.app-shell .comments-modal{height:min(76dvh,720px);border-radius:22px}.app-shell .comment-composer{padding-bottom:12px}}
+
+
+/* Group 2.1 — Batch 29/30: roomy comment composer and full-width comment content */
+.app-shell .comments-modal{width:min(100%,760px);max-width:760px}
+.app-shell .comment-list{padding:18px 22px;gap:20px}
+.app-shell .comment-item{gap:12px}
+.app-shell .comment-content{width:100%;min-width:0}
+.app-shell .comment-message{width:100%;max-width:100%;align-items:flex-start;gap:8px}
+.app-shell .comment-message>p{flex:1 1 auto;min-width:0;max-width:100%;width:100%;padding:12px 15px;line-height:1.6}
+.app-shell .comment-actions-toggle{flex:0 0 34px;margin-top:2px}
+.app-shell .comment-own-actions{flex:0 0 100%;width:100%;justify-content:flex-start;padding:4px 0 0}
+.app-shell .comment-composer{display:grid;grid-template-columns:36px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:end;column-gap:12px;row-gap:6px;padding:14px 20px calc(14px + env(safe-area-inset-bottom))}
+.app-shell .comment-composer>.comment-avatar-link{grid-column:1;grid-row:1;align-self:center;width:36px;height:36px;min-width:36px;min-height:36px}
+.app-shell .comment-composer>textarea{grid-column:2;grid-row:1;display:block;width:100%;min-width:0;min-height:48px;max-height:160px;resize:vertical;padding:12px 14px;font-size:15px;line-height:1.5}
+.app-shell .comment-composer>.comment-character-count{position:static;grid-column:2;grid-row:2;justify-self:end;margin:0;padding:0 3px;font-size:11px;line-height:1.3;color:var(--chatly-muted)}
+.app-shell .comment-composer>button[type=submit]{grid-column:3;grid-row:1;align-self:center;min-height:44px;padding:0 18px;white-space:nowrap}
+.app-shell .comment-composer>.comment-submit-error{grid-column:2/4;grid-row:3;min-width:0}
+.app-shell .comment-composer:has(.comment-submit-error){grid-template-rows:auto auto auto}
+.app-shell .comment-composer>textarea:focus-visible{outline:2px solid rgb(101 87 232 / 16%);outline-offset:1px;box-shadow:none}
+.app-shell .comment-list:has(.comments-empty-state){justify-content:center}
+.app-shell .comments-modal .comments-dialog-header{padding-inline:22px}
+.app-shell .post-skeleton-feed{min-height:0;height:auto;gap:14px;padding:clamp(15px,2.4vw,22px);width:100%;border-radius:var(--chatly-radius-lg)}
+.app-shell .post-skeleton-feed .skeleton-author{min-height:44px}
+.app-shell .post-skeleton-feed .skeleton-author>b{margin-left:auto;width:68px;height:30px;border-radius:9px;background:linear-gradient(100deg,#eeedf3 20%,#f7f6fa 45%,#eeedf3 70%);background-size:220% 100%;animation:chatly-feed-skeleton 1.25s ease-in-out infinite}
+.app-shell .post-skeleton-feed .skeleton-post-copy{display:flex;flex-direction:column;gap:10px;padding-top:2px}
+.app-shell .post-skeleton-feed .skeleton-post-copy .skeleton-line{width:68%;height:13px;margin:0}
+.app-shell .post-skeleton-feed .skeleton-post-copy .skeleton-line-wide{width:96%;height:15px}
+.app-shell .post-skeleton-feed .skeleton-post-copy .skeleton-line-short{width:42%}
+.app-shell .post-skeleton-feed .skeleton-post-media{width:100%;aspect-ratio:16/9;max-height:320px;border-radius:14px;background:linear-gradient(100deg,#eeedf3 20%,#f7f6fa 45%,#eeedf3 70%);background-size:220% 100%;animation:chatly-feed-skeleton 1.25s ease-in-out infinite}
+.app-shell .post-skeleton-feed .skeleton-actions{margin-top:0;padding-top:14px;gap:clamp(10px,3vw,24px)}
+.app-shell .post-skeleton-feed .skeleton-actions i{width:78px;height:14px}
+@media(max-width:760px){
+ .app-shell .comment-list{padding:16px 14px}
+ .app-shell .comments-modal{width:100%;max-width:100%;height:min(88dvh,820px);max-height:calc(100dvh - env(safe-area-inset-top));border-radius:22px 22px 0 0}
+ .app-shell .comments-modal .comments-dialog-header{padding-inline:16px}
+ .app-shell .comment-composer{grid-template-columns:32px minmax(0,1fr) auto;column-gap:8px;padding:11px 12px calc(11px + env(safe-area-inset-bottom))}
+ .app-shell .comment-composer>.comment-avatar-link{width:32px;height:32px;min-width:32px;min-height:32px}
+ .app-shell .comment-composer>textarea{min-height:46px;padding:10px 11px;font-size:16px}
+ .app-shell .comment-composer>button[type=submit]{min-height:42px;padding-inline:13px}
+ .app-shell .post-skeleton-feed{padding:14px;border-radius:15px}
+}
+@media(max-width:420px){
+ .app-shell .comment-composer{grid-template-columns:minmax(0,1fr) auto;column-gap:8px}
+ .app-shell .comment-composer>.comment-avatar-link{display:none}
+ .app-shell .comment-composer>textarea{grid-column:1;grid-row:1}
+ .app-shell .comment-composer>.comment-character-count{grid-column:1;grid-row:2}
+ .app-shell .comment-composer>button[type=submit]{grid-column:2;grid-row:1}
+ .app-shell .comment-composer>.comment-submit-error{grid-column:1/3}
+ .app-shell .post-skeleton-feed .skeleton-author>b{width:58px}
+}
+@media(prefers-reduced-motion:reduce){.app-shell .post-skeleton-feed .skeleton-author>b,.app-shell .post-skeleton-feed .skeleton-post-media{animation:none}}
