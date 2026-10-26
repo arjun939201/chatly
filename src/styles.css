@@ -4866,3 +4866,6 @@ textarea{max-width:100%;resize:vertical;}
 
 /* Round 3 / 29 — mobile bottom navigation safe inset */
 @media(max-width:700px){.bottom-nav,.mobile-bottom-nav{padding-bottom:calc(8px + env(safe-area-inset-bottom));}}
+
+/* Round 3 / 30 — final viewport resilience */
+@media(max-width:360px){.post-actions{gap:4px}.post-actions button{padding-inline:6px}.global-profile-trigger{max-width:100%;}}
