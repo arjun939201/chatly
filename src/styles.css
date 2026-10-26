@@ -6388,3 +6388,67 @@ button.header-notifications,
 @media(max-width:760px){.explore-category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.explore-category-card{min-height:108px;padding:14px 12px}.explore-category-icon{flex-basis:38px;width:38px;height:38px;border-radius:12px}.explore-category-copy b{font-size:13px}.explore-category-copy small{font-size:10px}.explore-welcome{min-height:154px;border-radius:20px}.explore-welcome-art{flex-basis:78px;width:78px;height:78px;border-radius:24px}.explore-welcome-art>svg{width:32px;height:32px}.explore-home-posts{grid-template-columns:1fr}.explore-category-message{align-items:flex-start;flex-wrap:wrap}.explore-category-message>div{flex-basis:calc(100% - 36px)}.explore-category-message>button{margin-left:34px}}
 @media(max-width:440px){.explore-welcome{padding:20px 17px;gap:12px}.explore-welcome h2{font-size:26px;letter-spacing:-.8px}.explore-welcome p{font-size:12px}.explore-welcome-art{flex-basis:54px;width:54px;height:54px;border-radius:17px}.explore-welcome-art>svg{width:25px;height:25px}.explore-category-grid{gap:8px}.explore-category-card{gap:9px;min-height:118px;padding:12px 10px}.explore-category-icon{flex-basis:33px;width:33px;height:33px}.explore-category-icon svg{width:18px;height:18px}.explore-category-status{right:9px;bottom:8px;font-size:9px}.explore-category-copy small{font-size:10px}.explore-category-detail{padding:14px}.explore-game-choices{gap:6px}.explore-game-choices button{flex-direction:column;gap:4px;min-height:70px}.explore-topic-discovery h3 span{display:none}}
 @media(prefers-reduced-motion:reduce){.explore-category-card,.explore-game-choices button,.explore-category-detail{animation:none;transition:none}.explore-category-card:hover,.explore-game-choices button:hover{transform:none}}
+
+
+/* Balanced mobile feed heading: keep the title and shortcuts on one calm line. */
+.feed-page .feed-heading-row {
+  min-height: 0;
+  height: auto;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+}
+.feed-page .feed-heading-row > div:first-child,
+.feed-page .feed-heading-title {
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.feed-page .feed-heading-row h1 {
+  margin: 0;
+  font-size: clamp(21px, 5.2vw, 25px);
+  line-height: 1.2;
+  letter-spacing: -.55px;
+  font-weight: 720;
+}
+.feed-page .feed-heading-row p { display: none; }
+.feed-page .feed-header-shortcuts {
+  flex: 0 0 auto;
+  gap: 7px;
+}
+.feed-page .feed-header-shortcuts button {
+  min-height: 40px;
+  padding: 0 12px;
+  gap: 7px;
+  border-radius: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.feed-page .feed-header-shortcuts button svg { width: 17px; height: 17px; }
+@media (max-width: 600px) {
+  .feed-page { padding-top: 18px; }
+  .feed-page .feed-heading-row {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .feed-page .feed-heading-row h1 {
+    font-size: clamp(20px, 5vw, 23px);
+    letter-spacing: -.45px;
+  }
+  .feed-page .feed-header-shortcuts { gap: 6px; }
+  .feed-page .feed-header-shortcuts button {
+    min-height: 38px;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 12px;
+  }
+  .feed-page .feed-header-shortcuts button svg { width: 16px; height: 16px; }
+}
+@media (max-width: 370px) {
+  .feed-page .feed-heading-row { gap: 5px; }
+  .feed-page .feed-heading-row h1 { font-size: 19px; }
+  .feed-page .feed-header-shortcuts { gap: 4px; }
+  .feed-page .feed-header-shortcuts button { padding: 0 7px; font-size: 11px; }
+}
