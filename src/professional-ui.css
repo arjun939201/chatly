@@ -1385,3 +1385,7 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell { width: 100%; max-width: 100vw; overflow-x: clip; }
 @supports (padding: max(0px)) { .app-shell { padding-bottom: env(safe-area-inset-bottom); } }
 @media (max-width: 600px) { .app-shell { min-width: 320px; } }
+
+/* Batch 7.2 — mobile navigation sizing */
+@media (max-width: 600px) { .topbar { min-height: 56px; gap: 8px; } .topbar > * { min-width: 0; } .global-profile-trigger, .topbar button { flex: 0 0 auto; } .brand { max-width: 45vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
+@media (max-width: 360px) { .topbar { padding-inline: 9px; } .brand { font-size: 24px; } }
