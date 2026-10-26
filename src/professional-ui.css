@@ -2597,3 +2597,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-actions-secondary>button{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-width:36px;min-height:34px;padding:4px 6px;font-size:14px;line-height:1;font-weight:600;white-space:nowrap;}
 .app-shell .feed-page .post-card .post-actions-primary>button svg,.app-shell .feed-page .post-card .post-actions-secondary>button svg{width:19px;height:19px;}
 @media(max-width:520px){.app-shell .feed-page .feed-header-section{padding:10px 12px;margin-bottom:6px}.app-shell .feed-page .post-card .post-body{margin:7px 0 8px}.app-shell .feed-page .post-card .post-engagement-meta{margin-top:6px;padding-bottom:6px}.app-shell .feed-page .post-card .post-actions{margin-top:2px;min-height:32px}.app-shell .feed-page .post-card .post-actions-primary{gap:12px}.app-shell .feed-page .post-card .post-actions-secondary{gap:8px}.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-actions-secondary>button{min-height:32px;padding:3px 5px}}
+
+
+/* Align the feed heading with the full-bleed global app header, beyond feed-page gutters. */
+.app-shell .feed-page .feed-header-section{width:calc(100% + 32px);max-width:none;margin-left:-16px;margin-right:-16px;box-sizing:border-box;border-radius:0;}
+@media(min-width:521px){.app-shell .feed-page .feed-header-section{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px;}}
+@media(max-width:520px){.app-shell .feed-page .feed-header-section{width:calc(100% + 20px);margin-left:-10px;margin-right:-10px;}}
