@@ -1549,3 +1549,13 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(button, [role="button"]):disabled { filter: saturate(.65); }
 
+
+
+/* Batch 9.6 — unified form field treatment */
+.app-shell :is(input, textarea, select, .search-box, .composer textarea, .composer input) {
+  border-radius: var(--chatly-control-radius);
+}
+.app-shell :is(input, textarea, select):not([type="checkbox"], [type="radio"]) { color: var(--text, var(--chatly-ink)); }
+.app-shell :is(input, textarea, select):focus { outline: none; }
+.app-shell :is(input, textarea, select)::placeholder { letter-spacing: 0; }
+
