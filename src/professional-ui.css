@@ -2196,3 +2196,13 @@ html { -webkit-text-size-adjust: 100%; }
   --chatly-shadow-popover: 0 16px 44px rgb(0 0 0 / 42%);
 }
 
+
+
+/* Batch 17.3 — typography and readable content */
+.app-shell { font-family: var(--chatly-font-sans); line-height: 1.5; }
+.app-shell :is(h1,h2,h3,h4,p) { text-wrap: pretty; }
+.app-shell :is(.post-body, .post-content, .profile-bio, .bubble, .notification-activity-copy) {
+  color: var(--chatly-text-current); overflow-wrap: anywhere;
+}
+.app-shell :is(small, .muted, .field-hint) { color: var(--chatly-muted-current); }
+
