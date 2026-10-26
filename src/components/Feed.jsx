@@ -419,7 +419,7 @@ const commentComposerRef = useRef(null);
       {[0, 1, 2].map((item) => <article className="post-skeleton post-skeleton-feed" key={item} aria-hidden="true">
         <div className="skeleton-author"><i/><span><i/><i/></span><b/></div>
         <div className="skeleton-post-copy"><i className="skeleton-line skeleton-line-wide"/><i className="skeleton-line"/><i className="skeleton-line skeleton-line-short"/></div>
-        <div className="skeleton-post-media"/>
+        {item === 1 && <div className="skeleton-post-media"/>}
         <div className="skeleton-actions"><i/><i/><i/></div>
       </article>)}
     </section>}
