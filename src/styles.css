@@ -4779,3 +4779,6 @@ label{min-width:0}
 @media(max-width:540px){.modal-backdrop{padding:0;align-items:flex-end}.profile-modal,.edit-profile-dialog{width:100%;max-width:none;max-height:92dvh;border-radius:20px 20px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
 @media(hover:none){button:hover{transform:none}}
 
+
+/* Round 3 / 01 — page-width containment */
+.app-shell,.feed-page,.destination-page,.profile-page,.search-page,.settings-page{box-sizing:border-box;max-width:100%;}
