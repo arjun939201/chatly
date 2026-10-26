@@ -1,0 +1,138 @@
+-- Repair/complete Chatly notifications schema and backfill activity that predates triggers.
+-- Comment IDs are bigint in public.post_comments (see schema.sql).
+create table if not exists public.notifications (
+  id bigint generated always as identity primary key,
+  recipient_id uuid not null references public.profiles(id) on delete cascade,
+  actor_id uuid not null references public.profiles(id) on delete cascade,
+  type text not null check (type in ('like','comment','follow')),
+  post_id bigint references public.posts(id) on delete cascade,
+  comment_id bigint references public.post_comments(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  read_at timestamptz,
+  constraint notifications_no_self_activity check (recipient_id <> actor_id)
+);
+
+-- If the earlier migration created comment_id with the wrong UUID type, clear only
+-- invalid comment references before converting; the notification rows themselves remain.
+do $$
+declare current_type text;
+begin
+  select data_type into current_type
+  from information_schema.columns
+  where table_schema='public' and table_name='notifications' and column_name='comment_id';
+  if current_type = 'uuid' then
+    alter table public.notifications drop constraint if exists notifications_comment_id_fkey;
+    update public.notifications set comment_id = null where comment_id is not null;
+    alter table public.notifications alter column comment_id type bigint using null::bigint;
+    alter table public.notifications
+      add constraint notifications_comment_id_fkey foreign key (comment_id)
+      references public.post_comments(id) on delete cascade;
+  end if;
+end $$;
+
+create index if not exists notifications_recipient_time_idx
+  on public.notifications (recipient_id, created_at desc, id desc);
+create index if not exists notifications_unread_idx
+  on public.notifications (recipient_id, created_at desc) where read_at is null;
+alter table public.notifications enable row level security;
+revoke insert, update, delete on public.notifications from authenticated;
+grant select on public.notifications to authenticated;
+grant update (read_at) on public.notifications to authenticated;
+
+drop policy if exists "Recipients can read their notifications" on public.notifications;
+create policy "Recipients can read their notifications" on public.notifications
+  for select to authenticated using (auth.uid() = recipient_id);
+drop policy if exists "Recipients can update their notification read state" on public.notifications;
+create policy "Recipients can update their notification read state" on public.notifications
+  for update to authenticated using (auth.uid() = recipient_id) with check (auth.uid() = recipient_id);
+drop policy if exists "Clients cannot create notifications" on public.notifications;
+create policy "Clients cannot create notifications" on public.notifications
+  for insert to authenticated with check (false);
+
+-- Backfill historic likes/comments/follows. NOT EXISTS makes this safe to rerun.
+insert into public.notifications(recipient_id, actor_id, type, post_id, created_at)
+select p.user_id, l.user_id, 'like', l.post_id, l.created_at
+from public.post_likes l
+join public.posts p on p.id = l.post_id
+where p.user_id <> l.user_id
+and not exists (
+  select 1 from public.notifications n
+  where n.recipient_id=p.user_id and n.actor_id=l.user_id
+    and n.type='like' and n.post_id=l.post_id
+);
+
+insert into public.notifications(recipient_id, actor_id, type, post_id, comment_id, created_at)
+select p.user_id, c.user_id, 'comment', c.post_id, c.id, c.created_at
+from public.post_comments c
+join public.posts p on p.id = c.post_id
+where p.user_id <> c.user_id
+and not exists (
+  select 1 from public.notifications n
+  where n.recipient_id=p.user_id and n.actor_id=c.user_id
+    and n.type='comment' and n.comment_id=c.id
+);
+
+insert into public.notifications(recipient_id, actor_id, type, created_at)
+select f.following_id, f.follower_id, 'follow', f.created_at
+from public.user_follows f
+where f.follower_id <> f.following_id
+and not exists (
+  select 1 from public.notifications n
+  where n.recipient_id=f.following_id and n.actor_id=f.follower_id
+    and n.type='follow'
+);
+
+-- Ensure future events keep producing notifications.
+create or replace function public.create_post_like_notification()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+declare owner_id uuid;
+begin
+  select p.user_id into owner_id from public.posts p where p.id = new.post_id;
+  if owner_id is not null and owner_id <> new.user_id then
+    insert into public.notifications(recipient_id, actor_id, type, post_id)
+    values(owner_id, new.user_id, 'like', new.post_id);
+  end if;
+  return new;
+end $$;
+drop trigger if exists post_like_notification_insert on public.post_likes;
+create trigger post_like_notification_insert after insert on public.post_likes
+for each row execute procedure public.create_post_like_notification();
+
+create or replace function public.create_post_comment_notification()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+declare owner_id uuid;
+begin
+  select p.user_id into owner_id from public.posts p where p.id = new.post_id;
+  if owner_id is not null and owner_id <> new.user_id then
+    insert into public.notifications(recipient_id, actor_id, type, post_id, comment_id)
+    values(owner_id, new.user_id, 'comment', new.post_id, new.id);
+  end if;
+  return new;
+end $$;
+drop trigger if exists post_comment_notification_insert on public.post_comments;
+create trigger post_comment_notification_insert after insert on public.post_comments
+for each row execute procedure public.create_post_comment_notification();
+
+create or replace function public.create_follow_notification()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+begin
+  if new.follower_id <> new.following_id then
+    insert into public.notifications(recipient_id, actor_id, type)
+    values(new.following_id, new.follower_id, 'follow');
+  end if;
+  return new;
+end $$;
+drop trigger if exists user_follow_notification_insert on public.user_follows;
+create trigger user_follow_notification_insert after insert on public.user_follows
+for each row execute procedure public.create_follow_notification();
+
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime')
+     and not exists (select 1 from pg_publication_tables where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'notifications') then
+    execute 'alter publication supabase_realtime add table public.notifications';
+  end if;
+end $$;
