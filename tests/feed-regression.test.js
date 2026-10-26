@@ -168,3 +168,16 @@ test("closing a profile connection list invalidates pending requests", async () 
   assert.match(app, /requestId !== profileConnectionsRequest\.current/);
   assert.match(app, /profileConnectionsRequest\.current \+= 1/);
 });
+
+
+test("profile uses a stable responsive layout and has explicit back-to-feed navigation", async () => {
+  const app = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  const profileStyles = await readFile(new URL("../src/professional-ui.css", import.meta.url), "utf8");
+  assert.match(app, /className="profile-back-button" aria-label="Back to Feed"/);
+  assert.match(app, /setProfileMenuOpen\(false\); setTab\("feed"\);/);
+  assert.match(app, /<h2>Profile<\/h2>/);
+  assert.match(profileStyles, /Profile layout reset: one predictable, page-scoped layout/);
+  assert.match(profileStyles, /\.app-shell \.profile-page \{[\s\S]*?width: min\(100% - 32px, 820px\)/);
+  assert.match(profileStyles, /@media \(max-width: 640px\)[\s\S]*?\.profile-summary \{[\s\S]*?grid-template-columns: minmax\(0, 1fr\)/);
+  assert.match(profileStyles, /@media \(max-width: 380px\)[\s\S]*?\.profile-back-button span \{ display: none/);
+});
