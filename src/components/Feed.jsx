@@ -154,6 +154,32 @@ const commentSubmitLock = useRef(false);
   }
   useEffect(() => { loadFeed(); return () => { requestId.current += 1; }; }, [savedView]);
   useEffect(() => {
+    if (!session?.user?.id) return;
+    let active = true;
+    let refreshTimer;
+    const scheduleRefresh = () => {
+      if (refreshTimer) clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(() => { if (active) loadFeed(); }, 180);
+    };
+    const channel = supabase.channel(`feed-live-${session.user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "posts" }, scheduleRefresh)
+      .on("postgres_changes", { event: "*", schema: "public", table: "post_likes" }, scheduleRefresh)
+      .on("postgres_changes", { event: "*", schema: "public", table: "post_comments" }, scheduleRefresh)
+      .on("postgres_changes", { event: "*", schema: "public", table: "user_follows" }, scheduleRefresh)
+      .on("postgres_changes", { event: "*", schema: "public", table: "saved_posts", filter: `user_id=eq.${session.user.id}` }, scheduleRefresh)
+      .subscribe(status => { if (status === "SUBSCRIBED") scheduleRefresh(); });
+    const refreshOnReturn = () => { if (document.visibilityState === "visible") scheduleRefresh(); };
+    window.addEventListener("focus", refreshOnReturn);
+    document.addEventListener("visibilitychange", refreshOnReturn);
+    return () => {
+      active = false;
+      if (refreshTimer) clearTimeout(refreshTimer);
+      window.removeEventListener("focus", refreshOnReturn);
+      document.removeEventListener("visibilitychange", refreshOnReturn);
+      supabase.removeChannel(channel);
+    };
+  }, [session?.user?.id, savedView]);
+  useEffect(() => {
     const sharedId = new URLSearchParams(window.location.search).get("post");
     if (!sharedId || feedLoading) return;
     const target = [...document.querySelectorAll(".post-card[data-post-id]")].find(node => String(node.dataset.postId) === sharedId);
