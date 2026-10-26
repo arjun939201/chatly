@@ -4946,3 +4946,26 @@ textarea{max-width:100%;resize:vertical;}
  .feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions{opacity:1;visibility:visible;pointer-events:auto;transform:none}
  .feed-page .comments-modal .comment-message .comment-actions-toggle:focus-visible{outline:2px solid var(--chatly-accent,#6557e8);outline-offset:2px}
 }
+
+
+/* Feed comment action polish: stable row geometry, responsive touch controls, and focus visibility. */
+.feed-page .comments-modal .comment-message{box-sizing:border-box;max-width:100%;}
+.feed-page .comments-modal .comment-message .comment-own-actions{flex-wrap:nowrap;}
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button{flex:0 0 34px;min-width:34px;min-height:34px;touch-action:manipulation;}
+.feed-page .comments-modal .comment-message .comment-actions-toggle{min-width:36px;min-height:36px;touch-action:manipulation;}
+.feed-page .comments-modal .comment-message .comment-actions-toggle:focus-visible,
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button:focus-visible{outline:2px solid var(--chatly-accent,#6557e8);outline-offset:2px;}
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button:disabled{cursor:wait;opacity:.55;}
+@media(hover:hover) and (pointer:fine){
+ .feed-page .comments-modal .comment-message .comment-actions-toggle{display:none;}
+ .feed-page .comments-modal .comment-message .comment-own-actions{right:9px;bottom:9px;}
+}
+@media(hover:none), (pointer:coarse){
+ .feed-page .comments-modal .comment-message .comment-actions-toggle{display:grid;}
+ .feed-page .comments-modal .comment-message .comment-own-actions{right:48px;max-width:calc(100% - 58px);}
+}
+@media(max-width:420px){
+ .feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button{flex-basis:30px;min-width:30px;min-height:30px;width:30px;height:30px;}
+ .feed-page .comments-modal .comment-message .comment-own-actions{gap:2px;padding:3px;right:46px;}
+}
+@media(prefers-reduced-motion:reduce){.feed-page .comments-modal .comment-message .comment-actions-toggle,.feed-page .comments-modal .comment-message .comment-own-actions{transition:none!important;}}
