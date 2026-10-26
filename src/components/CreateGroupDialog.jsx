@@ -106,27 +106,31 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
       if (groupError) throw groupError;
       if (!groupId) throw new Error("The group was not created. Please try again.");
 
+      let avatarWarning = "";
       if (avatarFile) {
-        const extensions = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
-        const extension = extensions[avatarFile.type];
-        if (!extension) throw new Error("Choose a JPG, PNG, WEBP, or GIF group image.");
-        if (avatarFile.size > 5 * 1024 * 1024) throw new Error("Group image must be 5 MB or smaller.");
-        const path = `${authUser.id}/groups/${groupId}/avatar.${extension}`;
-        const { error: uploadError } = await supabase.storage.from("avatars").upload(path, avatarFile, {
-          upsert: true, contentType: avatarFile.type,
-        });
-        if (uploadError) throw uploadError;
-        const { data: publicImage } = supabase.storage.from("avatars").getPublicUrl(path);
-        const avatarUrl = `${publicImage.publicUrl}${publicImage.publicUrl.includes("?") ? "&" : "?"}v=${Date.now()}`;
-        const { error: avatarUpdateError } = await supabase.from("group_conversations")
-          .update({ avatar_url: avatarUrl }).eq("id", groupId);
-        if (avatarUpdateError) throw avatarUpdateError;
+        try {
+          const extensions = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
+          const extension = extensions[avatarFile.type];
+          const path = `${authUser.id}/groups/${groupId}/avatar.${extension}`;
+          const { error: uploadError } = await supabase.storage.from("avatars").upload(path, avatarFile, {
+            upsert: true, contentType: avatarFile.type,
+          });
+          if (uploadError) throw uploadError;
+          const { data: publicImage } = supabase.storage.from("avatars").getPublicUrl(path);
+          const avatarUrl = `${publicImage.publicUrl}${publicImage.publicUrl.includes("?") ? "&" : "?"}v=${Date.now()}`;
+          const { error: avatarUpdateError } = await supabase.from("group_conversations")
+            .update({ avatar_url: avatarUrl }).eq("id", groupId);
+          if (avatarUpdateError) throw avatarUpdateError;
+        } catch (avatarError) {
+          console.error("Group created but avatar upload failed:", avatarError);
+          avatarWarning = "Group created, but the group image could not be uploaded.";
+        }
       }
 
       const { data: group, error: loadGroupError } = await supabase.from("group_conversations")
         .select("*").eq("id", groupId).single();
       if (loadGroupError) throw loadGroupError;
-      onCreated?.(group);
+      onCreated?.(avatarWarning ? { ...group, avatar_upload_warning: avatarWarning } : group);
       onClose?.();
     } catch (err) {
       console.error("Group creation failed:", err);
