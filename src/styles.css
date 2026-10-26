@@ -5014,3 +5014,14 @@ textarea{max-width:100%;resize:vertical;}
  .group-create-dialog footer{position:sticky;bottom:0;padding:12px 0 max(2px,env(safe-area-inset-bottom));background:var(--surface,#fff)}
 }
 @media(prefers-reduced-motion:reduce){.group-create-dialog *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* Group identity image picker and avatar preview. */
+.group-avatar-field{display:flex;flex-direction:column;align-items:center;gap:8px;padding:4px 0 2px}
+.group-avatar-preview{display:grid;place-items:center;width:76px;height:76px;overflow:hidden;border:1px solid var(--border,#e7e8ec);border-radius:22px;background:var(--accent-soft,#f0efff);color:var(--accent,#6558d3)}
+.group-avatar-preview img{width:100%;height:100%;object-fit:cover}
+.group-avatar-upload{display:inline-flex;align-items:center;gap:6px;color:var(--accent,#6558d3);font-size:12px;font-weight:700;cursor:pointer}
+.group-avatar-upload input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap}
+.group-avatar-upload:focus-within{outline:2px solid var(--accent,#6558d3);outline-offset:3px;border-radius:5px}
+.group-avatar-remove{border:0;background:transparent;color:#bd3b50;font-size:11px;font-weight:600;padding:3px 8px}
+.group-avatar-field>small{font-size:10px;color:var(--muted,#737782);text-align:center}
