@@ -220,6 +220,25 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
 
   useEffect(() => {
     if (!active) { setMessages([]); return; }
+    if (active.type === "group") {
+      let groupAlive = true;
+      setHistoryBusy(true);
+      const loadGroup = async () => {
+        const { data, error: groupError } = await supabase.from("group_messages").select("*").eq("conversation_id", active.id).order("created_at", { ascending: false }).limit(60);
+        if (!groupAlive) return;
+        if (groupError) setError(groupError.message);
+        else { setMessages((data || []).reverse()); setHasOlderMessages((data || []).length === 60); }
+        setHistoryBusy(false);
+      };
+      loadGroup();
+      const groupChannel = supabase.channel("group-feed-" + active.id).on("postgres_changes", { event: "*", schema: "public", table: "group_messages", filter: "conversation_id=eq." + active.id }, payload => {
+        if (!groupAlive) return;
+        if (payload.eventType === "INSERT") setMessages(current => current.some(m => m.id === payload.new.id) ? current : [...current, payload.new].sort((a,b) => new Date(a.created_at)-new Date(b.created_at)));
+        if (payload.eventType === "UPDATE") setMessages(current => current.map(m => m.id === payload.new.id ? { ...m, ...payload.new } : m));
+        if (payload.eventType === "DELETE") setMessages(current => current.filter(m => m.id !== payload.old.id));
+      }).subscribe();
+      return () => { groupAlive = false; supabase.removeChannel(groupChannel); };
+    }
     let alive = true;
     const load = async () => {
       setHistoryBusy(true);
@@ -351,10 +370,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     setMessages(current => current.some(m => m.id === optimisticId) ? current : [...current, optimisticMessage]);
 
     try {
-      const { data, error: err } = await supabase.from("messages")
-        .insert({ sender_id: session.user.id, recipient_id: recipientId, body, reply_to: replyingTo?.id || null })
-        .select("*")
-        .single();
+      const { data, error: err } = active?.type === "group"
+        ? await supabase.from("group_messages").insert({ conversation_id: recipientId, sender_id: session.user.id, body, reply_to: replyingTo?.id || null }).select("*").single()
+        : await supabase.from("messages").insert({ sender_id: session.user.id, recipient_id: recipientId, body, reply_to: replyingTo?.id || null }).select("*").single();
 
       if (err) throw err;
       if (data) {
@@ -362,8 +380,12 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
           const withoutPending = current.filter(m => m.id !== optimisticId && m.id !== data.id);
           return [...withoutPending, data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
         });
-        setRecentMessages(current => [data, ...current.filter(m => m.id !== data.id)].slice(0, 250));
-        setLastMessages(current => ({ ...current, [recipientId]: data }));
+        if (active?.type !== "group") {
+          setRecentMessages(current => [data, ...current.filter(m => m.id !== data.id)].slice(0, 250));
+          setLastMessages(current => ({ ...current, [recipientId]: data }));
+        } else {
+          setGroupConversations(current => current.map(group => group.id === recipientId ? { ...group, updated_at: data.created_at } : group));
+        }
       }
     } catch (err) {
       setMessages(current => current.filter(m => m.id !== optimisticId));
