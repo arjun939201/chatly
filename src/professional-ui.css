@@ -1607,3 +1607,199 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) { transition: none !important; }
 }
 
+
+
+/* Batch 10.1 — loading-state layout and spacing */
+.app-shell :is(.feed-loading-state, .notifications-loading, .chat-loading, .profile-loading) {
+  min-width: 0; gap: 14px; color: var(--chatly-muted);
+}
+.app-shell :is(.feed-loading-state, .notifications-loading) > * { min-width: 0; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+
+
+
+/* Batch 10.2 — skeleton surfaces */
+.app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) {
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--chatly-canvas) 25%, color-mix(in srgb, var(--chatly-border) 65%, white) 50%, var(--chatly-canvas) 75%);
+  background-size: 200% 100%;
+  animation: chatly-skeleton-wave 1.35s ease-in-out infinite;
+}
+@keyframes chatly-skeleton-wave { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none; } }
+
+
+
+/* Batch 10.3 — empty-state hierarchy */
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty, .empty-chat) {
+  color: var(--chatly-muted); line-height: 1.55;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty) :is(h2, h3) {
+  margin: 0; color: var(--text, var(--chatly-ink)); font-size: 16px; font-weight: 750; letter-spacing: -.02em;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty) p { margin: 5px 0 0; }
+
+
+
+/* Batch 10.4 — error and retry feedback */
+.app-shell :is(.notifications-error, .error-banner, .chat-action-notice[ data-status="error" ]) {
+  border: 1px solid color-mix(in srgb, var(--chatly-danger, #c83e4d) 24%, var(--chatly-border));
+  background: color-mix(in srgb, var(--chatly-danger, #c83e4d) 5%, var(--surface, #fff));
+}
+.app-shell :is(.notifications-retry, .error-banner button, .chat-action-notice button) { min-height: 38px; border-radius: 10px; }
+.app-shell :is(.notifications-error, .error-banner) :is(p, span) { line-height: 1.55; overflow-wrap: anywhere; }
+
+
+
+/* Batch 10.5 — success and confirmation notices */
+.app-shell :is(.success-banner, .success-notice, [data-status="success"]) {
+  border: 1px solid color-mix(in srgb, #21865b 25%, var(--chatly-border));
+  border-radius: 12px; background: color-mix(in srgb, #21865b 7%, var(--surface, #fff));
+  color: color-mix(in srgb, #176b49 90%, var(--text, #20202b));
+}
+.app-shell :is(.success-banner, .success-notice) { padding: 11px 14px; line-height: 1.5; }
+
+
+
+/* Batch 10.6 — disabled and pending actions */
+.app-shell :is(button, [role="button"])[aria-busy="true"] { pointer-events: none; opacity: .78; }
+.app-shell button:disabled { box-shadow: none; transform: none; }
+.app-shell :is(.primary-button, .send-button):disabled { background: color-mix(in srgb, var(--chatly-accent) 55%, #a4a4b2); }
+.app-shell :is(button, input, textarea, select):disabled { transition: opacity .12s ease; }
+
+
+
+/* Batch 10.7 — inline status and feedback labels */
+.app-shell :is([role="status"], [role="alert"], [aria-live="polite"], [aria-live="assertive"]) {
+  overflow-wrap: anywhere; line-height: 1.5;
+}
+.app-shell :is(.status-label, .notification-read-state, .post-timestamp-wrap) {
+  font-size: 12px; color: var(--chatly-muted);
+}
+.app-shell :is(.status-label, [data-status]) { max-width: 100%; }
+
+
+
+/* Batch 10.8 — badges and unread indicators */
+.app-shell :is(.chat-unread-count, .notification-unread-dot, .unread-badge) { flex: 0 0 auto; }
+.app-shell :is(.chat-unread-count, .unread-badge) { font-variant-numeric: tabular-nums; font-weight: 750; }
+.app-shell :is(.notification-item.is-unread, .notification-card.is-unread) { border-inline-start-width: 3px; }
+
+
+
+/* Batch 10.9 — compact-screen feedback surfaces */
+@media (max-width: 600px) {
+  .app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty, .notifications-error) {
+    padding: 22px 14px; border-radius: 14px;
+  }
+  .app-shell :is(.error-banner, .success-banner, .success-notice, .feed-notice) { padding: 10px 12px; }
+  .app-shell :is(.error-banner, .success-banner, .success-notice) { font-size: 13px; }
+}
+
+
+
+/* Batch 10.10 — feedback accessibility finish */
+.app-shell :is([role="status"], [role="alert"]):focus-visible { outline: 2px solid var(--chatly-accent); outline-offset: 3px; }
+@media (forced-colors: active) {
+  .app-shell :is(.success-banner, .success-notice, .error-banner, .notifications-error) { border: 1px solid CanvasText; }
+  .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { background: Canvas; border: 1px solid CanvasText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none !important; }
+}
+
+
+
+/* Batch 11.1 — shared component surface harmonization */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card, .chat-layout) {
+  color: var(--text, var(--chatly-ink));
+  border-color: var(--border, var(--chatly-border));
+}
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card) { border-style: solid; }
+
+
+
+/* Batch 11.2 — component corner radius system */
+.app-shell :is(.feed-notice, .error-banner, .success-banner, .success-notice,
+  .search-box, .composer textarea, .composer input) { border-radius: var(--chatly-control-radius); }
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .compose-modal,
+  .comments-dialog, .profile-modal) { border-radius: var(--chatly-radius-lg); }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown) { border-radius: 13px; }
+
+
+
+/* Batch 11.3 — component spacing alignment */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { padding: clamp(12px, 2vw, 18px); }
+.app-shell :is(.compose-footer, .comment-composer) { gap: 10px; }
+.app-shell :is(.modal-header, .comments-dialog-header) { gap: 12px; }
+.app-shell :is(.profile-grid-heading, .profile-posts-title) { margin-top: 20px; }
+
+
+
+/* Batch 11.4 — component typography alignment */
+.app-shell :is(.chat-heading-title, .profile-page-head h2, .notifications-page h1,
+  .feed-heading-row :is(h1,h2)) { font-weight: 780; letter-spacing: -.035em; }
+.app-shell :is(.post-follow-button, .post-actions button, .notification-actions button,
+  .chat-filter-row button, .notification-filters button) { line-height: 1.35; }
+.app-shell :is(.post-timestamp-wrap, .notification-copy time, .person-copy p) { font-variant-numeric: tabular-nums; }
+
+
+
+/* Batch 11.5 — action rows and icon button consistency */
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button,
+  .global-profile-trigger, .send-button) { display: inline-grid; place-items: center; }
+.app-shell :is(.post-actions, .notification-actions, .profile-actions) { align-items: center; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button) { border-radius: 10px; }
+
+
+
+/* Batch 11.6 — search and filter component consistency */
+.app-shell :is(.feed-filter-tabs, .chat-filter-row, .notification-filters) { scrollbar-width: none; }
+.app-shell :is(.feed-filter-tabs, .chat-filter-row, .notification-filters)::-webkit-scrollbar { display: none; }
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button) {
+  flex: 0 0 auto; font-weight: 650; white-space: nowrap;
+}
+.app-shell :is(.search-box, .st-search, .people-search) { min-width: 0; }
+
+
+
+/* Batch 11.7 — card interaction consistency */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card):hover {
+  border-color: color-mix(in srgb, var(--chatly-accent) 22%, var(--chatly-border));
+}
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card):focus-within {
+  outline: 0; box-shadow: var(--chatly-shadow-card), 0 0 0 2px rgb(101 87 232 / 10%);
+}
+
+
+
+/* Batch 11.8 — modal and overlay component consistency */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  color: var(--text, var(--chatly-ink)); background: var(--surface, #fff);
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) :is(header, footer) {
+  min-width: 0; flex-wrap: wrap;
+}
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { overscroll-behavior: contain; }
+
+
+
+/* Batch 11.9 — responsive component harmonization */
+@media (max-width: 600px) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { min-width: 0; }
+  .app-shell :is(.compose-footer, .comment-composer, .notification-actions, .profile-actions) { flex-wrap: wrap; }
+  .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { max-width: 100%; }
+}
+
+
+
+/* Batch 11.10 — component styling finishing pass */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post,
+  .notification-item, .notification-card, .st-card) { background-clip: padding-box; }
+.app-shell :is(button, input, textarea, select) { font-family: inherit; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transition: none !important; }
+}
+
