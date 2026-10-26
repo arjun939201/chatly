@@ -4839,3 +4839,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 20 — prevent horizontal page scroll */
 html,body,#root{max-width:100%;overflow-x:clip;}
+
+/* Round 3 / 21 — long usernames */
+.username,.profile-username,.chat-user-name{min-width:0;overflow-wrap:anywhere;}
