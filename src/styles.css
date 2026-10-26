@@ -4815,3 +4815,57 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 12 — image loading layout stability */
 .post-media img,.profile-post-tile img,.chat-media img{max-width:100%;height:auto;object-fit:cover;}
+
+/* Round 3 / 13 — subtle separators */
+.chat-list-item+.chat-list-item,.notification-item+.notification-item{border-top:1px solid var(--border-color,rgba(120,120,140,.14));}
+
+/* Round 3 / 14 — search field ergonomics */
+.search-input-wrap input,.search-bar input{width:100%;min-width:0;}
+
+/* Round 3 / 15 — toast positioning safe area */
+.toast,.app-notice,.notice-banner{max-width:min(92vw,560px);}
+
+/* Round 3 / 16 — empty-state text width */
+.empty-state p,.feed-empty-state p,.chat-empty-state p{max-width:46ch;margin-inline:auto;line-height:1.6;}
+
+/* Round 3 / 17 — dense screens */
+@media(max-width:420px){.page-header,.destination-topline{gap:10px}.page-header h1,.destination-topline h1{font-size:clamp(1.15rem,5vw,1.5rem)}}
+
+/* Round 3 / 18 — card border-box sizing */
+.post-card,.chat-card,.profile-card,.notification-card{box-sizing:border-box;max-width:100%;}
+
+/* Round 3 / 19 — dropdown layering */
+.global-profile-dropdown,.profile-menu-dropdown{z-index:30;}
+
+/* Round 3 / 20 — prevent horizontal page scroll */
+html,body,#root{max-width:100%;overflow-x:clip;}
+
+/* Round 3 / 21 — long usernames */
+.username,.profile-username,.chat-user-name{min-width:0;overflow-wrap:anywhere;}
+
+/* Round 3 / 22 — media controls on touch */
+@media(hover:none){.media-overlay button,.global-youtube-player-actions button{opacity:1;}}
+
+/* Round 3 / 23 — form label spacing */
+.form-field label,.settings-field label{display:block;margin-bottom:6px;}
+
+/* Round 3 / 24 — textarea resize behavior */
+textarea{max-width:100%;resize:vertical;}
+
+/* Round 3 / 25 — sticky headers paint */
+.modal-header,.chat-header,.destination-header{backface-visibility:hidden;}
+
+/* Round 3 / 26 — compact profile action layout */
+@media(max-width:480px){.profile-action-row{gap:6px}.profile-action-row button{flex:1 1 auto;}}
+
+/* Round 3 / 27 — feed media overflow */
+.post-media,.post-image-container,.feed-media{max-width:100%;overflow:hidden;}
+
+/* Round 3 / 28 — accessible reduced motion */
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}}
+
+/* Round 3 / 29 — mobile bottom navigation safe inset */
+@media(max-width:700px){.bottom-nav,.mobile-bottom-nav{padding-bottom:calc(8px + env(safe-area-inset-bottom));}}
+
+/* Round 3 / 30 — final viewport resilience */
+@media(max-width:360px){.post-actions{gap:4px}.post-actions button{padding-inline:6px}.global-profile-trigger{max-width:100%;}}
