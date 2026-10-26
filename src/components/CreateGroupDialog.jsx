@@ -30,8 +30,8 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
         .insert({ name: groupName, description: description.trim(), created_by: session.user.id })
         .select("*").single();
       if (groupError) throw groupError;
-      const members = [{ conversation_id: group.id, user_id: session.user.id, role: "owner" },
-        ...selected.map(user_id => ({ conversation_id: group.id, user_id, role: "member" }))];
+      // The database trigger inserts the creator as owner. Insert only the invited members here.
+      const members = selected.map(user_id => ({ conversation_id: group.id, user_id, role: "member" }));
       const { error: membersError } = await supabase.from("group_conversation_members").insert(members);
       if (membersError) {
         await supabase.from("group_conversations").delete().eq("id", group.id);
