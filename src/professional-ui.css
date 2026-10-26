@@ -2420,3 +2420,33 @@ html { -webkit-text-size-adjust: 100%; }
  .app-shell .post-skeleton-feed .skeleton-author>b{width:58px}
 }
 @media(prefers-reduced-motion:reduce){.app-shell .post-skeleton-feed .skeleton-author>b,.app-shell .post-skeleton-feed .skeleton-post-media{animation:none}}
+
+/* Batch 26.1 — Compact profile page frame */
+.app-shell .profile-page{box-sizing:border-box;width:min(100%,980px);margin-inline:auto;padding:clamp(12px,2.5vw,28px) 16px 96px}.app-shell .profile-page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 18px}.app-shell .profile-page-head h1{margin:0;font-size:clamp(1.1rem,3.8vw,1.45rem);line-height:1.25}
+
+/* Batch 26.2 — Refine profile summary card */
+.app-shell .profile-summary,.app-shell .profile-overview{box-sizing:border-box;width:100%;padding:clamp(14px,3vw,24px);border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-lg);background:var(--chatly-surface);box-shadow:var(--chatly-shadow-card)}.app-shell .profile-counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.app-shell .profile-counts>div{min-width:0;padding:12px 6px;border:1px solid var(--chatly-border);border-radius:12px;text-align:center}.app-shell .profile-counts b{display:block;font-size:clamp(1.05rem,4vw,1.4rem);line-height:1.3}.app-shell .profile-counts span{display:block;margin-top:4px;font-size:12px;color:var(--chatly-muted)}
+
+/* Batch 26.3 — Normalize profile avatar and bio */
+.app-shell .profile-avatar,.app-shell .profile-avatar-wrap{flex:0 0 auto;border-radius:50%;overflow:hidden;border:3px solid var(--chatly-surface);box-shadow:0 0 0 1px var(--chatly-border)}.app-shell .profile-bio{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:18px 2px}.app-shell .profile-bio strong{font-size:1.05rem}.app-shell .profile-bio .profile-handle{font-size:14px;color:var(--chatly-muted)}.app-shell .profile-bio p{margin:2px 0 0;line-height:1.55;overflow-wrap:anywhere}
+
+/* Batch 26.4 — Improve profile action and post grid */
+.app-shell .profile-edit-button{width:100%;min-height:46px;padding:11px 16px;font-weight:650}.app-shell .profile-grid-heading{display:flex;align-items:center;justify-content:center;gap:9px;margin:26px 0 16px;padding:12px 0;color:var(--chatly-ink);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.app-shell .profile-grid-heading svg{color:var(--chatly-accent)}.app-shell .profile-post-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.app-shell .profile-post-tile{box-sizing:border-box;min-width:0;min-height:170px;padding:14px;border:1px solid var(--chatly-border);border-radius:16px;background:var(--chatly-surface);display:flex;flex-direction:column;justify-content:space-between;overflow-wrap:anywhere}
+
+/* Batch 27.1 — Profile menu surfaces and placement */
+.app-shell .profile-page-head,.app-shell .global-profile-menu{position:relative}.app-shell .profile-dropdown,.app-shell .global-profile-dropdown{z-index:var(--chatly-layer-menu,40);min-width:190px;max-width:calc(100vw - 24px);max-height:min(70dvh,420px);overflow-y:auto;overscroll-behavior:contain}.app-shell .profile-dropdown button,.app-shell .global-profile-dropdown button{display:flex;align-items:center;gap:10px;width:100%;min-height:42px;padding:9px 12px;text-align:left;white-space:normal}
+
+/* Batch 27.2 — Clarify menu focus and dismiss states */
+.app-shell .profile-dropdown button:focus-visible,.app-shell .global-profile-dropdown button:focus-visible{outline:2px solid var(--chatly-accent);outline-offset:-2px}.app-shell .profile-dropdown button[aria-disabled=true],.app-shell .global-profile-dropdown button[aria-disabled=true]{opacity:.55;pointer-events:none}.app-shell .profile-dropdown [role=separator],.app-shell .global-profile-dropdown [role=separator]{height:1px;margin:5px 3px;background:var(--chatly-border)}
+
+/* Batch 27.3 — Separate own and public profile action styles */
+.app-shell .public-profile-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px}.app-shell .public-profile-actions button{min-height:40px;padding:9px 14px;border-radius:11px}.app-shell .public-profile-actions .is-following{border:1px solid var(--chatly-border);background:var(--chatly-surface);color:var(--chatly-ink)}.app-shell .public-profile-actions .is-following:hover{background:var(--chatly-canvas)}
+
+/* Batch 28.1 — Profile editor dialog responsiveness */
+.app-shell .edit-profile-dialog{box-sizing:border-box;width:min(100%,520px);max-height:min(88dvh,760px);overflow-y:auto;overscroll-behavior:contain;padding:clamp(16px,4vw,24px);border-radius:22px}.app-shell .edit-profile-dialog input,.app-shell .edit-profile-dialog textarea{box-sizing:border-box;width:100%;min-width:0;border:1px solid var(--chatly-border);border-radius:12px;padding:11px 12px}.app-shell .edit-profile-dialog label{display:block;margin:0 0 6px;font-size:13px;font-weight:600}
+
+/* Batch 28.2 — Improve profile loading and empty states */
+.app-shell .profile-posts-empty{display:flex;flex-direction:column;align-items:center;gap:8px;margin:8px 0;padding:28px 18px;text-align:center}.app-shell .profile-posts-empty h3,.app-shell .profile-posts-empty p{margin:0}.app-shell .profile-posts-empty p{max-width:34ch;color:var(--chatly-muted);line-height:1.5}.app-shell .profile-post-grid-skeleton .profile-post-skeleton{gap:12px;background:var(--chatly-surface)}.app-shell .profile-post-skeleton span{display:block;height:11px;border-radius:20px;background:var(--chatly-canvas)}.app-shell .profile-post-skeleton span:first-child{width:85%;height:16px}
+
+/* Batch 28.3 — Profile responsive and reduced-motion safeguards */
+.app-shell .profile-page :is(button,a){touch-action:manipulation}.app-shell .profile-page img{max-width:100%;object-fit:cover}@media(max-width:420px){.app-shell .profile-page{padding-inline:12px}.app-shell .profile-summary,.app-shell .profile-overview{padding:12px}.app-shell .profile-counts{gap:5px}.app-shell .profile-counts>div{padding:10px 3px}.app-shell .profile-post-grid{gap:8px}.app-shell .profile-post-tile{min-height:150px;padding:11px}}@media(prefers-reduced-motion:reduce){.app-shell .profile-page *{scroll-behavior:auto;transition:none!important;animation:none!important}}
