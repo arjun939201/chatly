@@ -1912,3 +1912,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(input, textarea, select)::placeholder { color: var(--muted, #8b8d9b); opacity: 1; }
 .app-shell :is(.composer textarea, .comment-composer textarea) { resize: vertical; }
 
+
+
+/* Batch 13.5 — activity row refinement */
+.app-shell :is(.notification-item, .notification-card) { display: flex; align-items: flex-start; gap: 12px; }
+.app-shell :is(.notification-copy, .notification-content) { flex: 1 1 auto; min-width: 0; }
+.app-shell :is(.notification-item, .notification-card) :is(time, .notification-time) { white-space: nowrap; }
+
