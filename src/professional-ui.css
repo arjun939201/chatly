@@ -2342,3 +2342,6 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 22.2 — Compact feed header and filter spacing */
 .app-shell .feed-page{padding:clamp(12px,2vw,24px) 12px 96px}.app-shell .feed-heading-row{margin:0 0 10px;min-height:0}.app-shell .feed-heading-row h1{margin:0;font-size:clamp(1.35rem,4vw,1.75rem);line-height:1.2}.app-shell .feed-heading-row p{display:none}.app-shell .feed-filter-tabs{display:flex;align-items:center;gap:4px;padding:5px;margin:0 0 14px;border:1px solid var(--chatly-border);border-radius:14px;background:var(--chatly-surface);overflow-x:auto;scrollbar-width:none}.app-shell .feed-filter-tabs::-webkit-scrollbar{display:none}.app-shell .feed-filter-tabs button{flex:0 0 auto;min-height:38px;padding:8px 14px;border:0;border-radius:10px;font-size:13px;font-weight:600;white-space:nowrap}.app-shell .feed-filter-tabs button.active{background:var(--chatly-accent-soft);color:var(--chatly-accent);box-shadow:0 1px 4px rgb(40 30 90 / 8%)}
+
+/* Batch 22.3 — Align feed list and cards responsively */
+.app-shell .feed-column{width:min(100%,680px);margin-inline:auto}.app-shell .posts-list{display:flex;flex-direction:column;gap:14px}.app-shell .post-card{width:100%;min-width:0;margin:0}.app-shell .feed-page{box-sizing:border-box}.app-shell .post-body{white-space:pre-wrap}
