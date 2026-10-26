@@ -1773,3 +1773,14 @@ html { -webkit-text-size-adjust: 100%; }
   outline: 0; box-shadow: var(--chatly-shadow-card), 0 0 0 2px rgb(101 87 232 / 10%);
 }
 
+
+
+/* Batch 11.8 — modal and overlay component consistency */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  color: var(--text, var(--chatly-ink)); background: var(--surface, #fff);
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) :is(header, footer) {
+  min-width: 0; flex-wrap: wrap;
+}
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { overscroll-behavior: contain; }
+
