@@ -4765,3 +4765,10 @@ label{min-width:0}
 .profile-posts-empty h3,.profile-empty h3,.notification-empty-state h3{letter-spacing:-.02em}
 .profile-posts-empty p,.profile-empty p,.notification-empty-state p{max-width:48ch;margin-inline:auto;line-height:1.6}
 
+
+/* Round 2 / 09 — profile grid and card responsiveness */
+.profile-post-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.profile-post-tile{min-width:0;overflow-wrap:anywhere}
+.profile-post-tile p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}
+@media(max-width:540px){.profile-post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
