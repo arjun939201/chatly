@@ -24,6 +24,7 @@ function formatMessageDateTime(value) {
 
 export default function Chat({ session, profile, targetId, enterToSend = true, onBackToFeed, onOpenProfile }) {
   const [people, setPeople] = useState([]);
+  const [groupConversations, setGroupConversations] = useState([]);
   const [showGroupCreate, setShowGroupCreate] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
@@ -185,6 +186,30 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       .order("display_name")
       .then(({ data, error: err }) => { if (err) setError(err.message); else setPeople(data || []); });
   }, [session.user.id, profile]);
+
+  useEffect(() => {
+    let alive = true;
+    const loadGroups = async () => {
+      const { data: memberships, error: membershipError } = await supabase.from("group_conversation_members").select("conversation_id").eq("user_id", session.user.id);
+      if (!alive) return;
+      if (membershipError) {
+        if (!/does not exist|schema cache|relation/i.test(membershipError.message || "")) setError(membershipError.message || "Could not load groups.");
+        return;
+      }
+      const ids = (memberships || []).map(row => row.conversation_id).filter(Boolean);
+      if (!ids.length) { setGroupConversations([]); return; }
+      const { data, error: groupError } = await supabase.from("group_conversations").select("id,name,description,avatar_url,created_at,updated_at").in("id", ids).order("updated_at", { ascending: false });
+      if (!alive) return;
+      if (groupError) setError(groupError.message || "Could not load groups.");
+      else setGroupConversations(data || []);
+    };
+    loadGroups();
+    const channel = supabase.channel(`group-list-${session.user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "group_conversation_members", filter: `user_id=eq.${session.user.id}` }, loadGroups)
+      .on("postgres_changes", { event: "*", schema: "public", table: "group_conversations" }, loadGroups)
+      .subscribe();
+    return () => { alive = false; supabase.removeChannel(channel); };
+  }, [session.user.id]);
 
   useEffect(() => {
     if (targetId) {
@@ -417,6 +442,19 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     return counts;
   }, {});
   const normalizedQuery = query.trim().toLocaleLowerCase();
+  const visibleGroups = groupConversations.filter(group => {
+    const searchable = `${group.name || ""} ${group.description || ""}`.toLocaleLowerCase();
+    const key = `group:${group.id}`;
+    return (!normalizedQuery || searchable.includes(normalizedQuery)) &&
+      (filter === "archived" ? archivedChats.includes(key) :
+        !archivedChats.includes(key) && !["saved", "people", "unread"].includes(filter));
+  }).sort((a, b) => {
+    const aPinned = pinnedChats.includes(`group:${a.id}`);
+    const bPinned = pinnedChats.includes(`group:${b.id}`);
+    if (aPinned !== bPinned) return aPinned ? -1 : 1;
+    return new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at);
+  });
+
   // Only list users with an existing message relationship; do not expose every registered profile in Chats.
   const contactedUserIds = new Set(recentMessages.map(message => message.sender_id === session.user.id ? message.recipient_id : message.sender_id));
   const visiblePeople = [self, ...people.filter(p => p.id !== session.user.id && contactedUserIds.has(p.id))]
@@ -443,7 +481,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     <aside className="sidebar">
       <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); setShowGroupCreate(true); }}><SquarePen size={18}/></button></div>
       <div className="search-box"><Search size={17}/><input aria-label="Search conversations by name, username, or latest message" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/>{query && <button type="button" className="chat-search-clear" aria-label="Clear chat search" title="Clear search" onClick={() => setQuery("")}><X size={15}/></button>}</div>
-      <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"],["archived","Archived"]].map(([key,label])=><button key={key} type="button" aria-pressed={filter===key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">
+      <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"],["archived","Archived"]].map(([key,label])=><button key={key} type="button" aria-pressed={filter===key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">\n        {visibleGroups.map(group => <button key={`group:${group.id}`} type="button" aria-current={active?.type === "group" && active.id === group.id ? "true" : undefined} className={`person-row ${active?.type === "group" && active.id === group.id ? "selected" : ""}`} onClick={() => { setDrafts(current => ({ ...current, [active?.id || "__none"]: draft })); setDraft(drafts[`group:${group.id}`] || ""); setActive({ ...group, type: "group", display_name: group.name, username: "", avatar_url: group.avatar_url }); setError(""); }}>\n          <span className="chat-avatar-profile-link"><Avatar person={{ display_name: group.name, avatar_url: group.avatar_url }}/></span>\n          <span className="person-copy"><strong>{pinnedChats.includes(`group:${group.id}`) && <Pin size={12} aria-label="Pinned"/>} {mutedChats.includes(`group:${group.id}`) && <BellOff size={12} aria-label="Muted"/>} <Users size={13}/> {group.name}</strong><small>{group.description || "Group conversation"}</small></span><time className="chat-row-time">{new Date(group.updated_at || group.created_at).toLocaleDateString([], { month: "short", day: "numeric" })}</time>\n        </button>)}
         {visiblePeople.map(person => <button key={person.id} type="button" aria-current={active?.id === person.id ? "true" : undefined} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setDrafts(current => ({ ...current, [active?.id || "__none"]: draft })); setDraft(drafts[person.id] || ""); setActive(person); setError(""); }}>
           <span className="chat-avatar-profile-link" role="button" tabIndex={0} aria-label={`View ${person.display_name || person.username || "member"} profile`} onClick={event => { event.stopPropagation(); onOpenProfile?.(person); }} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); event.stopPropagation(); onOpenProfile?.(person); } }}><Avatar person={person}/></span>
           <span className="person-copy"><strong>{pinnedChats.includes(person.id) && <Pin size={12} aria-label="Pinned"/>} {mutedChats.includes(person.id) && <BellOff size={12} aria-label="Muted"/>} {person.id === session.user.id ? "Saved messages" : person.display_name || person.username || "Chatly user"}</strong><small>{lastMessages[person.id] ? `${lastMessages[person.id].sender_id === session.user.id ? "You: " : ""}${lastMessages[person.id].body}` : person.id === session.user.id ? "Your personal space for notes" : person.username ? `@${person.username}` : "Chatly member"}</small></span>{unreadCounts[person.id] > 0 && <span className="chat-unread-count" aria-label={`${unreadCounts[person.id]} unread messages`}>{unreadCounts[person.id] > 99 ? "99+" : unreadCounts[person.id]}</span>}<time className="chat-row-time">{lastMessages[person.id] ? new Date(lastMessages[person.id].created_at).toLocaleDateString([], { month: "short", day: "numeric" }) : ""}</time>
@@ -473,5 +511,5 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner" role="alert">{error}<button onClick={() => setError("")}>Dismiss</button></div>}{actionNotice && <div className="chat-action-notice" role="status">{actionNotice}<button type="button" aria-label="Dismiss notification" onClick={() => setActionNotice("")}><X size={14}/></button></div>}
     </section>
-  </main>{showGroupCreate && <CreateGroupDialog session={session} people={people} onClose={() => setShowGroupCreate(false)} onCreated={() => setActionNotice("Group created. Group conversations will appear after the group list is connected.")}/>}</>;
+  </main>{showGroupCreate && <CreateGroupDialog session={session} people={people} onClose={() => setShowGroupCreate(false)} onCreated={() => { setActionNotice("Group created."); setShowGroupCreate(false); }}/>}</>;
 }
