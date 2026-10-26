@@ -2899,7 +2899,8 @@ html { -webkit-text-size-adjust: 100%; }
   overflow-wrap: anywhere;
 }
 /* Keep the shared accent and surfaces legible in dark mode without changing other pages. */
-.app-shell.theme-dark {
+.app-shell.theme-dark .profile-page,
+.app-shell.theme-dark .profile-modal {
   --chatly-accent-soft: rgb(130 116 255 / 16%);
   --chatly-border: #383844;
   --chatly-shadow-card: 0 2px 14px rgb(0 0 0 / 15%);
