@@ -2055,3 +2055,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(input, textarea, select):disabled { cursor: not-allowed; }
 .app-shell :is(input, textarea, select)::placeholder { text-overflow: ellipsis; }
 
+
+
+/* Batch 15.6 — content rhythm cleanup */
+.app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) > :last-child { margin-bottom: 0; }
+.app-shell :is(.post-actions, .profile-actions, .notification-actions) { column-gap: 8px; row-gap: 6px; }
+
