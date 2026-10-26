@@ -5550,3 +5550,71 @@ textarea{max-width:100%;resize:vertical;}
     transition: none !important;
   }
 }
+
+
+/* Comment composer width + hover-first comment actions (no kebab trigger). */
+.feed-page .comments-modal .comment-composer {
+  grid-template-columns: 34px minmax(0, 1fr) auto !important;
+  column-gap: 8px !important;
+  width: 100%;
+}
+.feed-page .comments-modal .comment-composer textarea {
+  width: 100%;
+  min-width: 0;
+}
+.feed-page .comments-modal .comment-message {
+  position: relative;
+}
+.feed-page .comments-modal .comment-message .comment-actions-toggle {
+  display: none !important;
+}
+.feed-page .comments-modal .comment-message .comment-own-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-3px);
+  transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+}
+.feed-page .comments-modal .comment-message:hover .comment-own-actions,
+.feed-page .comments-modal .comment-message:focus-within .comment-own-actions,
+.feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  border-radius: 9px;
+}
+@media (hover: none), (max-width: 600px) {
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    position: static;
+    margin-top: 8px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .feed-page .comments-modal .comment-message {
+    padding-bottom: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    transition: none;
+  }
+}
