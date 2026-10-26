@@ -2090,3 +2090,80 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
 }
 
+
+
+/* Batch 16.1 — shared surface token QA */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) {
+  border-color: var(--border, var(--chatly-border));
+  background-clip: padding-box;
+}
+
+
+
+/* Batch 16.2 — interactive control QA */
+.app-shell :is(button, input, textarea, select) { font-family: inherit; }
+.app-shell :is(button, input, textarea, select):focus-visible { outline-offset: 2px; }
+
+
+
+/* Batch 16.3 — text wrapping QA */
+.app-shell :is(.post-content, .profile-bio, .notification-copy, .person-copy, .chat-preview) {
+  min-width: 0; overflow-wrap: anywhere;
+}
+
+
+
+/* Batch 16.4 — flexible row QA */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) {
+  min-width: 0; align-items: center; flex-wrap: wrap;
+}
+
+
+
+/* Batch 16.5 — compact viewport control QA */
+@media (max-width: 600px) {
+  .app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) {
+    min-width: 40px; min-height: 40px;
+  }
+}
+
+
+
+/* Batch 16.6 — modal containment QA */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  max-width: min(100%, 100vw); overscroll-behavior: contain;
+}
+
+
+
+/* Batch 16.7 — media sizing QA */
+.app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) {
+  max-width: 100%; min-width: 0; overflow: hidden;
+}
+.app-shell :is(.post-media img, .profile-post-media img) { max-width: 100%; object-fit: contain; }
+
+
+
+/* Batch 16.8 — disabled state QA */
+.app-shell :is(button:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+
+
+
+/* Batch 16.9 — forced colors QA */
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible {
+    outline: 2px solid Highlight; outline-offset: 2px;
+  }
+}
+
+
+
+/* Batch 16.10 — final visual QA */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important; transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
