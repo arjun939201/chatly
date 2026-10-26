@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, ChevronLeft, Minimize2, Maximize2 } from "lucide-react";
+import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, Minimize2, Maximize2 } from "lucide-react";
 import { supabase } from "./lib/supabase";
 import Auth from "./components/Auth.jsx";
 import Chat from "./components/Chat.jsx";
@@ -9,6 +9,7 @@ import ExploreDestination from "./components/ExploreDestination.jsx";
 import SettingsDestination from "./components/SettingsDestination.jsx";
 import NotificationsDestination from "./components/NotificationsDestination.jsx";
 import PublicProfile from "./components/PublicProfile.jsx";
+import DestinationHeader from "./components/DestinationHeader.jsx";
 
 const initialProfile = { display_name: "", username: "", avatar_url: "", bio: "" };
 
@@ -305,10 +306,9 @@ export default function App() {
       <div className="brand">chatly</div>
       <button type="button" className="global-notification-trigger" aria-label="Notifications" title="Notifications" onClick={() => { setProfileMenuOpen(false); setTab("notifications"); }}><Bell size={19}/>{unreadNotifications > 0 && <span className="global-notification-badge" aria-label={`${unreadNotifications} unread notifications`}>{unreadNotifications > 99 ? "99+" : unreadNotifications}</span>}</button><div className="global-profile-menu"><button type="button" className="global-profile-trigger" aria-label="Profile" title="Profile" onClick={() => { setProfileMenuOpen(false); setTab("profile"); }}><span className="global-profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="" onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.dataset.avatarFallback = (profile?.display_name || "C").slice(0,1).toUpperCase(); }} onLoad={e => { e.currentTarget.style.display = ""; e.currentTarget.parentElement.classList.remove("avatar-image-failed"); delete e.currentTarget.parentElement.dataset.avatarFallback; }}/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span></button></div>
     </header>}
-    {tab !== "feed" && tab !== "chats" && tab !== "public-profile" && tab !== "settings" && <div className="destination-topline"><button className="page-back-to-feed" onClick={() => { setTab("feed"); setProfileMenuOpen(false); }} aria-label="Back to feed"><ChevronLeft size={20}/></button><strong className="destination-current-title">{tab === "profile" ? `${profile?.username || profile?.display_name || "Your"}’s profile` : ({account:"Account",explore:"Explore",search:"Search",chats:"Chats",notifications:"Notifications",settings:"Settings"})[tab] || ""}</strong></div>}
+    {["explore", "search", "notifications"].includes(tab) && <DestinationHeader title={tab === "explore" ? "Explore" : tab === "search" ? "Search" : "Notifications"} subtitle={tab === "explore" ? "Discover conversations, topics, and communities." : tab === "search" ? "Find people to connect with and posts worth reading." : "Stay up to date with your Chatly community."} variant={tab} onBack={() => { setTab("feed"); setProfileMenuOpen(false); }} />}
     {tab === "notifications" && <NotificationsDestination session={session} onOpenProfile={openPublicProfile} />}
     {tab === "explore" && <ExploreDestination onOpenSearch={(topic = "") => { setSearchInitialQuery(topic); setTab("search"); }} />}
-    {tab === "explore" && <ExploreDestination onOpenSearch={() => setTab("search")} />}
     {tab === "search" && <SearchPeople session={session} initialQuery={searchInitialQuery} requestedProfile={requestedProfile} onProfileRequestHandled={() => setRequestedProfile(null)} onOpenProfile={openPublicProfile} onOpenChats={openChat} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} /> }
     {tab === "public-profile" && viewedProfile && <PublicProfile person={viewedProfile} session={session} onBack={() => { setViewedProfile(null); setTab(profileReturnTab); }} onOpenChats={openChat} />}{tab === "feed" && <Feed session={session} profile={profile} onOpenProfile={openPublicProfile} onPostsChanged={refreshMyProfilePosts} onFindFriends={() => setTab("search")} onOpenExplore={() => setTab("explore")} onOpenSearch={() => setTab("search")} onOpenChats={() => { setChatTarget(null); setTab("chats"); }}/>}
     {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget} enterToSend={chatPrefs.enterToSend} onOpenProfile={openPublicProfile} onBackToFeed={() => { setChatTarget(null); setTab("feed"); }}/>}
