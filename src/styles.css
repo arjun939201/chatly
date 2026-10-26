@@ -6452,3 +6452,9 @@ button.header-notifications,
   .feed-page .feed-header-shortcuts { gap: 4px; }
   .feed-page .feed-header-shortcuts button { padding: 0 7px; font-size: 11px; }
 }
+
+/* Align the feed title with the post-card inset on mobile. */
+@media (max-width: 600px) {
+  .feed-page .feed-heading-title { padding-left: 5px; }
+  .feed-page .feed-heading-row h1 { text-align: left; }
+}
