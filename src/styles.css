@@ -4391,3 +4391,31 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     font-size: 11px;
   }
 }
+
+
+/* Ensure reply quotes retain readable width inside outgoing bubbles on phones. */
+@media (max-width: 600px) {
+  .chat-layout .message .bubble {
+    padding-right: 14px;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 7px 10px;
+    margin: 0 0 8px;
+    box-sizing: border-box;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview > span,
+  .chat-layout .message .bubble > button.message-reply-preview > p {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
+  }
+}
