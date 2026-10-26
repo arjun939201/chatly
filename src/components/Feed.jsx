@@ -170,7 +170,7 @@ const commentSubmitLock = useRef(false);
         if (!entry.isIntersecting || entry.intersectionRatio < 0.5) return;
         const postId = entry.target.dataset.postId;
         const post = posts.find(item => String(item.id) === String(postId));
-        if (!post || post.user_id === session.user.id || viewedPosts.current.has(String(postId))) return;
+        if (!post || viewedPosts.current.has(String(postId))) return;
         viewedPosts.current.add(String(postId));
         const { data, error } = await supabase.rpc("record_post_view", { p_post_id: post.id });
         if (error) {
