@@ -4,9 +4,11 @@ import {
   PlayCircle, RefreshCw, Search, Sparkles, TrendingUp, Users, X
 } from "lucide-react";
 import { supabase } from "../../lib/supabase";
+import { useYouTubeSearch } from "./useYouTubeSearch";
+import { YouTubeResults } from "./ExploreResultSections";
 
 const categories = [
-  { id: "videos", title: "Videos", description: "Find something worth watching", icon: PlayCircle, tone: "coral", status: "Coming soon" },
+  { id: "videos", title: "Videos", description: "Search and watch YouTube videos", icon: PlayCircle, tone: "coral", status: "Watch now" },
   { id: "games", title: "Games", description: "Take a quick play break", icon: Gamepad2, tone: "blue", status: "Play now" },
   { id: "rooms", title: "Rooms", description: "Join conversations around interests", icon: MessageCircle, tone: "violet", status: "Coming soon" },
   { id: "trending", title: "Trending", description: "Catch up with the community", icon: TrendingUp, tone: "amber", status: "Explore" },
@@ -26,12 +28,14 @@ function getGameResult(player, computer) {
   return wins[player] === computer ? "You win this round!" : "Chatly wins this round!";
 }
 
-export default function ExploreHome({ onSearch }) {
+export default function ExploreHome({ onSearch, onPlayVideo }) {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
   const [gameRound, setGameRound] = useState(null);
+  const [videoQuery, setVideoQuery] = useState("");
+  const { videos, loading: videosLoading, error: videosError } = useYouTubeSearch(videoQuery, activeCategory === "videos" ? "songs" : "");
   const requestId = useRef(0);
   const postsSectionRef = useRef(null);
 
@@ -137,6 +141,11 @@ export default function ExploreHome({ onSearch }) {
         {gameRound && <div className="explore-game-result" role="status"><p>{gameRound.result}</p><span>You: {gameChoices.find(item => item.id === gameRound.player)?.emoji} <span aria-hidden="true">·</span> Chatly: {gameChoices.find(item => item.id === gameRound.computer)?.emoji}</span></div>}
       </div> : activeCategory === "trending" ? <div className="explore-category-message"><TrendingUp size={21} /><div><b>Fresh from the community</b><p>See the latest public conversations below. Popularity rankings can come later when reliable engagement signals are available.</p></div><button type="button" onClick={scrollToCommunity}>View posts <ArrowRight size={15} /></button></div>
       : activeCategory === "people" ? <div className="explore-category-message"><Users size={21} /><div><b>Find your people</b><p>Search by name or username to discover Chatly members.</p></div><button type="button" onClick={() => onSearch?.("")}>Open search <ArrowRight size={15} /></button></div>
+      : activeCategory === "videos" ? <div className="explore-video-discovery">
+        <div className="explore-video-intro"><span className="explore-video-brand"><PlayCircle size={21} /></span><div><b>Discover videos on YouTube</b><p>Search music, creators, tutorials, gaming, and more. Choose a result to play it inside Chatly.</p></div></div>
+        <label className="explore-video-search"><Search size={18} aria-hidden="true" /><input type="search" value={videoQuery} onChange={event => setVideoQuery(event.target.value)} placeholder="Search YouTube videos…" aria-label="Search YouTube videos" autoComplete="off" enterKeyHint="search" /><span>Powered by YouTube</span></label>
+        {!videoQuery.trim() ? <div className="explore-video-prompt"><PlayCircle size={22} /><span>Type a topic, song, creator, or video title to start discovering.</span></div> : <YouTubeResults videos={videos} loading={videosLoading} error={videosError} onPlayVideo={onPlayVideo} />}
+      </div>
       : <div className="explore-category-message"><Sparkles size={21} /><div><b>{activeCategory === "videos" ? "Video discovery is on the roadmap" : activeCategory === "rooms" ? "Rooms are on the roadmap" : "More ways to connect are coming"}</b><p>{activeCategory === "videos" ? "A dedicated watch experience needs a reliable video source and playback flow." : activeCategory === "rooms" ? "We're laying the groundwork for room membership, realtime conversations, and moderation." : "Events and interactive community activities will arrive in a later phase."}</p></div><span className="explore-coming-label">In development</span></div>}
     </section>}
 
