@@ -2003,3 +2003,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) { min-width: 0; max-width: 100%; }
 .app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) :is(p, h2, h3) { overflow-wrap: anywhere; }
 
+
+
+/* Batch 14.8 — compact touch targets */
+@media (max-width: 600px) {
+  .app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) { min-width: 40px; min-height: 40px; }
+  .app-shell :is(.post-actions button, .notification-actions button) { min-height: 36px; }
+}
+
