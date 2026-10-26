@@ -5294,3 +5294,55 @@ textarea{max-width:100%;resize:vertical;}
     scroll-behavior: auto;
   }
 }
+
+
+/* Comments sheet refinement — consistent viewport sizing and flexible content region. */
+.feed-page .comment-modal-backdrop {
+  align-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+}
+.feed-page .comments-modal {
+  width: min(680px, calc(100vw - 32px));
+  max-height: min(82dvh, 780px);
+  min-height: min(420px, 62dvh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.feed-page .comments-modal .comments-dialog-header {
+  flex: 0 0 auto;
+  align-items: center;
+  padding: 20px 24px 18px;
+}
+.feed-page .comments-modal .comments-dialog-header h2 {
+  font-size: clamp(19px, 2.8vw, 22px);
+  line-height: 1.25;
+}
+.feed-page .comments-modal .comments-dialog-header p {
+  font-size: 13px;
+  line-height: 1.45;
+}
+.feed-page .comments-modal .comment-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+@media (max-width: 600px) {
+  .feed-page .comment-modal-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .feed-page .comments-modal {
+    width: 100%;
+    max-width: 100%;
+    min-height: min(52dvh, 520px);
+    max-height: calc(100dvh - env(safe-area-inset-top) - 8px);
+    border-radius: 24px 24px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .feed-page .comments-modal .comments-dialog-header {
+    padding: 17px 18px 15px;
+  }
+}
