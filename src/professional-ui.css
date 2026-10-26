@@ -1559,3 +1559,14 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(input, textarea, select):focus { outline: none; }
 .app-shell :is(input, textarea, select)::placeholder { letter-spacing: 0; }
 
+
+
+/* Batch 9.7 — avatar and image consistency */
+.app-shell :is(.global-profile-avatar, .profile-avatar, .notification-avatar, .person-row img) {
+  flex-shrink: 0; object-fit: cover;
+}
+.app-shell :is(.post-author-profile img, .compose-author img, .comment-item img) {
+  flex: 0 0 auto; object-fit: cover;
+}
+.app-shell :is(.post-media, .profile-post-tile) { isolation: isolate; }
+
