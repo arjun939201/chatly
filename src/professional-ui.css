@@ -2482,7 +2482,10 @@ html { -webkit-text-size-adjust: 100%; }
   display: grid;
   gap: 10px;
   margin: 0 0 12px;
-  padding: 0;
+  padding: 14px 12px 10px;
+  border: 1px solid var(--chatly-border);
+  border-radius: 14px;
+  background: var(--chatly-surface);
 }
 .app-shell .feed-header-section .feed-heading-row {
   margin: 0;
@@ -2493,6 +2496,10 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell .feed-header-section .feed-filter-tabs {
   margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 .app-shell .feed-page {
   padding-top: clamp(8px, 1.5vw, 16px);
