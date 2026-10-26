@@ -830,3 +830,16 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .post-timestamp { min-height: 24px; padding: 0; color: inherit; font-size: inherit; font-weight: 500; }
 .feed-page .post-timestamp-popup { z-index: 5; max-width: min(80vw, 280px); padding: 8px 10px; border-radius: 9px; background: var(--chatly-ink); color: #fff; box-shadow: var(--chatly-shadow-popover); }
 .feed-page .post-author-profile:focus-visible { outline-offset: 3px; }
+
+
+/* Batch 2.4 — post content and text readability */
+.feed-page .post-body { font-size: 15px; line-height: 1.7; letter-spacing: -.005em; }
+.feed-page .post-body a { color: var(--chatly-accent); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
+.feed-page .post-body :is(strong, b) { font-weight: 750; }
+.feed-page .post-body :is(code, pre) { max-width: 100%; overflow-x: auto; }
+.feed-page .post-body blockquote { margin: 10px 0; padding: 8px 12px; border-left: 3px solid var(--chatly-accent); background: var(--chatly-accent-soft); border-radius: 0 9px 9px 0; }
+.feed-page .post-body ::selection { background: var(--chatly-accent-soft); }
+.feed-page .post-card .shared-post-highlight { scroll-margin-block: 100px; }
+.feed-page .post-card.shared-post-highlight { outline: 2px solid var(--chatly-accent); outline-offset: 3px; }
+.feed-page .post-card .post-body { overflow-wrap: anywhere; }
+@media (max-width: 520px) { .feed-page .post-body { font-size: 14px; line-height: 1.65; } }
