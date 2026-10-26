@@ -687,3 +687,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell :is(.form-field label, .field-group label) { color: var(--text, var(--chatly-ink)); font-size: 12px; font-weight: 650; }
 .app-shell :is(.form-help, .field-hint) { color: var(--muted, var(--chatly-muted)); font-size: 12px; line-height: 1.5; }
 
+
+
+/* Batch 1.5 — surface and card hierarchy */
+.app-shell :is(.surface-card, .settings-section, .auth-card, .setup-card) { background: var(--surface, var(--chatly-surface)); border: 1px solid var(--border, var(--chatly-border)); border-radius: var(--chatly-radius-lg); }
+.app-shell :is(.surface-card, .settings-section, .auth-card, .setup-card) { box-shadow: var(--chatly-shadow-card); }
+.app-shell :is(.surface-muted, .card-muted) { background: var(--chatly-surface-muted); }
+.app-shell :is(.surface-raised, .popover-surface) { background: var(--chatly-surface-raised); box-shadow: var(--chatly-shadow-raised); }
+.app-shell :is(.card-header, .section-header) { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+.app-shell :is(.card-header, .section-header) > * { min-width: 0; }
+.app-shell :is(.card-body, .section-body) { min-width: 0; overflow-wrap: anywhere; }
+.app-shell :is(.divider, hr) { border: 0; border-top: 1px solid var(--border, var(--chatly-border)); }
+.app-shell :is(.surface-card, .settings-section, .auth-card, .setup-card):focus-within { border-color: color-mix(in srgb, var(--chatly-accent) 28%, var(--chatly-border)); }
+.app-shell :is(.surface-card, .settings-section, .auth-card, .setup-card) > :first-child { min-width: 0; }
+
