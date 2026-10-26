@@ -1659,3 +1659,11 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.success-banner, .success-notice) { padding: 11px 14px; line-height: 1.5; }
 
+
+
+/* Batch 10.6 — disabled and pending actions */
+.app-shell :is(button, [role="button"])[aria-busy="true"] { pointer-events: none; opacity: .78; }
+.app-shell button:disabled { box-shadow: none; transform: none; }
+.app-shell :is(.primary-button, .send-button):disabled { background: color-mix(in srgb, var(--chatly-accent) 55%, #a4a4b2); }
+.app-shell :is(button, input, textarea, select):disabled { transition: opacity .12s ease; }
+
