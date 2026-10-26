@@ -1292,3 +1292,11 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 }
 @media (max-width: 380px) { .profile-summary { flex-wrap: wrap; } .profile-counts { flex: 1 1 100%; justify-content: space-around; } .st-nav-copy small { font-size: 11px; } }
 @media (prefers-reduced-motion: reduce) { .profile-post-tile, .st-nav-row, .st-settings button { transition: none !important; animation: none !important; } }
+
+
+/* Batch 6.1 — notifications workspace foundation */
+.notifications-page { width: min(100% - 32px, 760px); min-width: 0; margin: 0 auto; padding: 24px 0 100px; }
+.notifications-page :is(header, .notifications-header) { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.notifications-page h1 { margin: 0; font-size: clamp(24px, 4vw, 31px); font-weight: 800; letter-spacing: -.045em; }
+.notifications-page p { line-height: 1.6; }
+.notifications-page :is(.notifications-content, .notification-list) { display: grid; min-width: 0; gap: 10px; margin-top: 20px; }
