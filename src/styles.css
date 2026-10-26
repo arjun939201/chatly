@@ -4505,3 +4505,67 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     font-size: 11px !important;
   }
 }
+
+
+/* Mobile reply quote fix: keep author label and quoted text on separate, readable lines. */
+@media (max-width: 600px) {
+  .chat-layout .message .bubble > button.message-reply-preview {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 8px 10px !important;
+    margin: 0 0 8px !important;
+    border: 0 !important;
+    border-left: 3px solid var(--chatly-brand, #6757e8) !important;
+    border-radius: 7px !important;
+    background: rgba(103, 87, 232, .09) !important;
+    color: var(--text, #24242b) !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+    line-height: 1.35 !important;
+    overflow: hidden !important;
+  }
+  .chat-layout .message.mine .bubble > button.message-reply-preview {
+    border-left-color: rgba(255,255,255,.88) !important;
+    background: rgba(20, 28, 75, .24) !important;
+    color: #fff !important;
+  }
+  .chat-layout .message.theirs .bubble > button.message-reply-preview {
+    border-left-color: #6757e8 !important;
+    background: #f1efff !important;
+    color: #29263b !important;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview > span {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    opacity: 1 !important;
+  }
+  .chat-layout .message .bubble > button.message-reply-preview > p {
+    display: block !important;
+    width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.4 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    opacity: .82 !important;
+  }
+}
