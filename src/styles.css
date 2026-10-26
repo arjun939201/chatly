@@ -4803,3 +4803,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 08 — touch target minimums */
 @media(hover:none){.bottom-nav button,.post-actions button,.chat-header button{min-height:42px;min-width:42px;}}
+
+/* Round 3 / 09 — modal internal scroll */
+.modal-content,.dialog-content,.settings-modal-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;}
