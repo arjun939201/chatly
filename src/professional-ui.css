@@ -2148,3 +2148,12 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(button:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
 .app-shell [aria-busy="true"] { cursor: progress; }
 
+
+
+/* Batch 16.9 — forced colors QA */
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible {
+    outline: 2px solid Highlight; outline-offset: 2px;
+  }
+}
+
