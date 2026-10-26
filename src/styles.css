@@ -4845,3 +4845,6 @@ html,body,#root{max-width:100%;overflow-x:clip;}
 
 /* Round 3 / 22 — media controls on touch */
 @media(hover:none){.media-overlay button,.global-youtube-player-actions button{opacity:1;}}
+
+/* Round 3 / 23 — form label spacing */
+.form-field label,.settings-field label{display:block;margin-bottom:6px;}
