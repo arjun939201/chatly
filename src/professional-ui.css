@@ -1933,3 +1933,12 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.profile-bio, .profile-description, .profile-meta) { overflow-wrap: anywhere; }
 .app-shell :is(.profile-stats, .profile-stat-row) { font-variant-numeric: tabular-nums; }
 
+
+
+/* Batch 13.8 — narrow viewport containment */
+@media (max-width: 480px) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { padding-inline: 12px; }
+  .app-shell :is(.feed-heading-row, .profile-page-head, .notifications-heading) { flex-wrap: wrap; }
+  .app-shell :is(.modal-header, .comments-dialog-header) { padding-inline: 14px; }
+}
+
