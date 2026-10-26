@@ -1060,3 +1060,13 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .search-start-prompt { display: grid; justify-items: center; gap: 12px; padding: clamp(24px, 6vw, 56px) 18px; text-align: center; }
 .search-page .search-start-prompt > svg { color: var(--chatly-accent); }
 .search-page .search-start-prompt p { max-width: 48ch; margin: 0; color: var(--chatly-muted); line-height: 1.65; }
+
+
+/* Batch 4.2 — Explore input and clear action */
+.search-page .search-page-input { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 12px; border: 1px solid var(--chatly-border); border-radius: 15px; background: var(--chatly-surface); }
+.search-page .search-page-input > svg { flex: 0 0 auto; color: var(--chatly-muted); }
+.search-page .search-page-input input { flex: 1 1 auto; min-width: 0; height: 46px; border: 0; outline: 0; background: transparent; }
+.search-page .search-page-input:focus-within { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); }
+.search-page .search-page-input input::placeholder { color: var(--chatly-muted); opacity: .85; }
+.search-page .search-clear-button { display: inline-grid; place-items: center; min-width: 34px; min-height: 34px; border-radius: 10px; color: var(--chatly-muted); }
+.search-page .search-clear-button:hover { color: var(--chatly-ink); background: var(--chatly-surface-muted, #f3f3f7); }
