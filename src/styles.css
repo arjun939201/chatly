@@ -4821,3 +4821,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 14 — search field ergonomics */
 .search-input-wrap input,.search-bar input{width:100%;min-width:0;}
+
+/* Round 3 / 15 — toast positioning safe area */
+.toast,.app-notice,.notice-banner{max-width:min(92vw,560px);}
