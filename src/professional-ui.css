@@ -1379,3 +1379,9 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 }
 @media (max-width: 380px) { .notifications-page .notification-copy p { font-size: 12px; } .notifications-page .notification-filters button { padding-inline: 10px; } }
 @media (prefers-reduced-motion: reduce) { .notifications-page *, .notifications-page *::before, .notifications-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Batch 7.1 — viewport and safe-area foundations */
+html { -webkit-text-size-adjust: 100%; }
+.app-shell { width: 100%; max-width: 100vw; overflow-x: clip; }
+@supports (padding: max(0px)) { .app-shell { padding-bottom: env(safe-area-inset-bottom); } }
+@media (max-width: 600px) { .app-shell { min-width: 320px; } }
