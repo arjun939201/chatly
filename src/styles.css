@@ -4902,37 +4902,38 @@ textarea{max-width:100%;resize:vertical;}
 @media(max-width:380px){.feed-page .comments-modal .comment-composer{grid-template-columns:30px minmax(0,1fr) auto;gap:6px}.feed-page .comments-modal .comment-composer .mini-avatar{width:30px;height:30px}.feed-page .comments-modal .comment-composer>button[type=submit]{min-width:48px;padding:0 8px}}
 @media(prefers-reduced-motion:reduce){.feed-page .comment-own-actions,.feed-page .comment-own-actions button{transition:none!important}}
 
-/* Feed comment actions: floating Chats-style toolbar, anchored to each comment */
+/* Feed comment bubbles: roomier content and in-bubble actions. */
 .feed-page .comments-modal .comment-item{position:relative}
 .feed-page .comments-modal .comment-content{position:relative;min-width:0}
-.feed-page .comments-modal .comment-own-actions{
- position:absolute;z-index:5;top:-48px;right:0;display:flex;align-items:center;gap:3px;
- width:max-content;max-width:calc(100vw - 36px);padding:5px;
+.feed-page .comments-modal .comment-message{position:relative;min-width:0;padding:15px 16px 62px;border-radius:16px}
+.feed-page .comments-modal .comment-message>p{margin:0;line-height:1.55;overflow-wrap:anywhere}
+.feed-page .comments-modal .comment-message .comment-own-actions{
+ position:absolute;z-index:5;right:9px;bottom:9px;top:auto;display:flex;align-items:center;gap:5px;
+ width:max-content;max-width:calc(100% - 18px);padding:4px;
  border:1px solid var(--chatly-border,#e8e7f0);border-radius:13px;
- background:var(--surface,#fff);box-shadow:0 5px 18px rgb(32 30 62 / 13%);
- opacity:0;visibility:hidden;pointer-events:none;transform:translateY(4px);
+ background:var(--surface,#fff);box-shadow:0 3px 12px rgb(32 30 62 / 10%);
+ opacity:0;visibility:hidden;pointer-events:none;transform:translateY(3px);
  transition:opacity .14s ease,transform .14s ease,visibility .14s ease
 }
-.feed-page .comments-modal .comment-item-own:hover .comment-own-actions,
-.feed-page .comments-modal .comment-item-own:focus-within .comment-own-actions{
+.feed-page .comments-modal .comment-item-own:hover .comment-message .comment-own-actions,
+.feed-page .comments-modal .comment-item-own:focus-within .comment-message .comment-own-actions{
  opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0)
 }
-.feed-page .comments-modal .comment-own-actions .comment-action-button{
- display:grid;place-items:center;width:38px;min-width:38px;height:38px;min-height:38px;padding:0;
- border:1px solid transparent;border-radius:10px;background:transparent;color:var(--muted,#77778b);cursor:pointer
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button{
+ display:grid;place-items:center;width:34px;min-width:34px;height:34px;min-height:34px;padding:0;
+ border:1px solid transparent;border-radius:9px;background:transparent;color:var(--muted,#77778b);cursor:pointer
 }
-.feed-page .comments-modal .comment-own-actions .comment-action-button:hover{
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button:hover{
  color:var(--chatly-accent,#6557e8);background:var(--chatly-accent-soft,#f0edff);border-color:var(--chatly-border,#e8e7f0)
 }
-.feed-page .comments-modal .comment-own-actions .comment-action-button.comment-action-danger:hover{
- color:#c43d4b;background:#fff0f1;border-color:#f7d5d9
-}
-.feed-page .comments-modal .comment-own-actions .comment-action-button:focus-visible{outline:2px solid var(--chatly-accent,#6557e8);outline-offset:2px}
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button.comment-action-danger:hover{color:#c43d4b;background:#fff0f1;border-color:#f7d5d9}
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button:focus-visible{outline:2px solid var(--chatly-accent,#6557e8);outline-offset:2px}
 @media(hover:none){
- .feed-page .comments-modal .comment-own-actions{opacity:1;visibility:visible;pointer-events:auto;transform:none;position:static;margin:2px 0 0;box-shadow:none}
+ .feed-page .comments-modal .comment-message .comment-own-actions{opacity:1;visibility:visible;pointer-events:auto;transform:none}
 }
 @media(max-width:600px){
- .feed-page .comments-modal .comment-own-actions{gap:2px;padding:3px}
- .feed-page .comments-modal .comment-own-actions .comment-action-button{width:36px;min-width:36px;height:36px;min-height:36px}
+ .feed-page .comments-modal .comment-message{padding:13px 14px 58px}
+ .feed-page .comments-modal .comment-message .comment-own-actions{gap:3px;padding:3px;right:7px;bottom:7px}
+ .feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button{width:32px;min-width:32px;height:32px;min-height:32px}
 }
-@media(prefers-reduced-motion:reduce){.feed-page .comments-modal .comment-own-actions{transition:none}}
+@media(prefers-reduced-motion:reduce){.feed-page .comments-modal .comment-message .comment-own-actions{transition:none}}
