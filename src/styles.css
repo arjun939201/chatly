@@ -5835,3 +5835,44 @@ textarea{max-width:100%;resize:vertical;}
  .notification-destination-page .notification-filter-row { gap:4px!important; padding-bottom:4px!important; }
  .notification-destination-page .notification-filter-row button { min-height:28px!important; padding:5px 9px!important; font-size:11px!important; border-radius:10px!important; }
 }
+
+
+/* Professional comment interaction: reveal contextual actions for every author. */
+.feed-page .comments-modal .comment-message { position:relative; }
+.feed-page .comments-modal .comment-footer { gap:8px!important; min-height:28px!important; }
+.feed-page .comments-modal .comment-actions-reserved {
+  flex:0 0 auto!important; width:auto!important; min-width:0!important; min-height:28px!important;
+}
+.feed-page .comments-modal .comment-own-actions {
+  position:static!important; display:flex!important; flex-flow:row nowrap!important;
+  align-items:center!important; justify-content:flex-start!important; gap:3px!important;
+  width:max-content!important; max-width:100%!important; height:28px!important; min-height:28px!important;
+  margin:0!important; padding:0!important; border:0!important; border-radius:0!important;
+  background:transparent!important; box-shadow:none!important; transform:none!important;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .14s ease,visibility .14s ease;
+}
+.feed-page .comments-modal .comment-message:hover .comment-own-actions,
+.feed-page .comments-modal .comment-message:focus-within .comment-own-actions,
+.feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+  opacity:1; visibility:visible; pointer-events:auto;
+}
+.feed-page .comments-modal .comment-own-actions .comment-action-button {
+  display:inline-flex!important; flex:0 0 28px!important; width:28px!important; min-width:28px!important;
+  height:28px!important; min-height:28px!important; padding:0!important; margin:0!important;
+  align-items:center!important; justify-content:center!important; border-radius:8px!important;
+  color:var(--muted,#858592)!important; background:transparent!important;
+  transition:background .14s ease,color .14s ease;
+}
+.feed-page .comments-modal .comment-own-actions .comment-action-button:hover {
+  background:var(--hover-bg,#f1effb)!important; color:var(--chatly-accent,#7162d9)!important;
+}
+.feed-page .comments-modal .comment-own-actions .comment-action-button.comment-action-danger:hover {
+  background:#fff0f0!important; color:#d64545!important;
+}
+@media(hover:none),(pointer:coarse) {
+ .feed-page .comments-modal .comment-own-actions { opacity:1; visibility:visible; pointer-events:auto; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .feed-page .comments-modal .comment-own-actions,.feed-page .comments-modal .comment-own-actions .comment-action-button { transition:none!important; }
+}
