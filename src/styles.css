@@ -4728,3 +4728,10 @@ small,.muted-text{letter-spacing:.005em}
 .global-profile-dropdown button:hover{background:#f0edff;color:var(--chatly-accent)}
 .global-profile-trigger{min-width:44px;min-height:44px}
 
+
+/* Round 2 / 03 — form field consistency */
+input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:var(--chatly-radius-sm)}
+textarea{resize:vertical;line-height:1.55}
+input::placeholder,textarea::placeholder{color:#9898aa;opacity:1}
+label{min-width:0}
+
