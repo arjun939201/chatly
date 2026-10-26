@@ -1474,3 +1474,16 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-body, .comment-message, .notification-copy, .person-copy) { overflow-wrap: anywhere; }
 .app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 84px; }
 @media (max-width: 600px) { .app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 68px; } }
+
+/* Batch 8.9 — reduced transparency and motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { backdrop-filter: none; }
+}
