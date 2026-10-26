@@ -1251,3 +1251,19 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .st-inline-form { display: grid; gap: 13px; padding: 12px 0 16px; }
 .st-inline-form label { display: grid; gap: 7px; font-size: 12px; font-weight: 650; }
 .st-inline-form input { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid var(--chatly-border); border-radius: 10px; background: var(--app-bg, #fafafd); color: var(--text, var(--chatly-ink)); }
+
+
+/* Batch 5.9 — preferences, toggles, theme and security status */
+.st-pref-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 66px; padding: 12px 0; cursor: pointer; }
+.st-pref-row + .st-pref-row { border-top: 1px solid var(--chatly-border); }
+.st-pref-row > span { display: grid; min-width: 0; gap: 4px; }
+.st-pref-row strong { font-size: 13px; font-weight: 700; }
+.st-pref-row small, .st-note, .st-password-hint { color: var(--chatly-muted); font-size: 12px; line-height: 1.55; }
+.st-pref-row input[type="checkbox"] { flex: 0 0 auto; width: 42px; height: 24px; margin: 0; cursor: pointer; accent-color: var(--chatly-accent); }
+.st-theme-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.st-theme-options button { display: grid; justify-items: center; gap: 8px; min-height: 82px; padding: 12px 8px; border: 1px solid var(--chatly-border); border-radius: 12px; background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
+.st-theme-options button.selected, .st-choice button.selected { border-color: var(--chatly-accent); color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.st-choice { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 13px 0; }
+.st-choice + .st-choice { border-top: 1px solid var(--chatly-border); }
+.st-choice > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.st-choice button { min-height: 34px; padding: 7px 10px; border: 1px solid var(--chatly-border); border-radius: 9px; background: var(--surface, #fff); }
