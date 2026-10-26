@@ -929,3 +929,15 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .post-skeleton .skeleton-actions { display: flex; gap: 12px; margin-top: 16px; }
 @media (max-width: 520px) { .feed-page .comments-modal { width: 100%; min-height: 70dvh; max-height: 92dvh; } .feed-page .comment-composer { gap: 6px; } .feed-page .feed-empty-actions { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .feed-page .post-card, .feed-page .post-actions button, .feed-page .post-options-menu { transition: none !important; animation: none !important; } }
+
+
+/* Batch 3.1 — messaging workspace foundation */
+.chat-layout { min-width: 0; min-height: 0; }
+.chat-layout .sidebar { min-width: 0; }
+.chat-layout .conversation { min-width: 0; min-height: 0; }
+.chat-layout .sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chat-layout .chat-heading-title { min-width: 0; }
+.chat-layout .chat-new-button, .chat-layout .chat-feed-back { min-width: 42px; min-height: 42px; }
+.chat-layout .conversation-header { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.chat-layout .conversation-header > * { min-width: 0; }
+.chat-layout .conversation-title-copy { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
