@@ -81,3 +81,11 @@ test("post engagement controls use the expected layout and right alignment", () 
   // Metadata stays in the engagement row and is pushed to the right.
   assert.match(styles, /\.post-actions \.post-engagement-meta\{display:flex;align-items:center;justify-content:flex-end;[^}]*margin:0 0 0 auto/);
 });
+
+
+test("profile avatar image failures reveal the initials fallback", async () => {
+  const source = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.equal((source.match(/classList\.add\("avatar-image-failed"\)/g) || []).length, 4);
+  assert.match(source, /data\.avatarFallback = \(profile\?\.display_name \|\| "C"\)\.slice\(0,1\)\.toUpperCase\(\)/);
+  assert.match(source, /data\.avatarFallback = \(form\.display_name \|\| "C"\)\.slice\(0,1\)\.toUpperCase\(\)/);
+});
