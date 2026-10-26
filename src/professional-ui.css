@@ -485,3 +485,13 @@
 .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 13px 16px; border-bottom: 1px solid var(--chatly-border); }
 .settings-row:last-child { border-bottom: 0; }
 .settings-row :is(input, select) { accent-color: var(--chatly-accent); }
+
+
+/* Batch 2.5 — theme-aware surfaces */
+[data-theme="dark"] .post-card, [data-theme="dark"] .profile-summary,
+[data-theme="dark"] .profile-hero, [data-theme="dark"] .compose-modal,
+[data-theme="dark"] .comments-dialog, [data-theme="dark"] .settings-section,
+[data-theme="dark"] .auth-card, [data-theme="dark"] .setup-card { border-color: var(--border, #343443); box-shadow: 0 2px 12px rgb(0 0 0 / 12%); }
+[data-theme="dark"] .post-media, [data-theme="dark"] .search-box,
+[data-theme="dark"] .composer textarea, [data-theme="dark"] .composer input { background: var(--app-bg, #171720); }
+[data-theme="dark"] .mine .bubble { color: #fff; }
