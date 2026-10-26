@@ -4652,3 +4652,12 @@ html{scroll-behavior:smooth}
 body{color:var(--chatly-ink);background:#f6f6fb}
 ::selection{background:rgba(103,87,232,.18)}
 
+
+/* Chatly UI batch 02: navigation and app chrome */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(16px)}
+.brand{transition:opacity .18s ease,transform .18s ease}
+.brand:hover{opacity:.9;transform:translateY(-1px)}
+.icon-button,.account-profile{transition:background .18s ease,color .18s ease,transform .18s ease}
+.icon-button:hover{background:#e9e6ff;color:var(--chatly-accent-hover)}
+.icon-button:active,.account-profile:active{transform:scale(.97)}
+
