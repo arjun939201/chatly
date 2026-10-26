@@ -5230,3 +5230,38 @@ textarea{max-width:100%;resize:vertical;}
     font-size: 12px;
   }
 }
+
+
+/* Feed post action menu: escape card clipping and stack above adjacent posts. */
+.feed-page .posts-list > .post-card.post-card-menu-open {
+  position: relative;
+  z-index: 40;
+  overflow: visible;
+}
+.feed-page .post-card-menu-open .post-options-wrap {
+  position: relative;
+  z-index: 41;
+}
+.feed-page .post-card-menu-open .post-options-menu {
+  z-index: 42;
+  max-width: min(240px, calc(100vw - 28px));
+  max-height: min( min(360px, 65vh), calc(100dvh - 24px) );
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.feed-page .post-card-menu-open .post-options-menu-below {
+  top: calc(100% + 7px);
+  bottom: auto;
+  transform-origin: top right;
+}
+.feed-page .post-card-menu-open .post-options-menu-above {
+  top: auto;
+  bottom: calc(100% + 7px);
+  transform-origin: bottom right;
+}
+@media (max-width: 600px) {
+  .feed-page .post-card-menu-open .post-options-menu {
+    min-width: min(180px, calc(100vw - 28px));
+    max-width: calc(100vw - 28px);
+  }
+}
