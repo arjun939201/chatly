@@ -2475,3 +2475,29 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .comment-item:hover .comment-actions-toggle,.app-shell .comment-item:focus-within .comment-actions-toggle,.app-shell .comment-actions-open .comment-actions-toggle{opacity:1;border-color:var(--chatly-accent)}
 @media(max-width:699px){.app-shell .comment-actions-toggle{opacity:1}.app-shell .comment-own-actions{padding-top:5px}}
 @media(prefers-reduced-motion:reduce){.app-shell .comment-actions-toggle{transition:none}}
+
+
+/* Feed header: heading and view tabs are one compact section, not a heading tab. */
+.app-shell .feed-header-section {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.app-shell .feed-header-section .feed-heading-row {
+  margin: 0;
+  min-height: 0;
+}
+.app-shell .feed-header-section .feed-heading-row p {
+  display: none;
+}
+.app-shell .feed-header-section .feed-filter-tabs {
+  margin: 0;
+}
+.app-shell .feed-page {
+  padding-top: clamp(8px, 1.5vw, 16px);
+}
+@media (max-width: 520px) {
+  .app-shell .feed-header-section { gap: 8px; margin-bottom: 10px; }
+  .app-shell .feed-page { padding-top: 8px; }
+}
