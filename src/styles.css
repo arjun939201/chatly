@@ -5025,3 +5025,15 @@ textarea{max-width:100%;resize:vertical;}
 .group-avatar-upload:focus-within{outline:2px solid var(--accent,#6558d3);outline-offset:3px;border-radius:5px}
 .group-avatar-remove{border:0;background:transparent;color:#bd3b50;font-size:11px;font-weight:600;padding:3px 8px}
 .group-avatar-field>small{font-size:10px;color:var(--muted,#737782);text-align:center}
+
+
+/* Group conversation header identity and narrow-screen safety. */
+.conversation-header .conversation-title-copy{flex:1;min-width:0}
+.conversation-header .conversation-title-copy strong,.conversation-header .conversation-title-copy small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conversation-header .group-header-avatar{cursor:default}
+@media(max-width:520px){
+ .conversation-header .conversation-title-copy strong{max-width:48vw}
+ .conversation-header .conversation-title-copy small{max-width:48vw}
+ .group-create-dialog{max-height:94dvh}
+ .group-create-dialog .group-member-options{max-height:30dvh}
+}
