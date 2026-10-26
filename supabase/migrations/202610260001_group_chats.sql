@@ -42,12 +42,12 @@ language sql
 stable
 security definer
 set search_path = ''
-as $
+as $function$
   select exists (
     select 1 from public.group_conversation_members m
     where m.conversation_id = p_conversation_id and m.user_id = p_user_id
   );
-$;
+$function$;
 revoke all on function public.is_group_member(uuid, uuid) from public, anon;
 grant execute on function public.is_group_member(uuid, uuid) to authenticated;
 
@@ -84,10 +84,7 @@ drop policy if exists "Group admins can update group details" on public.group_co
 create policy "Group admins can update group details" on public.group_conversations
   for update to authenticated using (
     public.is_group_admin(id, auth.uid())
-  ) with check (
-    exists (select 1 from public.group_conversation_members m
-      where m.conversation_id = id and m.user_id = auth.uid() and m.role in ('owner', 'admin'))
-  );
+  ) with check (public.is_group_admin(id, auth.uid()));
 
 drop policy if exists "Members can view group membership" on public.group_conversation_members;
 create policy "Members can view group membership" on public.group_conversation_members
@@ -124,18 +121,16 @@ create policy "Members can read group messages" on public.group_messages
 drop policy if exists "Members can send group messages" on public.group_messages;
 create policy "Members can send group messages" on public.group_messages
   for insert to authenticated with check (
-    sender_id = auth.uid() and exists (
-      select 1 from public.group_conversation_members m
-      where m.conversation_id = group_messages.conversation_id and m.user_id = auth.uid())
+    sender_id = auth.uid() and public.is_group_member(group_messages.conversation_id, auth.uid())
   );
 
 drop policy if exists "Senders can edit group messages" on public.group_messages;
 create policy "Senders can edit group messages" on public.group_messages
-  for update to authenticated using (sender_id = auth.uid()) with check (sender_id = auth.uid());
+  for update to authenticated using (sender_id = auth.uid() and public.is_group_member(conversation_id, auth.uid())) with check (sender_id = auth.uid() and public.is_group_member(conversation_id, auth.uid()));
 
 drop policy if exists "Senders can delete group messages" on public.group_messages;
 create policy "Senders can delete group messages" on public.group_messages
-  for delete to authenticated using (sender_id = auth.uid());
+  for delete to authenticated using (sender_id = auth.uid() and public.is_group_member(conversation_id, auth.uid()));
 
 -- Enable Realtime for group activity, if not already published.
 do $$
