@@ -2247,3 +2247,14 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .brand { line-height: 1; letter-spacing: -.035em; }
 .app-shell .global-profile-menu { position: relative; flex: 0 0 auto; }
 
+
+
+/* Batch 19.2 — navigation menu patterns */
+.app-shell :is(.global-profile-dropdown, .profile-dropdown) {
+  z-index: var(--chatly-layer-menu); min-width: 180px; max-width: min(280px, calc(100vw - 24px));
+}
+.app-shell :is(.destination-topline, .feed-heading-row, .profile-page-head, .notification-feed-heading) {
+  min-width: 0; gap: var(--chatly-space-3);
+}
+.app-shell .destination-current-title { min-width: 0; overflow-wrap: anywhere; }
+
