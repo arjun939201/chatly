@@ -4702,3 +4702,9 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .st-nav-card,.st-pref-row{transition:background .16s ease,border-color .16s ease}
 .st-nav-card:hover,.st-pref-row:hover{background:#faf9ff}
 
+
+/* Chatly UI batch 09: focus and reduced motion */
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:3px solid rgba(139,124,246,.5);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
