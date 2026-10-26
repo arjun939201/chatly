@@ -1594,3 +1594,16 @@ html { -webkit-text-size-adjust: 100%; }
   .notifications-page { width: min(100% - 32px, 780px); }
 }
 
+
+
+/* Batch 9.10 — visual consistency finishing pass */
+.app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) {
+  transition: box-shadow .18s ease, border-color .18s ease, background-color .18s ease;
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  box-shadow: 0 22px 64px rgb(18 18 32 / 20%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .notification-item, .notification-card, .profile-post) { transition: none !important; }
+}
+
