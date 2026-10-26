@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { X, Users, Search, Check, LoaderCircle, UserRound, Trash2 } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -12,6 +12,17 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
   const [selected, setSelected] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    function handleDialogKeyDown(event) {
+      if (event.key === "Escape" && !busy) {
+        event.preventDefault();
+        onClose?.();
+      }
+    }
+    document.addEventListener("keydown", handleDialogKeyDown);
+    return () => document.removeEventListener("keydown", handleDialogKeyDown);
+  }, [busy, onClose]);
 
   const eligiblePeople = useMemo(() => {
     const seen = new Set();
