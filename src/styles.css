@@ -6503,3 +6503,91 @@ button.header-notifications,
  .explore-category-icon{width:30px;height:30px}
  .explore-category-status{font-size:9px;right:8px}
 }
+
+ 
+/* Notifications page polish — stable header, compact back control, no standalone logout. */
+.app-shell .destination-header-notifications{
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr);
+  align-items:center;
+  gap:12px;
+  width:100%;
+  min-width:0;
+  margin:0;
+  padding:14px clamp(14px,3vw,24px) 10px;
+}
+.app-shell .destination-header-notifications .destination-header-back{
+  display:inline-grid;
+  place-items:center;
+  box-sizing:border-box;
+  width:42px;
+  height:42px;
+  min-width:42px;
+  padding:0;
+  border:1px solid var(--border,#e4e4e9);
+  border-radius:50%;
+  background:var(--surface,#fff);
+  color:var(--text,#17171b);
+  box-shadow:0 1px 3px rgb(20 20 35 / 5%);
+  transition:background-color .16s ease,border-color .16s ease,color .16s ease,transform .16s ease;
+}
+.app-shell .destination-header-notifications .destination-header-back:hover,
+.app-shell .destination-header-notifications .destination-header-back:focus-visible{
+  border-color:var(--chatly-brand,#7566e8);
+  background:var(--chatly-brand-soft,#f0edff);
+  color:var(--chatly-brand,#6757e8);
+  outline:none;
+}
+.app-shell .destination-header-notifications .destination-header-back:active{transform:scale(.97)}
+.app-shell .destination-header-notifications .destination-header-copy{min-width:0}
+.app-shell .destination-header-notifications .destination-header-copy h1{
+  margin:0;
+  color:var(--text,#17171b);
+  font-size:clamp(23px,4vw,28px);
+  font-weight:750;
+  line-height:1.2;
+  letter-spacing:-.045em;
+  overflow-wrap:anywhere;
+}
+.app-shell .destination-header-notifications .destination-header-copy p{
+  margin:7px 0 0;
+  color:var(--muted,#888894);
+  font-size:13px;
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.app-shell .notification-destination-page{padding-top:8px}
+.app-shell .notification-destination-page .notification-content{padding:0 clamp(12px,2.5vw,22px) max(96px,env(safe-area-inset-bottom))}
+.app-shell .notification-destination-page .notification-controls-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.app-shell .notification-destination-page .notification-filter-row{
+  flex:1 1 auto;
+  min-width:0;
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scrollbar-width:none;
+}
+.app-shell .notification-destination-page .notification-filter-row::-webkit-scrollbar{display:none}
+.app-shell .notification-destination-page .notification-heading-actions{flex:0 0 auto;display:flex;align-items:center;gap:8px}
+.app-shell .notification-destination-page .notification-refresh-button{flex:0 0 40px;width:40px;height:40px;border-radius:12px}
+@media(max-width:600px){
+  .app-shell .destination-header-notifications{grid-template-columns:40px minmax(0,1fr);gap:10px;padding:12px 14px 9px}
+  .app-shell .destination-header-notifications .destination-header-back{width:40px;height:40px;min-width:40px}
+  .app-shell .destination-header-notifications .destination-header-copy h1{font-size:clamp(22px,5.8vw,26px)}
+  .app-shell .destination-header-notifications .destination-header-copy p{margin-top:5px;font-size:12px}
+  .app-shell .notification-destination-page{padding-top:4px}
+  .app-shell .notification-destination-page .notification-content{padding-inline:10px}
+  .app-shell .notification-destination-page .notification-controls-row{gap:7px}
+  .app-shell .notification-destination-page .notification-filter-row{margin:8px 0 12px;gap:4px}
+  .app-shell .notification-destination-page .notification-filter-row button{flex:1 0 auto;padding-inline:clamp(7px,2.2vw,12px)}
+  .app-shell .notification-destination-page .notification-refresh-button{flex-basis:36px;width:36px;height:36px}
+}
+@media(prefers-reduced-motion:reduce){
+  .app-shell .destination-header-notifications .destination-header-back{transition:none}
+}
