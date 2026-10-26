@@ -332,3 +332,19 @@
 .post-share-button { display: inline-flex; align-items: center; gap: 7px; padding: 8px 10px; }
 @media (max-width: 420px) { .post-actions-primary, .post-actions-secondary { gap: 1px; } .post-actions button { gap: 4px; } .post-view-count { display: none; } }
 
+
+
+/* Commit 7 — creation and comment surfaces */
+.modal-backdrop, .comment-modal-backdrop { padding: max(14px, env(safe-area-inset-top)) 14px max(14px, env(safe-area-inset-bottom)); backdrop-filter: blur(5px); }
+.compose-modal, .comments-dialog, .report-post-modal { width: min(100%, 600px); max-height: min(88dvh, 860px); overflow: auto; overscroll-behavior: contain; }
+.compose-author { display: flex; align-items: center; gap: 10px; }
+.compose-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--border, var(--chatly-border)); }
+.comment-list { display: flex; flex-direction: column; gap: 16px; }
+.comment-item { display: flex; align-items: flex-start; gap: 10px; }
+.comment-content { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.comment-meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+.comment-message { line-height: 1.55; }
+.comment-composer { display: flex; align-items: flex-end; gap: 10px; padding: 14px; border-top: 1px solid var(--border, var(--chatly-border)); }
+.comment-composer textarea { min-height: 42px; max-height: 140px; resize: vertical; }
+@media (max-width: 520px) { .modal-backdrop, .comment-modal-backdrop { align-items: flex-end; padding: 0; } .compose-modal, .comments-dialog, .profile-modal { width: 100%; max-height: 92dvh; border-radius: 20px 20px 0 0; } .compose-footer { padding: 12px 14px; } }
+
