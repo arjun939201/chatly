@@ -1884,3 +1884,143 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown,
   .compose-modal, .comments-dialog, .profile-modal, .st-dialog) { will-change: opacity, transform; }
 
+
+
+/* Batch 13.1 — shared layout alignment */
+.app-shell :is(.feed-page, .chat-page, .explore-page, .notifications-page, .profile-page) { min-width: 0; }
+.app-shell :is(.feed-heading-row, .chat-heading-row, .profile-page-head, .notifications-heading) { align-items: center; }
+.app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main) { min-width: 0; }
+
+
+
+/* Batch 13.2 — card content overflow guardrails */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { overflow-wrap: anywhere; }
+.app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) { min-width: 0; }
+.app-shell :is(.post-media, .profile-post-media) img { max-width: 100%; }
+
+
+
+/* Batch 13.3 — avatar and thumbnail finishing */
+.app-shell :is(.avatar, .user-avatar, .profile-avatar, .chat-avatar, .notification-avatar) { flex: 0 0 auto; }
+.app-shell :is(.avatar, .user-avatar, .profile-avatar, .chat-avatar, .notification-avatar) img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.app-shell :is(.post-media img, .profile-post-media img) { display: block; }
+
+
+
+/* Batch 13.4 — form control consistency */
+.app-shell :is(input, textarea, select) { color: inherit; }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--muted, #8b8d9b); opacity: 1; }
+.app-shell :is(.composer textarea, .comment-composer textarea) { resize: vertical; }
+
+
+
+/* Batch 13.5 — activity row refinement */
+.app-shell :is(.notification-item, .notification-card) { display: flex; align-items: flex-start; gap: 12px; }
+.app-shell :is(.notification-copy, .notification-content) { flex: 1 1 auto; min-width: 0; }
+.app-shell :is(.notification-item, .notification-card) :is(time, .notification-time) { white-space: nowrap; }
+
+
+
+/* Batch 13.6 — chat list and message rhythm */
+.app-shell :is(.conversation-item, .chat-list-item, .chat-preview-row) { min-width: 0; }
+.app-shell :is(.conversation-copy, .chat-list-copy, .chat-preview-copy) { flex: 1 1 auto; min-width: 0; }
+.app-shell :is(.message-bubble, .chat-message-bubble) { overflow-wrap: anywhere; }
+
+
+
+/* Batch 13.7 — profile action layout */
+.app-shell :is(.profile-actions, .profile-header-actions, .profile-action-row) { align-items: center; flex-wrap: wrap; }
+.app-shell :is(.profile-bio, .profile-description, .profile-meta) { overflow-wrap: anywhere; }
+.app-shell :is(.profile-stats, .profile-stat-row) { font-variant-numeric: tabular-nums; }
+
+
+
+/* Batch 13.8 — narrow viewport containment */
+@media (max-width: 480px) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { padding-inline: 12px; }
+  .app-shell :is(.feed-heading-row, .profile-page-head, .notifications-heading) { flex-wrap: wrap; }
+  .app-shell :is(.modal-header, .comments-dialog-header) { padding-inline: 14px; }
+}
+
+
+
+/* Batch 13.9 — theme and contrast inheritance */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card,
+  .compose-modal, .comments-dialog, .profile-modal) { color: inherit; }
+.app-shell :is(.post-divider, .profile-divider, .notification-divider) { border-color: var(--border, var(--chatly-border)); }
+
+
+
+/* Batch 13.10 — final UI quality polish */
+.app-shell :is(button, a, input, textarea, select) { -webkit-tap-highlight-color: transparent; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { backface-visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transform: none !important; }
+}
+
+
+
+/* Batch 14.1 — long text edge cases */
+.app-shell :is(.username, .profile-handle, .chat-title, .person-copy, .notification-copy) { min-width: 0; overflow-wrap: anywhere; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) :is(h1,h2,h3,p) { max-width: 100%; }
+
+
+
+/* Batch 14.2 — media containment edge cases */
+.app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) { min-width: 0; max-width: 100%; }
+.app-shell :is(.post-media img, .profile-post-media img, .chat-attachment img, .message-attachment img) { max-width: 100%; height: auto; object-fit: contain; }
+
+
+
+/* Batch 14.3 — action row wrapping */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) { min-width: 0; flex-wrap: wrap; }
+.app-shell :is(.post-actions button, .profile-actions button, .notification-actions button) { max-width: 100%; }
+
+
+
+/* Batch 14.4 — short viewport modal containment */
+@media (max-height: 620px) {
+  .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { max-height: calc(100dvh - 24px); overflow-y: auto; }
+  .app-shell :is(.modal-header, .comments-dialog-header) { position: sticky; top: 0; z-index: 2; }
+}
+
+
+
+/* Batch 14.5 — nested overflow protection */
+.app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main, .notifications-main) { max-width: 100%; }
+.app-shell :is(.feed-filter-tabs, .chat-filter-row, .notification-filters) { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+
+
+
+/* Batch 14.6 — disabled and busy states */
+.app-shell :is(button[aria-busy="true"], [role="button"][aria-busy="true"]) { cursor: progress; }
+.app-shell :is(button:disabled, [aria-disabled="true"]) { opacity: .58; }
+.app-shell [aria-busy="true"] { pointer-events: none; }
+
+
+
+/* Batch 14.7 — minimal content layout */
+.app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) { min-width: 0; max-width: 100%; }
+.app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) :is(p, h2, h3) { overflow-wrap: anywhere; }
+
+
+
+/* Batch 14.8 — compact touch targets */
+@media (max-width: 600px) {
+  .app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) { min-width: 40px; min-height: 40px; }
+  .app-shell :is(.post-actions button, .notification-actions button) { min-height: 36px; }
+}
+
+
+
+/* Batch 14.9 — image layout stability */
+.app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) { overflow: hidden; }
+.app-shell :is(.post-media img, .profile-post-media img) { vertical-align: middle; }
+
+
+
+/* Batch 14.10 — final edge-case safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { box-sizing: border-box; }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) * { min-width: 0; }
+@media (prefers-reduced-motion: reduce) { .app-shell * { scroll-behavior: auto !important; } }
+
