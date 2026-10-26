@@ -325,11 +325,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     const list = messageListRef.current;
     const previousHeight = list?.scrollHeight || 0;
     setHistoryBusy(true);
-    const { data, error: err } = await supabase.from("messages").select("*")
-      .or(`and(sender_id.eq.${session.user.id},recipient_id.eq.${active.id}),and(sender_id.eq.${active.id},recipient_id.eq.${session.user.id})`)
-      .lt("created_at", oldest.created_at)
-      .order("created_at", { ascending: false })
-      .limit(60);
+    const { data, error: err } = active.type === "group"
+      ? await supabase.from("group_messages").select("*").eq("conversation_id", active.id).lt("created_at", oldest.created_at).order("created_at", { ascending: false }).limit(60)
+      : await supabase.from("messages").select("*").or(`and(sender_id.eq.${session.user.id},recipient_id.eq.${active.id}),and(sender_id.eq.${active.id},recipient_id.eq.${session.user.id})`).lt("created_at", oldest.created_at).order("created_at", { ascending: false }).limit(60);
     if (err) setError(err.message);
     else {
       const older = (data || []).reverse();
@@ -418,9 +416,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     if (messageActionBusy) return;
     setMessageActionBusy(message.id);
     setError("");
-    const { data, error: updateError } = await supabase.from("messages")
-      .update({ body })
-      .eq("id", message.id).eq("sender_id", session.user.id).select("*").single();
+    const { data, error: updateError } = active?.type === "group"
+      ? await supabase.from("group_messages").update({ body, edited_at: new Date().toISOString() }).eq("id", message.id).eq("sender_id", session.user.id).select("*").single()
+      : await supabase.from("messages").update({ body }).eq("id", message.id).eq("sender_id", session.user.id).select("*").single();
     if (updateError) setError(updateError.message || "Could not edit message.");
     else {
       setMessages(current => current.map(item => item.id === message.id ? { ...item, ...data } : item));
@@ -437,7 +435,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     setMessageActionBusy(message.id);
     setError("");
     setActionNotice("");
-    const { error: deleteError } = await supabase.from("messages").delete().eq("id", message.id).eq("sender_id", session.user.id);
+    const { error: deleteError } = active?.type === "group"
+      ? await supabase.from("group_messages").delete().eq("id", message.id).eq("sender_id", session.user.id)
+      : await supabase.from("messages").delete().eq("id", message.id).eq("sender_id", session.user.id);
     if (deleteError) {
       setError(deleteError.message || "Could not delete message. Please try again.");
     } else {
