@@ -5078,3 +5078,65 @@ textarea{max-width:100%;resize:vertical;}
  .feed-page .post-actions button svg{width:16px;height:16px}
  .feed-page .post-body{margin:9px 0}
 }
+
+
+/* Feed action alignment fix: keep Save on the same row on narrow screens. */
+.feed-page .post-card > .post-actions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  grid-template-rows: minmax(34px, auto) !important;
+  align-items: center !important;
+  justify-content: initial !important;
+  flex-direction: initial !important;
+  flex-wrap: nowrap !important;
+  column-gap: 8px !important;
+  row-gap: 0 !important;
+  width: 100%;
+}
+.feed-page .post-card > .post-actions > .post-actions-primary {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-width: 0;
+  gap: clamp(5px, 2.2vw, 14px) !important;
+}
+.feed-page .post-card > .post-actions > .post-actions-secondary {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  align-self: center !important;
+  justify-self: end !important;
+  width: auto !important;
+  min-width: max-content;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.feed-page .post-card > .post-actions > .post-actions-primary button,
+.feed-page .post-card > .post-actions > .post-actions-secondary button {
+  flex: 0 0 auto !important;
+  min-width: 0;
+  min-height: 32px;
+  padding: 4px 3px !important;
+  margin: 0 !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+@media (max-width: 600px) {
+  .feed-page .post-card > .post-actions > .post-actions-primary {
+    gap: clamp(4px, 1.8vw, 9px) !important;
+  }
+  .feed-page .post-card > .post-actions > .post-actions-primary button,
+  .feed-page .post-card > .post-actions > .post-actions-secondary button {
+    min-height: 32px;
+    padding-inline: 3px !important;
+    font-size: 11px;
+  }
+}
