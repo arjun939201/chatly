@@ -4753,3 +4753,9 @@ label{min-width:0}
 .profile-modal,.edit-profile-dialog{max-width:min(100%,560px);max-height:calc(100dvh - 32px);overflow:auto;border:1px solid rgba(232,232,241,.9);border-radius:20px}
 .modal-header{position:sticky;top:0;z-index:2;background:inherit}
 
+
+/* Round 2 / 07 — avatar and image fallbacks */
+.avatar,.profile-avatar,.global-profile-avatar{overflow:hidden;flex-shrink:0}
+.avatar img,.profile-avatar img,.global-profile-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar-image-failed{display:grid;place-items:center}
+
