@@ -6281,3 +6281,30 @@ button.header-notifications,
 .destination-header-logout:hover{background:var(--app-bg,#f5f5f7);border-color:var(--muted,#888894);}
 .destination-header-logout:focus-visible{outline:2px solid currentColor;outline-offset:3px;}
 @media(max-width:480px){.destination-header-logout{width:38px;height:38px;min-height:38px;padding:0;border-radius:50%;}.destination-header-logout span{display:none;}}
+
+
+/* Global notification bell: accessible unread count badge and subtle interaction states. */
+.app-shell .topbar .global-notification-trigger{
+  position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  flex:0 0 40px!important;width:40px!important;height:40px!important;margin-left:auto!important;padding:0!important;
+  color:var(--text,#17171b)!important;background:transparent!important;border:0!important;border-radius:50%!important;
+  box-shadow:none!important;transition:background-color .18s ease,color .18s ease,transform .18s ease!important;
+}
+.app-shell .topbar .global-notification-trigger:hover,.app-shell .topbar .global-notification-trigger:focus-visible{
+  background:color-mix(in srgb,#e5484d 8%,transparent)!important;box-shadow:none!important;
+}
+.app-shell .topbar .global-notification-trigger:active{transform:scale(.94);}
+.app-shell .topbar .global-notification-trigger:focus-visible{outline:2px solid #e5484d!important;outline-offset:2px;}
+.app-shell .topbar .global-notification-trigger svg{width:21px;height:21px;stroke-width:1.9;color:currentColor!important;transition:transform .2s ease;}
+.app-shell .topbar .global-notification-trigger:hover svg{transform:rotate(-9deg);}
+.app-shell .topbar .global-notification-trigger.has-unread svg{animation:chatly-bell-arrive .45s ease-out 1;}
+.app-shell .topbar .global-notification-badge{
+  position:absolute!important;top:0!important;right:-1px!important;z-index:2!important;display:flex!important;
+  align-items:center!important;justify-content:center!important;min-width:19px!important;height:19px!important;padding:0 5px!important;
+  border:2px solid var(--surface,#fff)!important;border-radius:999px!important;background:#e53945!important;color:#fff!important;
+  font-size:10px!important;font-weight:800!important;line-height:1!important;letter-spacing:-.02em!important;
+  font-variant-numeric:tabular-nums;white-space:nowrap;box-shadow:0 1px 3px rgba(140,18,30,.18);pointer-events:none;
+}
+@keyframes chatly-bell-arrive{0%,100%{transform:rotate(0)}18%{transform:rotate(12deg)}38%{transform:rotate(-10deg)}58%{transform:rotate(7deg)}78%{transform:rotate(-4deg)}}
+@media(prefers-reduced-motion:reduce){.app-shell .topbar .global-notification-trigger,.app-shell .topbar .global-notification-trigger svg{transition:none!important;animation:none!important;}}
+@media(max-width:600px){.app-shell .topbar .global-notification-trigger{width:38px!important;height:38px!important;flex-basis:38px!important;}.app-shell .topbar .global-notification-badge{top:-1px!important;right:-2px!important;min-width:18px!important;height:18px!important;font-size:9px!important;}}
