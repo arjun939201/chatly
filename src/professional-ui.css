@@ -2258,3 +2258,13 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell .destination-current-title { min-width: 0; overflow-wrap: anywhere; }
 
+
+
+/* Batch 19.3 — page container sizing */
+.app-shell :is(.feed-column, .profile-page, .profile-view, .notification-content, .search-page) {
+  min-width: 0; max-width: 100%;
+}
+.app-shell :is(.feed-page, .profile-page, .search-page, .destination-page) {
+  scroll-padding-block: var(--chatly-space-4);
+}
+
