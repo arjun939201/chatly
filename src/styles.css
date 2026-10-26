@@ -4806,3 +4806,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 09 — modal internal scroll */
 .modal-content,.dialog-content,.settings-modal-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;}
+
+/* Round 3 / 10 — mobile input zoom safeguard */
+@media(max-width:600px){input,textarea,select{font-size:16px;}}
