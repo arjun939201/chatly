@@ -758,3 +758,18 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 @keyframes chatly-skeleton-pulse { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
 .app-shell [aria-live="polite"] { overflow-wrap: anywhere; }
 
+
+
+/* Batch 1.10 — responsive, focus, and reduced-motion foundations */
+.app-shell :is(button, a, input, textarea, select, [tabindex]):focus-visible { outline: 2px solid var(--chatly-accent); outline-offset: 2px; }
+.app-shell :is(button, a, input, textarea, select, [tabindex]):focus:not(:focus-visible) { outline: none; }
+.app-shell :is(.skip-link, .skip-to-content) { position: absolute; top: 8px; left: 8px; z-index: 100; transform: translateY(-160%); }
+.app-shell :is(.skip-link, .skip-to-content):focus { transform: translateY(0); }
+.app-shell :is(.responsive-row, .toolbar) { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+@media (max-width: 760px) { .app-shell :is(.responsive-row, .toolbar) { gap: 8px; } .app-shell :is(.page-container, .destination-content) { padding-inline: 12px; } }
+@media (max-width: 520px) { .app-shell :is(.responsive-row, .toolbar) { align-items: stretch; } .app-shell :is(.responsive-row, .toolbar) > button { flex: 1 1 auto; } }
+@media (max-width: 360px) { .app-shell :is(.primary-button, .secondary-button, .oauth-button) { padding-inline: 10px; font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .app-shell *, .app-shell *::before, .app-shell *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+@media (forced-colors: active) { .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; box-shadow: none; } .app-shell :is(.primary-button, .send-button) { border: 1px solid ButtonText; } }
+@media print { .app-shell :is(.topbar, .bottom-nav, .mobile-nav, .floating-create, .post-actions) { display: none !important; } .app-shell { background: #fff; color: #000; } }
+
