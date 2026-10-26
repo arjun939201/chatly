@@ -4848,3 +4848,6 @@ html,body,#root{max-width:100%;overflow-x:clip;}
 
 /* Round 3 / 23 — form label spacing */
 .form-field label,.settings-field label{display:block;margin-bottom:6px;}
+
+/* Round 3 / 24 — textarea resize behavior */
+textarea{max-width:100%;resize:vertical;}
