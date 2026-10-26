@@ -2268,3 +2268,12 @@ html { -webkit-text-size-adjust: 100%; }
   scroll-padding-block: var(--chatly-space-4);
 }
 
+
+
+/* Batch 20.1 — component boundary safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-activity-item, .person-row, .conversation,
+  .sidebar, .composer, .profile-summary, .st-card) {
+  box-sizing: border-box; min-width: 0;
+}
+.app-shell :is(.post-card, .profile-post, .notification-activity-item, .person-row) > * { min-width: 0; }
+
