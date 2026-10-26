@@ -1877,3 +1877,10 @@ html { -webkit-text-size-adjust: 100%; }
   }
 }
 
+
+
+/* Batch 12.10 — micro-interaction finishing pass */
+.app-shell :is(.post-card, .profile-post, .person-card, .notification-card):active { transition-duration: 90ms; }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown,
+  .compose-modal, .comments-dialog, .profile-modal, .st-dialog) { will-change: opacity, transform; }
+
