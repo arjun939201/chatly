@@ -1107,3 +1107,13 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .search-result-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .search-page .search-result-heading h2 { margin: 0; font-size: 16px; }
 .search-page .search-result-heading small { color: var(--chatly-muted); font-size: 11px; }
+
+
+/* Batch 4.7 — music/video results */
+.search-page .youtube-results { display: grid; gap: 10px; }
+.search-page .youtube-result { display: flex; align-items: center; gap: 12px; width: 100%; min-width: 0; padding: 10px; border: 1px solid var(--chatly-border); border-radius: 14px; text-align: left; background: var(--chatly-surface); }
+.search-page .youtube-result img, .search-page .youtube-result-thumbnail-fallback { flex: 0 0 auto; width: 112px; aspect-ratio: 16 / 9; border-radius: 9px; object-fit: cover; }
+.search-page .youtube-result-thumbnail-fallback { display: grid; place-items: center; gap: 3px; color: var(--chatly-muted); background: var(--chatly-surface-muted, #f3f3f7); }
+.search-page .youtube-result > span:last-child { display: grid; min-width: 0; gap: 5px; }
+.search-page .youtube-result b { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-height: 1.4; }
+.search-page .youtube-result small { overflow: hidden; color: var(--chatly-muted); text-overflow: ellipsis; white-space: nowrap; }
