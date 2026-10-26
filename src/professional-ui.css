@@ -2036,3 +2036,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card,
   .compose-modal, .comments-dialog, .profile-modal) { border-color: var(--border, var(--chatly-border)); }
 
+
+
+/* Batch 15.3 — typography inheritance cleanup */
+.app-shell :is(button, input, textarea, select, [role="button"]) { font: inherit; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { line-height: 1.45; }
+
