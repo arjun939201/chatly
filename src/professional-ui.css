@@ -612,3 +612,29 @@
 .notification-refresh-button { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--chatly-border, #e8e7f0); border-radius: 10px; background: var(--surface, #fff); color: var(--muted, var(--chatly-muted, #85859b)); }
 .notification-refresh-button:hover { color: var(--chatly-accent, #6557e8); background: var(--chatly-accent-soft, #f0edff); }
 @media (max-width: 520px) { .notification-activity-item { gap: 9px; padding: 13px 11px; border-radius: 12px; } .notification-activity-icon { flex-basis: 29px; width: 29px; height: 29px; } }
+
+
+/* Batch 1.1 — semantic design tokens */
+:root {
+  --chatly-space-1: 4px; --chatly-space-2: 8px; --chatly-space-3: 12px; --chatly-space-4: 16px;
+  --chatly-space-5: 20px; --chatly-space-6: 24px; --chatly-space-8: 32px; --chatly-space-10: 40px;
+  --chatly-font-xs: 11px; --chatly-font-sm: 13px; --chatly-font-md: 15px; --chatly-font-lg: 18px;
+  --chatly-line-tight: 1.25; --chatly-line-normal: 1.5; --chatly-line-relaxed: 1.7;
+  --chatly-control-height: 42px; --chatly-control-height-sm: 36px; --chatly-control-height-lg: 48px;
+  --chatly-radius-pill: 999px; --chatly-radius-control: 12px;
+  --chatly-shadow-raised: 0 8px 24px rgb(25 25 45 / 8%);
+  --chatly-shadow-modal: 0 24px 72px rgb(18 18 32 / 20%);
+  --chatly-danger: #c43d4b; --chatly-danger-soft: #fff0f1;
+  --chatly-success: #247548; --chatly-success-soft: #eaf8ef;
+  --chatly-warning: #8a5a10; --chatly-warning-soft: #fff7e7;
+  --chatly-surface-muted: #f4f4f8; --chatly-surface-raised: #fff;
+  --chatly-text-subtle: #9292a6; --chatly-text-strong: #25253a;
+  --chatly-border-strong: #d7d7e2; --chatly-overlay: rgb(20 20 35 / 48%);
+}
+[data-theme="dark"] {
+  --chatly-surface-muted: #20202b; --chatly-surface-raised: #252532;
+  --chatly-text-subtle: #a2a2b5; --chatly-text-strong: #f0f0f7;
+  --chatly-border-strong: #454555; --chatly-overlay: rgb(0 0 0 / 66%);
+  --chatly-danger-soft: #3a2028; --chatly-success-soft: #1d3428; --chatly-warning-soft: #3a3020;
+}
+
