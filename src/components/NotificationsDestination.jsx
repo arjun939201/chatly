@@ -137,7 +137,8 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
       });
     } catch (err) {
       console.error("Notifications load failed:", err);
-      setError(err.message || "Could not load notifications.");
+      // Keep already-rendered activity visible if a background refresh or page fetch fails.
+      if (!silent) setError(err.message || "Could not load notifications.");
     } finally {
       if (!silent) setLoading(false);
       setLoadingMore(false);
