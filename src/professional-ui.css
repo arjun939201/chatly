@@ -963,3 +963,15 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .people-list :is(.conversation-name, .chat-row-name, strong) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chat-layout .people-list :is(.conversation-preview, .chat-row-preview) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--chatly-muted); }
 .chat-layout .people-list > button:focus-visible, .chat-layout .people-list .chat-row:focus-visible { outline-offset: -2px; }
+
+
+/* Batch 3.4 — message thread rhythm */
+.chat-layout .message-list { min-width: 0; min-height: 0; overscroll-behavior: contain; overflow-wrap: anywhere; }
+.chat-layout .message { max-width: min(78%, 680px); }
+.chat-layout .message p { margin: 0; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.chat-layout .message-date-separator { display: flex; align-items: center; justify-content: center; padding: 12px 0; }
+.chat-layout .message-date-separator > * { padding: 5px 10px; border-radius: 999px; color: var(--chatly-muted); background: var(--chatly-surface-muted, #f3f3f7); font-size: 11px; }
+.chat-layout .group-message-sender { margin-bottom: 4px; color: var(--chatly-muted); font-size: 11px; font-weight: 650; }
+.chat-layout .message + .message { margin-top: 3px; }
+.chat-layout .message-list :is(img, video) { max-width: 100%; height: auto; }
+@media (max-width: 560px) { .chat-layout .message { max-width: 88%; } }
