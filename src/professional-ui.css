@@ -2647,3 +2647,15 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .feed-page .post-card .post-actions .post-engagement-meta time{font-size:inherit;white-space:nowrap;}
 .app-shell .feed-page .post-card .post-actions .post-view-count{display:inline-flex;align-items:center;gap:3px;margin:0;font-size:inherit;white-space:nowrap;}
 @media(max-width:420px){.app-shell .feed-page .post-card .post-actions{gap:6px}.app-shell .feed-page .post-card .post-actions-primary{gap:6px}.app-shell .feed-page .post-card .post-actions-primary>button{padding-inline:3px}.app-shell .feed-page .post-card .post-actions .post-engagement-meta{gap:5px;font-size:10px}}
+
+
+/* Accessibility refinement: honor reduced-motion preferences across every app surface. */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *,
+  .app-shell *::before,
+  .app-shell *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
