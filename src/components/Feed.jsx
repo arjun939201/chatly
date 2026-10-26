@@ -410,8 +410,10 @@ const commentComposerRef = useRef(null);
   const visiblePosts = orderedPosts.slice(0, visibleLimit);
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
-    <div className="feed-heading-row"><div><h1>{savedView ? "Saved posts" : "Your feed"}</h1><p aria-hidden={!savedView}>{savedView ? "Posts you bookmarked for later" : "\u00a0"}</p></div></div>
-    <nav className="feed-filter-tabs" aria-label="Feed views">{[["latest","Latest"],["popular","Popular"],["following","Following"],["saved","Saved"]].map(([value,label]) => <button type="button" key={value} className={(value === "saved" ? savedView : !savedView && feedFilter === value) ? "active" : ""} aria-pressed={value === "saved" ? savedView : !savedView && feedFilter === value} onClick={() => { setSavedView(value === "saved"); if (value !== "saved") setFeedFilter(value); setVisibleLimit(20); }}>{label}</button>)}</nav>
+    <section className="feed-header-section" aria-label={savedView ? "Saved posts view" : "Feed views"}>
+      <div className="feed-heading-row"><div><h1>{savedView ? "Saved posts" : "Your feed"}</h1><p aria-hidden={!savedView}>{savedView ? "Posts you bookmarked for later" : "\u00a0"}</p></div></div>
+      <nav className="feed-filter-tabs" aria-label="Feed views">{[["latest","Latest"],["popular","Popular"],["following","Following"],["saved","Saved"]].map(([value,label]) => <button type="button" key={value} className={(value === "saved" ? savedView : !savedView && feedFilter === value) ? "active" : ""} aria-pressed={value === "saved" ? savedView : !savedView && feedFilter === value} onClick={() => { setSavedView(value === "saved"); if (value !== "saved") setFeedFilter(value); setVisibleLimit(20); }}>{label}</button>)}</nav>
+    </section>
     {feedError && <div className="feed-notice" role="alert"><span>{feedError}</span><button type="button" onClick={loadFeed} disabled={feedLoading}>{feedLoading ? "Retrying…" : "Try again"}</button></div>}
     {notice && <div className="feed-notice" role="status"><span>{notice}</span>{lastHiddenPost && notice === "Post hidden from your feed." && <button type="button" onClick={undoHidePost}>Undo</button>}</div>}
     {feedLoading && posts.length === 0 && <section className="feed-loading-state" role="status" aria-label="Loading posts">
