@@ -1434,3 +1434,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell [aria-disabled="true"] { cursor: not-allowed; opacity: .58; }
 .app-shell :is(button, a):is([aria-current="page"], [aria-pressed="true"]) { color: var(--chatly-accent); }
 .app-shell :is(button, a):focus-visible { position: relative; z-index: 2; }
+
+/* Batch 8.3 — accessible icon-only action affordances */
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .global-profile-trigger) {
+  -webkit-tap-highlight-color: transparent;
+}
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button):hover { outline-color: transparent; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button):focus-visible { box-shadow: var(--chatly-focus); }
