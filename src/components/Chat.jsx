@@ -71,6 +71,74 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     return () => { alive = false; };
   }, [session.user.id]);
 
+
+  // Keep the conversation list and unread counts live even when no chat is open.
+  useEffect(() => {
+    let alive = true;
+    const syncConversationList = async () => {
+      const { data, error: syncError } = await supabase.from("messages")
+        .select("id,sender_id,recipient_id,body,created_at,read_at,delivered_at,reply_to")
+        .or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id)
+        .order("created_at", { ascending: false }).limit(250);
+      if (!alive || syncError) {
+        if (alive && syncError) setError(syncError.message || "Could not refresh conversations.");
+        return;
+      }
+      const rows = data || [];
+      setRecentMessages(rows);
+      const latest = {};
+      rows.forEach(message => {
+        const peer = message.sender_id === session.user.id ? message.recipient_id : message.sender_id;
+        if (peer && !latest[peer]) latest[peer] = message;
+      });
+      setLastMessages(latest);
+    };
+
+    const channel = supabase.channel(`account-messages-${session.user.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages", filter: `sender_id=eq.${session.user.id}` }, payload => {
+        if (!alive) return;
+        const changed = payload.new || payload.old;
+        const peer = changed.sender_id === session.user.id ? changed.recipient_id : changed.sender_id;
+        if (payload.eventType === "INSERT") {
+          setRecentMessages(current => [payload.new, ...current.filter(item => item.id !== payload.new.id)].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 250));
+          setLastMessages(current => {
+            const prior = current[peer];
+            return !prior || new Date(payload.new.created_at) >= new Date(prior.created_at) ? { ...current, [peer]: payload.new } : current;
+          });
+        } else if (payload.eventType === "UPDATE") {
+          setRecentMessages(current => current.map(item => item.id === payload.new.id ? { ...item, ...payload.new } : item));
+          setLastMessages(current => Object.fromEntries(Object.entries(current).map(([id, item]) => [id, item?.id === payload.new.id ? { ...item, ...payload.new } : item])));
+        } else if (payload.eventType === "DELETE") {
+          setRecentMessages(current => current.filter(item => item.id !== payload.old.id));
+          syncConversationList();
+        }
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages", filter: `recipient_id=eq.${session.user.id}` }, payload => {
+        if (!alive) return;
+        if (payload.eventType === "INSERT") {
+          const incoming = payload.new;
+          const peer = incoming.sender_id;
+          setRecentMessages(current => [incoming, ...current.filter(item => item.id !== incoming.id)].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 250));
+          setLastMessages(current => {
+            const prior = current[peer];
+            return !prior || new Date(incoming.created_at) >= new Date(prior.created_at) ? { ...current, [peer]: incoming } : current;
+          });
+        } else if (payload.eventType === "UPDATE") {
+          const updated = payload.new;
+          setRecentMessages(current => current.map(item => item.id === updated.id ? { ...item, ...updated } : item));
+          setLastMessages(current => Object.fromEntries(Object.entries(current).map(([id, item]) => [id, item?.id === updated.id ? { ...item, ...updated } : item])));
+        } else if (payload.eventType === "DELETE") {
+          setRecentMessages(current => current.filter(item => item.id !== payload.old.id));
+          syncConversationList();
+        }
+      })
+      .subscribe(status => {
+        if (status === "SUBSCRIBED") syncConversationList();
+      });
+
+    return () => { alive = false; supabase.removeChannel(channel); };
+  }, [session.user.id]);
+
   useEffect(() => { try { localStorage.setItem(`chatly-archived-chats-${session.user.id}`, JSON.stringify(archivedChats)); } catch { /* Session-only fallback. */ } }, [archivedChats, session.user.id]);
   useEffect(() => { try { localStorage.setItem(`chatly-pinned-chats-${session.user.id}`, JSON.stringify(pinnedChats)); } catch { /* Session-only fallback. */ } }, [pinnedChats, session.user.id]);
   useEffect(() => { try { localStorage.setItem(`chatly-muted-chats-${session.user.id}`, JSON.stringify(mutedChats)); } catch { /* Session-only fallback. */ } }, [mutedChats, session.user.id]);
