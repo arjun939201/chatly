@@ -1708,3 +1708,14 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none !important; }
 }
 
+
+
+/* Batch 11.1 — shared component surface harmonization */
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card, .chat-layout) {
+  color: var(--text, var(--chatly-ink));
+  border-color: var(--border, var(--chatly-border));
+}
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .profile-post, .st-card,
+  .notification-item, .notification-card) { border-style: solid; }
+
