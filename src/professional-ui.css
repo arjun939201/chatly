@@ -2167,3 +2167,16 @@ html { -webkit-text-size-adjust: 100%; }
   }
 }
 
+
+
+/* Batch 17.1 — semantic design tokens */
+:root {
+  --chatly-font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --chatly-space-1: 4px; --chatly-space-2: 8px; --chatly-space-3: 12px;
+  --chatly-space-4: 16px; --chatly-space-5: 20px; --chatly-space-6: 24px;
+  --chatly-space-8: 32px; --chatly-space-10: 40px; --chatly-space-12: 48px;
+  --chatly-control-height: 42px; --chatly-control-height-compact: 36px;
+  --chatly-radius-pill: 999px; --chatly-shadow-raised: 0 8px 28px rgb(20 20 40 / 9%);
+  --chatly-layer-header: 15; --chatly-layer-menu: 30; --chatly-layer-modal: 50;
+}
+
