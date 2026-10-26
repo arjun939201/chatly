@@ -1825,3 +1825,11 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-options-trigger, .profile-menu-trigger):focus-visible { border-radius: 10px; }
 
+
+
+/* Batch 12.4 — restrained icon micro-interactions */
+.app-shell :is(.post-actions button, .notification-actions button, .profile-menu-trigger) svg {
+  transition: transform 150ms ease;
+}
+.app-shell :is(.post-actions button, .notification-actions button):hover svg { transform: scale(1.06); }
+
