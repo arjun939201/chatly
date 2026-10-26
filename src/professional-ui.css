@@ -476,3 +476,12 @@
 .notification-item:hover { background: var(--chatly-canvas); }
 .notification-item.is-unread, .notification-item[aria-current="true"] { background: var(--chatly-accent-soft); }
 .notification-item :is(p, small) { overflow-wrap: anywhere; }
+
+
+/* Batch 2.4 — settings controls */
+.settings-page, .settings-panel { width: min(100% - 28px, 760px); margin: 24px auto 96px; }
+.settings-section { border: 1px solid var(--chatly-border); border-radius: 16px; background: var(--surface, #fff); overflow: hidden; }
+.settings-section + .settings-section { margin-top: 14px; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 58px; padding: 13px 16px; border-bottom: 1px solid var(--chatly-border); }
+.settings-row:last-child { border-bottom: 0; }
+.settings-row :is(input, select) { accent-color: var(--chatly-accent); }
