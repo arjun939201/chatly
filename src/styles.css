@@ -4818,3 +4818,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 13 — subtle separators */
 .chat-list-item+.chat-list-item,.notification-item+.notification-item{border-top:1px solid var(--border-color,rgba(120,120,140,.14));}
+
+/* Round 3 / 14 — search field ergonomics */
+.search-input-wrap input,.search-bar input{width:100%;min-width:0;}
