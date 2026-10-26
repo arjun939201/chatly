@@ -1070,3 +1070,11 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .search-page-input input::placeholder { color: var(--chatly-muted); opacity: .85; }
 .search-page .search-clear-button { display: inline-grid; place-items: center; min-width: 34px; min-height: 34px; border-radius: 10px; color: var(--chatly-muted); }
 .search-page .search-clear-button:hover { color: var(--chatly-ink); background: var(--chatly-surface-muted, #f3f3f7); }
+
+
+/* Batch 4.3 — category tab navigation */
+.search-page .search-kind-tabs { display: flex; gap: 5px; overflow-x: auto; padding: 3px; scrollbar-width: none; border-radius: 13px; background: var(--chatly-surface-muted, #f3f3f7); }
+.search-page .search-kind-tabs::-webkit-scrollbar { display: none; }
+.search-page .search-kind-tabs [role="tab"] { flex: 0 0 auto; min-height: 39px; padding: 8px 13px; border-radius: 10px; color: var(--chatly-muted); white-space: nowrap; }
+.search-page .search-kind-tabs [role="tab"].active, .search-page .search-kind-tabs [role="tab"][aria-selected="true"] { color: var(--chatly-ink); background: var(--chatly-surface); box-shadow: var(--chatly-shadow-card); }
+.search-page .search-kind-tabs [role="tab"]:focus-visible { outline-offset: -2px; }
