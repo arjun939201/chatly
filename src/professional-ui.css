@@ -1367,3 +1367,15 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page :is(.notification-item, .notification-card) { scroll-margin-block: 80px; }
 .notifications-page button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .notifications-page [aria-live] { overflow-wrap: anywhere; }
+
+
+/* Batch 6.10 — mobile activity layout and reduced-motion finishing */
+@media (max-width: 600px) {
+  .notifications-page { width: calc(100% - 24px); padding-top: 18px; }
+  .notifications-page .notification-item, .notifications-page .notification-card { gap: 9px; padding: 11px; border-radius: 13px; }
+  .notifications-page .notification-avatar { width: 38px; height: 38px; }
+  .notifications-page .notification-actions button, .notifications-page .notification-actions a { min-height: 36px; }
+  .notifications-page .notification-bulk-actions { justify-content: flex-start; }
+}
+@media (max-width: 380px) { .notifications-page .notification-copy p { font-size: 12px; } .notifications-page .notification-filters button { padding-inline: 10px; } }
+@media (prefers-reduced-motion: reduce) { .notifications-page *, .notifications-page *::before, .notifications-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
