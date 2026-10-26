@@ -1884,3 +1884,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown,
   .compose-modal, .comments-dialog, .profile-modal, .st-dialog) { will-change: opacity, transform; }
 
+
+
+/* Batch 13.1 — shared layout alignment */
+.app-shell :is(.feed-page, .chat-page, .explore-page, .notifications-page, .profile-page) { min-width: 0; }
+.app-shell :is(.feed-heading-row, .chat-heading-row, .profile-page-head, .notifications-heading) { align-items: center; }
+.app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main) { min-width: 0; }
+
