@@ -1,0 +1,322 @@
+/* Chatly professional UI layer — imported after the legacy stylesheet.
+   Keep refinements centralized while page styles are migrated in focused follow-ups. */
+:root {
+  --chatly-accent: #6557e8;
+  --chatly-accent-hover: #5546d7;
+  --chatly-accent-soft: #f0edff;
+  --chatly-ink: #20202b;
+  --chatly-muted: #777786;
+  --chatly-surface: #fff;
+  --chatly-canvas: #f7f7fa;
+  --chatly-border: #e8e8ef;
+  --chatly-radius-sm: 10px;
+  --chatly-radius-md: 14px;
+  --chatly-radius-lg: 20px;
+  --chatly-shadow-card: 0 2px 12px rgb(25 25 45 / 4%);
+  --chatly-shadow-popover: 0 16px 44px rgb(25 25 45 / 14%);
+  --chatly-focus: 0 0 0 3px rgb(101 87 232 / 22%);
+}
+.app-shell {
+  color: var(--text, var(--chatly-ink));
+  background: var(--app-bg, var(--chatly-canvas));
+  min-width: 320px;
+}
+.app-shell button, .app-shell input, .app-shell textarea, .app-shell select {
+  font: inherit;
+}
+.app-shell button { -webkit-tap-highlight-color: transparent; }
+.app-shell :is(button, a, input, textarea, select):focus-visible {
+  outline: 0;
+  box-shadow: var(--chatly-focus);
+}
+.app-shell :is(input, textarea, select) { accent-color: var(--chatly-accent); }
+.app-shell :is(.primary-button, .send-button, .profile-edit-button) {
+  background: var(--chatly-accent);
+  color: #fff;
+  border-radius: 12px;
+  transition: background-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.app-shell :is(.primary-button, .send-button, .profile-edit-button):hover:not(:disabled) {
+  background: var(--chatly-accent-hover);
+}
+.app-shell :is(.primary-button, .send-button, .profile-edit-button):active:not(:disabled) {
+  transform: translateY(1px);
+}
+.app-shell :is(.secondary-button, .oauth-button) {
+  border-radius: 12px;
+  border-color: var(--chatly-border);
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  min-height: 68px;
+  height: auto;
+  background: var(--surface, var(--chatly-surface));
+  border-color: var(--border, var(--chatly-border));
+  box-shadow: 0 1px 0 rgb(20 20 35 / 2%);
+}
+.brand { color: var(--text, var(--chatly-ink)); }
+.global-profile-trigger {
+  border: 1px solid transparent;
+  border-radius: 50%;
+  padding: 3px;
+  background: transparent;
+}
+.global-profile-trigger:hover { border-color: var(--chatly-border); }
+.global-profile-avatar {
+  width: 38px;
+  height: 38px;
+  border: 2px solid var(--chatly-accent-soft);
+}
+.global-profile-dropdown, .profile-dropdown {
+  border: 1px solid var(--chatly-border);
+  border-radius: 14px;
+  box-shadow: var(--chatly-shadow-popover);
+  padding: 6px;
+  background: var(--surface, #fff);
+}
+.global-profile-dropdown button, .profile-dropdown button {
+  border-radius: 9px;
+  min-height: 40px;
+}
+.global-profile-dropdown button:hover, .profile-dropdown button:hover {
+  background: var(--chatly-accent-soft);
+  color: var(--chatly-accent);
+}
+.feed-page, .search-page {
+  background: var(--app-bg, var(--chatly-canvas));
+}
+.feed-page { padding: clamp(20px, 3vw, 36px) 16px 100px; }
+.feed-column { width: min(100%, 680px); margin-inline: auto; }
+.feed-heading-row { margin-bottom: 18px; }
+.feed-filter-tabs {
+  border-bottom: 1px solid var(--border, var(--chatly-border));
+  gap: 6px;
+}
+.feed-filter-tabs button {
+  border-radius: 10px 10px 0 0;
+  transition: color .16s ease, background .16s ease;
+}
+.feed-filter-tabs button:hover { background: var(--chatly-accent-soft); }
+.posts-list { gap: 16px; }
+.post-card {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: var(--chatly-radius-lg);
+  padding: clamp(15px, 2.4vw, 22px);
+  box-shadow: var(--chatly-shadow-card);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.post-card:hover {
+  border-color: color-mix(in srgb, var(--chatly-accent) 22%, var(--chatly-border));
+  box-shadow: 0 5px 22px rgb(25 25 45 / 6%);
+}
+.post-author { gap: 11px; }
+.post-author-profile { border-radius: 10px; }
+.post-body { color: var(--text, var(--chatly-ink)); line-height: 1.68; overflow-wrap: anywhere; }
+.post-media {
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--chatly-canvas);
+}
+.post-actions {
+  border-color: var(--border, var(--chatly-border));
+  gap: clamp(12px, 3vw, 24px);
+  padding-top: 14px;
+}
+.post-actions button, .post-share-button {
+  border-radius: 9px;
+  transition: color .16s ease, background .16s ease;
+}
+.post-actions button:hover, .post-share-button:hover {
+  color: var(--chatly-accent);
+  background: var(--chatly-accent-soft);
+}
+.post-options-menu {
+  border: 1px solid var(--chatly-border);
+  border-radius: 13px;
+  box-shadow: var(--chatly-shadow-popover);
+  padding: 6px;
+}
+.post-options-menu button { border-radius: 8px; min-height: 38px; }
+.feed-empty, .profile-posts-empty, .comments-empty-state {
+  border: 1px dashed var(--chatly-border);
+  border-radius: var(--chatly-radius-lg);
+  background: var(--surface, #fff);
+  padding: 28px 20px;
+}
+.floating-create {
+  box-shadow: 0 8px 24px rgb(101 87 232 / 28%);
+}
+.compose-modal, .profile-modal {
+  border: 1px solid var(--chatly-border);
+  border-radius: 22px;
+  box-shadow: 0 24px 80px rgb(18 18 32 / 22%);
+  overflow: hidden;
+}
+.compose-modal header, .modal-header, .comments-dialog-header {
+  border-bottom: 1px solid var(--chatly-border);
+  padding: 18px 22px;
+}
+.compose-modal textarea, .comment-composer textarea, .profile-form textarea {
+  border-color: var(--chatly-border);
+  border-radius: 12px;
+  line-height: 1.6;
+}
+.compose-modal textarea:focus, .comment-composer textarea:focus,
+.profile-form textarea:focus, .profile-form input:focus {
+  border-color: var(--chatly-accent);
+  box-shadow: var(--chatly-focus);
+}
+.profile-page, .profile-view {
+  width: min(100% - 32px, 900px);
+  margin: 0 auto;
+}
+.profile-page { padding: 28px 0 90px; }
+.profile-page-head { gap: 12px; }
+.profile-summary, .profile-hero {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: var(--chatly-radius-lg);
+  padding: clamp(18px, 3vw, 30px);
+  gap: clamp(18px, 3vw, 30px);
+}
+.profile-avatar {
+  border: 3px solid var(--chatly-accent-soft);
+  background: var(--chatly-accent-soft);
+  color: var(--chatly-accent);
+}
+.profile-counts { gap: clamp(16px, 4vw, 34px); }
+.profile-counts b, .profile-stats b { color: var(--text, var(--chatly-ink)); }
+.profile-bio { line-height: 1.65; }
+.profile-edit-button { min-height: 42px; padding: 10px 18px; }
+.profile-grid-heading, .profile-posts-title {
+  border-bottom: 1px solid var(--border, var(--chatly-border));
+  padding: 16px 0 12px;
+}
+.profile-post-grid {
+  gap: 12px;
+  margin-top: 16px;
+}
+.profile-post-tile, .profile-post {
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  overflow-wrap: anywhere;
+}
+.profile-post { padding: 15px; }
+.profile-back, .page-back-to-feed {
+  border-radius: 10px;
+  min-height: 38px;
+}
+.public-profile-page { padding-top: 24px; }
+.profile-actions { gap: 10px; }
+.chat-layout {
+  width: min(1320px, calc(100% - 40px));
+  margin: 20px auto;
+  height: calc(100dvh - 108px);
+  min-height: 520px;
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: 20px;
+  background: var(--surface, #fff);
+  box-shadow: var(--chatly-shadow-card);
+}
+.sidebar { background: var(--surface, #fff); border-color: var(--border, var(--chatly-border)); }
+.sidebar-heading { padding: 22px 20px 16px; }
+.search-box {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--app-bg, var(--chatly-canvas));
+}
+.search-box:focus-within { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); }
+.person-row { min-height: 68px; border-radius: 11px; margin: 2px 8px; width: calc(100% - 16px); }
+.person-row:hover, .person-row.selected { background: var(--chatly-accent-soft); }
+.conversation { background: var(--surface, #fff); }
+.conversation-header {
+  border-color: var(--border, var(--chatly-border));
+  min-height: 72px;
+}
+.message-list { background: var(--app-bg, #fafafd); padding: 24px clamp(16px, 3vw, 32px); }
+.message { margin: 8px 0; }
+.bubble {
+  border-radius: 17px;
+  padding: 11px 15px;
+  line-height: 1.58;
+  font-size: 14px;
+}
+.theirs .bubble {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, var(--chatly-border));
+  color: var(--text, var(--chatly-ink));
+  border-bottom-left-radius: 5px;
+}
+.mine .bubble {
+  background: var(--chatly-accent);
+  border-bottom-right-radius: 5px;
+}
+.composer {
+  border-color: var(--border, var(--chatly-border));
+  background: var(--surface, #fff);
+  padding: 14px 18px;
+  align-items: center;
+}
+.composer textarea, .composer input {
+  border: 1px solid var(--border, var(--chatly-border));
+  border-radius: 13px;
+  background: var(--app-bg, #fafafd);
+  color: var(--text, var(--chatly-ink));
+  padding: 12px 14px;
+}
+.composer textarea:focus, .composer input:focus {
+  border-color: var(--chatly-accent);
+  box-shadow: var(--chatly-focus);
+}
+.send-button { min-width: 44px; min-height: 44px; }
+.welcome-chat, .empty-chat { color: var(--muted, var(--chatly-muted)); }
+.welcome-chat h2, .empty-chat h3 { color: var(--text, var(--chatly-ink)); }
+.error-banner, .chat-action-notice { border-radius: 12px; box-shadow: var(--chatly-shadow-card); }
+.destination-topline {
+  background: var(--surface, #fff);
+  border-bottom: 1px solid var(--border, var(--chatly-border));
+}
+@media (max-width: 760px) {
+  .topbar { min-height: 60px; padding-inline: 14px; }
+  .feed-page { padding: 16px 10px 90px; }
+  .feed-column { width: 100%; }
+  .post-card { border-radius: 15px; padding: 14px; }
+  .post-actions { gap: 10px; justify-content: space-between; }
+  .profile-page, .profile-view { width: calc(100% - 24px); }
+  .profile-page { padding-top: 18px; }
+  .profile-summary, .profile-hero { padding: 16px; gap: 14px; }
+  .profile-avatar { flex-shrink: 0; }
+  .profile-counts { gap: 14px; }
+  .profile-post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chat-layout {
+    width: calc(100% - 12px);
+    margin: 6px auto;
+    height: calc(100dvh - 72px);
+    min-height: 0;
+    border-radius: 14px;
+  }
+  .conversation-header { padding-inline: 14px; }
+  .message-list { padding: 14px 12px; }
+  .bubble { max-width: 86%; font-size: 13px; }
+  .composer { padding: 10px; gap: 8px; }
+  .compose-modal, .profile-modal { border-radius: 17px; }
+}
+@media (max-width: 420px) {
+  .brand { font-size: 27px; }
+  .profile-counts { gap: 10px; }
+  .profile-counts span { font-size: 12px; }
+  .post-actions { font-size: 12px; }
+  .post-actions button { min-width: 0; padding-inline: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
