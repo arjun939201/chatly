@@ -1850,3 +1850,12 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-follow-button, .notification-link, .profile-link, .chat-link):hover { opacity: .86; }
 
+
+
+/* Batch 12.7 — menu interaction refinement */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown) {
+  transform-origin: top right;
+  animation: chatly-menu-in 130ms ease-out both;
+}
+@keyframes chatly-menu-in { from { opacity: 0; transform: translateY(-4px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
