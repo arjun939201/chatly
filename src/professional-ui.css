@@ -1405,3 +1405,7 @@ html { -webkit-text-size-adjust: 100%; }
 /* Batch 7.6 — profile grid and summary responsive behavior */
 @media (max-width: 600px) { .profile-page, .profile-view { max-width: 100%; } .profile-summary, .profile-hero { min-width: 0; } .profile-bio, .profile-bio p { overflow-wrap: anywhere; } .profile-post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 340px) { .profile-post-grid { grid-template-columns: 1fr; } }
+
+/* Batch 7.7 — chat workspace small-screen layout */
+@media (max-width: 760px) { .chat-layout { width: calc(100% - 8px); margin: 4px auto; } .sidebar, .conversation { min-width: 0; } .person-row { min-width: 0; } .person-copy { overflow: hidden; } }
+@media (max-width: 480px) { .chat-layout { height: calc(100dvh - 64px - env(safe-area-inset-bottom)); } .conversation-header { min-height: 60px; gap: 8px; } .message-list { min-width: 0; } }
