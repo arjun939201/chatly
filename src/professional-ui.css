@@ -1000,3 +1000,13 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .chat-skeleton-row { display: flex; align-items: flex-end; gap: 8px; }
 .chat-layout .chat-skeleton-row:nth-child(even) { justify-content: flex-end; }
 .chat-layout .chat-skeleton-bubble { min-height: 34px; width: min(65%, 280px); border-radius: 14px; }
+
+
+/* Batch 3.7 — conversation header actions */
+.chat-layout .conversation-header :is(.conversation-mute, .conversation-pin, .conversation-archive, .conversation-close) { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; border-radius: 11px; color: var(--chatly-muted); }
+.chat-layout .conversation-header :is(.conversation-mute, .conversation-pin, .conversation-archive, .conversation-close):hover { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.chat-layout .conversation-header :is(.conversation-mute, .conversation-pin, .conversation-archive, .conversation-close):focus-visible { outline-offset: 2px; }
+.chat-layout .conversation-header .conversation-close { margin-left: auto; }
+.chat-layout .conversation-header .conversation-title-copy { display: grid; gap: 3px; }
+.chat-layout .conversation-header .conversation-title-copy :is(h2, strong) { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-layout .conversation-header .conversation-title-copy small { color: var(--chatly-muted); font-size: 12px; }
