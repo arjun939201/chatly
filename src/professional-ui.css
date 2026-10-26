@@ -2508,3 +2508,46 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell .feed-header-section { gap: 8px; margin-bottom: 10px; }
   .app-shell .feed-page { padding-top: 8px; }
 }
+
+
+/* Twitter-style single engagement row: Like first, then Comment, Save, Share. */
+.app-shell .feed-page .post-card .post-actions {
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+.app-shell .feed-page .post-card .post-actions-primary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  gap: 0;
+}
+.app-shell .feed-page .post-card .post-actions-primary > button {
+  min-width: 0;
+  padding: 8px 4px;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  border-radius: 9px;
+}
+.app-shell .feed-page .post-card .post-actions-secondary {
+  display: none;
+}
+.app-shell .feed-page .post-card .post-actions-primary > button svg {
+  flex: 0 0 auto;
+}
+@media (max-width: 390px) {
+  .app-shell .feed-page .post-card .post-actions-primary > button {
+    gap: 4px;
+    padding-inline: 2px;
+    font-size: 12px;
+  }
+  .app-shell .feed-page .post-card .post-actions-primary > button svg {
+    width: 16px;
+    height: 16px;
+  }
+}
