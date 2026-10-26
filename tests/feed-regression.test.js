@@ -43,7 +43,7 @@ test("feed and timestamps expose accessible semantics", () => {
   assert.match(source, /role="feed" aria-label="Community posts" aria-busy=\{feedLoading\}/);
   assert.match(source, /aria-posinset=\{postIndex \+ 1\} aria-setsize=\{posts\.length\}/);
   assert.match(source, /<time dateTime=\{post\.created_at\}>/);
-  assert.match(source, /<time dateTime=\{comment\.created_at\}>/);
+  assert.match(source, /<time className="comment-timestamp" dateTime=\{comment\.created_at\}>/);
 });
 
 test("missing saved_posts does not block the regular feed", () => {
