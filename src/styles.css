@@ -4809,3 +4809,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 10 — mobile input zoom safeguard */
 @media(max-width:600px){input,textarea,select{font-size:16px;}}
+
+/* Round 3 / 11 — avatar sizing stability */
+.avatar,.profile-avatar,.global-profile-avatar{aspect-ratio:1/1;}
