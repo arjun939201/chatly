@@ -2558,3 +2558,15 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .post-actions-primary{flex:1 1 auto;min-width:0;flex-wrap:nowrap}
 .app-shell .post-actions>.post-save-button{flex:0 0 auto;margin-left:auto}
 @media(max-width:480px){.app-shell .post-actions{gap:4px}.app-shell .post-actions-primary{gap:4px}.app-shell .post-actions button{padding-inline:6px}}
+
+
+/* Feed action controls: icon-only, one continuous row with Save at the far edge. */
+.app-shell .feed-page .post-card .post-actions{display:flex;align-items:center;flex-wrap:nowrap;gap:0}
+.app-shell .feed-page .post-card .post-actions-primary{display:flex;flex:1 1 auto;min-width:0;align-items:center;justify-content:space-around;gap:0}
+.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-save-button{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;gap:0;min-width:40px;min-height:40px;padding:8px 10px;white-space:nowrap}
+.app-shell .feed-page .post-card .post-actions>.post-save-button{margin-left:auto}
+.app-shell .feed-page .post-card .post-actions button svg{flex:0 0 auto}
+.app-shell .feed-page .post-card .post-engagement-meta{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:18px 0 0;padding:0 0 12px;border-bottom:1px solid var(--chatly-border);color:var(--chatly-muted);font-size:14px;font-weight:500}
+.app-shell .feed-page .post-card .post-engagement-meta time{font-size:14px;color:var(--chatly-muted)}
+.app-shell .feed-page .post-card .post-view-count{display:inline-flex;align-items:center;gap:5px}
+@media(max-width:480px){.app-shell .feed-page .post-card .post-actions-primary>button,.app-shell .feed-page .post-card .post-save-button{min-width:36px;padding-inline:8px}}
