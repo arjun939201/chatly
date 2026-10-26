@@ -1919,3 +1919,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.notification-copy, .notification-content) { flex: 1 1 auto; min-width: 0; }
 .app-shell :is(.notification-item, .notification-card) :is(time, .notification-time) { white-space: nowrap; }
 
+
+
+/* Batch 13.6 — chat list and message rhythm */
+.app-shell :is(.conversation-item, .chat-list-item, .chat-preview-row) { min-width: 0; }
+.app-shell :is(.conversation-copy, .chat-list-copy, .chat-preview-copy) { flex: 1 1 auto; min-width: 0; }
+.app-shell :is(.message-bubble, .chat-message-bubble) { overflow-wrap: anywhere; }
+
