@@ -4695,3 +4695,10 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .notification-activity-copy{min-width:0;overflow-wrap:anywhere}
 .notification-actor-avatar{flex:0 0 auto}
 
+
+/* Chatly UI batch 08: settings controls */
+.settings-page{width:min(100%,960px);margin-inline:auto}
+.st-card{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-md);box-shadow:0 3px 14px rgba(42,36,89,.025)}
+.st-nav-card,.st-pref-row{transition:background .16s ease,border-color .16s ease}
+.st-nav-card:hover,.st-pref-row:hover{background:#faf9ff}
+
