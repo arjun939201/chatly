@@ -433,3 +433,21 @@
 .conversation-header button, .composer button { border-radius: 11px; transition: background .16s ease, color .16s ease; }
 .conversation-header button:hover { background: var(--chatly-accent-soft); color: var(--chatly-accent); }
 .message-list:focus-visible { outline: 2px solid var(--chatly-accent); outline-offset: -2px; }
+
+
+/* Commit 12 — chat responsive finish */
+@media (max-width: 760px) {
+  .chat-layout { grid-template-columns: minmax(0, 1fr); }
+  .chat-layout.has-active .conversation { width: 100%; }
+  .chat-layout.has-active .conversation-header { min-height: 64px; }
+  .chat-layout.has-active .composer { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+  .chat-layout:not(.has-active) .sidebar { display: flex; }
+}
+@media (max-width: 420px) {
+  .chat-layout { width: 100%; margin: 0; height: calc(100dvh - 60px); border: 0; border-radius: 0; }
+  .chat-heading-title { font-size: 18px; }
+  .conversation-header { padding-inline: 12px; }
+  .message-list { padding-inline: 10px; }
+  .bubble { max-width: 90%; padding: 10px 12px; }
+  .composer textarea, .composer input { font-size: 16px; }
+}
