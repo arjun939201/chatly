@@ -2017,3 +2017,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) { overflow: hidden; }
 .app-shell :is(.post-media img, .profile-post-media img) { vertical-align: middle; }
 
+
+
+/* Batch 14.10 — final edge-case safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { box-sizing: border-box; }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) * { min-width: 0; }
+@media (prefers-reduced-motion: reduce) { .app-shell * { scroll-behavior: auto !important; } }
+
