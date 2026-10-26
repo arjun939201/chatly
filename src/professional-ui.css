@@ -2024,3 +2024,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) * { min-width: 0; }
 @media (prefers-reduced-motion: reduce) { .app-shell * { scroll-behavior: auto !important; } }
 
+
+
+/* Batch 15.1 — shared sizing cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { box-sizing: border-box; min-width: 0; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) > * { min-width: 0; }
+
