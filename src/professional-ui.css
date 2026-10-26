@@ -788,3 +788,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .feed-filter-tabs button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
 @media (max-width: 420px) { .feed-page .feed-heading-row { align-items: flex-start; } .feed-page .feed-saved-view-toggle span { display: none; } }
 
+
+
+/* Batch 2.1 — feed header and sorting */
+.feed-page .feed-heading-row { align-items: center; gap: 14px; }
+.feed-page .feed-heading-row > div { min-width: 0; }
+.feed-page .feed-heading-row h1 { margin: 0; }
+.feed-page .feed-heading-row p { margin: 5px 0 0; color: var(--muted, var(--chatly-muted)); font-size: 13px; }
+.feed-page .feed-saved-view-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 8px 12px; }
+.feed-page .feed-saved-view-toggle.is-active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.feed-page .feed-filter-tabs { display: flex; align-items: center; overflow-x: auto; scrollbar-width: none; }
+.feed-page .feed-filter-tabs::-webkit-scrollbar { display: none; }
+.feed-page .feed-filter-tabs button { white-space: nowrap; min-height: 42px; }
+.feed-page .feed-filter-tabs button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+@media (max-width: 420px) { .feed-page .feed-heading-row { align-items: flex-start; } .feed-page .feed-saved-view-toggle span { display: none; } }
