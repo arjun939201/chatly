@@ -4824,3 +4824,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 15 — toast positioning safe area */
 .toast,.app-notice,.notice-banner{max-width:min(92vw,560px);}
+
+/* Round 3 / 16 — empty-state text width */
+.empty-state p,.feed-empty-state p,.chat-empty-state p{max-width:46ch;margin-inline:auto;line-height:1.6;}
