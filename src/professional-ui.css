@@ -2277,3 +2277,12 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-card, .profile-post, .notification-activity-item, .person-row) > * { min-width: 0; }
 
+
+
+/* Batch 20.2 — overlay stacking system */
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { z-index: var(--chatly-layer-modal); }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  max-width: min(100%, 100vw); max-height: min(92dvh, 900px);
+  overscroll-behavior: contain; isolation: isolate;
+}
+
