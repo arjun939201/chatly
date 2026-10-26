@@ -5072,3 +5072,23 @@ textarea{max-width:100%;resize:vertical;}
  .feed-page .post-actions button{min-height:30px;padding:4px 5px;font-size:10px}
  .feed-page .post-actions button svg{width:16px;height:16px}
 }
+
+/* Correct feed card action alignment: one centered row, save pinned right. */
+.feed-page .post-card{display:flex;flex-direction:column}
+.feed-page .post-engagement-meta{margin:8px 0 10px!important;min-height:20px}
+.feed-page .post-actions{width:100%;min-height:42px;padding:7px 0 0!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:0!important}
+.feed-page .post-actions-primary{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex:0 1 auto!important;min-width:0!important;gap:4px!important}
+.feed-page .post-actions-secondary{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:0 0 auto!important;margin:0 0 0 auto!important}
+.feed-page .post-actions button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:32px!important;padding:4px 6px!important;margin:0!important;line-height:1!important}
+.feed-page .post-actions button span{line-height:1!important}
+.feed-page .post-body{margin:12px 0!important}
+.feed-page .feed-header-section{margin-bottom:8px!important;padding:0 0 5px!important}
+.feed-page .feed-heading-row{margin:0 0 7px!important}
+.feed-page .feed-heading-row h1{margin:1px 0!important}
+@media(max-width:600px){
+ .feed-page .post-engagement-meta{margin:7px 0 8px!important}
+ .feed-page .post-actions{min-height:36px;padding-top:5px!important}
+ .feed-page .post-actions-primary{gap:2px!important}
+ .feed-page .post-actions button{min-height:30px!important;padding:3px 4px!important}
+ .feed-page .post-body{margin:10px 0!important}
+}
