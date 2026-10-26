@@ -1537,3 +1537,15 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state) { box-shadow: none; }
 
+
+
+/* Batch 9.5 — interaction state consistency */
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button,
+  .post-actions button, .profile-menu-trigger, .chat-new-button) {
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button):active {
+  background-color: var(--chatly-accent-soft);
+}
+.app-shell :is(button, [role="button"]):disabled { filter: saturate(.65); }
+
