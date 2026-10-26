@@ -1696,3 +1696,15 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.error-banner, .success-banner, .success-notice) { font-size: 13px; }
 }
 
+
+
+/* Batch 10.10 — feedback accessibility finish */
+.app-shell :is([role="status"], [role="alert"]):focus-visible { outline: 2px solid var(--chatly-accent); outline-offset: 3px; }
+@media (forced-colors: active) {
+  .app-shell :is(.success-banner, .success-notice, .error-banner, .notifications-error) { border: 1px solid CanvasText; }
+  .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { background: Canvas; border: 1px solid CanvasText; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none !important; }
+}
+
