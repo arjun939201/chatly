@@ -1685,3 +1685,14 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.chat-unread-count, .unread-badge) { font-variant-numeric: tabular-nums; font-weight: 750; }
 .app-shell :is(.notification-item.is-unread, .notification-card.is-unread) { border-inline-start-width: 3px; }
 
+
+
+/* Batch 10.9 — compact-screen feedback surfaces */
+@media (max-width: 600px) {
+  .app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty, .notifications-error) {
+    padding: 22px 14px; border-radius: 14px;
+  }
+  .app-shell :is(.error-banner, .success-banner, .success-notice, .feed-notice) { padding: 10px 12px; }
+  .app-shell :is(.error-banner, .success-banner, .success-notice) { font-size: 13px; }
+}
+
