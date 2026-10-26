@@ -1667,3 +1667,14 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.primary-button, .send-button):disabled { background: color-mix(in srgb, var(--chatly-accent) 55%, #a4a4b2); }
 .app-shell :is(button, input, textarea, select):disabled { transition: opacity .12s ease; }
 
+
+
+/* Batch 10.7 — inline status and feedback labels */
+.app-shell :is([role="status"], [role="alert"], [aria-live="polite"], [aria-live="assertive"]) {
+  overflow-wrap: anywhere; line-height: 1.5;
+}
+.app-shell :is(.status-label, .notification-read-state, .post-timestamp-wrap) {
+  font-size: 12px; color: var(--chatly-muted);
+}
+.app-shell :is(.status-label, [data-status]) { max-width: 100%; }
+
