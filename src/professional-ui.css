@@ -528,3 +528,40 @@
 :is(.error-banner, .error-state, .form-error) { border: 1px solid #f1caca; border-radius: 12px; background: #fff4f4; color: #9d3434; }
 :is(.success-banner, .success-state) { border: 1px solid #cce8d6; border-radius: 12px; background: #f1fbf4; color: #246b3c; }
 :is(.error-state, .success-state) { padding: 12px 15px; font-size: 13px; line-height: 1.55; }
+
+
+/* Refined comment actions — discreet until interaction, touch-safe */
+.comment-item { position: relative; }
+.comment-own-actions { display: flex; align-items: center; gap: 4px; margin-top: 5px; opacity: 0; visibility: hidden; transform: translateY(-2px); transition: opacity .14s ease, transform .14s ease, visibility .14s ease; }
+.comment-item:hover .comment-own-actions,
+.comment-item:focus-within .comment-own-actions { opacity: 1; visibility: visible; transform: translateY(0); }
+.comment-action-button { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border: 1px solid transparent; border-radius: 8px; color: var(--muted, #77778b); background: transparent; cursor: pointer; transition: color .14s ease, background .14s ease, border-color .14s ease; }
+.comment-action-button:hover { color: var(--chatly-accent, #6557e8); background: var(--chatly-accent-soft, #f0edff); border-color: var(--chatly-border, #e8e7f0); }
+.comment-action-button.comment-action-danger:hover { color: #c43d4b; background: #fff0f1; border-color: #f7d5d9; }
+.comment-action-button:focus-visible { opacity: 1; visibility: visible; outline: 2px solid var(--chatly-accent, #6557e8); outline-offset: 2px; }
+@media (hover: none), (pointer: coarse) { .comment-own-actions { opacity: 1; visibility: visible; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .comment-own-actions, .comment-action-button { transition: none; } }
+
+/* Professional notification actor and username hierarchy */
+.notification-activity-item { display: flex; align-items: flex-start; gap: 13px; padding: 16px 18px; border: 1px solid var(--chatly-border, #e8e7f0); border-radius: 15px; background: var(--surface, #fff); transition: border-color .16s ease, background .16s ease, box-shadow .16s ease; }
+.notification-activity-item + .notification-activity-item { margin-top: 9px; }
+.notification-activity-item:hover { border-color: color-mix(in srgb, var(--chatly-accent, #6557e8) 22%, var(--chatly-border, #e8e7f0)); background: var(--surface, #fff); box-shadow: 0 5px 18px rgb(37 34 70 / 5%); }
+.notification-activity-icon { flex: 0 0 32px; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; background: var(--chatly-canvas, #f6f6fb); color: var(--chatly-accent, #6557e8); }
+.notification-activity-icon.like { color: #d84c67; background: #fff0f3; }
+.notification-activity-icon.comment { color: #6557e8; background: #f0edff; }
+.notification-activity-icon.follow { color: #16856a; background: #eaf8f3; }
+.notification-activity-copy { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 5px; color: var(--text, var(--chatly-ink, #25253a)); }
+.notification-actor-avatar { width: 38px !important; height: 38px !important; flex: 0 0 38px !important; border: 1px solid var(--chatly-border, #e8e7f0) !important; background: var(--chatly-canvas, #f5f5fb) !important; color: var(--chatly-accent, #6557e8) !important; font-size: 14px; font-weight: 700; }
+.notification-actor-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.notification-activity-copy p { margin: 0; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.notification-actor-link { display: inline; padding: 0; border: 0; background: transparent; color: var(--text, var(--chatly-ink, #25253a)); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+.notification-actor-link:hover { color: var(--chatly-accent, #6557e8); text-decoration: underline; text-underline-offset: 2px; }
+.notification-activity-copy > span { color: var(--muted, var(--chatly-muted, #85859b)); font-size: 11px; font-weight: 500; }
+.notification-post-preview { display: block; margin-top: 5px; padding: 9px 11px; border-left: 2px solid var(--chatly-border, #e8e7f0); border-radius: 0 8px 8px 0; background: var(--chatly-canvas, #f7f7fb); color: var(--muted, var(--chatly-muted, #85859b)); font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; }
+.notification-date-heading { margin: 22px 4px 10px; color: var(--muted, var(--chatly-muted, #85859b)); font-size: 11px; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
+.notification-filter-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 18px; }
+.notification-filter-row button { min-height: 34px; padding: 7px 12px; border: 1px solid var(--chatly-border, #e8e7f0); border-radius: 999px; background: var(--surface, #fff); color: var(--muted, var(--chatly-muted, #85859b)); font-size: 12px; font-weight: 650; }
+.notification-filter-row button.active { border-color: transparent; background: var(--chatly-accent-soft, #f0edff); color: var(--chatly-accent, #6557e8); }
+.notification-refresh-button { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--chatly-border, #e8e7f0); border-radius: 10px; background: var(--surface, #fff); color: var(--muted, var(--chatly-muted, #85859b)); }
+.notification-refresh-button:hover { color: var(--chatly-accent, #6557e8); background: var(--chatly-accent-soft, #f0edff); }
+@media (max-width: 520px) { .notification-activity-item { gap: 9px; padding: 13px 11px; border-radius: 12px; } .notification-activity-icon { flex-basis: 29px; width: 29px; height: 29px; } }
