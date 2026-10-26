@@ -655,3 +655,20 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell [hidden] { display: none !important; }
 .app-shell :is(.scroll-region, .message-list, .people-list) { overscroll-behavior: contain; }
 
+
+
+/* Batch 1.3 — shared button interaction system */
+.app-shell button { min-height: 36px; border-radius: var(--chatly-radius-control); font-weight: 600; }
+.app-shell :is(.primary-button, .send-button, .profile-edit-button) { min-height: var(--chatly-control-height); padding-inline: 16px; }
+.app-shell :is(.secondary-button, .oauth-button) { min-height: var(--chatly-control-height); padding-inline: 14px; background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); border: 1px solid var(--border, var(--chatly-border)); }
+.app-shell :is(.icon-button, .notification-refresh-button, .chat-new-button) { width: 40px; min-width: 40px; min-height: 40px; padding: 0; display: inline-grid; place-items: center; }
+.app-shell button:disabled { opacity: .52; cursor: not-allowed; transform: none; box-shadow: none; }
+.app-shell button[aria-busy="true"] { cursor: progress; }
+.app-shell button[aria-pressed="true"] { color: var(--chatly-accent); }
+.app-shell :is(.danger-button, .delete-button) { color: var(--chatly-danger); }
+.app-shell :is(.danger-button, .delete-button):hover:not(:disabled) { background: var(--chatly-danger-soft); }
+.app-shell :is(button, [role="button"]) { touch-action: manipulation; }
+.app-shell button svg { flex: 0 0 auto; }
+.app-shell button:active:not(:disabled) { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { .app-shell button { transition-duration: 0s !important; } }
+
