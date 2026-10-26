@@ -2603,3 +2603,18 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .feed-page .feed-header-section{width:calc(100% + 32px);max-width:none;margin-left:-16px;margin-right:-16px;box-sizing:border-box;border-radius:0;}
 @media(min-width:521px){.app-shell .feed-page .feed-header-section{width:calc(100% + 32px);margin-left:-16px;margin-right:-16px;}}
 @media(max-width:520px){.app-shell .feed-page .feed-header-section{width:calc(100% + 20px);margin-left:-10px;margin-right:-10px;}}
+
+
+/* Notifications mobile: reduce vertical whitespace between heading, filters and activity. */
+@media(max-width:600px){
+ .app-shell .notification-content{padding-top:8px;padding-bottom:20px}
+ .app-shell .notification-feed{margin-top:0}
+ .app-shell .notification-feed-heading{margin-bottom:10px;min-height:40px}
+ .app-shell .notification-filter-row{margin:8px 0 14px;gap:7px}
+ .app-shell .notification-date-heading{margin:10px 0 6px}
+ .app-shell .notification-activity-list{gap:8px}
+ .app-shell .notification-activity-item{padding:10px 12px;gap:10px}
+ .app-shell .notification-activity-copy{gap:5px}
+ .app-shell .notification-activity-copy p{margin:4px 0;line-height:1.4}
+ .app-shell .notification-post-preview{margin-top:4px;padding:8px 10px;line-height:1.4}
+}
