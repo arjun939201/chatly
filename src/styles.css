@@ -4645,3 +4645,173 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @keyframes group-spin{to{transform:rotate(360deg)}}
 .group-create-dialog .spin{animation:group-spin .9s linear infinite}
 @media(max-width:540px){.group-create-backdrop{padding:0;align-items:end}.group-create-dialog{width:100%;max-height:92dvh;border-radius:22px 22px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom));}.group-member-options{max-height:32dvh}}
+
+/* Chatly UI batch 01: shared design tokens */
+:root{--chatly-ink:#24243a;--chatly-muted:#77788f;--chatly-border:#e8e8f1;--chatly-surface:#fff;--chatly-soft:#f7f7fc;--chatly-accent:#6757e8;--chatly-accent-hover:#5747d6;--chatly-focus:#8b7cf6;--chatly-radius-sm:10px;--chatly-radius-md:14px;--chatly-radius-lg:20px;--chatly-shadow-soft:0 12px 34px rgba(42,36,89,.08)}
+html{scroll-behavior:smooth}
+body{color:var(--chatly-ink);background:#f6f6fb}
+::selection{background:rgba(103,87,232,.18)}
+
+
+/* Chatly UI batch 02: navigation and app chrome */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(16px)}
+.brand{transition:opacity .18s ease,transform .18s ease}
+.brand:hover{opacity:.9;transform:translateY(-1px)}
+.icon-button,.account-profile{transition:background .18s ease,color .18s ease,transform .18s ease}
+.icon-button:hover{background:#e9e6ff;color:var(--chatly-accent-hover)}
+.icon-button:active,.account-profile:active{transform:scale(.97)}
+
+
+/* Chatly UI batch 03: feed surfaces */
+.post-card{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-lg);background:var(--chatly-surface);box-shadow:0 3px 14px rgba(42,36,89,.035);transition:box-shadow .2s ease,border-color .2s ease}
+.post-card:hover{border-color:#dedaf8;box-shadow:var(--chatly-shadow-soft)}
+.post-body{overflow-wrap:anywhere;line-height:1.65}
+.post-media{overflow:hidden;border-radius:var(--chatly-radius-md)}
+
+
+/* Chatly UI batch 04: messaging affordances */
+.person-row{min-height:64px;transition:background .16s ease}
+.person-row:hover{background:#f8f7ff}
+.message-list{scroll-behavior:smooth}
+.bubble{overflow-wrap:anywhere;line-height:1.5}
+.composer input{min-height:42px}
+
+
+/* Chatly UI batch 05: profile presentation */
+.profile-hero{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-lg);background:var(--chatly-surface);box-shadow:0 4px 20px rgba(42,36,89,.04)}
+.profile-identity{min-width:0}
+.profile-bio-text{line-height:1.65;overflow-wrap:anywhere}
+.profile-stats{gap:clamp(14px,4vw,28px)}
+.profile-post-grid{gap:8px}
+
+
+/* Chatly UI batch 06: search and discovery */
+.search-page{min-width:0;width:min(100%,1040px);margin-inline:auto;padding:clamp(16px,3vw,28px)}
+.search-page input:focus{border-color:var(--chatly-focus);box-shadow:0 0 0 3px rgba(139,124,246,.14);outline:none}
+
+
+/* Chatly UI batch 07: notification readability */
+.notification-destination-page{width:min(100%,900px);margin-inline:auto}
+.notification-activity-copy{min-width:0;overflow-wrap:anywhere}
+.notification-actor-avatar{flex:0 0 auto}
+
+
+/* Chatly UI batch 08: settings controls */
+.settings-page{width:min(100%,960px);margin-inline:auto}
+.st-card{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-md);box-shadow:0 3px 14px rgba(42,36,89,.025)}
+.st-nav-card,.st-pref-row{transition:background .16s ease,border-color .16s ease}
+.st-nav-card:hover,.st-pref-row:hover{background:#faf9ff}
+
+
+/* Chatly UI batch 09: focus and reduced motion */
+button,a,input,textarea,select{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,[role="button"]:focus-visible{outline:3px solid rgba(139,124,246,.5);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Chatly UI batch 10: responsive safeguards */
+img,video{max-width:100%}
+@media(max-width:760px){.topbar{height:62px;padding-inline:14px;gap:10px}.brand{font-size:27px}.chat-layout{width:100%;height:calc(100dvh - 62px);min-height:0;margin:0;border-radius:0;border-inline:0}.feed-page,.search-page{padding:14px}.notification-destination-page,.settings-page{padding:14px}.profile-stats{flex-wrap:wrap}}
+@media(max-width:420px){.topbar{padding-inline:10px}.account-copy{max-width:110px}.feed-page,.search-page{padding:10px}.post-card{border-radius:14px}.profile-post-grid{gap:4px}}
+
+
+/* Round 2 / 01 — typography rhythm and content readability */
+.app-shell{line-height:1.45}
+.destination-current-title,.profile-page-head h2{letter-spacing:-.025em}
+.profile-bio p,.post-content,.comment-body{line-height:1.65;overflow-wrap:anywhere}
+small,.muted-text{letter-spacing:.005em}
+
+
+/* Round 2 / 02 — navigation dropdown touch and focus */
+.global-profile-dropdown{border:1px solid var(--chatly-border);border-radius:16px;box-shadow:var(--chatly-shadow-soft);padding:6px;background:#fff}
+.global-profile-dropdown button{min-width:42px;min-height:42px;border-radius:11px;transition:background .15s ease,color .15s ease}
+.global-profile-dropdown button:hover{background:#f0edff;color:var(--chatly-accent)}
+.global-profile-trigger{min-width:44px;min-height:44px}
+
+
+/* Round 2 / 03 — form field consistency */
+input:not([type=checkbox]):not([type=radio]):not([type=file]),textarea,select{border-radius:var(--chatly-radius-sm)}
+textarea{resize:vertical;line-height:1.55}
+input::placeholder,textarea::placeholder{color:#9898aa;opacity:1}
+label{min-width:0}
+
+
+/* Round 2 / 04 — composer and send feedback */
+.composer, .chat-composer{border-top:1px solid var(--chatly-border);background:rgba(255,255,255,.97)}
+.composer button,.chat-composer button{min-width:40px;min-height:40px}
+.composer button:active,.chat-composer button:active{transform:scale(.96)}
+
+
+/* Round 2 / 05 — post action controls */
+.post-actions button,.post-engagement button{min-height:40px;min-width:40px;border-radius:10px;transition:background .15s ease,color .15s ease}
+.post-actions button:hover,.post-engagement button:hover{background:#f2f0ff}
+.post-actions button:focus-visible,.post-engagement button:focus-visible{outline-offset:1px}
+
+
+/* Round 2 / 06 — dialogs and modal spacing */
+.modal-backdrop{padding:clamp(12px,3vw,28px)}
+.profile-modal,.edit-profile-dialog{max-width:min(100%,560px);max-height:calc(100dvh - 32px);overflow:auto;border:1px solid rgba(232,232,241,.9);border-radius:20px}
+.modal-header{position:sticky;top:0;z-index:2;background:inherit}
+
+
+/* Round 2 / 07 — avatar and image fallbacks */
+.avatar,.profile-avatar,.global-profile-avatar{overflow:hidden;flex-shrink:0}
+.avatar img,.profile-avatar img,.global-profile-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.avatar-image-failed{display:grid;place-items:center}
+
+
+/* Round 2 / 08 — empty and error state hierarchy */
+.profile-posts-empty,.profile-empty,.notification-empty-state{padding:clamp(24px,5vw,44px) 18px;text-align:center}
+.profile-posts-empty h3,.profile-empty h3,.notification-empty-state h3{letter-spacing:-.02em}
+.profile-posts-empty p,.profile-empty p,.notification-empty-state p{max-width:48ch;margin-inline:auto;line-height:1.6}
+
+
+/* Round 2 / 09 — profile grid and card responsiveness */
+.profile-post-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.profile-post-tile{min-width:0;overflow-wrap:anywhere}
+.profile-post-tile p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}
+@media(max-width:540px){.profile-post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* Round 2 / 10 — compact screens, safe areas, and scroll */
+.destination-page{min-width:0}
+@supports(padding:env(safe-area-inset-bottom)){.app-shell{padding-bottom:env(safe-area-inset-bottom)}}
+@media(max-width:540px){.modal-backdrop{padding:0;align-items:flex-end}.profile-modal,.edit-profile-dialog{width:100%;max-width:none;max-height:92dvh;border-radius:20px 20px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
+@media(hover:none){button:hover{transform:none}}
+
+
+/* Round 3 / 01 — page-width containment */
+.app-shell,.feed-page,.destination-page,.profile-page,.search-page,.settings-page{box-sizing:border-box;max-width:100%;}
+
+/* Round 3 / 02 — long-content wrapping */
+.post-card,.message-bubble,.profile-bio,.notification-item{overflow-wrap:anywhere;word-break:normal;}
+
+/* Round 3 / 03 — shared control transitions */
+button,input,textarea,select{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease;}
+
+/* Round 3 / 04 — disabled control clarity */
+button:disabled,[aria-disabled="true"]{cursor:not-allowed;opacity:.58;}
+
+/* Round 3 / 05 — keyboard focus consistency */
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent,#6c63ff);outline-offset:2px;}
+
+/* Round 3 / 06 — prevent flex overflow */
+.global-profile-menu,.global-profile-dropdown,.destination-topline,.chat-list-item,.post-header{min-width:0;}
+
+/* Round 3 / 07 — responsive action rows */
+.post-actions,.chat-header-actions,.profile-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+
+/* Round 3 / 08 — touch target minimums */
+@media(hover:none){.bottom-nav button,.post-actions button,.chat-header button{min-height:42px;min-width:42px;}}
+
+/* Round 3 / 09 — modal internal scroll */
+.modal-content,.dialog-content,.settings-modal-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;}
+
+/* Round 3 / 10 — mobile input zoom safeguard */
+@media(max-width:600px){input,textarea,select{font-size:16px;}}
+
+/* Round 3 / 11 — avatar sizing stability */
+.avatar,.profile-avatar,.global-profile-avatar{aspect-ratio:1/1;}
+
+/* Round 3 / 12 — image loading layout stability */
+.post-media img,.profile-post-tile img,.chat-media img{max-width:100%;height:auto;object-fit:cover;}
