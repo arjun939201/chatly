@@ -495,3 +495,9 @@
 [data-theme="dark"] .post-media, [data-theme="dark"] .search-box,
 [data-theme="dark"] .composer textarea, [data-theme="dark"] .composer input { background: var(--app-bg, #171720); }
 [data-theme="dark"] .mine .bubble { color: #fff; }
+
+
+/* Batch 2.6 — menus and popovers */
+:is(.global-profile-dropdown, .profile-dropdown, .post-options-menu, .chat-options-menu) { z-index: 30; transform-origin: top right; }
+:is(.global-profile-dropdown, .profile-dropdown, .post-options-menu, .chat-options-menu) button { width: 100%; text-align: left; transition: background .14s ease, color .14s ease; }
+:is(.global-profile-dropdown, .profile-dropdown, .post-options-menu, .chat-options-menu) button:focus-visible { outline: 2px solid var(--chatly-accent); outline-offset: -2px; }
