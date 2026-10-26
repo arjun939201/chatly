@@ -952,3 +952,14 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .chat-filter-row button { flex: 0 0 auto; min-height: 36px; padding: 7px 11px; white-space: nowrap; }
 .chat-layout .chat-filter-row button[aria-pressed="true"], .chat-layout .chat-filter-row button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
 .chat-layout .chat-search-empty { padding: 22px 14px; text-align: center; }
+
+
+/* Batch 3.3 — conversation list readability */
+.chat-layout .people-list { min-width: 0; }
+.chat-layout .people-list > button, .chat-layout .people-list .chat-row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.chat-layout .people-list .chat-avatar-profile-link { flex: 0 0 auto; }
+.chat-layout .people-list .chat-row-time { flex: 0 0 auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chat-layout .people-list .chat-unread-count { display: inline-grid; place-items: center; min-width: 20px; min-height: 20px; padding: 0 5px; border-radius: 999px; background: var(--chatly-accent); color: #fff; font-size: 11px; font-weight: 700; }
+.chat-layout .people-list :is(.conversation-name, .chat-row-name, strong) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-layout .people-list :is(.conversation-preview, .chat-row-preview) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--chatly-muted); }
+.chat-layout .people-list > button:focus-visible, .chat-layout .people-list .chat-row:focus-visible { outline-offset: -2px; }
