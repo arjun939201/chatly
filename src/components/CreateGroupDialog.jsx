@@ -33,6 +33,11 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
     }).sort((a, b) => displayName(a).localeCompare(displayName(b)));
   }, [people, session?.user?.id]);
 
+  useEffect(() => {
+    const availableIds = new Set(eligiblePeople.map(person => person.id));
+    setSelected(current => current.filter(id => availableIds.has(id)));
+  }, [eligiblePeople]);
+
   const selectedPeople = useMemo(
     () => selected.map(id => eligiblePeople.find(person => person.id === id)).filter(Boolean),
     [eligiblePeople, selected]
