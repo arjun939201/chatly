@@ -856,3 +856,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .media-lightbox img { max-width: min(94vw, 1200px); max-height: 88dvh; object-fit: contain; }
 .feed-page .media-lightbox > button { position: fixed; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-width: 44px; min-height: 44px; color: #fff; background: rgb(0 0 0 / 40%); }
 @media (max-width: 520px) { .feed-page .post-media img, .feed-page .post-media video { max-height: 62dvh; } }
+
+
+/* Batch 2.6 — like, save, comment, and share controls */
+.feed-page .post-actions-primary, .feed-page .post-actions-secondary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.feed-page .post-actions button, .feed-page .post-share-button { min-height: 40px; padding: 8px 10px; font-size: 13px; }
+.feed-page .post-actions button svg, .feed-page .post-share-button svg { width: 17px; height: 17px; }
+.feed-page .post-actions button.liked { color: #d83d66; background: rgb(216 61 102 / 8%); }
+.feed-page .post-actions button.post-save-button.saved { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.feed-page .post-actions button[aria-pressed="true"] { font-weight: 700; }
+.feed-page .post-actions button:disabled { cursor: wait; }
+.feed-page .post-actions .post-view-count { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.feed-page .post-actions .post-share-button { color: var(--muted, var(--chatly-muted)); }
+.feed-page .post-actions button:focus-visible { outline-offset: 2px; }
+@media (max-width: 420px) { .feed-page .post-actions { align-items: stretch; } .feed-page .post-actions-primary { flex: 1 1 100%; justify-content: space-between; } }
