@@ -1736,3 +1736,12 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.modal-header, .comments-dialog-header) { gap: 12px; }
 .app-shell :is(.profile-grid-heading, .profile-posts-title) { margin-top: 20px; }
 
+
+
+/* Batch 11.4 — component typography alignment */
+.app-shell :is(.chat-heading-title, .profile-page-head h2, .notifications-page h1,
+  .feed-heading-row :is(h1,h2)) { font-weight: 780; letter-spacing: -.035em; }
+.app-shell :is(.post-follow-button, .post-actions button, .notification-actions button,
+  .chat-filter-row button, .notification-filters button) { line-height: 1.35; }
+.app-shell :is(.post-timestamp-wrap, .notification-copy time, .person-copy p) { font-variant-numeric: tabular-nums; }
+
