@@ -1891,3 +1891,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.feed-heading-row, .chat-heading-row, .profile-page-head, .notifications-heading) { align-items: center; }
 .app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main) { min-width: 0; }
 
+
+
+/* Batch 13.2 — card content overflow guardrails */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { overflow-wrap: anywhere; }
+.app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) { min-width: 0; }
+.app-shell :is(.post-media, .profile-post-media) img { max-width: 100%; }
+
