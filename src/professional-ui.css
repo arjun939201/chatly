@@ -522,3 +522,9 @@
   .bottom-nav button, .mobile-nav button { min-width: 44px; min-height: 44px; border-radius: 12px; }
   .bottom-nav button[aria-current="page"], .mobile-nav button[aria-current="page"] { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
 }
+
+/* Batch 2.10 — empty and error states */
+:is(.feed-empty, .profile-posts-empty, .comments-empty-state, .empty-chat, .welcome-chat) { color: var(--muted, var(--chatly-muted)); }
+:is(.error-banner, .error-state, .form-error) { border: 1px solid #f1caca; border-radius: 12px; background: #fff4f4; color: #9d3434; }
+:is(.success-banner, .success-state) { border: 1px solid #cce8d6; border-radius: 12px; background: #f1fbf4; color: #246b3c; }
+:is(.error-state, .success-state) { padding: 12px 15px; font-size: 13px; line-height: 1.55; }
