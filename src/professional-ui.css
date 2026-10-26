@@ -1416,3 +1416,8 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 7.9 — settings and notifications narrow layouts */
 @media (max-width: 480px) { .st-settings, .notifications-page { width: calc(100% - 20px); } .st-subheader { gap: 9px; } .st-subheader h1, .notifications-page h1 { overflow-wrap: anywhere; } .st-theme-options { gap: 6px; } .st-theme-options button { padding-inline: 5px; } .notifications-page .notification-item, .notifications-page .notification-card { align-items: flex-start; } }
+
+/* Batch 7.10 — responsive accessibility and motion finishing */
+.app-shell :is(button, a, input, textarea, select):focus-visible { scroll-margin-block: 12px; }
+@media (max-width: 600px) { .app-shell [role="dialog"] { max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom)); } }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.post-card, .person-row, .notification-item, .notification-card) { transition: none !important; } }
