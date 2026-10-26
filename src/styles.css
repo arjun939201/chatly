@@ -4797,3 +4797,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 06 — prevent flex overflow */
 .global-profile-menu,.global-profile-dropdown,.destination-topline,.chat-list-item,.post-header{min-width:0;}
+
+/* Round 3 / 07 — responsive action rows */
+.post-actions,.chat-header-actions,.profile-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
