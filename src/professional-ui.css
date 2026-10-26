@@ -1234,3 +1234,20 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .st-nav-copy strong { font-size: 14px; font-weight: 700; }
 .st-nav-copy small { color: var(--chatly-muted); font-size: 12px; line-height: 1.45; }
 .st-chevron { flex: 0 0 auto; width: 18px; color: var(--chatly-muted); }
+
+
+/* Batch 5.8 — settings detail pages and inline forms */
+.st-subheader { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
+.st-subheader h1 { font-size: 24px; }
+.st-settings > .st-card { margin-top: 14px; padding: 17px; }
+.st-settings .st-card > h2 { padding-bottom: 12px; }
+.st-detail-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 62px; padding: 12px 0; color: var(--text, var(--chatly-ink)); text-align: left; background: transparent; }
+.st-detail-row + .st-detail-row { border-top: 1px solid var(--chatly-border); }
+.st-detail-row > span:nth-child(2), .st-detail-row > span:first-child { display: grid; flex: 1 1 auto; min-width: 0; gap: 4px; }
+.st-detail-row strong { font-size: 13px; font-weight: 700; }
+.st-detail-row small { color: var(--chatly-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.st-detail-row > svg:last-child { flex: 0 0 auto; color: var(--chatly-muted); }
+.st-detail-row:hover:not(.st-unavailable) { color: var(--chatly-accent); }
+.st-inline-form { display: grid; gap: 13px; padding: 12px 0 16px; }
+.st-inline-form label { display: grid; gap: 7px; font-size: 12px; font-weight: 650; }
+.st-inline-form input { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid var(--chatly-border); border-radius: 10px; background: var(--app-bg, #fafafd); color: var(--text, var(--chatly-ink)); }
