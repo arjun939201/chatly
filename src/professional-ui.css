@@ -1220,3 +1220,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .st-search input { width: 100%; min-height: 46px; padding: 10px 14px; border: 1px solid var(--chatly-border); border-radius: 13px; background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
 .st-search input:focus-visible { border-color: var(--chatly-accent); }
 .st-search-clear { position: absolute; right: 8px; min-height: 32px; padding: 5px 9px; border-radius: 8px; color: var(--chatly-muted); }
+
+
+/* Batch 5.7 — settings navigation groups and rows */
+.st-group { display: grid; gap: 9px; margin-top: 20px; }
+.st-group > h2, .st-card > h2 { margin: 0; color: var(--chatly-muted); font-size: 11px; font-weight: 800; letter-spacing: .09em; }
+.st-nav-card, .st-card { overflow: hidden; border: 1px solid var(--chatly-border); border-radius: 17px; background: var(--surface, #fff); box-shadow: var(--chatly-shadow-card); }
+.st-nav-row { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 72px; padding: 13px 15px; text-align: left; color: var(--text, var(--chatly-ink)); background: transparent; }
+.st-nav-row + .st-nav-row { border-top: 1px solid var(--chatly-border); }
+.st-nav-row:hover { background: color-mix(in srgb, var(--chatly-accent-soft) 52%, var(--surface, #fff)); }
+.st-icon { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px; color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.st-nav-copy { display: grid; flex: 1 1 auto; min-width: 0; gap: 4px; }
+.st-nav-copy strong { font-size: 14px; font-weight: 700; }
+.st-nav-copy small { color: var(--chatly-muted); font-size: 12px; line-height: 1.45; }
+.st-chevron { flex: 0 0 auto; width: 18px; color: var(--chatly-muted); }
