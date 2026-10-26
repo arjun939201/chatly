@@ -5294,3 +5294,41 @@ textarea{max-width:100%;resize:vertical;}
     scroll-behavior: auto;
   }
 }
+
+
+/* Hover action controls: polished alignment, keyboard access, and compact touch layout. */
+.feed-page .comments-modal .comment-message .comment-own-actions {
+  align-items: center;
+  flex-wrap: wrap;
+}
+.feed-page .comments-modal .comment-message .comment-action-button {
+  color: var(--muted, #77758d);
+  transition: color .14s ease, background .14s ease, transform .14s ease;
+}
+.feed-page .comments-modal .comment-message .comment-action-button:hover {
+  color: var(--chatly-brand, #7565db);
+  background: color-mix(in srgb, var(--chatly-brand, #8172e9) 11%, transparent);
+}
+.feed-page .comments-modal .comment-message .comment-action-button:active {
+  transform: scale(.96);
+}
+.feed-page .comments-modal .comment-message .comment-action-button.comment-action-danger:hover {
+  color: #c43d4b;
+  background: #fff0f1;
+}
+.feed-page .comments-modal .comment-message .comment-action-button:focus-visible {
+  outline: 2px solid var(--chatly-brand, #8172e9);
+  outline-offset: 1px;
+}
+@media (max-width: 380px) {
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    gap: 2px;
+    padding: 3px;
+  }
+  .feed-page .comments-modal .comment-message .comment-action-button {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
