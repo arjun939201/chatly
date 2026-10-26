@@ -1639,3 +1639,13 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty) p { margin: 5px 0 0; }
 
+
+
+/* Batch 10.4 — error and retry feedback */
+.app-shell :is(.notifications-error, .error-banner, .chat-action-notice[ data-status="error" ]) {
+  border: 1px solid color-mix(in srgb, var(--chatly-danger, #c83e4d) 24%, var(--chatly-border));
+  background: color-mix(in srgb, var(--chatly-danger, #c83e4d) 5%, var(--surface, #fff));
+}
+.app-shell :is(.notifications-retry, .error-banner button, .chat-action-notice button) { min-height: 38px; border-radius: 10px; }
+.app-shell :is(.notifications-error, .error-banner) :is(p, span) { line-height: 1.55; overflow-wrap: anywhere; }
+
