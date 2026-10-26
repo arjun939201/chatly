@@ -100,3 +100,18 @@
  .st-nav-copy strong { font-size:14px!important; }
  .st-nav-copy small { font-size:12.5px!important; line-height:1.4!important; }
 }
+
+
+/* Settings home: tighten vertical rhythm without shrinking the UI. */
+.st-settings .st-intro { padding-bottom: 6px!important; }
+.st-settings .st-intro p { margin-top: 3px!important; }
+.st-settings .st-search { margin: 6px 0 10px!important; }
+.st-settings .st-group { margin: 12px 0!important; }
+.st-settings .st-group > h2 { margin-bottom: 7px!important; }
+@media (max-width: 600px) {
+  .st-settings { padding-top: 8px!important; padding-bottom: 10px!important; }
+  .st-settings .st-intro { padding-top: 2px!important; padding-bottom: 5px!important; }
+  .st-settings .st-search { margin: 5px 0 9px!important; }
+  .st-settings .st-group { margin: 11px 0!important; }
+  .st-settings .st-group > h2 { margin-bottom: 7px!important; }
+}
