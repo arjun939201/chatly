@@ -4257,3 +4257,25 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .notification-destination-page .notification-activity-item:after{display:none!important;content:none!important}
 .notification-destination-page .notification-activity-item.is-read,.notification-destination-page .notification-activity-item.is-unread{background:var(--surface)}
 @media(max-width:600px){.notification-destination-page{padding:10px 8px 8px}.notification-destination-page .notification-activity-item{gap:8px;padding:9px 9px}.notification-destination-page .notification-activity-icon{width:30px;height:30px;flex-basis:30px;border-radius:9px}.notification-destination-page .notification-activity-icon svg{width:15px;height:15px}.notification-destination-page .notification-actor-avatar{width:34px!important;height:34px!important;flex-basis:34px!important}.notification-destination-page .notification-activity-copy p{font-size:12.5px}.notification-destination-page .notification-filter-row button{padding:7px 10px}}
+
+
+/* Keep reply previews full-width inside message bubbles, including narrow mobile layouts. */
+.chat-layout .message .bubble > .message-reply-preview {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow: hidden;
+}
+.chat-layout .message .bubble > .message-reply-preview span,
+.chat-layout .message .bubble > .message-reply-preview p {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
