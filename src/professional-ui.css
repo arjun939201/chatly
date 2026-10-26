@@ -2030,3 +2030,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) { box-sizing: border-box; min-width: 0; }
 .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) > * { min-width: 0; }
 
+
+
+/* Batch 15.2 — border token cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card,
+  .compose-modal, .comments-dialog, .profile-modal) { border-color: var(--border, var(--chatly-border)); }
+
