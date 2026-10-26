@@ -320,3 +320,17 @@
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Commit 3 — global shell and navigation */
+.app-shell { isolation: isolate; }
+.topbar { display: flex; align-items: center; justify-content: space-between; padding-inline: clamp(16px, 4vw, 32px); }
+.brand { font-weight: 800; letter-spacing: -.055em; line-height: 1; }
+.destination-topline { min-height: 58px; display: flex; align-items: center; gap: 12px; padding: 8px clamp(14px, 3vw, 24px); }
+.page-back-to-feed { display: inline-grid; place-items: center; border: 1px solid var(--border, var(--chatly-border)); background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
+.page-back-to-feed:hover { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.destination-current-title { font-size: 15px; font-weight: 650; letter-spacing: -.015em; }
+.global-profile-dropdown { min-width: 196px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.global-profile-dropdown button { display: grid; place-items: center; color: var(--text, var(--chatly-ink)); }
+@media (max-width: 520px) { .topbar { padding-inline: 12px; } .destination-current-title { font-size: 14px; } }
+
