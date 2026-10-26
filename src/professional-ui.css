@@ -1126,3 +1126,15 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .explore-loading-indicator { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
 .search-page .explore-skeleton-card { min-width: 0; overflow: hidden; }
 .search-page .explore-skeleton-card .skeleton-line { display: block; height: 11px; margin-top: 9px; }
+
+
+/* Batch 4.9 — responsive and accessibility finishing */
+.search-page :is(button, a, input):focus-visible { outline-offset: 3px; }
+.search-page .explore-load-more { display: flex; justify-content: center; padding: 12px 0; }
+.search-page .explore-load-more button { min-height: 42px; padding-inline: 17px; }
+.search-page .explore-home-posts { display: grid; gap: 12px; }
+.search-page .explore-home-post { min-width: 0; padding: 13px; border: 1px solid var(--chatly-border); border-radius: 15px; background: var(--chatly-surface); }
+.search-page .explore-home-post p { margin: 10px 0; line-height: 1.6; overflow-wrap: anywhere; }
+.search-page .explore-home-post time { color: var(--chatly-muted); font-size: 11px; }
+@media (max-width: 520px) { .search-page .people-result, .search-page .youtube-result { padding: 9px; gap: 9px; } .search-page .youtube-result img, .search-page .youtube-result-thumbnail-fallback { width: 94px; } .search-page .people-result :is(button, a) { min-height: 36px; } }
+@media (prefers-reduced-motion: reduce) { .search-page *, .search-page *::before, .search-page *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
