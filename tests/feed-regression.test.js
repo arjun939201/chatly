@@ -81,3 +81,21 @@ test("post engagement controls use the expected layout and right alignment", () 
   // Metadata stays in the engagement row and is pushed to the right.
   assert.match(styles, /\.post-actions \.post-engagement-meta\{display:flex;align-items:center;justify-content:flex-end;[^}]*margin:0 0 0 auto/);
 });
+
+
+test("notifications fetch a bounded page and count unread activity separately", async () => {
+  const source = await readFile(new URL("../src/components/NotificationsDestination.jsx", import.meta.url), "utf8");
+  assert.match(source, /const pageSize = 50/);
+  assert.match(source, /\.range\(offset, offset \+ pageSize - 1\)/);
+  assert.match(source, /\.select\("id", \{ count: "exact", head: true \}\)/);
+  assert.match(source, /setHasMore\(notifications\.length === pageSize\)/);
+  assert.doesNotMatch(source, /for \(let offset = 0; ; offset \+= pageSize\)/);
+});
+
+test("notification load-more appends deduplicated activity on demand", async () => {
+  const source = await readFile(new URL("../src/components/NotificationsDestination.jsx", import.meta.url), "utf8");
+  assert.match(source, /loadNotifications\(true, true\)/);
+  assert.match(source, /const merged = new Map\(current\.map\(item => \[item\.id, item\]\)\)/);
+  assert.match(source, /disabled=\{loadingMore\}/);
+  assert.match(source, /Loading activity…/);
+});
