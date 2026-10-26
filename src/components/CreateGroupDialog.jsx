@@ -129,8 +129,9 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
 
       const { data: group, error: loadGroupError } = await supabase.from("group_conversations")
         .select("*").eq("id", groupId).single();
-      if (loadGroupError) throw loadGroupError;
-      onCreated?.(avatarWarning ? { ...group, avatar_upload_warning: avatarWarning } : group);
+      const resolvedGroup = group || { id: groupId, name: groupName, description: description.trim(), avatar_url: null };
+      const creationWarning = avatarWarning || (loadGroupError ? "Group created, but its details could not be refreshed." : "");
+      onCreated?.(creationWarning ? { ...resolvedGroup, avatar_upload_warning: creationWarning } : resolvedGroup);
       onClose?.();
     } catch (err) {
       console.error("Group creation failed:", err);
