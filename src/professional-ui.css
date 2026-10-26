@@ -1803,3 +1803,10 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transition: none !important; }
 }
 
+
+
+/* Batch 12.1 — subtle hover transitions */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card,
+  .person-card, .st-card) { transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
+.app-shell :is(.post-card, .profile-post, .person-card):hover { transform: translateY(-1px); }
+
