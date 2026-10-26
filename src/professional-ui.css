@@ -3435,3 +3435,109 @@ html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .app-shell .profile-page * { transition: none !important; animation: none !important; }
 }
+
+
+/* Profile identity row v2: larger avatar with stats and identity grouped to its right. */
+.app-shell .profile-page .profile-summary {
+  display: grid;
+  grid-template-columns: clamp(124px, 17vw, 156px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(18px, 3vw, 30px);
+  padding: clamp(18px, 3vw, 26px);
+}
+.app-shell .profile-page .profile-summary > .profile-avatar {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: clamp(124px, 17vw, 156px);
+  height: clamp(124px, 17vw, 156px);
+  min-width: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  align-self: start;
+}
+.app-shell .profile-page .profile-summary > .profile-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+.app-shell .profile-page .profile-details {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+}
+.app-shell .profile-page .profile-details .profile-counts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(5px, 1vw, 10px);
+  width: 100%;
+}
+.app-shell .profile-page .profile-details .profile-counts > div,
+.app-shell .profile-page .profile-details .profile-counts > .profile-stat-button {
+  min-height: 58px;
+  padding: 8px 4px;
+}
+.app-shell .profile-page .profile-details .profile-bio {
+  gap: 4px;
+  margin: 0;
+  padding: 0 2px;
+}
+.app-shell .profile-page .profile-details .profile-bio > strong {
+  font-size: clamp(16px, 2.2vw, 20px);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.app-shell .profile-page .profile-details .profile-bio .profile-handle {
+  margin: 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.app-shell .profile-page .profile-details .profile-bio p {
+  margin: 4px 0 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .app-shell .profile-page .profile-summary {
+    grid-template-columns: clamp(88px, 23vw, 112px) minmax(0, 1fr);
+    align-items: start;
+    gap: 13px;
+    padding: 14px;
+  }
+  .app-shell .profile-page .profile-summary > .profile-avatar {
+    width: clamp(88px, 23vw, 112px);
+    height: clamp(88px, 23vw, 112px);
+  }
+  .app-shell .profile-page .profile-details { gap: 12px; }
+  .app-shell .profile-page .profile-details .profile-counts { gap: 4px; }
+  .app-shell .profile-page .profile-details .profile-counts > div,
+  .app-shell .profile-page .profile-details .profile-counts > .profile-stat-button {
+    min-height: 48px;
+    padding: 6px 2px;
+    border-radius: 9px;
+  }
+  .app-shell .profile-page .profile-details .profile-counts b { font-size: clamp(14px, 3.7vw, 18px); }
+  .app-shell .profile-page .profile-details .profile-counts span { font-size: clamp(9px, 2.4vw, 11px); }
+  .app-shell .profile-page .profile-details .profile-bio > strong { font-size: 16px; }
+  .app-shell .profile-page .profile-details .profile-bio .profile-handle { font-size: 12px; }
+}
+@media (max-width: 380px) {
+  .app-shell .profile-page .profile-summary {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 10px;
+    padding: 12px;
+  }
+  .app-shell .profile-page .profile-summary > .profile-avatar {
+    width: 78px;
+    height: 78px;
+  }
+  .app-shell .profile-page .profile-details { gap: 10px; }
+  .app-shell .profile-page .profile-details .profile-counts { gap: 3px; }
+  .app-shell .profile-page .profile-details .profile-counts > div,
+  .app-shell .profile-page .profile-details .profile-counts > .profile-stat-button {
+    min-height: 44px;
+    padding-inline: 1px;
+  }
+}
