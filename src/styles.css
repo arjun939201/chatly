@@ -4772,3 +4772,10 @@ label{min-width:0}
 .profile-post-tile p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden}
 @media(max-width:540px){.profile-post-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
+
+/* Round 2 / 10 — compact screens, safe areas, and scroll */
+.destination-page{min-width:0}
+@supports(padding:env(safe-area-inset-bottom)){.app-shell{padding-bottom:env(safe-area-inset-bottom)}}
+@media(max-width:540px){.modal-backdrop{padding:0;align-items:flex-end}.profile-modal,.edit-profile-dialog{width:100%;max-width:none;max-height:92dvh;border-radius:20px 20px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
+@media(hover:none){button:hover{transform:none}}
+
