@@ -6042,3 +6042,74 @@ button.header-notifications,
   .st-settings.st-settings > .st-group + .st-group { margin-top: 16px !important; }
   .st-settings.st-settings > .st-group > h2 { margin-bottom: 7px !important; }
 }
+
+
+/* Notification loading skeleton mirrors the compact activity list instead of a centered empty-state card. */
+.notification-destination-page .notification-skeleton-list {
+  overflow:hidden;
+  width:100%;
+  border:1px solid var(--border,#e7e7ef);
+  border-radius:16px;
+  background:var(--surface,#fff);
+}
+.notification-destination-page .notification-skeleton-row {
+  display:grid;
+  grid-template-columns:36px minmax(0,1fr);
+  align-items:start;
+  column-gap:9px;
+  min-width:0;
+  padding:14px 14px;
+  border-bottom:1px solid var(--border,#e8e8ed);
+}
+.notification-destination-page .notification-skeleton-row:last-child { border-bottom:0; }
+.notification-destination-page .notification-skeleton-avatar,
+.notification-destination-page .notification-skeleton-name,
+.notification-destination-page .notification-skeleton-action,
+.notification-destination-page .notification-skeleton-time,
+.notification-destination-page .notification-skeleton-detail {
+  display:block;
+  background:linear-gradient(100deg,#eeedf4 20%,#f8f7fb 42%,#eeedf4 64%);
+  background-size:220% 100%;
+  animation:notification-skeleton-shimmer 1.35s ease-in-out infinite;
+}
+.notification-destination-page .notification-skeleton-avatar {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+}
+.notification-destination-page .notification-skeleton-copy { min-width:0; padding-top:2px; }
+.notification-destination-page .notification-skeleton-topline {
+  display:grid;
+  grid-template-columns:minmax(72px,auto) minmax(56px,1fr) auto;
+  align-items:center;
+  column-gap:6px;
+  min-width:0;
+  min-height:18px;
+}
+.notification-destination-page .notification-skeleton-name { width:clamp(90px,30%,150px); max-width:100%; height:12px; border-radius:6px; }
+.notification-destination-page .notification-skeleton-action { width:clamp(62px,24%,116px); max-width:100%; height:11px; border-radius:6px; }
+.notification-destination-page .notification-skeleton-time { width:42px; height:10px; justify-self:end; border-radius:5px; }
+.notification-destination-page .notification-skeleton-detail {
+  width:min(62%,260px);
+  height:12px;
+  margin-top:12px;
+  border-radius:6px;
+}
+.notification-destination-page .notification-skeleton-detail.is-short { width:min(38%,160px); }
+@keyframes notification-skeleton-shimmer { to { background-position-x:-220%; } }
+@media(max-width:600px) {
+  .notification-destination-page .notification-skeleton-row { grid-template-columns:34px minmax(0,1fr); column-gap:8px; padding:13px 12px; }
+  .notification-destination-page .notification-skeleton-avatar { width:34px; height:34px; }
+  .notification-destination-page .notification-skeleton-topline { grid-template-columns:minmax(70px,auto) minmax(42px,1fr) auto; column-gap:5px; }
+  .notification-destination-page .notification-skeleton-name { width:clamp(82px,34%,132px); }
+  .notification-destination-page .notification-skeleton-action { width:clamp(48px,22%,95px); }
+  .notification-destination-page .notification-skeleton-time { width:38px; }
+  .notification-destination-page .notification-skeleton-detail { margin-top:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .notification-destination-page .notification-skeleton-avatar,
+  .notification-destination-page .notification-skeleton-name,
+  .notification-destination-page .notification-skeleton-action,
+  .notification-destination-page .notification-skeleton-time,
+  .notification-destination-page .notification-skeleton-detail { animation:none; background:#eeedf4; }
+}
