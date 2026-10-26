@@ -75,7 +75,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
       const commentIds = [...new Set(notifications.map(row => row.comment_id).filter(Boolean))];
       const [profilesResult, postsResult, commentsResult] = await Promise.all([
         supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds),
-        postIds.length ? supabase.from("posts").select("id,body,image_url,media_url,image,created_at").in("id", postIds) : Promise.resolve({ data: [], error: null }),
+        postIds.length ? supabase.from("posts").select("id,body,created_at").in("id", postIds) : Promise.resolve({ data: [], error: null }),
         commentIds.length ? supabase.from("post_comments").select("id,body").in("id", commentIds) : Promise.resolve({ data: [], error: null })
       ]);
       if (profilesResult.error) throw profilesResult.error;
@@ -137,7 +137,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                     </button>
                     <p><button type="button" className="notification-actor-link" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id}>{actorName}</button>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)} {!item.read_at && <button type="button" className="notification-mark-read" onClick={() => markRead(item.id)} aria-label={`Mark ${actorName} notification as read`}>Mark read</button>}</span>
-                    {item.type !== "follow" && (item.post.image_url || item.post.media_url || item.post.image) && <img className="notification-post-thumbnail" src={item.post.image_url || item.post.media_url || item.post.image} alt="" loading="lazy"/>}
+                    
                     {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
                 </article></React.Fragment>;
