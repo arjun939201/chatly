@@ -9,7 +9,7 @@ export function useYouTubeSearch(query, category) {
     const normalizedQuery = query.trim();
     const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
 
-    if (category !== "songs" || !normalizedQuery) {
+    if (!["songs", "videos"].includes(category) || !normalizedQuery) {
       setVideos([]);
       setError("");
       setLoading(false);
@@ -34,14 +34,15 @@ export function useYouTubeSearch(query, category) {
       setLoading(true);
 
       try {
-        const params = new URLSearchParams({
+        const searchParams = {
           part: "snippet",
           type: "video",
-          videoCategoryId: "10",
           maxResults: "20",
           q: normalizedQuery,
           key: apiKey
-        });
+        };
+        if (category === "songs") searchParams.videoCategoryId = "10";
+        const params = new URLSearchParams(searchParams);
         const response = await fetch(
           "https://www.googleapis.com/youtube/v3/search?" + params.toString(),
           { signal: controller.signal }
