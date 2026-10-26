@@ -6,7 +6,6 @@ import Chat from "./components/Chat.jsx";
 import Feed from "./components/Feed.jsx";
 import SearchPeople from "./components/SearchPeople.jsx";
 import ExploreDestination from "./components/ExploreDestination.jsx";
-import ExploreDestination from "./components/ExploreDestination.jsx";
 import SettingsDestination from "./components/SettingsDestination.jsx";
 import NotificationsDestination from "./components/NotificationsDestination.jsx";
 import PublicProfile from "./components/PublicProfile.jsx";
