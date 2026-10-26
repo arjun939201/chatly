@@ -1078,3 +1078,13 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .search-kind-tabs [role="tab"] { flex: 0 0 auto; min-height: 39px; padding: 8px 13px; border-radius: 10px; color: var(--chatly-muted); white-space: nowrap; }
 .search-page .search-kind-tabs [role="tab"].active, .search-page .search-kind-tabs [role="tab"][aria-selected="true"] { color: var(--chatly-ink); background: var(--chatly-surface); box-shadow: var(--chatly-shadow-card); }
 .search-page .search-kind-tabs [role="tab"]:focus-visible { outline-offset: -2px; }
+
+
+/* Batch 4.4 — people results */
+.search-page .people-results { display: grid; gap: 10px; }
+.search-page .people-result { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 12px; border: 1px solid var(--chatly-border); border-radius: 15px; background: var(--chatly-surface); }
+.search-page .people-result .mini-avatar { flex: 0 0 auto; width: 44px; height: 44px; }
+.search-page .people-result .people-result-copy { flex: 1 1 auto; min-width: 0; }
+.search-page .people-result :is(b, strong) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.search-page .people-result small { display: block; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; color: var(--chatly-muted); white-space: nowrap; }
+.search-page .people-result :is(button, a) { flex: 0 0 auto; min-height: 38px; }
