@@ -2637,3 +2637,13 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .feed-page .post-card .post-actions-primary > button { display: inline-flex; align-items: center; justify-content: center; flex: 1 1 0; min-width: 0; min-height: 40px; gap: 6px; padding: 8px 6px; white-space: nowrap; }
 .app-shell .feed-page .post-card .post-actions-primary > button svg { flex: 0 0 auto; }
 @media (max-width: 520px) { .app-shell .feed-page .post-card .post-actions-primary > button { gap: 4px; padding-inline: 3px; font-size: 12px; } }
+
+
+/* Feed compact engagement row: Like, Comment, Save, Share; metadata aligned at the right. */
+.app-shell .feed-page .post-card .post-actions{display:flex;align-items:center;justify-content:flex-start;flex-wrap:nowrap;gap:clamp(8px,2vw,18px);width:100%;min-width:0;}
+.app-shell .feed-page .post-card .post-actions-primary{display:flex;align-items:center;justify-content:flex-start;flex:0 0 auto;min-width:0;flex-wrap:nowrap;gap:inherit;}
+.app-shell .feed-page .post-card .post-actions-primary>button{flex:0 0 auto;min-width:0;}
+.app-shell .feed-page .post-card .post-actions .post-engagement-meta{display:flex;align-items:center;justify-content:flex-end;flex:0 1 auto;min-width:0;margin:0 0 0 auto;padding:0;border:0;gap:clamp(6px,1.5vw,12px);white-space:nowrap;font-size:clamp(10px,2.5vw,13px);line-height:1.2;color:var(--chatly-muted);}
+.app-shell .feed-page .post-card .post-actions .post-engagement-meta time{font-size:inherit;white-space:nowrap;}
+.app-shell .feed-page .post-card .post-actions .post-view-count{display:inline-flex;align-items:center;gap:3px;margin:0;font-size:inherit;white-space:nowrap;}
+@media(max-width:420px){.app-shell .feed-page .post-card .post-actions{gap:6px}.app-shell .feed-page .post-card .post-actions-primary{gap:6px}.app-shell .feed-page .post-card .post-actions-primary>button{padding-inline:3px}.app-shell .feed-page .post-card .post-actions .post-engagement-meta{gap:5px;font-size:10px}}
