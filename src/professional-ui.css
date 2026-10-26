@@ -2508,3 +2508,25 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell .feed-header-section { gap: 8px; margin-bottom: 10px; }
   .app-shell .feed-page { padding-top: 8px; }
 }
+
+
+/* Feed engagement follows the compact, evenly distributed Twitter-style action row. */
+.app-shell .feed-page .post-card .post-actions {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; gap: 0; width: 100%;
+}
+.app-shell .feed-page .post-card .post-actions-primary {
+  display: flex; flex: 1 1 100%; min-width: 0; align-items: center; justify-content: space-between; gap: 0; flex-wrap: nowrap;
+}
+.app-shell .feed-page .post-card .post-actions-secondary { display: contents; }
+.app-shell .feed-page .post-card .post-actions-primary > button,
+.app-shell .feed-page .post-card .post-actions-secondary > button,
+.app-shell .feed-page .post-card .post-save-button {
+  display: inline-flex; flex: 0 1 auto; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 40px; padding: 8px 6px; white-space: nowrap;
+}
+.app-shell .feed-page .post-card .post-actions-primary > button svg,
+.app-shell .feed-page .post-card .post-actions-secondary > button svg { flex: 0 0 auto; }
+@media (max-width: 520px) {
+  .app-shell .feed-page .post-card .post-actions-primary > button,
+  .app-shell .feed-page .post-card .post-actions-secondary > button,
+  .app-shell .feed-page .post-card .post-save-button { gap: 4px; padding-inline: 3px; font-size: 12px; }
+}
