@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Bell, Heart, MessageCircle, RefreshCw, UserPlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
@@ -31,9 +31,12 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(20);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const nextOffsetRef = useRef(0);
 
   const filteredItems = items.filter(item => filter === "all" || (filter === "unread" ? !item.read_at : item.type === filter));
-  const unreadCount = items.filter(item => !item.read_at).length;
 
   async function markRead(id) {
     if (!session?.user?.id) return;
@@ -41,6 +44,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     const { error: updateError } = await supabase.from("notifications").update({ read_at: readAt }).eq("id", id).eq("recipient_id", session.user.id).is("read_at", null);
     if (updateError) { setError(updateError.message || "Could not mark notification as read."); return; }
     setItems(current => current.map(item => item.id === id && !item.read_at ? { ...item, read_at: readAt } : item));
+    setUnreadCount(current => Math.max(0, current - 1));
   }
 
   async function markAllRead() {
@@ -49,6 +53,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     const { error: updateError } = await supabase.from("notifications").update({ read_at: readAt }).eq("recipient_id", session.user.id).is("read_at", null);
     if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }
     setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: readAt }));
+    setUnreadCount(0);
   }
 
   // Opening Notifications marks all currently unread activity as read.
@@ -56,32 +61,55 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     if (!loading && unreadCount > 0) markAllRead();
   }, [loading, unreadCount, session?.user?.id]);
 
-  const loadNotifications = useCallback(async (silent = false) => {
-    if (!session?.user?.id) { setItems([]); setLoading(false); return; }
-    if (!silent) setLoading(true); setError("");
+  const loadNotifications = useCallback(async (silent = false, append = false) => {
+    if (!session?.user?.id) {
+      setItems([]);
+      setUnreadCount(0);
+      setHasMore(false);
+      setLoading(false);
+      return;
+    }
+    if (!silent) setLoading(true);
+    if (append) setLoadingMore(true);
+    setError("");
     try {
-      const pageSize = 100;
-      let rows = [];
-      for (let offset = 0; ; offset += pageSize) {
-        const { data: page, error: notificationError } = await supabase
-          .from("notifications")
+      // Keep initial activity requests bounded; older activity is fetched only on demand.
+      const pageSize = 50;
+      const offset = append ? nextOffsetRef.current : 0;
+      const [pageResult, unreadResult] = await Promise.all([
+        supabase.from("notifications")
           .select("id,recipient_id,actor_id,type,post_id,comment_id,created_at,read_at")
           .eq("recipient_id", session.user.id)
           .order("created_at", { ascending: false })
           .order("id", { ascending: false })
-          .range(offset, offset + pageSize - 1);
-        if (notificationError) throw notificationError;
-        rows = rows.concat(page || []);
-        if (!page || page.length < pageSize) break;
+          .range(offset, offset + pageSize - 1),
+        append ? Promise.resolve({ count: null, error: null }) : supabase.from("notifications")
+          .select("id", { count: "exact", head: true })
+          .eq("recipient_id", session.user.id)
+          .is("read_at", null)
+      ]);
+      if (pageResult.error) throw pageResult.error;
+      if (unreadResult.error) throw unreadResult.error;
+      const notifications = pageResult.data || [];
+      if (!append) {
+        nextOffsetRef.current = notifications.length;
+        setHasMore(notifications.length === pageSize);
+        if (unreadResult.count !== null) setUnreadCount(unreadResult.count || 0);
+      } else {
+        nextOffsetRef.current = offset + notifications.length;
+        setHasMore(notifications.length === pageSize);
       }
-      const notifications = rows || [];
-      if (!notifications.length) { setItems([]); return; }
+      if (!notifications.length) {
+        if (!append) setItems([]);
+        setHasMore(false);
+        return;
+      }
 
-      const actorIds = [...new Set(notifications.map(row => row.actor_id))];
+      const actorIds = [...new Set(notifications.map(row => row.actor_id).filter(Boolean))];
       const postIds = [...new Set(notifications.map(row => row.post_id).filter(Boolean))];
       const commentIds = [...new Set(notifications.map(row => row.comment_id).filter(Boolean))];
       const [profilesResult, postsResult, commentsResult] = await Promise.all([
-        supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds),
+        actorIds.length ? supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", actorIds) : Promise.resolve({ data: [], error: null }),
         postIds.length ? supabase.from("posts").select("id,body,created_at").in("id", postIds) : Promise.resolve({ data: [], error: null }),
         commentIds.length ? supabase.from("post_comments").select("id,body").in("id", commentIds) : Promise.resolve({ data: [], error: null })
       ]);
@@ -91,22 +119,30 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
       const profileMap = Object.fromEntries((profilesResult.data || []).map(person => [person.id, person]));
       const postMap = Object.fromEntries((postsResult.data || []).map(post => [post.id, post]));
       const commentMap = Object.fromEntries((commentsResult.data || []).map(comment => [comment.id, comment]));
-      setItems(notifications.map(row => ({
+      const mapped = notifications.map(row => ({
         ...row,
         user_id: row.actor_id,
         actor: profileMap[row.actor_id] || {},
         actors: [profileMap[row.actor_id]].filter(Boolean),
         post: postMap[row.post_id] || {},
         body: commentMap[row.comment_id]?.body || ""
-      })));
+      }));
+      setItems(current => {
+        if (!append) return mapped;
+        const merged = new Map(current.map(item => [item.id, item]));
+        mapped.forEach(item => merged.set(item.id, item));
+        return [...merged.values()].sort((a, b) =>
+          new Date(b.created_at || b.post?.created_at || 0) - new Date(a.created_at || a.post?.created_at || 0)
+        );
+      });
     } catch (err) {
       console.error("Notifications load failed:", err);
       setError(err.message || "Could not load notifications.");
     } finally {
       if (!silent) setLoading(false);
+      setLoadingMore(false);
     }
   }, [session?.user?.id]);
-
   useEffect(() => { loadNotifications(); }, [loadNotifications]);
 
   // Subscribe to recipient notification rows; database triggers create activity records.
@@ -163,7 +199,10 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                   </div>
                 </article></React.Fragment>;
               })}
-              {filteredItems.length > visibleCount && <button type="button" className="notification-load-more" onClick={() => setVisibleCount(count => count + 20)} aria-label={`Load ${Math.min(20, filteredItems.length - visibleCount)} more notifications`}>Load more activity</button>}
+              {(filteredItems.length > visibleCount || hasMore) && <button type="button" className="notification-load-more" disabled={loadingMore} onClick={() => {
+                if (filteredItems.length > visibleCount) setVisibleCount(count => count + 20);
+                else loadNotifications(true, true).then(() => setVisibleCount(count => count + 20));
+              }} aria-label={loadingMore ? "Loading more notifications" : "Load more notifications"}>{loadingMore ? "Loading activity…" : "Load more activity"}</button>}
             </div>
           ) : (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>You’re all caught up</h3><p>When someone likes or comments on your posts, or follows you, you’ll see it here.</p></div>
