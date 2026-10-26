@@ -1976,3 +1976,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) { min-width: 0; flex-wrap: wrap; }
 .app-shell :is(.post-actions button, .profile-actions button, .notification-actions button) { max-width: 100%; }
 
+
+
+/* Batch 14.4 — short viewport modal containment */
+@media (max-height: 620px) {
+  .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { max-height: calc(100dvh - 24px); overflow-y: auto; }
+  .app-shell :is(.modal-header, .comments-dialog-header) { position: sticky; top: 0; z-index: 2; }
+}
+
