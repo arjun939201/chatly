@@ -2354,3 +2354,6 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 23.3 — Normalize feed loading and empty feedback */
 .app-shell .feed-notice{box-sizing:border-box;width:100%;margin:0 0 12px;padding:12px 14px;border-radius:12px;overflow-wrap:anywhere}.app-shell .feed-load-more{display:flex;align-items:center;justify-content:center;gap:12px;padding:16px}.app-shell .feed-load-more button{min-height:40px;padding:8px 16px;border-radius:10px}.app-shell .feed-empty{margin-top:8px;text-align:center}
+
+/* Batch 24.1 — Refine contextual post action spacing */
+.app-shell .post-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}.app-shell .post-actions-primary,.app-shell .post-actions-secondary{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.app-shell .post-actions button{min-height:36px;padding:7px 9px;display:inline-flex;align-items:center;justify-content:center;gap:7px}.app-shell .post-options-wrap{position:relative;flex:0 0 auto}.app-shell .post-options-menu{z-index:var(--chatly-layer-menu);min-width:180px;max-width:calc(100vw - 28px)}
