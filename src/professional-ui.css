@@ -1678,3 +1678,10 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.status-label, [data-status]) { max-width: 100%; }
 
+
+
+/* Batch 10.8 — badges and unread indicators */
+.app-shell :is(.chat-unread-count, .notification-unread-dot, .unread-badge) { flex: 0 0 auto; }
+.app-shell :is(.chat-unread-count, .unread-badge) { font-variant-numeric: tabular-nums; font-weight: 750; }
+.app-shell :is(.notification-item.is-unread, .notification-card.is-unread) { border-inline-start-width: 3px; }
+
