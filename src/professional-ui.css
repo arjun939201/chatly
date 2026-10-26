@@ -2076,3 +2076,9 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-actions, .profile-actions, .notification-actions) { align-items: flex-start; }
 }
 
+
+
+/* Batch 15.9 — overlay behavior cleanup */
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { touch-action: pan-y; }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { overscroll-behavior: contain; }
+
