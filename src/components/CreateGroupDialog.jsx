@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { X, Users, Search, Check, LoaderCircle, UserRound, Trash2 } from "lucide-react";
+import { X, Users, Search, Check, LoaderCircle, UserRound, Trash2, ImagePlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 const displayName = person => person.display_name?.trim() || person.username?.trim() || "Chatly user";
@@ -11,7 +11,7 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState("");\n  const [avatarFile, setAvatarFile] = useState(null);\n  const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
     function handleDialogKeyDown(event) {
@@ -23,6 +23,13 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
     document.addEventListener("keydown", handleDialogKeyDown);
     return () => document.removeEventListener("keydown", handleDialogKeyDown);
   }, [busy, onClose]);
+
+  useEffect(() => {
+    if (!avatarFile) { setAvatarPreview(""); return; }
+    const previewUrl = URL.createObjectURL(avatarFile);
+    setAvatarPreview(previewUrl);
+    return () => URL.revokeObjectURL(previewUrl);
+  }, [avatarFile]);
 
   const eligiblePeople = useMemo(() => {
     const seen = new Set();
@@ -87,6 +94,23 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
       if (groupError) throw groupError;
       if (!groupId) throw new Error("The group was not created. Please try again.");
 
+      if (avatarFile) {
+        const extensions = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
+        const extension = extensions[avatarFile.type];
+        if (!extension) throw new Error("Choose a JPG, PNG, WEBP, or GIF group image.");
+        if (avatarFile.size > 5 * 1024 * 1024) throw new Error("Group image must be 5 MB or smaller.");
+        const path = `${authUser.id}/groups/${groupId}/avatar.${extension}`;
+        const { error: uploadError } = await supabase.storage.from("avatars").upload(path, avatarFile, {
+          upsert: true, contentType: avatarFile.type,
+        });
+        if (uploadError) throw uploadError;
+        const { data: publicImage } = supabase.storage.from("avatars").getPublicUrl(path);
+        const avatarUrl = `${publicImage.publicUrl}${publicImage.publicUrl.includes("?") ? "&" : "?"}v=${Date.now()}`;
+        const { error: avatarUpdateError } = await supabase.from("group_conversations")
+          .update({ avatar_url: avatarUrl }).eq("id", groupId);
+        if (avatarUpdateError) throw avatarUpdateError;
+      }
+
       const { data: group, error: loadGroupError } = await supabase.from("group_conversations")
         .select("*").eq("id", groupId).single();
       if (loadGroupError) throw loadGroupError;
@@ -115,6 +139,19 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
         </header>
 
         <form onSubmit={createGroup}>
+          <div className="group-avatar-field">
+            <span className="group-avatar-preview">{avatarPreview
+              ? <img src={avatarPreview} alt="Group image preview" />
+              : <Users size={24} />}</span>
+            <label className="group-avatar-upload">
+              <ImagePlus size={15} /> {avatarFile ? "Change group image" : "Add group image"}
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif"
+                aria-label="Choose group image" onChange={event => setAvatarFile(event.target.files?.[0] || null)} />
+            </label>
+            {avatarFile && <button type="button" className="group-avatar-remove"
+              onClick={() => setAvatarFile(null)} disabled={busy}>Remove</button>}
+            <small>Optional · JPG, PNG, WEBP, or GIF · up to 5 MB</small>
+          </div>
           <label className="group-create-field">
             <span>Group name <small>{name.length}/80</small></span>
             <input autoFocus maxLength={80} value={name}
