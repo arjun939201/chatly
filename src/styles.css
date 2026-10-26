@@ -5487,3 +5487,66 @@ textarea{max-width:100%;resize:vertical;}
     padding: 0 8px;
   }
 }
+
+
+/* Final refinement — avoid oversized one-comment sheets and keep states accessible. */
+.feed-page .comments-modal {
+  height: fit-content;
+  min-height: 0;
+}
+.feed-page .comments-modal .comment-list {
+  flex: 0 1 auto;
+  min-height: 72px;
+}
+.feed-page .comments-modal .comments-empty-state {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 8px;
+  min-height: 190px;
+  padding: 28px 20px;
+  text-align: center;
+}
+.feed-page .comments-modal .comments-empty-state > span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: color-mix(in srgb, var(--chatly-brand, #8172e9) 10%, transparent);
+  color: var(--chatly-brand, #8172e9);
+}
+.feed-page .comments-modal .comments-empty-state h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+.feed-page .comments-modal .comments-empty-state p {
+  max-width: 280px;
+  margin: 0;
+  color: var(--muted, #858597);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.feed-page .comments-modal button:focus-visible,
+.feed-page .comments-modal textarea:focus-visible {
+  outline: 2px solid var(--chatly-brand, #8172e9);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .feed-page .comments-modal {
+    min-height: 0;
+    height: fit-content;
+  }
+  .feed-page .comments-modal .comment-list {
+    flex: 0 1 auto;
+    min-height: 64px;
+    max-height: min(56dvh, 560px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .comments-modal .comment-composer textarea,
+  .feed-page .comments-modal .comment-composer > button[type="submit"] {
+    transition: none !important;
+  }
+}
