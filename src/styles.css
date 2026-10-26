@@ -5037,3 +5037,12 @@ textarea{max-width:100%;resize:vertical;}
  .group-create-dialog{max-height:94dvh}
  .group-create-dialog .group-member-options{max-height:30dvh}
 }
+
+
+/* Final group creation accessibility and touch-target pass. */
+.group-create-dialog .group-member-options>button{touch-action:manipulation}
+.group-create-dialog .group-member-options>button:focus-visible{outline:2px solid var(--accent,#6558d3);outline-offset:-2px}
+.group-create-dialog .group-selected-chip button,.group-create-dialog .group-clear-selection{min-height:30px;touch-action:manipulation}
+.group-create-dialog footer button{min-height:42px}
+.group-create-dialog .group-avatar-upload{min-height:36px}
+@media(prefers-reduced-motion:reduce){.group-create-dialog{scroll-behavior:auto}}
