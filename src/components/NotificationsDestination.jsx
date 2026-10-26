@@ -30,24 +30,9 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState("all");
-  const [unreadOnly, setUnreadOnly] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
-  const unreadCount = items.filter(item => !item.read_at).length;
 
-  const markRead = useCallback(async (id) => {
-    const { error: updateError } = await supabase.from("notifications").update({ read_at: new Date().toISOString() }).eq("id", id).eq("recipient_id", session.user.id).is("read_at", null);
-    if (updateError) { setError(updateError.message || "Could not mark notification as read."); return; }
-    setItems(current => current.map(item => item.id === id ? { ...item, read_at: new Date().toISOString() } : item));
-  }, [session?.user?.id]);
-
-  const markAllRead = useCallback(async () => {
-    if (!session?.user?.id || !unreadCount) return;
-    const timestamp = new Date().toISOString();
-    const { error: updateError } = await supabase.from("notifications").update({ read_at: timestamp }).eq("recipient_id", session.user.id).is("read_at", null);
-    if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }
-    setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: timestamp }));
-  }, [session?.user?.id, unreadCount]);
-  const filteredItems = items.filter(item => (filter === "all" || item.type === filter) && (!unreadOnly || !item.read_at));
+  const filteredItems = items.filter(item => filter === "all" || item.type === filter);
 
   const loadNotifications = useCallback(async (silent = false) => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
@@ -115,28 +100,28 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     <section className="destination-page notification-destination-page" aria-label="Notification activity">
       <div className="notification-content">
         <section className="notification-feed" aria-label="Recent activity">
-          <div className="notification-feed-heading"><h2>Activity <span className="notification-unread-count" aria-live="polite" aria-atomic="true">{unreadCount > 0 ? `(${unreadCount} unread)` : "(all caught up)"}</span></h2><div className="notification-heading-actions">{unreadCount > 0 && <button type="button" className="notification-mark-all-read" onClick={markAllRead}>Mark all read</button>}<button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
-          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}<button type="button" className={unreadOnly ? "active" : ""} aria-pressed={unreadOnly} onClick={() => { setUnreadOnly(value => !value); setVisibleCount(20); }}>Unread</button></div>
+          <div className="notification-feed-heading"><h2>Activity</h2><div className="notification-heading-actions"><button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
+          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div>
           {loading ? (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
           ) : error ? (
             <div className="notification-empty-state" role="alert"><h3>Couldn’t load notifications</h3><p>{error}</p><button type="button" onClick={loadNotifications}><RefreshCw size={15}/> Try again</button></div>
           ) : items.length ? (
             <div className="notification-activity-list">
-              {!filteredItems.length && <div className="notification-empty-state" role="status"><h3>No matching activity</h3><p>Try another notification filter or turn off Unread.</p></div>}
+              {!filteredItems.length && <div className="notification-empty-state" role="status"><h3>No matching activity</h3><p>Try another notification filter.</p></div>}
               {filteredItems.slice(0, visibleCount).map((item, index) => {
                 const actorName = item.actor.display_name || item.actor.username || "Someone";
                 const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
                 const previous = filteredItems[index - 1];
                 const showDate = !previous || dateLabel(previous.created_at || previous.post?.created_at) !== dateLabel(item.created_at || item.post?.created_at);
-                return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type} ${item.read_at ? "is-read" : "is-unread"}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
+                return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
                     <button type="button" className="notification-actor-avatar" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id} aria-label={`Open ${actorName}'s profile`} title={`Open ${actorName}'s profile`} style={{ width: 36, height: 36, flex: "0 0 36px", borderRadius: "50%", overflow: "hidden", border: 0, padding: 0, background: "var(--surface, #eee)", color: "var(--text, #333)", display: "inline-flex", alignItems: "center", justifyContent: "center", cursor: item.actor?.id ? "pointer" : "default", fontWeight: 600 }}>
                       {item.actor.avatar_url ? <img src={item.actor.avatar_url} alt="" loading="lazy" onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.dataset.avatarFallback = actorName.slice(0, 1).toUpperCase(); }} onLoad={e => { e.currentTarget.style.display = ""; delete e.currentTarget.parentElement.dataset.avatarFallback; }} style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : actorName.slice(0, 1).toUpperCase()}
                     </button>
                     <p><button type="button" className="notification-actor-link" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id}>{actorName}</button>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
-                    <span>{relativeTime(item.created_at || item.post.created_at)} {!item.read_at && <button type="button" className="notification-mark-read" onClick={() => markRead(item.id)} aria-label={`Mark ${actorName} notification as read`}>Mark read</button>}</span>
+                    <span>{relativeTime(item.created_at || item.post.created_at)}</span>
                     
                     {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
                   </div>
