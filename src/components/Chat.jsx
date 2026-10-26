@@ -54,14 +54,21 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const activeIdRef = useRef(null);
 
   useEffect(() => {
-    supabase.from("messages").select("id,sender_id,recipient_id,body,created_at,read_at,delivered_at").or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id).order("created_at", { ascending: false }).limit(250)
-      .then(({ data }) => {
-        if (!data) return;
-        setRecentMessages(data);
+    let alive = true;
+    supabase.from("messages").select("id,sender_id,recipient_id,body,created_at,read_at").or("sender_id.eq." + session.user.id + ",recipient_id.eq." + session.user.id).order("created_at", { ascending: false }).limit(250)
+      .then(({ data, error: err }) => {
+        if (!alive) return;
+        if (err) {
+          setError(err.message || "Could not load conversations.");
+          return;
+        }
+        const rows = data || [];
+        setRecentMessages(rows);
         const latest = {};
-        data.forEach(message => { const peer = message.sender_id === session.user.id ? message.recipient_id : message.sender_id; if (!latest[peer]) latest[peer] = message; });
+        rows.forEach(message => { const peer = message.sender_id === session.user.id ? message.recipient_id : message.sender_id; if (!latest[peer]) latest[peer] = message; });
         setLastMessages(latest);
       });
+    return () => { alive = false; };
   }, [session.user.id]);
 
   useEffect(() => { try { localStorage.setItem(`chatly-archived-chats-${session.user.id}`, JSON.stringify(archivedChats)); } catch { /* Session-only fallback. */ } }, [archivedChats, session.user.id]);
@@ -295,7 +302,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     setMessageActionBusy(message.id);
     setError("");
     const { data, error: updateError } = await supabase.from("messages")
-      .update({ body, edited_at: new Date().toISOString() })
+      .update({ body })
       .eq("id", message.id).eq("sender_id", session.user.id).select("*").single();
     if (updateError) setError(updateError.message || "Could not edit message.");
     else {
