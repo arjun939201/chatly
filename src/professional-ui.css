@@ -1984,3 +1984,9 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.modal-header, .comments-dialog-header) { position: sticky; top: 0; z-index: 2; }
 }
 
+
+
+/* Batch 14.5 — nested overflow protection */
+.app-shell :is(.feed-main, .chat-main, .explore-main, .profile-main, .notifications-main) { max-width: 100%; }
+.app-shell :is(.feed-filter-tabs, .chat-filter-row, .notification-filters) { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+
