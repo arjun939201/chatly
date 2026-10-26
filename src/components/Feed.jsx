@@ -346,7 +346,16 @@ const commentComposerRef = useRef(null);
     } catch (error) { setCommentError(error.message || "Could not update this comment."); }
     finally { setCommentEditBusy(false); }
   }
-  async function copyComment(comment) {\n    try { await navigator.clipboard.writeText(comment.body); setNotice("Comment copied."); }\n    catch { setCommentError("Could not copy this comment. Check clipboard permissions."); }\n  }\n  function replyToComment(comment) {\n    const handle = comment.author?.username ? `@${comment.author.username} ` : "";\n    setCommentDraft(current => current && !current.startsWith(handle) ? `${handle}${current}` : (current || handle));\n    requestAnimationFrame(() => commentComposerRef.current?.focus());\n  }\n  async function deleteComment(comment) {
+  async function copyComment(comment) {
+    try { await navigator.clipboard.writeText(comment.body); setNotice("Comment copied."); }
+    catch { setCommentError("Could not copy this comment. Check clipboard permissions."); }
+  }
+  function replyToComment(comment) {
+    const handle = comment.author?.username ? `@${comment.author.username} ` : "";
+    setCommentDraft(current => current && !current.startsWith(handle) ? `${handle}${current}` : (current || handle));
+    requestAnimationFrame(() => commentComposerRef.current?.focus());
+  }
+  async function deleteComment(comment) {
     if (!window.confirm("Delete your comment?")) return;
     setCommentError("");
     try {
