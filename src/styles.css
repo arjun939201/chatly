@@ -4017,3 +4017,223 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .feed-page .feed-heading-row>div:first-child{display:flex;flex-direction:column;justify-content:center;height:58px;min-height:58px;min-width:0}
 .feed-page .feed-heading-row>div:first-child p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:18px}
 .feed-page .feed-saved-view-toggle{flex:0 0 auto;align-self:center}
+
+
+/* Feed visual pass: calmer rhythm, clearer hierarchy, and better touch spacing. */
+.feed-page {
+  padding-top: clamp(18px, 3vw, 30px);
+  padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  background: var(--app-bg, #f6f7fb);
+}
+.feed-page .feed-column {
+  width: min(680px, 100%);
+}
+.feed-page .feed-heading-row {
+  margin-bottom: 18px;
+  padding-inline: 2px;
+}
+.feed-page .feed-heading-row h1 {
+  margin: 0;
+  font-size: clamp(23px, 3.4vw, 28px);
+  line-height: 1.2;
+  letter-spacing: -.75px;
+  font-weight: 760;
+}
+.feed-page .feed-heading-row>div:first-child p {
+  margin-top: 5px;
+  color: var(--muted, #85859a);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.feed-page .feed-saved-view-toggle {
+  min-height: 40px;
+  padding-inline: 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 7px rgba(35, 31, 75, .035);
+}
+.feed-page .feed-filter-tabs {
+  margin-bottom: 18px;
+  padding: 4px;
+  border-radius: 13px;
+  gap: 4px;
+}
+.feed-page .feed-filter-tabs button {
+  min-height: 38px;
+  padding-inline: clamp(10px, 2vw, 16px);
+  border-radius: 10px;
+}
+.feed-page .posts-list {
+  gap: 14px;
+}
+.feed-page .post-card {
+  padding: 19px 20px;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(35, 31, 75, .025);
+}
+.feed-page .post-card:hover {
+  box-shadow: 0 7px 22px rgba(35, 31, 75, .045);
+}
+.feed-page .post-author {
+  gap: 11px;
+}
+.feed-page .post-author-profile {
+  gap: 11px;
+}
+.feed-page .post-author .mini-avatar {
+  width: 42px;
+  height: 42px;
+}
+.feed-page .post-author b {
+  line-height: 1.35;
+}
+.feed-page .post-author small {
+  margin-top: 2px;
+  line-height: 1.45;
+}
+.feed-page .post-body {
+  margin: 16px 0 18px;
+  font-size: 14px;
+  line-height: 1.72;
+  letter-spacing: 0;
+}
+.feed-page .post-actions {
+  gap: 8px;
+  padding-top: 12px;
+}
+.feed-page .post-card .post-actions-primary {
+  gap: clamp(6px, 1.5vw, 13px);
+}
+.feed-page .post-card .post-actions-primary button,
+.feed-page .post-card .post-actions-secondary button {
+  min-height: 38px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.feed-page .post-card .post-actions-secondary {
+  margin-top: 1px;
+}
+.feed-page .post-options-trigger {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+.feed-page .feed-notice {
+  margin: 0 0 14px;
+  border-radius: 12px;
+  line-height: 1.55;
+}
+.feed-page .feed-empty {
+  margin-top: 10px;
+  padding: 42px 24px;
+  border-radius: 18px;
+}
+.feed-page .feed-empty h3 {
+  margin-top: 0;
+  line-height: 1.35;
+}
+.feed-page .feed-empty p {
+  line-height: 1.65;
+}
+.feed-page .feed-loading-state {
+  gap: 14px;
+}
+.feed-page .post-skeleton {
+  padding: 19px 20px;
+  border-radius: 18px;
+}
+.feed-page .floating-create {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--chatly-brand, #6757e8) 25%, transparent);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.feed-page .floating-create:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 11px 27px color-mix(in srgb, var(--chatly-brand, #6757e8) 32%, transparent);
+}
+@media (max-width: 600px) {
+  .feed-page {
+    padding: 17px 12px calc(100px + env(safe-area-inset-bottom));
+  }
+  .feed-page .feed-heading-row {
+    margin-bottom: 15px;
+    padding-inline: 2px;
+  }
+  .feed-page .feed-heading-row h1 {
+    font-size: 22px;
+    letter-spacing: -.55px;
+  }
+  .feed-page .feed-saved-view-toggle {
+    min-height: 38px;
+    padding-inline: 11px;
+    gap: 6px;
+    font-size: 11px;
+  }
+  .feed-page .feed-filter-tabs {
+    margin-bottom: 14px;
+  }
+  .feed-page .feed-filter-tabs button {
+    min-height: 36px;
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+  .feed-page .posts-list {
+    gap: 11px;
+  }
+  .feed-page .post-card {
+    padding: 15px 14px;
+    border-radius: 16px;
+  }
+  .feed-page .post-author .mini-avatar {
+    width: 38px;
+    height: 38px;
+  }
+  .feed-page .post-body {
+    margin: 13px 0 15px;
+    font-size: 13.5px;
+    line-height: 1.68;
+  }
+  .feed-page .post-card .post-actions-primary {
+    gap: 4px;
+  }
+  .feed-page .post-card .post-actions-primary button,
+  .feed-page .post-card .post-actions-secondary button {
+    min-height: 36px;
+    padding: 6px 7px;
+    font-size: 11px;
+  }
+  .feed-page .feed-empty {
+    padding: 34px 17px;
+  }
+  .feed-page .post-skeleton {
+    padding: 15px 14px;
+    border-radius: 16px;
+  }
+  .feed-page .floating-create {
+    width: 51px;
+    height: 51px;
+    border-radius: 17px;
+  }
+}
+@media (max-width: 380px) {
+  .feed-page .feed-saved-view-toggle span {
+    font-size: 10px;
+  }
+  .feed-page .post-card {
+    padding-inline: 12px;
+  }
+  .feed-page .post-card .post-actions-primary button,
+  .feed-page .post-card .post-actions-secondary button {
+    padding-inline: 5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .floating-create {
+    transition: none;
+  }
+  .feed-page .floating-create:hover {
+    transform: none;
+  }
+}
