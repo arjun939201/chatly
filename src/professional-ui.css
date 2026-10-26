@@ -2061,3 +2061,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) > :last-child { margin-bottom: 0; }
 .app-shell :is(.post-actions, .profile-actions, .notification-actions) { column-gap: 8px; row-gap: 6px; }
 
+
+
+/* Batch 15.7 — surface transition cleanup */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) {
+  transition-property: border-color, box-shadow, background-color;
+}
+
