@@ -5047,90 +5047,34 @@ textarea{max-width:100%;resize:vertical;}
 .group-create-dialog .group-avatar-upload{min-height:36px}
 @media(prefers-reduced-motion:reduce){.group-create-dialog{scroll-behavior:auto}}
 
-/* Feed density and single-row engagement layout */
-.feed-page{padding-top:24px}
-.feed-page .feed-header-section{margin-bottom:12px;padding-top:0;padding-bottom:8px}
-.feed-page .feed-heading-row{margin-bottom:10px}
-.feed-page .feed-header-section h1{margin-top:2px;margin-bottom:2px}
-.feed-page .post-engagement-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;font-size:11px;color:#89899a;line-height:1.35}
+
+/* Feed layout refinement — single source of truth for spacing and actions. */
+.feed-page{padding-top:20px}
+.feed-page .feed-header-section{margin:0 0 10px;padding:0 20px 7px}
+.feed-page .feed-heading-row{margin:0 0 8px;padding:0}
+.feed-page .feed-heading-row h1{margin:2px 0;font-size:inherit;line-height:1.2}
+.feed-page .post-engagement-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:18px;margin:8px 0 10px;font-size:11px;line-height:1.3;color:var(--muted,#89899a)}
 .feed-page .post-engagement-meta time{font-size:11px;font-weight:500;white-space:nowrap}
 .feed-page .post-view-count{display:inline-flex;align-items:center;gap:4px;font-size:11px;white-space:nowrap}
 .feed-page .post-view-count svg{width:13px;height:13px}
-.feed-page .post-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap}
-.feed-page .post-actions-primary{display:flex;align-items:center;gap:8px;min-width:0}
-.feed-page .post-actions-secondary{display:flex;align-items:center;justify-content:flex-end;margin-left:auto;flex:0 0 auto}
-.feed-page .post-actions button{min-height:32px;padding:5px 7px;gap:5px;font-size:11px}
+.feed-page .post-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows: minmax(32px,auto);align-items:center;width:100%;min-height:36px;margin:0;padding:4px 0 0;gap:0}
+.feed-page .post-actions-primary{grid-column:1;grid-row:1;display:flex;align-items:center;justify-self:start;min-width:0;gap:5px;flex-wrap:nowrap}
+.feed-page .post-actions-secondary{grid-column:2;grid-row:1;display:flex;align-items:center;justify-self:end;align-self:center;min-width:max-content;margin:0}
+.feed-page .post-actions button{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:30px;margin:0;padding:3px 5px;font-size:11px;line-height:1}
 .feed-page .post-actions button svg{width:17px;height:17px;flex:none}
+.feed-page .post-actions button span{line-height:1}
+.feed-page .post-body{margin:10px 0}
 @media(max-width:600px){
- .feed-page{padding-top:18px}
- .feed-page .feed-header-section{margin-bottom:9px;padding-bottom:6px}
- .feed-page .feed-heading-row{margin-bottom:8px}
- .feed-page .post-engagement-meta,.feed-page .post-engagement-meta time,.feed-page .post-view-count{font-size:10px}
+ .feed-page{padding-top:16px}
+ .feed-page .feed-header-section{margin-bottom:8px;padding:0 20px 6px}
+ .feed-page .feed-heading-row{margin-bottom:7px}
+ .feed-page .post-engagement-meta{min-height:17px;margin:7px 0 8px;font-size:10px}
+ .feed-page .post-engagement-meta time,.feed-page .post-view-count{font-size:10px}
  .feed-page .post-view-count svg{width:12px;height:12px}
- .feed-page .post-actions{gap:4px}
- .feed-page .post-actions-primary{gap:4px}
- .feed-page .post-actions button{min-height:30px;padding:4px 5px;font-size:10px}
+ .feed-page .post-actions{grid-template-rows:minmax(30px,auto);min-height:32px;padding-top:2px}
+ .feed-page .post-actions-primary{gap:3px}
+ .feed-page .post-actions-secondary{align-self:center}
+ .feed-page .post-actions button{min-height:29px;padding:3px 4px;font-size:10px}
  .feed-page .post-actions button svg{width:16px;height:16px}
-}
-
-/* Correct feed card action alignment: one centered row, save pinned right. */
-.feed-page .post-card{display:flex;flex-direction:column}
-.feed-page .post-engagement-meta{margin:8px 0 10px!important;min-height:20px}
-.feed-page .post-actions{width:100%;min-height:42px;padding:7px 0 0!important;margin:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:0!important}
-.feed-page .post-actions-primary{display:flex!important;align-items:center!important;justify-content:flex-start!important;flex:0 1 auto!important;min-width:0!important;gap:4px!important}
-.feed-page .post-actions-secondary{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex:0 0 auto!important;margin:0 0 0 auto!important}
-.feed-page .post-actions button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:32px!important;padding:4px 6px!important;margin:0!important;line-height:1!important}
-.feed-page .post-actions button span{line-height:1!important}
-.feed-page .post-body{margin:12px 0!important}
-.feed-page .feed-header-section{margin-bottom:8px!important;padding:0 0 5px!important}
-.feed-page .feed-heading-row{margin:0 0 7px!important}
-.feed-page .feed-heading-row h1{margin:1px 0!important}
-@media(max-width:600px){
- .feed-page .post-engagement-meta{margin:7px 0 8px!important}
- .feed-page .post-actions{min-height:36px;padding-top:5px!important}
- .feed-page .post-actions-primary{gap:2px!important}
- .feed-page .post-actions button{min-height:30px!important;padding:3px 4px!important}
- .feed-page .post-body{margin:10px 0!important}
-}
-
-/* Final mobile feed layout correction: explicit two-column action grid. */
-.feed-page .post-actions{
- display:grid!important;
- grid-template-columns:minmax(0,1fr) auto!important;
- align-items:center!important;
- justify-content:initial!important;
- width:100%!important;
- min-height:38px!important;
- padding:5px 0 0!important;
- margin:0!important;
- gap:0!important;
- flex-wrap:initial!important;
-}
-.feed-page .post-actions-primary{
- grid-column:1!important;
- grid-row:1!important;
- display:flex!important;
- align-items:center!important;
- justify-self:start!important;
- min-width:0!important;
- flex-wrap:nowrap!important;
-}
-.feed-page .post-actions-secondary{
- grid-column:2!important;
- grid-row:1!important;
- display:flex!important;
- align-items:center!important;
- justify-self:end!important;
- align-self:center!important;
- min-width:max-content!important;
- margin:0!important;
-}
-.feed-page .post-actions-secondary button{align-self:center!important}
-.feed-page .feed-header-section{padding-inline:20px!important}
-.feed-page .feed-heading-row{padding:0!important}
-@media(max-width:600px){
- .feed-page .post-actions{min-height:34px!important;padding-top:3px!important}
- .feed-page .post-actions-primary{gap:3px!important}
- .feed-page .post-actions-secondary{align-self:center!important}
- .feed-page .feed-header-section{padding-inline:20px!important}
+ .feed-page .post-body{margin:9px 0}
 }
