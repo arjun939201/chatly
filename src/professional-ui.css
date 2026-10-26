@@ -2180,3 +2180,19 @@ html { -webkit-text-size-adjust: 100%; }
   --chatly-layer-header: 15; --chatly-layer-menu: 30; --chatly-layer-modal: 50;
 }
 
+
+
+/* Batch 17.2 — theme-aware semantic surfaces */
+.app-shell {
+  --chatly-page: var(--app-bg, var(--chatly-canvas));
+  --chatly-surface-current: var(--surface, var(--chatly-surface));
+  --chatly-text-current: var(--text, var(--chatly-ink));
+  --chatly-muted-current: var(--muted, var(--chatly-muted));
+  --chatly-border-current: var(--border, var(--chatly-border));
+}
+.app-shell.theme-dark {
+  --chatly-accent-soft: #302b4d;
+  --chatly-shadow-card: 0 2px 14px rgb(0 0 0 / 18%);
+  --chatly-shadow-popover: 0 16px 44px rgb(0 0 0 / 42%);
+}
+
