@@ -2082,3 +2082,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { touch-action: pan-y; }
 .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { overscroll-behavior: contain; }
 
+
+
+/* Batch 15.10 — final readiness safeguards */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { overflow-wrap: break-word; }
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+}
+
