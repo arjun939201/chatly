@@ -2104,3 +2104,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(button, input, textarea, select) { font-family: inherit; }
 .app-shell :is(button, input, textarea, select):focus-visible { outline-offset: 2px; }
 
+
+
+/* Batch 16.3 — text wrapping QA */
+.app-shell :is(.post-content, .profile-bio, .notification-copy, .person-copy, .chat-preview) {
+  min-width: 0; overflow-wrap: anywhere;
+}
+
