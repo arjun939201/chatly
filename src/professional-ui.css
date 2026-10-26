@@ -2090,3 +2090,11 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
 }
 
+
+
+/* Batch 16.1 — shared surface token QA */
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card, .person-card) {
+  border-color: var(--border, var(--chatly-border));
+  background-clip: padding-box;
+}
+
