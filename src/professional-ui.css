@@ -2305,3 +2305,16 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(input, textarea, select):focus-visible { box-shadow: var(--chatly-focus); }
 
+
+
+/* Batch 21.2 — motion and contrast preferences */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *, .app-shell *::before, .app-shell *::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important; scroll-behavior: auto !important;
+  }
+}
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+}
+
