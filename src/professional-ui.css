@@ -1519,3 +1519,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.primary-button, .secondary-button, .oauth-button) { min-height: var(--chatly-control-height); }
 .app-shell :is(.secondary-button, .oauth-button) { background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
 
+
+
+/* Batch 9.3 — heading rhythm and text hierarchy */
+.app-shell :is(.feed-heading-row, .sidebar-heading, .st-subheader) { line-height: 1.25; }
+.app-shell :is(.post-author-profile strong, .person-copy strong, .notification-copy strong) { letter-spacing: -.012em; }
+.app-shell :is(.post-timestamp-wrap, .person-copy p, .notification-copy time) { line-height: 1.4; }
+.app-shell :is(.profile-bio, .post-body, .comment-message) { text-wrap: pretty; }
+
