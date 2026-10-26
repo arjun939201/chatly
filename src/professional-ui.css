@@ -1817,3 +1817,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-actions button, .notification-actions button, .profile-actions button):active { opacity: .82; }
 .app-shell button:disabled { cursor: not-allowed; }
 
+
+
+/* Batch 12.3 — keyboard focus polish */
+.app-shell :is(a, button, input, textarea, select, [role="button"], [tabindex]):focus-visible {
+  outline: 2px solid var(--chatly-accent, #6557e8); outline-offset: 3px;
+}
+.app-shell :is(.post-options-trigger, .profile-menu-trigger):focus-visible { border-radius: 10px; }
+
