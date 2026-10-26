@@ -1401,3 +1401,7 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 7.5 — mobile feed composer and dialogs */
 @media (max-width: 600px) { .floating-create { right: max(16px, env(safe-area-inset-right)); bottom: max(78px, calc(64px + env(safe-area-inset-bottom))); } .compose-modal, .comments-dialog, .report-post-modal { width: 100%; max-width: 100%; } .compose-modal textarea, .comment-composer textarea { font-size: 16px; } }
+
+/* Batch 7.6 — profile grid and summary responsive behavior */
+@media (max-width: 600px) { .profile-page, .profile-view { max-width: 100%; } .profile-summary, .profile-hero { min-width: 0; } .profile-bio, .profile-bio p { overflow-wrap: anywhere; } .profile-post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 340px) { .profile-post-grid { grid-template-columns: 1fr; } }
