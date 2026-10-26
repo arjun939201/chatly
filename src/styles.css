@@ -5930,3 +5930,22 @@ textarea{max-width:100%;resize:vertical;}
 .topbar .header-notifications:focus-visible {
   background:transparent!important;
 }
+
+
+/* Hard reset the notification control's visual surface; retain only the bell glyph. */
+.header-notifications,
+button.header-notifications,
+.topbar button.header-notifications {
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  border:0!important;
+  outline-offset:3px!important;
+  border-radius:0!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+}
+.header-notifications::before,
+.header-notifications::after { content:none!important; display:none!important; }
+.header-notifications:hover,
+.header-notifications:active { background-color:transparent!important; box-shadow:none!important; }
