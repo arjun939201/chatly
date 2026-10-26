@@ -4785,3 +4785,6 @@ label{min-width:0}
 
 /* Round 3 / 02 — long-content wrapping */
 .post-card,.message-bubble,.profile-bio,.notification-item{overflow-wrap:anywhere;word-break:normal;}
+
+/* Round 3 / 03 — shared control transitions */
+button,input,textarea,select{transition:background-color .16s ease,border-color .16s ease,color .16s ease,box-shadow .16s ease;}
