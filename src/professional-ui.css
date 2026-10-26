@@ -672,3 +672,18 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell button:active:not(:disabled) { transform: translateY(1px); }
 @media (prefers-reduced-motion: reduce) { .app-shell button { transition-duration: 0s !important; } }
 
+
+
+/* Batch 1.4 — shared form control system */
+.app-shell :is(input, textarea, select) { min-width: 0; color: var(--text, var(--chatly-ink)); }
+.app-shell :is(input, textarea, select):not([type="checkbox"]):not([type="radio"]) { border-radius: var(--chatly-radius-control); }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--muted, var(--chatly-muted)); opacity: .78; }
+.app-shell :is(input, textarea, select):disabled { opacity: .6; cursor: not-allowed; }
+.app-shell :is(input, textarea, select)[aria-invalid="true"] { border-color: var(--chatly-danger); }
+.app-shell :is(input, textarea, select)[aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 3px rgb(196 61 75 / 18%); }
+.app-shell textarea { max-width: 100%; resize: vertical; }
+.app-shell input[type="checkbox"], .app-shell input[type="radio"] { width: 16px; height: 16px; accent-color: var(--chatly-accent); }
+.app-shell :is(.form-field, .field-group) { display: grid; gap: 7px; min-width: 0; }
+.app-shell :is(.form-field label, .field-group label) { color: var(--text, var(--chatly-ink)); font-size: 12px; font-weight: 650; }
+.app-shell :is(.form-help, .field-hint) { color: var(--muted, var(--chatly-muted)); font-size: 12px; line-height: 1.5; }
+
