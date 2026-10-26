@@ -68,6 +68,10 @@ export default function App() {
     return () => { document.removeEventListener("pointerdown", closeOnOutsideClick); document.removeEventListener("keydown", closeOnEscape); };
   }, [profileMenuOpen]);
   const [profileStats, setProfileStats] = useState({ posts: 0, followers: 0, following: 0 });
+  const [profileStatsLoading, setProfileStatsLoading] = useState(false);
+  const [profileStatsError, setProfileStatsError] = useState(false);
+  const [profileStatsRetry, setProfileStatsRetry] = useState(0);
+  const [profileConnections, setProfileConnections] = useState({ open: false, kind: "followers", people: [], loading: false, error: "" });
   const [myPosts, setMyPosts] = useState([]);
   const [myPostsLoading, setMyPostsLoading] = useState(false);
   const [myPostsError, setMyPostsError] = useState("");
@@ -84,7 +88,7 @@ export default function App() {
     }
     setMyPosts(data || []);
     setMyPostsError("");
-    setProfileStats(current => ({ ...current, posts: countResult.error ? (data?.length || 0) : (countResult.count || 0) }));
+    if (!countResult.error) setProfileStats(current => ({ ...current, posts: countResult.count || 0 }));
   }
   useEffect(() => {
     let cancelled = false;
@@ -109,6 +113,8 @@ export default function App() {
         return;
       }
       const userId = session.user.id;
+      setProfileStatsLoading(true);
+      setProfileStatsError(false);
       const [posts, followers, following] = await Promise.all([
         supabase.from("posts").select("id", { count: "exact", head: true }).eq("user_id", userId),
         supabase.from("user_follows").select("follower_id", { count: "exact", head: true }).eq("following_id", userId),
@@ -118,13 +124,37 @@ export default function App() {
       const failed = posts.error || followers.error || following.error;
       if (failed) {
         console.error("Profile stats load failed:", failed);
-        return;
+        setProfileStatsError(true);
+      } else {
+        setProfileStats({ posts: posts.count || 0, followers: followers.count || 0, following: following.count || 0 });
       }
-      setProfileStats({ posts: posts.count || 0, followers: followers.count || 0, following: following.count || 0 });
+      setProfileStatsLoading(false);
     }
     loadProfileStats();
     return () => { cancelled = true; };
-  }, [session]);
+  }, [session, profileStatsRetry]);
+  async function openProfileConnections(kind) {
+    setProfileConnections({ open: true, kind, people: [], loading: true, error: "" });
+    const idColumn = kind === "followers" ? "follower_id" : "following_id";
+    const relationColumn = kind === "followers" ? "following_id" : "follower_id";
+    try {
+      const { data: relations, error: relationError } = await supabase.from("user_follows").select(idColumn).eq(relationColumn, session.user.id).order(idColumn, { ascending: true }).limit(100);
+      if (relationError) throw relationError;
+      const ids = [...new Set((relations || []).map(item => item[idColumn]).filter(Boolean))];
+      if (!ids.length) {
+        setProfileConnections({ open: true, kind, people: [], loading: false, error: "" });
+        return;
+      }
+      const { data: people, error: peopleError } = await supabase.from("profiles").select("id,username,display_name,avatar_url,bio").in("id", ids);
+      if (peopleError) throw peopleError;
+      const byId = new Map((people || []).map(person => [person.id, person]));
+      setProfileConnections({ open: true, kind, people: ids.map(id => byId.get(id)).filter(Boolean), loading: false, error: "" });
+    } catch (error) {
+      console.error("Profile connections load failed:", error);
+      setProfileConnections({ open: true, kind, people: [], loading: false, error: "Could not load this list. Please try again." });
+    }
+  }
+
   const [chatTarget, setChatTarget] = useState(null);
   const [requestedProfile, setRequestedProfile] = useState(null);
   const [viewedProfile, setViewedProfile] = useState(null);
@@ -323,7 +353,8 @@ export default function App() {
     {tab === "search" && <SearchPeople session={session} initialQuery={searchInitialQuery} requestedProfile={requestedProfile} onProfileRequestHandled={() => setRequestedProfile(null)} onOpenProfile={openPublicProfile} onOpenChats={openChat} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} /> }
     {tab === "public-profile" && viewedProfile && <PublicProfile person={viewedProfile} session={session} onBack={() => { setViewedProfile(null); setTab(profileReturnTab); }} onOpenChats={openChat} />}{tab === "feed" && <Feed session={session} profile={profile} onOpenProfile={openPublicProfile} onPostsChanged={refreshMyProfilePosts} onFindFriends={() => setTab("search")} onOpenExplore={() => setTab("explore")} onOpenSearch={() => setTab("search")} onOpenChats={() => { setChatTarget(null); setTab("chats"); }}/>}
     {tab === "chats" && <Chat session={session} profile={profile} targetId={chatTarget} enterToSend={chatPrefs.enterToSend} onOpenProfile={openPublicProfile} onBackToFeed={() => { setChatTarget(null); setTab("feed"); }}/>}
-    {tab === "profile" && <section className="profile-page"><div className="profile-page-head"><h2>{profile?.username ? `${profile.username}’s profile` : `${profile?.display_name || "Your"}’s profile`}</h2><button className="profile-menu-trigger" aria-label="Profile options" aria-expanded={profileMenuOpen} aria-haspopup="menu" onClick={() => setProfileMenuOpen(v => !v)}><MoreHorizontal size={27}/></button>{profileMenuOpen && <div className="profile-dropdown" role="menu"><button role="menuitem" onClick={() => { setProfileMenuOpen(false); setSettingsOpen(false); setSettingsView("home"); setSettingsSubpage(false); setTab("settings"); }}>Settings <Settings size={16}/></button><button role="menuitem" className="profile-logout-option" onClick={async () => { setProfileMenuOpen(false); const { error } = await supabase.auth.signOut(); if (error) setNotice("Could not log out. Please try again."); }}><span>Log out</span> <LogOut size={16}/></button></div>}</div><div className="profile-summary"><span className="profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.classList.add("avatar-image-failed"); e.currentTarget.parentElement.dataset.avatarFallback = (profile?.display_name || "C").slice(0,1).toUpperCase(); }} onLoad={e => { e.currentTarget.style.display = ""; e.currentTarget.parentElement.classList.remove("avatar-image-failed"); delete e.currentTarget.parentElement.dataset.avatarFallback; }}/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><div className="profile-counts"><div><b>{profileStats.posts}</b><span>posts</span></div><div><b>{profileStats.followers}</b><span>followers</span></div><div><b>{profileStats.following}</b><span>following</span></div></div></div><div className="profile-bio"><strong>{profile?.display_name || "Your name"}</strong>{profile?.username && <span className="profile-handle">@{profile.username}</span>}<p>{profile?.bio || "Welcome to my Chatly profile."}</p></div><button className="profile-edit-button" onClick={() => { setEditProfileOpen(true); setNotice(""); }}>Edit profile</button><div className="profile-grid-heading"><Grid3X3 size={18}/> Posts</div>{myPostsLoading ? <div className="profile-post-grid profile-post-grid-skeleton" aria-label="Loading posts" aria-busy="true">{[0,1,2,3,4,5].map(item => <div className="profile-post-tile profile-post-skeleton" key={item}><span/><span/><span/></div>)}</div> : myPostsError ? <div className="profile-posts-empty" role="status"><MessageCircle size={26}/><h3>Posts unavailable</h3><p>{myPostsError}</p><button className="profile-edit-button" onClick={refreshMyProfilePosts}>Try again</button></div> : myPosts.length ? <div className="profile-post-grid">{myPosts.map(post => <article className="profile-post-tile" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString([], { dateStyle: "medium" }) : "Recently"}</small></article>)}</div> : <div className="profile-posts-empty"><MessageCircle size={26}/><h3>No posts yet</h3><p>Share your first post and it will appear here.</p><button className="profile-edit-button" onClick={() => setTab("feed")}>Go to feed</button></div>}</section>}
+    {tab === "profile" && <section className="profile-page"><div className="profile-page-head"><h2>{profile?.username ? `${profile.username}’s profile` : `${profile?.display_name || "Your"}’s profile`}</h2><button className="profile-menu-trigger" aria-label="Profile options" aria-expanded={profileMenuOpen} aria-haspopup="menu" onClick={() => setProfileMenuOpen(v => !v)}><MoreHorizontal size={27}/></button>{profileMenuOpen && <div className="profile-dropdown" role="menu"><button role="menuitem" onClick={() => { setProfileMenuOpen(false); setSettingsOpen(false); setSettingsView("home"); setSettingsSubpage(false); setTab("settings"); }}>Settings <Settings size={16}/></button><button role="menuitem" className="profile-logout-option" onClick={async () => { setProfileMenuOpen(false); const { error } = await supabase.auth.signOut(); if (error) setNotice("Could not log out. Please try again."); }}><span>Log out</span> <LogOut size={16}/></button></div>}</div><div className="profile-summary"><span className="profile-avatar">{profile?.avatar_url ? <img src={profile.avatar_url} alt="Profile" onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.classList.add("avatar-image-failed"); e.currentTarget.parentElement.dataset.avatarFallback = (profile?.display_name || "C").slice(0,1).toUpperCase(); }} onLoad={e => { e.currentTarget.style.display = ""; e.currentTarget.parentElement.classList.remove("avatar-image-failed"); delete e.currentTarget.parentElement.dataset.avatarFallback; }}/> : (profile?.display_name || "C").slice(0,1).toUpperCase()}</span><div className="profile-counts" aria-label="Profile statistics"><div><b>{profileStatsLoading ? "—" : profileStats.posts}</b><span>posts</span></div><button type="button" className="profile-stat-button" onClick={() => openProfileConnections("followers")} aria-label={`${profileStats.followers} followers; view followers`}><b>{profileStatsLoading ? "—" : profileStats.followers}</b><span>followers</span></button><button type="button" className="profile-stat-button" onClick={() => openProfileConnections("following")} aria-label={`${profileStats.following} following; view following`}><b>{profileStatsLoading ? "—" : profileStats.following}</b><span>following</span></button></div>{profileStatsError && <p className="profile-stats-error" role="status">Some counts could not be loaded. <button type="button" onClick={() => { setProfileStatsError(false); setProfileStatsLoading(true); setProfileStatsRetry(value => value + 1); }}>Refresh profile</button></p>}</div><div className="profile-bio"><strong>{profile?.display_name || "Your name"}</strong>{profile?.username && <span className="profile-handle">@{profile.username}</span>}<p>{profile?.bio || "Welcome to my Chatly profile."}</p></div><button className="profile-edit-button" onClick={() => { setEditProfileOpen(true); setNotice(""); }}>Edit profile</button><div className="profile-grid-heading"><Grid3X3 size={18}/> Posts</div>{myPostsLoading ? <div className="profile-post-grid profile-post-grid-skeleton" aria-label="Loading posts" aria-busy="true">{[0,1,2,3,4,5].map(item => <div className="profile-post-tile profile-post-skeleton" key={item}><span/><span/><span/></div>)}</div> : myPostsError ? <div className="profile-posts-empty" role="status"><MessageCircle size={26}/><h3>Posts unavailable</h3><p>{myPostsError}</p><button className="profile-edit-button" onClick={refreshMyProfilePosts}>Try again</button></div> : myPosts.length ? <div className="profile-post-grid">{myPosts.map(post => <article className="profile-post-tile" key={post.id}><p>{post.body}</p><small>{post.created_at ? new Date(post.created_at).toLocaleDateString([], { dateStyle: "medium" }) : "Recently"}</small></article>)}</div> : <div className="profile-posts-empty"><MessageCircle size={26}/><h3>No posts yet</h3><p>Share your first post and it will appear here.</p><button className="profile-edit-button" onClick={() => setTab("feed")}>Go to feed</button></div>}</section>}
+    {profileConnections.open && <div className="modal-backdrop profile-connections-backdrop" onClick={e => { if (e.target === e.currentTarget) setProfileConnections(current => ({ ...current, open: false })); }}><section className="profile-modal profile-connections-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-connections-title"><header className="modal-header"><h2 id="profile-connections-title">{profileConnections.kind === "followers" ? "Followers" : "Following"}</h2><button className="icon-button" type="button" onClick={() => setProfileConnections(current => ({ ...current, open: false }))} aria-label="Close list"><X size={18}/></button></header>{profileConnections.loading ? <p className="profile-connections-message" role="status">Loading {profileConnections.kind}…</p> : profileConnections.error ? <div className="profile-connections-message" role="status"><p>{profileConnections.error}</p><button className="secondary-button" type="button" onClick={() => openProfileConnections(profileConnections.kind)}>Try again</button></div> : profileConnections.people.length ? <div className="profile-connections-list">{profileConnections.people.map(person => <button className="profile-connection-person" type="button" key={person.id} onClick={() => { setProfileConnections(current => ({ ...current, open: false })); openPublicProfile(person); }}><span className="profile-connection-avatar">{person.avatar_url ? <img src={person.avatar_url} alt="" onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.classList.add("avatar-image-failed"); e.currentTarget.parentElement.dataset.avatarFallback = (person.display_name || person.username || "C").slice(0, 1).toUpperCase(); }} onLoad={e => { e.currentTarget.style.display = ""; e.currentTarget.parentElement.classList.remove("avatar-image-failed"); delete e.currentTarget.parentElement.dataset.avatarFallback; }}/> : (person.display_name || person.username || "C").slice(0, 1).toUpperCase()}</span><span className="profile-connection-copy"><strong>{person.display_name || person.username || "Chatly user"}</strong><small>{person.username ? `@${person.username}` : "Chatly member"}</small></span></button>)}</div> : <p className="profile-connections-message">No {profileConnections.kind} yet.</p>}</section></div>}
     {editProfileOpen && <div className="modal-backdrop" onClick={e => { if (e.target === e.currentTarget) setEditProfileOpen(false); }}>
       <section className="profile-modal edit-profile-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
         <header className="modal-header"><div><h2 id="edit-profile-title">Edit profile</h2></div><button className="icon-button" onClick={() => setEditProfileOpen(false)} aria-label="Close edit profile"><X size={18}/></button></header>
