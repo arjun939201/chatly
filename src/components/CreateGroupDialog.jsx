@@ -26,20 +26,32 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
     setBusy(true);
     setError("");
     try {
+      // Resolve the user from the active Supabase auth token. The RLS policy checks
+      // created_by against auth.uid(), so a potentially stale session prop is not enough.
+      const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+      if (authError) throw authError;
+      if (!authUser?.id) throw new Error("Your session has expired. Please sign in again.");
+      if (session?.user?.id && session.user.id !== authUser.id) {
+        throw new Error("Your session changed. Refresh Chatly and try creating the group again.");
+      }
+
       const { data: group, error: groupError } = await supabase.from("group_conversations")
-        .insert({ name: groupName, description: description.trim(), created_by: session.user.id })
+        .insert({ name: groupName, description: description.trim(), created_by: authUser.id })
         .select("*").single();
       if (groupError) throw groupError;
       // The database trigger inserts the creator as owner. Insert only the invited members here.
       const members = selected.map(user_id => ({ conversation_id: group.id, user_id, role: "member" }));
       const { error: membersError } = await supabase.from("group_conversation_members").insert(members);
       if (membersError) {
-        await supabase.from("group_conversations").delete().eq("id", group.id);
+        // Best-effort cleanup; the database may restrict deleting the group for this client.
+        const { error: cleanupError } = await supabase.from("group_conversations").delete().eq("id", group.id);
+        if (cleanupError) console.error("Group cleanup after member insert failure failed:", cleanupError);
         throw membersError;
       }
       onCreated?.(group);
       onClose?.();
     } catch (err) {
+      console.error("Group creation failed:", err);
       setError(err?.message || "Could not create this group. Please try again.");
     } finally {
       setBusy(false);
