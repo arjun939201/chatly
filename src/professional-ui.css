@@ -2329,3 +2329,13 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell .global-profile-avatar { width: 34px; height: 34px; }
 }
 
+
+
+/* Batch 20.4 — preserve bounded profile and chat containers */
+.app-shell .profile-page { width: min(100% - 32px, 900px); margin-inline: auto; }
+.app-shell .profile-view { width: min(100% - 32px, 900px); margin-inline: auto; }
+.app-shell .chat-layout { width: min(1320px, calc(100% - 40px)); margin-inline: auto; }
+@media (max-width: 600px) {
+  .app-shell .profile-page, .app-shell .profile-view { width: calc(100% - 24px); }
+  .app-shell .chat-layout { width: calc(100% - 16px); }
+}
