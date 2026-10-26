@@ -5917,3 +5917,16 @@ textarea{max-width:100%;resize:vertical;}
  .notification-destination-page .notification-refresh-button { width:35px!important; height:35px!important; min-width:35px!important; min-height:35px!important; border-radius:11px!important; }
 }
 @media(prefers-reduced-motion:reduce) { .notification-destination-page .notification-filter-row button { transition:none!important; } }
+
+
+/* Feed header: keep the notification bell clean, without the dark circular fill. */
+.topbar .header-notifications {
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  border-radius:0!important;
+}
+.topbar .header-notifications:hover,
+.topbar .header-notifications:focus-visible {
+  background:transparent!important;
+}
