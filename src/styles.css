@@ -4676,3 +4676,11 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .bubble{overflow-wrap:anywhere;line-height:1.5}
 .composer input{min-height:42px}
 
+
+/* Chatly UI batch 05: profile presentation */
+.profile-hero{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-lg);background:var(--chatly-surface);box-shadow:0 4px 20px rgba(42,36,89,.04)}
+.profile-identity{min-width:0}
+.profile-bio-text{line-height:1.65;overflow-wrap:anywhere}
+.profile-stats{gap:clamp(14px,4vw,28px)}
+.profile-post-grid{gap:8px}
+
