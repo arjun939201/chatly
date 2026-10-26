@@ -4815,3 +4815,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 12 — image loading layout stability */
 .post-media img,.profile-post-tile img,.chat-media img{max-width:100%;height:auto;object-fit:cover;}
+
+/* Round 3 / 13 — subtle separators */
+.chat-list-item+.chat-list-item,.notification-item+.notification-item{border-top:1px solid var(--border-color,rgba(120,120,140,.14));}
