@@ -110,3 +110,11 @@ test("background notification refresh errors do not replace loaded activity", as
   const source = await readFile(new URL("../src/components/NotificationsDestination.jsx", import.meta.url), "utf8");
   assert.match(source, /if \(!silent\) setError\(err\.message \|\| "Could not load notifications\."\)/);
 });
+
+
+test("auth bootstrap falls back to sign-in instead of leaving a loading screen stuck", async () => {
+  const source = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  assert.match(source, /supabase\.auth\.getSession\(\)[\s\S]*?\.catch\(error =>/);
+  assert.match(source, /Session bootstrap failed/);
+  assert.match(source, /setSession\(null\);\s*setLoading\(false\);/);
+});
