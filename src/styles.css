@@ -4851,3 +4851,6 @@ html,body,#root{max-width:100%;overflow-x:clip;}
 
 /* Round 3 / 24 — textarea resize behavior */
 textarea{max-width:100%;resize:vertical;}
+
+/* Round 3 / 25 — sticky headers paint */
+.modal-header,.chat-header,.destination-header{backface-visibility:hidden;}
