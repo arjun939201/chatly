@@ -6211,3 +6211,31 @@ button.header-notifications,
     margin-bottom:7px!important;
   }
 }
+
+
+/* Feed header quick navigation and discovery actions */
+.feed-page .feed-heading-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.feed-page .feed-heading-title { min-width:0; }
+.feed-page .feed-header-shortcuts { display:flex; align-items:center; justify-content:flex-end; gap:6px; flex-shrink:0; }
+.feed-page .feed-header-shortcuts button { display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:36px; padding:7px 10px; border:1px solid var(--border,#e4e4e9); border-radius:11px; background:var(--surface,#fff); color:var(--text,#17171b); font:inherit; font-size:12px; font-weight:650; cursor:pointer; transition:background .15s,border-color .15s,color .15s; }
+.feed-page .feed-header-shortcuts button svg { width:16px; height:16px; color:#7566e8; }
+.feed-page .feed-header-shortcuts button:hover { border-color:#c9c1fb; background:color-mix(in srgb,#7566e8 7%,var(--surface,#fff)); }
+.feed-page .feed-discovery-row { display:flex; align-items:center; gap:9px; margin:8px 0 12px; }
+.feed-page .feed-discovery-search { display:flex; align-items:center; gap:10px; flex:1; min-width:0; min-height:42px; padding:0 13px; border:1px solid var(--border,#e4e4e9); border-radius:13px; background:var(--surface,#fff); color:var(--muted,#89899a); text-align:left; font:inherit; font-size:13px; cursor:pointer; }
+.feed-page .feed-discovery-search svg { flex:0 0 auto; color:var(--muted,#89899a); }
+.feed-page .feed-find-friends { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:42px; padding:0 13px; border:1px solid color-mix(in srgb,#7566e8 20%,var(--border,#e4e4e9)); border-radius:13px; background:color-mix(in srgb,#7566e8 9%,var(--surface,#fff)); color:#6d5ce7; font:inherit; font-size:12px; font-weight:700; white-space:nowrap; cursor:pointer; }
+.feed-page .feed-discovery-search:focus-visible,.feed-page .feed-find-friends:focus-visible,.feed-page .feed-header-shortcuts button:focus-visible { outline:2px solid #7566e8; outline-offset:2px; }
+@media(max-width:600px) {
+ .feed-page .feed-heading-row { gap:8px; }
+ .feed-page .feed-header-shortcuts { gap:5px; }
+ .feed-page .feed-header-shortcuts button { min-height:34px; padding:6px 8px; gap:5px; font-size:12px; }
+ .feed-page .feed-discovery-row { gap:7px; margin:7px 0 10px; }
+ .feed-page .feed-discovery-search,.feed-page .feed-find-friends { min-height:40px; border-radius:12px; }
+ .feed-page .feed-find-friends { padding:0 10px; gap:5px; }
+}
+@media(max-width:380px) {
+ .feed-page .feed-header-shortcuts button { padding:6px 7px; }
+ .feed-page .feed-header-shortcuts button svg { width:15px; height:15px; }
+ .feed-page .feed-find-friends span { display:none; }
+ .feed-page .feed-find-friends { width:40px; padding:0; }
+}
