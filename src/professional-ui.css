@@ -2068,3 +2068,11 @@ html { -webkit-text-size-adjust: 100%; }
   transition-property: border-color, box-shadow, background-color;
 }
 
+
+
+/* Batch 15.8 — mobile control readiness */
+@media (max-width: 600px) {
+  .app-shell :is(input, textarea, select) { max-width: 100%; }
+  .app-shell :is(.post-actions, .profile-actions, .notification-actions) { align-items: flex-start; }
+}
+
