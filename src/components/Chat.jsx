@@ -333,10 +333,16 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   }
 
   const self = { ...(profile || {}), id: session.user.id, display_name: "Saved messages", username: "You", avatar_url: profile?.avatar_url };
+  // The database receipt is authoritative. Local "last opened" markers can
+  // hide messages that are still unseen on this account (especially across devices).
   const unreadCounts = recentMessages.reduce((counts, message) => {
-    if (message.sender_id === session.user.id) return counts;
+    if (
+      message.sender_id === session.user.id ||
+      message.recipient_id !== session.user.id ||
+      message.read_at ||
+      message.sender_id === active?.id
+    ) return counts;
     const peer = message.sender_id;
-    if (peer === active?.id || message.recipient_id !== session.user.id || (readMarkers[peer] && message.created_at <= readMarkers[peer])) return counts;
     counts[peer] = (counts[peer] || 0) + 1;
     return counts;
   }, {});
