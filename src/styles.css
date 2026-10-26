@@ -6591,3 +6591,22 @@ button.header-notifications,
 @media(prefers-reduced-motion:reduce){
   .app-shell .destination-header-notifications .destination-header-back{transition:none}
 }
+
+
+/* Simplicity pass 4/4: baseline polish for the whole app. */
+/* 16. Use predictable box sizing to reduce edge collisions. */
+.app-shell,.app-shell *,.app-shell *::before,.app-shell *::after{box-sizing:border-box}
+/* 17. Prevent the app canvas from creating accidental horizontal scrolling. */
+html,body,#root{min-width:0;max-width:100%;overflow-x:clip}
+.app-shell{min-width:0;width:100%}
+/* 18. Keep text readable with a consistent base line height. */
+.app-shell{line-height:1.45}
+.app-shell :is(button,input,textarea,select){font-family:inherit}
+/* 19. Make form placeholders legible but secondary. */
+.app-shell :is(input,textarea)::placeholder{color:var(--muted,#858593);opacity:.85}
+/* 20. Avoid media and long user-generated content escaping their containers. */
+.app-shell :is(img,video,iframe){height:auto}
+.app-shell :is(.post-card,.comment-item,.message-bubble,.profile-bio){overflow-wrap:anywhere}
+@media(max-width:600px){
+ .app-shell{overflow-wrap:break-word}
+}
