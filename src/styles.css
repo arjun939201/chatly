@@ -4842,3 +4842,6 @@ html,body,#root{max-width:100%;overflow-x:clip;}
 
 /* Round 3 / 21 — long usernames */
 .username,.profile-username,.chat-user-name{min-width:0;overflow-wrap:anywhere;}
+
+/* Round 3 / 22 — media controls on touch */
+@media(hover:none){.media-overlay button,.global-youtube-player-actions button{opacity:1;}}
