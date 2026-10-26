@@ -843,3 +843,16 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .post-card.shared-post-highlight { outline: 2px solid var(--chatly-accent); outline-offset: 3px; }
 .feed-page .post-card .post-body { overflow-wrap: anywhere; }
 @media (max-width: 520px) { .feed-page .post-body { font-size: 14px; line-height: 1.65; } }
+
+
+/* Batch 2.5 — post media and image viewing */
+.feed-page .post-media { position: relative; display: grid; place-items: center; margin: 12px 0 4px; overflow: hidden; }
+.feed-page .post-media img, .feed-page .post-media video { display: block; width: 100%; max-height: min(70vh, 680px); object-fit: contain; }
+.feed-page .post-media img[role="button"] { cursor: zoom-in; }
+.feed-page .post-media img[role="button"]:focus-visible { outline: 3px solid var(--chatly-accent); outline-offset: -3px; }
+.feed-page .post-media figcaption { width: 100%; padding: 7px 10px; color: var(--muted, var(--chatly-muted)); font-size: 11px; }
+.feed-page .post-media-unavailable { min-height: 70px; background: var(--chatly-surface-muted); }
+.feed-page .media-lightbox { z-index: 60; display: grid; place-items: center; }
+.feed-page .media-lightbox img { max-width: min(94vw, 1200px); max-height: 88dvh; object-fit: contain; }
+.feed-page .media-lightbox > button { position: fixed; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-width: 44px; min-height: 44px; color: #fff; background: rgb(0 0 0 / 40%); }
+@media (max-width: 520px) { .feed-page .post-media img, .feed-page .post-media video { max-height: 62dvh; } }
