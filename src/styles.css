@@ -4279,3 +4279,43 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
   overflow-wrap: normal;
   word-break: normal;
 }
+
+
+/* Reply quote content must stack; keep the label and quoted text distinct. */
+.chat-layout .message .bubble > button.message-reply-preview {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 2px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 0 8px;
+  padding: 7px 9px;
+  text-align: left;
+  line-height: 1.35;
+  white-space: normal;
+  overflow: hidden;
+}
+.chat-layout .message .bubble > button.message-reply-preview > span {
+  display: block;
+  flex: 0 0 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chat-layout .message .bubble > button.message-reply-preview > p {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+  word-break: normal;
+}
