@@ -11,7 +11,9 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState([]);
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");\n  const [avatarFile, setAvatarFile] = useState(null);\n  const [avatarPreview, setAvatarPreview] = useState("");
+  const [error, setError] = useState("");
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
     function handleDialogKeyDown(event) {
