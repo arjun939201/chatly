@@ -6,6 +6,7 @@ import Chat from "./components/Chat.jsx";
 import Feed from "./components/Feed.jsx";
 import SearchPeople from "./components/SearchPeople.jsx";
 import ExploreDestination from "./components/ExploreDestination.jsx";
+import ExploreDestination from "./components/ExploreDestination.jsx";
 import SettingsDestination from "./components/SettingsDestination.jsx";
 import NotificationsDestination from "./components/NotificationsDestination.jsx";
 import PublicProfile from "./components/PublicProfile.jsx";
@@ -306,6 +307,7 @@ export default function App() {
     </header>}
     {tab !== "feed" && tab !== "chats" && tab !== "public-profile" && tab !== "settings" && <div className="destination-topline"><button className="page-back-to-feed" onClick={() => { setTab("feed"); setProfileMenuOpen(false); }} aria-label="Back to feed"><ChevronLeft size={20}/></button><strong className="destination-current-title">{tab === "profile" ? `${profile?.username || profile?.display_name || "Your"}’s profile` : ({account:"Account",explore:"Explore",search:"Search",chats:"Chats",notifications:"Notifications",settings:"Settings"})[tab] || ""}</strong></div>}
     {tab === "notifications" && <NotificationsDestination session={session} onOpenProfile={openPublicProfile} />}
+    {tab === "explore" && <ExploreDestination onOpenSearch={() => setTab("search")} />}
     {tab === "explore" && <ExploreDestination onOpenSearch={() => setTab("search")} />}
     {tab === "search" && <SearchPeople session={session} requestedProfile={requestedProfile} onProfileRequestHandled={() => setRequestedProfile(null)} onOpenProfile={openPublicProfile} onOpenChats={openChat} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} /> }
     {tab === "public-profile" && viewedProfile && <PublicProfile person={viewedProfile} session={session} onBack={() => { setViewedProfile(null); setTab(profileReturnTab); }} onOpenChats={openChat} />}{tab === "feed" && <Feed session={session} profile={profile} onOpenProfile={openPublicProfile} onPostsChanged={refreshMyProfilePosts} onFindFriends={() => setTab("search")} onOpenExplore={() => setTab("explore")} onOpenSearch={() => setTab("search")} onOpenChats={() => { setChatTarget(null); setTab("chats"); }}/>}
