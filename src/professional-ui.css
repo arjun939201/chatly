@@ -1022,3 +1022,14 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .composer-reply-preview > div { display: grid; min-width: 0; gap: 3px; }
 .chat-layout .composer-reply-preview span { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow-wrap: anywhere; }
 @media (max-width: 520px) { .chat-layout .composer { padding: 9px; gap: 7px; } }
+
+
+/* Batch 3.9 — empty, welcome, and realtime feedback */
+.chat-layout .welcome-chat, .chat-layout .empty-chat { display: grid; justify-items: center; align-content: center; gap: 10px; min-width: 0; padding: 28px 18px; text-align: center; }
+.chat-layout .welcome-chat h2, .chat-layout .empty-chat h2 { margin: 0; }
+.chat-layout .welcome-chat p, .chat-layout .empty-chat p { max-width: 42ch; margin: 0; color: var(--chatly-muted); line-height: 1.6; }
+.chat-layout .welcome-icon, .chat-layout .empty-chat-icon { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 18px; color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.chat-layout .chat-realtime-status { display: inline-flex; align-items: center; gap: 6px; color: var(--chatly-muted); font-size: 11px; }
+.chat-layout .chat-action-notice, .chat-layout .error-banner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 13px; border-radius: 12px; }
+.chat-layout .chat-action-notice button, .chat-layout .error-banner button { display: inline-grid; place-items: center; min-width: 32px; min-height: 32px; }
+.chat-layout .error-banner { color: var(--chatly-danger); }
