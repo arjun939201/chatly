@@ -54,10 +54,10 @@ export default function ExploreHome({ onSearch }) {
       if (request !== requestId.current) return;
       const rows = (Array.isArray(data) ? data : []).filter(post => post && post.id != null);
       const authorIds = [...new Set(rows.map(post => post.user_id).filter(id => typeof id === "string" && id.length > 0))];
-      const { data: profiles, error: profilesError } = authorIds.length
+      // A profile lookup failure should not hide posts that were loaded successfully.
+      const { data: profiles } = authorIds.length
         ? await supabase.from("profiles").select("id,username,display_name,avatar_url").in("id", authorIds)
-        : { data: [], error: null };
-      if (profilesError) throw profilesError;
+        : { data: [] };
       if (request !== requestId.current) return;
       const authorMap = Object.fromEntries((profiles || []).map(person => [person.id, person]));
       setPosts(rows.map(post => ({ ...post, body: typeof post.body === "string" ? post.body : "", author: authorMap[post.user_id] || {} })));
@@ -136,7 +136,7 @@ export default function ExploreHome({ onSearch }) {
         <div className="explore-game-choices">{gameChoices.map(choice => <button type="button" key={choice.id} onClick={() => playRound(choice.id)} aria-label={`Choose ${choice.label}`}><span>{choice.emoji}</span><b>{choice.label}</b></button>)}</div>
         {gameRound && <div className="explore-game-result" role="status"><p>{gameRound.result}</p><span>You: {gameChoices.find(item => item.id === gameRound.player)?.emoji} <span aria-hidden="true">·</span> Chatly: {gameChoices.find(item => item.id === gameRound.computer)?.emoji}</span></div>}
       </div> : activeCategory === "trending" ? <div className="explore-category-message"><TrendingUp size={21} /><div><b>Fresh from the community</b><p>See the latest public conversations below. Popularity rankings can come later when reliable engagement signals are available.</p></div><button type="button" onClick={scrollToCommunity}>View posts <ArrowRight size={15} /></button></div>
-      : activeCategory === "people" ? <div className="explore-category-message"><Users size={21} /><div><b>Find your people</b><p>Search names, usernames, or shared interests to discover Chatly members.</p></div><button type="button" onClick={() => onSearch?.("")}>Open search <ArrowRight size={15} /></button></div>
+      : activeCategory === "people" ? <div className="explore-category-message"><Users size={21} /><div><b>Find your people</b><p>Search by name or username to discover Chatly members.</p></div><button type="button" onClick={() => onSearch?.("")}>Open search <ArrowRight size={15} /></button></div>
       : <div className="explore-category-message"><Sparkles size={21} /><div><b>{activeCategory === "videos" ? "Video discovery is on the roadmap" : activeCategory === "rooms" ? "Rooms are on the roadmap" : "More ways to connect are coming"}</b><p>{activeCategory === "videos" ? "A dedicated watch experience needs a reliable video source and playback flow." : activeCategory === "rooms" ? "We're laying the groundwork for room membership, realtime conversations, and moderation." : "Events and interactive community activities will arrive in a later phase."}</p></div><span className="explore-coming-label">In development</span></div>}
     </section>}
 
