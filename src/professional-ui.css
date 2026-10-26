@@ -1898,3 +1898,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-content, .notification-copy, .person-copy, .chat-preview) { min-width: 0; }
 .app-shell :is(.post-media, .profile-post-media) img { max-width: 100%; }
 
+
+
+/* Batch 13.3 — avatar and thumbnail finishing */
+.app-shell :is(.avatar, .user-avatar, .profile-avatar, .chat-avatar, .notification-avatar) { flex: 0 0 auto; }
+.app-shell :is(.avatar, .user-avatar, .profile-avatar, .chat-avatar, .notification-avatar) img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.app-shell :is(.post-media img, .profile-post-media img) { display: block; }
+
