@@ -5805,3 +5805,33 @@ textarea{max-width:100%;resize:vertical;}
  .notification-destination-page .notification-activity-copy > span { font-size:10px!important; }
  .notification-destination-page .notification-post-preview { font-size:11px!important; }
 }
+
+
+/* Tighten the notification page's heading, activity label, and filter stack. */
+.notification-destination-page { padding-top:5px!important; }
+.notification-destination-page .notification-feed { gap:2px!important; }
+.notification-destination-page .notification-feed-heading {
+  margin:0!important; padding:0 0 2px!important; min-height:30px!important;
+}
+.notification-destination-page .notification-feed-heading h2 {
+  font-size:11px!important; line-height:1.25!important; letter-spacing:.045em!important;
+}
+.notification-destination-page .notification-refresh-button {
+  width:32px!important; height:32px!important; min-height:32px!important; border-radius:9px!important;
+}
+.notification-destination-page .notification-filter-row {
+  display:flex!important; align-items:center!important; gap:5px!important;
+  padding:1px 0 5px!important; margin:0!important; min-height:0!important;
+}
+.notification-destination-page .notification-filter-row button {
+  padding:6px 10px!important; min-height:30px!important; line-height:1.15!important;
+  font-size:11.5px!important; border-radius:11px!important;
+}
+@media(max-width:600px) {
+ .notification-destination-page { padding-top:3px!important; }
+ .notification-destination-page .notification-feed { gap:1px!important; }
+ .notification-destination-page .notification-feed-heading { min-height:28px!important; padding-bottom:1px!important; }
+ .notification-destination-page .notification-refresh-button { width:30px!important; height:30px!important; min-height:30px!important; }
+ .notification-destination-page .notification-filter-row { gap:4px!important; padding-bottom:4px!important; }
+ .notification-destination-page .notification-filter-row button { min-height:28px!important; padding:5px 9px!important; font-size:11px!important; border-radius:10px!important; }
+}
