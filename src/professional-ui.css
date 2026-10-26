@@ -1509,3 +1509,13 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.feed-notice, .error-banner, .chat-action-notice) { line-height: 1.5; }
 
+
+
+/* Batch 9.2 — unified button sizing and typography */
+.app-shell :is(.primary-button, .secondary-button, .oauth-button, .profile-edit-button,
+  .post-follow-button, .notification-actions button, .st-dialog footer button) {
+  font-weight: 650; letter-spacing: -.01em;
+}
+.app-shell :is(.primary-button, .secondary-button, .oauth-button) { min-height: var(--chatly-control-height); }
+.app-shell :is(.secondary-button, .oauth-button) { background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
+
