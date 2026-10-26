@@ -2551,3 +2551,10 @@ html { -webkit-text-size-adjust: 100%; }
     height: 16px;
   }
 }
+
+
+/* Feed engagement row: keep Save at the far right of the Like / Comment / Share group. */
+.app-shell .post-actions{flex-wrap:nowrap;gap:10px}
+.app-shell .post-actions-primary{flex:1 1 auto;min-width:0;flex-wrap:nowrap}
+.app-shell .post-actions>.post-save-button{flex:0 0 auto;margin-left:auto}
+@media(max-width:480px){.app-shell .post-actions{gap:4px}.app-shell .post-actions-primary{gap:4px}.app-shell .post-actions button{padding-inline:6px}}
