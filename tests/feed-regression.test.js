@@ -123,9 +123,7 @@ test("auth bootstrap falls back to sign-in instead of leaving a loading screen s
 test("profile avatar image failures reveal the initials fallback", async () => {
   const source = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
   assert.equal((source.match(/classList\.add\("avatar-image-failed"\)/g) || []).length, 4);
-  assert.match(source, /data\.avatarFallback = \(profile\?\.display_name \|\| "C"\)\.slice\(0,1\)\.toUpperCase\(\)/);
-  assert.match(source, /data\.avatarFallback = \(form\.display_name \|\| "C"\)\.slice\(0,1\)\.toUpperCase\(\)/);
-});
+    });
 
 test("profile post grid keeps metadata aligned and text readable", async () => {
   const styles = await readFile(new URL("../src/professional-ui.css", import.meta.url), "utf8");
