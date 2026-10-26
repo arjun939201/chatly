@@ -1487,3 +1487,12 @@ html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-transparency: reduce) {
   .app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { backdrop-filter: none; }
 }
+
+/* Batch 8.10 — accessibility finish and touch feedback */
+.app-shell :is(button, a, [role="button"]) { cursor: pointer; }
+.app-shell :is(button, a, [role="button"]):active { transform: translateY(0); }
+.app-shell :is(.post-card, .notification-item, .notification-card) { scroll-margin-block: 88px; }
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
+  .app-shell :is(.post-card, .notification-item, .notification-card, .st-nav-card) { border: 1px solid CanvasText; }
+}
