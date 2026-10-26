@@ -2236,3 +2236,14 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.icon-button, .profile-menu-trigger, .notification-refresh-button) { min-width: 40px; min-height: 40px; }
 .app-shell a { text-underline-offset: 3px; }
 
+
+
+/* Batch 19.1 — global header foundation */
+.app-shell .topbar {
+  min-height: 64px; height: auto; padding-block: 8px;
+  padding-inline: clamp(12px, 3vw, 36px); gap: var(--chatly-space-4);
+  z-index: var(--chatly-layer-header);
+}
+.app-shell .brand { line-height: 1; letter-spacing: -.035em; }
+.app-shell .global-profile-menu { position: relative; flex: 0 0 auto; }
+
