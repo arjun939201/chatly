@@ -3541,3 +3541,67 @@ html { -webkit-text-size-adjust: 100%; }
     padding-inline: 1px;
   }
 }
+
+
+/* Chatly simplicity pass: one clear hierarchy, restrained surfaces, and consistent controls. */
+.app-shell {
+  --chatly-ui-gap: 12px;
+  --chatly-ui-radius: 12px;
+}
+.app-shell .destination-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.app-shell .destination-header-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.app-shell .destination-header-copy h1 {
+  margin: 0;
+  font-size: clamp(21px, 4vw, 26px);
+  line-height: 1.2;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+.app-shell .destination-header-copy p {
+  margin: 4px 0 0;
+  line-height: 1.45;
+}
+.app-shell .destination-header-back {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+.app-shell button,
+.app-shell a {
+  -webkit-tap-highlight-color: transparent;
+}
+.app-shell button:focus-visible,
+.app-shell a:focus-visible,
+.app-shell input:focus-visible,
+.app-shell textarea:focus-visible,
+.app-shell select:focus-visible {
+  outline: 2px solid var(--accent, #6366f1);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .app-shell .destination-header {
+    gap: 10px;
+  }
+  .app-shell .destination-header-copy h1 {
+    font-size: clamp(20px, 5.2vw, 24px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .destination-header-back {
+    transition: none;
+  }
+}
