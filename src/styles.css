@@ -4569,3 +4569,22 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
     opacity: .82 !important;
   }
 }
+
+
+/* Chat message delivery/read receipts: clear, familiar status colors. */
+.chat-layout .message .bubble .message-read-receipt {
+  color: #22a65a !important;
+  opacity: 1 !important;
+  font-weight: 600;
+}
+.chat-layout .message .bubble .message-delivery-status {
+  color: #d6a21b !important;
+  opacity: 1 !important;
+  font-weight: 600;
+}
+.chat-layout .message.mine .bubble .message-read-receipt {
+  color: #b8f5c9 !important;
+}
+.chat-layout .message.mine .bubble .message-delivery-status {
+  color: #ffe08a !important;
+}
