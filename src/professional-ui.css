@@ -1449,3 +1449,8 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(input, textarea, select)[aria-invalid="true"]:focus-visible { outline-color: #c83e4d; }
 .app-shell :is(input, textarea, select]::placeholder { color: var(--chatly-muted); opacity: .9; }
+
+/* Batch 8.5 — menus, popovers, and layered keyboard navigation */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) { z-index: 40; }
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) :is(button, a) { min-height: 40px; text-align: left; }
+.app-shell [role="menuitem"]:focus-visible { outline-offset: -2px; background: var(--chatly-accent-soft); }
