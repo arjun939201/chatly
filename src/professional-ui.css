@@ -2217,3 +2217,13 @@ html { -webkit-text-size-adjust: 100%; }
   min-height: var(--chatly-control-height); border-radius: var(--chatly-radius-md);
 }
 
+
+
+/* Batch 18.2 — form control foundation */
+.app-shell :is(input, textarea, select) {
+  font-family: inherit; font-size: 14px; line-height: 1.45;
+  border-radius: var(--chatly-radius-sm); min-width: 0;
+}
+.app-shell :is(input, textarea, select):disabled { opacity: .62; cursor: not-allowed; }
+.app-shell :is(input, textarea, select)::placeholder { color: var(--chatly-muted-current, #888894); }
+
