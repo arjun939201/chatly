@@ -25,7 +25,7 @@ export default function App() {
   const [fontFamilyExpanded, setFontFamilyExpanded] = useState(false);
   const [passwordExpanded, setPasswordExpanded] = useState(false);
   const [settingsExpanded, setSettingsExpanded] = useState({ chats: false, notifications: false, privacy: false });
-  const [chatPrefs, setChatPrefs] = useState(() => JSON.parse(localStorage.getItem("chatly-chat-prefs") || '{"enterToSend":true,"mediaPreview":true,"readReceipts":true,"messageAlerts":true,"activityAlerts":true}'));
+  const [chatPrefs, setChatPrefs] = useState(() => { const defaults = { enterToSend: true, mediaPreview: true, readReceipts: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, privateProfile: false, messageRequests: true, autoDownloadMedia: true }; try { return { ...defaults, ...JSON.parse(localStorage.getItem("chatly-chat-prefs") || "{}") }; } catch { return defaults; } });
   useEffect(() => { localStorage.setItem("chatly-chat-prefs", JSON.stringify(chatPrefs)); }, [chatPrefs]);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [tab, setTab] = useState("feed");
