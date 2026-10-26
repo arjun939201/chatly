@@ -63,7 +63,7 @@ begin
     if v_actor_role <> 'owner' then
       raise exception 'Only the group owner can change member roles' using errcode = '42501';
     end if;
-    if p_role not in ('admin', 'member') or v_target_role is null or v_target = v_actor then
+    if p_role is null or p_role not in ('admin', 'member') or v_target_role is null or v_target = v_actor then
       raise exception 'Invalid role change' using errcode = '22023';
     end if;
     update public.group_conversation_members
