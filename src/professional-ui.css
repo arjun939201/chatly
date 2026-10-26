@@ -912,3 +912,20 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .comment-edit-form button { min-height: 36px; padding-inline: 10px; }
 .feed-page .comment-edit-form button:disabled { opacity: .55; }
 .feed-page .comment-message.comment-actions-open { position: relative; }
+
+
+/* Batch 2.10 — feed responsive and accessibility finishing */
+.feed-page .feed-empty { display: grid; justify-items: center; gap: 10px; text-align: center; }
+.feed-page .feed-empty h3, .feed-page .feed-empty p { max-width: 46ch; margin: 0; }
+.feed-page .feed-empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin-top: 8px; }
+.feed-page .feed-load-more { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 14px 0; }
+.feed-page .feed-load-more button { min-height: 42px; padding-inline: 18px; }
+.feed-page .feed-load-more span { color: var(--muted, var(--chatly-muted)); font-size: 12px; }
+.feed-page :is(.post-card, .comments-modal, .compose-modal, .report-post-modal) { scroll-margin-block: 90px; }
+.feed-page :is(.post-card, .comment-item) :is(button, a):focus-visible { outline-offset: 3px; }
+.feed-page .post-skeleton { min-width: 0; overflow: hidden; }
+.feed-page .post-skeleton .skeleton-line { display: block; height: 12px; margin-top: 10px; }
+.feed-page .post-skeleton .skeleton-line-wide { width: 88%; }
+.feed-page .post-skeleton .skeleton-actions { display: flex; gap: 12px; margin-top: 16px; }
+@media (max-width: 520px) { .feed-page .comments-modal { width: 100%; min-height: 70dvh; max-height: 92dvh; } .feed-page .comment-composer { gap: 6px; } .feed-page .feed-empty-actions { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .feed-page .post-card, .feed-page .post-actions button, .feed-page .post-options-menu { transition: none !important; animation: none !important; } }
