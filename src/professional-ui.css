@@ -2659,3 +2659,37 @@ html { -webkit-text-size-adjust: 100%; }
     transition: none !important;
   }
 }
+
+
+/* Profile polish: keep post previews readable and dates aligned across uneven content. */
+.app-shell .profile-bio,
+.app-shell .profile-bio > strong,
+.app-shell .profile-handle {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .profile-post-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-wrap: anywhere;
+}
+.app-shell .profile-post-tile p {
+  flex: 1 0 auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.app-shell .profile-post-tile small {
+  display: block;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--border, var(--chatly-border));
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .profile-post-tile:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--chatly-accent) 30%, var(--chatly-border));
+    box-shadow: 0 8px 24px rgb(25 25 45 / 7%);
+  }
+}
