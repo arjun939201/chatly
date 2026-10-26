@@ -2011,3 +2011,9 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-actions button, .notification-actions button) { min-height: 36px; }
 }
 
+
+
+/* Batch 14.9 — image layout stability */
+.app-shell :is(.post-media, .profile-post-media, .chat-attachment, .message-attachment) { overflow: hidden; }
+.app-shell :is(.post-media img, .profile-post-media img) { vertical-align: middle; }
+
