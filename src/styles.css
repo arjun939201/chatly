@@ -4588,3 +4588,20 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 .chat-layout .message.mine .bubble .message-delivery-status {
   color: #ffe08a !important;
 }
+
+
+/* Strong, high-contrast seen/unseen receipt colors across desktop and mobile. */
+.chat-layout .message .bubble .message-read-receipt {
+  color: #16a34a !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 0 currentColor;
+}
+.chat-layout .message .bubble .message-delivery-status {
+  color: #eab308 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 0 currentColor;
+}
+.chat-layout .message.mine .bubble .message-read-receipt { color: #86efac !important; }
+.chat-layout .message.mine .bubble .message-delivery-status { color: #fde047 !important; }
