@@ -74,14 +74,19 @@ export default function ExploreHome({ onSearch }) {
   }, []);
 
   function scrollToCommunity() {
-    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     postsSectionRef.current?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   }
+
+  useEffect(() => {
+    if (activeCategory !== "trending") return;
+    // Wait until the selected category panel is committed so the target's final position is accurate.
+    scrollToCommunity();
+  }, [activeCategory]);
 
   function selectCategory(category) {
     setActiveCategory(current => current === category ? "" : category);
     setGameRound(null);
-    if (category === "trending") scrollToCommunity();
   }
 
   function playRound(player) {
@@ -150,7 +155,7 @@ export default function ExploreHome({ onSearch }) {
       {loading ? <p role="status" className="explore-home-status">Loading recent posts…</p>
         : error ? <div className="explore-home-status" role="alert"><span>{error}</span><button type="button" onClick={loadRecentPosts} disabled={loading}>Retry</button></div>
         : posts.length ? <div className="explore-home-posts">{posts.map(post => <article className="explore-home-post" key={post.id}>
-            <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" onError={event => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.dataset.avatarFallback = (post.author.display_name || post.author.username || "C").slice(0, 1).toUpperCase(); }} /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
+            <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" onError={event => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.classList.add("avatar-image-failed"); event.currentTarget.parentElement.dataset.avatarFallback = (post.author.display_name || post.author.username || "C").slice(0, 1).toUpperCase(); }} /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
             <p>{post.body}</p>
             <time dateTime={post.created_at || undefined}>{formatRecentDate(post.created_at)}</time>
           </article>)}</div>
