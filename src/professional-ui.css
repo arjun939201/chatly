@@ -2127,3 +2127,10 @@ html { -webkit-text-size-adjust: 100%; }
   }
 }
 
+
+
+/* Batch 16.6 — modal containment QA */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  max-width: min(100%, 100vw); overscroll-behavior: contain;
+}
+
