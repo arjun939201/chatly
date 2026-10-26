@@ -4741,3 +4741,9 @@ label{min-width:0}
 .composer button,.chat-composer button{min-width:40px;min-height:40px}
 .composer button:active,.chat-composer button:active{transform:scale(.96)}
 
+
+/* Round 2 / 05 — post action controls */
+.post-actions button,.post-engagement button{min-height:40px;min-width:40px;border-radius:10px;transition:background .15s ease,color .15s ease}
+.post-actions button:hover,.post-engagement button:hover{background:#f2f0ff}
+.post-actions button:focus-visible,.post-engagement button:focus-visible{outline-offset:1px}
+
