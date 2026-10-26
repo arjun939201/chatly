@@ -79,7 +79,6 @@ export default function ExploreHome({ onSearch }) {
     if (category === "trending") {
       window.setTimeout(() => postsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
     }
-    if (category === "people") onSearch?.("");
   }
 
   function playRound(player) {
