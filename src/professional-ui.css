@@ -1570,3 +1570,14 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-media, .profile-post-tile) { isolation: isolate; }
 
+
+
+/* Batch 9.8 — menu and popover consistency */
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) {
+  background: var(--surface, #fff); color: var(--text, var(--chatly-ink));
+  border-color: var(--chatly-border); box-shadow: var(--chatly-shadow-popover);
+}
+.app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) button {
+  border-radius: 9px; font-size: 13px;
+}
+
