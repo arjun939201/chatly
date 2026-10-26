@@ -1389,3 +1389,6 @@ html { -webkit-text-size-adjust: 100%; }
 /* Batch 7.2 — mobile navigation sizing */
 @media (max-width: 600px) { .topbar { min-height: 56px; gap: 8px; } .topbar > * { min-width: 0; } .global-profile-trigger, .topbar button { flex: 0 0 auto; } .brand { max-width: 45vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
 @media (max-width: 360px) { .topbar { padding-inline: 9px; } .brand { font-size: 24px; } }
+
+/* Batch 7.3 — touch target and tap feedback */
+@media (pointer: coarse) { .app-shell :is(button, a, [role="button"]) { touch-action: manipulation; } .app-shell :is(.post-actions button, .chat-filter-row button, .notification-filters button) { min-height: 40px; } .app-shell :is(button, a, [role="button"]):active { opacity: .86; } }
