@@ -4,3 +4,22 @@
 .app-shell .topbar .global-notification-trigger{background:transparent!important;border:0!important;box-shadow:none!important;color:var(--text,#17171b)!important;border-radius:0!important;padding:8px!important;}
 .app-shell .topbar .global-notification-trigger:hover,.app-shell .topbar .global-notification-trigger:focus-visible{background:transparent!important;box-shadow:none!important;}
 .app-shell .topbar .global-notification-trigger svg{color:currentColor!important;}
+
+
+/* Simplicity pass 1/4: feed header hierarchy and spacing. */
+/* 1. Keep the feed title clear without oversized display typography. */
+.app-shell .feed-page .feed-heading-title h1{font-size:clamp(24px,3vw,30px);font-weight:700;letter-spacing:-.035em;line-height:1.18}
+/* 2. Use predictable page-edge spacing and less empty vertical space. */
+.app-shell .feed-page .feed-header-section{gap:16px;margin-bottom:18px;padding:10px clamp(14px,2.4vw,22px) 0}
+/* 3. Make shortcuts quieter and consistent with the rest of the app. */
+.app-shell .feed-page .feed-header-shortcuts button{min-height:42px;padding:8px 12px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:none}
+/* 4. Reduce the discovery field height and icon scale so content gets priority. */
+.app-shell .feed-page .feed-discovery-search{min-height:48px;padding:10px 14px;border-radius:13px;gap:10px;font-size:15px;box-shadow:none}
+/* 5. Keep feed filters easy to scan and horizontally usable on small screens. */
+.app-shell .feed-page .feed-filter-tabs{gap:6px;scroll-padding-inline:14px;overscroll-behavior-inline:contain}
+@media(max-width:760px){
+ .app-shell .feed-page .feed-heading-title h1{font-size:clamp(23px,5.4vw,27px);font-weight:700;letter-spacing:-.03em}
+ .app-shell .feed-page .feed-header-section{gap:13px;margin-bottom:14px;padding:8px 14px 0}
+ .app-shell .feed-page .feed-header-shortcuts button{min-height:40px;padding:7px 9px;border-radius:11px;font-size:12px}
+ .app-shell .feed-page .feed-discovery-search{min-height:44px;padding:9px 12px;font-size:14px}
+}
