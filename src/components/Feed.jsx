@@ -22,8 +22,27 @@ const [commentBusy, setCommentBusy] = useState(false);
 const [commentError, setCommentError] = useState("");
 const [editingComment, setEditingComment] = useState(null); const [commentEditDraft, setCommentEditDraft] = useState(""); const [commentEditBusy, setCommentEditBusy] = useState(false);
 const [commentActionsOpen, setCommentActionsOpen] = useState(null);
+const [commentActionBusy, setCommentActionBusy] = useState(null);
+const commentActionRequests = useRef(new Set());
 const commentSubmitLock = useRef(false);
 const commentComposerRef = useRef(null);
+  useEffect(() => {
+    if (commentActionsOpen === null) return;
+    function dismissActions(event) {
+      if (event.type === "pointerdown" && !event.target.closest(".comment-message.comment-actions-open")) {
+        setCommentActionsOpen(null);
+      }
+      if (event.type === "keydown" && event.key === "Escape") {
+        setCommentActionsOpen(null);
+      }
+    }
+    document.addEventListener("pointerdown", dismissActions);
+    document.addEventListener("keydown", dismissActions);
+    return () => {
+      document.removeEventListener("pointerdown", dismissActions);
+      document.removeEventListener("keydown", dismissActions);
+    };
+  }, [commentActionsOpen]);
   const [postMenu, setPostMenu] = useState(null);
   const [timestampPopup, setTimestampPopup] = useState(null);
   useEffect(() => { if (postMenu === null) return; function outside(event) { if (!event.target.closest(".post-options-wrap")) setPostMenu(null); } function escape(event) { if (event.key === "Escape") setPostMenu(null); } document.addEventListener("pointerdown", outside); document.addEventListener("keydown", escape); return () => { document.removeEventListener("pointerdown", outside); document.removeEventListener("keydown", escape); }; }, [postMenu]);
