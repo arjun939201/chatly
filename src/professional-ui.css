@@ -2042,3 +2042,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(button, input, textarea, select, [role="button"]) { font: inherit; }
 .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { line-height: 1.45; }
 
+
+
+/* Batch 15.4 — icon alignment cleanup */
+.app-shell :is(.post-actions, .profile-actions, .notification-actions, .chat-actions) :is(svg, img) { flex: 0 0 auto; }
+.app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) { vertical-align: middle; }
+
