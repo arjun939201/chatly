@@ -2098,3 +2098,9 @@ html { -webkit-text-size-adjust: 100%; }
   background-clip: padding-box;
 }
 
+
+
+/* Batch 16.2 — interactive control QA */
+.app-shell :is(button, input, textarea, select) { font-family: inherit; }
+.app-shell :is(button, input, textarea, select):focus-visible { outline-offset: 2px; }
+
