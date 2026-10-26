@@ -986,3 +986,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .message .message-edited-label { margin-left: 5px; color: var(--chatly-muted); font-size: 10px; }
 .chat-layout .message .message-read-receipt, .chat-layout .message .message-delivery-status { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--chatly-muted); }
 .chat-layout .message .message-action-toolbar { display: flex; align-items: center; gap: 3px; }
+
+
+/* Batch 3.6 — replies, edits, and history loading */
+.chat-layout .message-reply-preview, .chat-layout .composer-reply-preview { display: flex; align-items: flex-start; gap: 9px; min-width: 0; padding: 9px 11px; border-left: 3px solid var(--chatly-accent); border-radius: 9px; background: var(--chatly-accent-soft); }
+.chat-layout .message-reply-preview > *, .chat-layout .composer-reply-preview > * { min-width: 0; overflow-wrap: anywhere; }
+.chat-layout .message-edit-form { display: grid; gap: 8px; min-width: 0; }
+.chat-layout .message-edit-form textarea { width: 100%; min-height: 70px; resize: vertical; }
+.chat-layout .message-edit-form button { min-height: 34px; }
+.chat-layout .load-older-messages { display: flex; justify-content: center; padding: 10px 0; }
+.chat-layout .load-older-messages button { min-height: 36px; padding: 7px 12px; }
+.chat-layout .chat-history-skeleton { display: grid; gap: 12px; padding: 14px; }
+.chat-layout .chat-skeleton-row { display: flex; align-items: flex-end; gap: 8px; }
+.chat-layout .chat-skeleton-row:nth-child(even) { justify-content: flex-end; }
+.chat-layout .chat-skeleton-bubble { min-height: 34px; width: min(65%, 280px); border-radius: 14px; }
