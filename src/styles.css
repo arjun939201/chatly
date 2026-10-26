@@ -4836,3 +4836,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 19 — dropdown layering */
 .global-profile-dropdown,.profile-menu-dropdown{z-index:30;}
+
+/* Round 3 / 20 — prevent horizontal page scroll */
+html,body,#root{max-width:100%;overflow-x:clip;}
