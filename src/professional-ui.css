@@ -2227,3 +2227,12 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(input, textarea, select):disabled { opacity: .62; cursor: not-allowed; }
 .app-shell :is(input, textarea, select)::placeholder { color: var(--chatly-muted-current, #888894); }
 
+
+
+/* Batch 18.3 — icon controls and link affordance */
+.app-shell :is(.icon-button, .global-profile-trigger, .profile-menu-trigger, .notification-refresh-button) {
+  display: inline-grid; place-items: center; flex: 0 0 auto;
+}
+.app-shell :is(.icon-button, .profile-menu-trigger, .notification-refresh-button) { min-width: 40px; min-height: 40px; }
+.app-shell a { text-underline-offset: 3px; }
+
