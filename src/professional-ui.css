@@ -2142,3 +2142,9 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-media img, .profile-post-media img) { max-width: 100%; object-fit: contain; }
 
+
+
+/* Batch 16.8 — disabled state QA */
+.app-shell :is(button:disabled, [aria-disabled="true"]) { cursor: not-allowed; }
+.app-shell [aria-busy="true"] { cursor: progress; }
+
