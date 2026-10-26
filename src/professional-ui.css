@@ -402,3 +402,21 @@
 .post-options-trigger:hover { color: var(--text, var(--chatly-ink)); background: var(--app-bg, var(--chatly-canvas)); }
 @media (max-width: 520px) { .post-author { gap: 8px; } .post-timestamp-wrap { font-size: 11px; } .post-media img, .post-media video { max-height: 62vh; } }
 
+
+/* Commit 10 — chat list surface */
+.chat-layout { display: grid; grid-template-columns: minmax(270px, 340px) minmax(0, 1fr); overflow: hidden; }
+.sidebar { min-width: 0; border-right: 1px solid var(--border, var(--chatly-border)); overflow: hidden; }
+.sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.chat-heading-title { font-size: 20px; font-weight: 750; letter-spacing: -.035em; }
+.chat-new-button { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--chatly-accent-soft); color: var(--chatly-accent); }
+.chat-new-button:hover { background: var(--chatly-accent); color: #fff; }
+.chat-filter-row { display: flex; gap: 6px; padding: 0 16px 12px; overflow-x: auto; }
+.chat-filter-row button { flex: 0 0 auto; border-radius: 9px; padding: 7px 11px; color: var(--muted, var(--chatly-muted)); font-size: 12px; font-weight: 650; }
+.chat-filter-row button[aria-pressed="true"], .chat-filter-row button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.person-row { display: flex; align-items: center; gap: 11px; padding: 10px 12px; text-align: left; }
+.person-copy { flex: 1; min-width: 0; }
+.person-copy :is(strong,b) { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.person-copy p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin: 4px 0 0; color: var(--muted, var(--chatly-muted)); font-size: 12px; }
+.chat-unread-count { flex: 0 0 auto; min-width: 20px; height: 20px; display: inline-grid; place-items: center; border-radius: 999px; background: var(--chatly-accent); color: #fff; font-size: 11px; font-weight: 750; }
+.chat-row-time { color: var(--muted, var(--chatly-muted)); font-size: 11px; white-space: nowrap; }
+@media (max-width: 760px) { .chat-layout { display: flex; } .chat-layout:not(.has-active) .conversation { display: none; } .chat-layout.has-active .sidebar { display: none; } .sidebar { width: 100%; border-right: 0; } }
