@@ -4791,3 +4791,6 @@ button,input,textarea,select{transition:background-color .16s ease,border-color 
 
 /* Round 3 / 04 — disabled control clarity */
 button:disabled,[aria-disabled="true"]{cursor:not-allowed;opacity:.58;}
+
+/* Round 3 / 05 — keyboard focus consistency */
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent,#6c63ff);outline-offset:2px;}
