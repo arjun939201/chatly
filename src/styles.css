@@ -4684,3 +4684,8 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .profile-stats{gap:clamp(14px,4vw,28px)}
 .profile-post-grid{gap:8px}
 
+
+/* Chatly UI batch 06: search and discovery */
+.search-page{min-width:0;width:min(100%,1040px);margin-inline:auto;padding:clamp(16px,3vw,28px)}
+.search-page input:focus{border-color:var(--chatly-focus);box-shadow:0 0 0 3px rgba(139,124,246,.14);outline:none}
+
