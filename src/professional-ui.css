@@ -2450,3 +2450,16 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Batch 28.3 — Profile responsive and reduced-motion safeguards */
 .app-shell .profile-page :is(button,a){touch-action:manipulation}.app-shell .profile-page img{max-width:100%;object-fit:cover}@media(max-width:420px){.app-shell .profile-page{padding-inline:12px}.app-shell .profile-summary,.app-shell .profile-overview{padding:12px}.app-shell .profile-counts{gap:5px}.app-shell .profile-counts>div{padding:10px 3px}.app-shell .profile-post-grid{gap:8px}.app-shell .profile-post-tile{min-height:150px;padding:11px}}@media(prefers-reduced-motion:reduce){.app-shell .profile-page *{scroll-behavior:auto;transition:none!important;animation:none!important}}
+
+
+/* Group 5.1 — Notification read state and responsive controls */
+.app-shell .notification-activity-item{position:relative;transition:background-color .16s ease,border-color .16s ease}
+.app-shell .notification-activity-item.is-unread{background:color-mix(in srgb,var(--chatly-accent, #6d5ce8) 6%,var(--chatly-surface));border-color:color-mix(in srgb,var(--chatly-accent, #6d5ce8) 24%,var(--chatly-border))}
+.app-shell .notification-activity-item.is-unread:before{content:"";position:absolute;left:8px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--chatly-accent,#6d5ce8)}
+.app-shell .notification-mark-read,.app-shell .notification-mark-all-read{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:6px 10px;border:1px solid var(--chatly-border);border-radius:10px;background:var(--chatly-surface);color:var(--chatly-text);font:inherit;font-size:12px;font-weight:650;cursor:pointer}
+.app-shell .notification-mark-read{margin-top:8px}
+.app-shell .notification-mark-all-read span{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 4px;border-radius:99px;background:var(--chatly-accent-soft);color:var(--chatly-accent)}
+.app-shell .notification-heading-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.app-shell .notification-mark-read:hover,.app-shell .notification-mark-all-read:hover{border-color:var(--chatly-accent);color:var(--chatly-accent)}
+@media(max-width:480px){.app-shell .notification-heading-actions{gap:5px}.app-shell .notification-mark-all-read{min-height:32px;padding:5px 8px}.app-shell .notification-activity-item.is-unread:before{left:5px}}
+@media(prefers-reduced-motion:reduce){.app-shell .notification-activity-item{transition:none}}
