@@ -1398,3 +1398,6 @@ html { -webkit-text-size-adjust: 100%; }
 .post-card :is(img, video, iframe) { max-width: 100%; }
 .post-author-profile, .post-author-profile > * { min-width: 0; }
 @media (max-width: 480px) { .post-card { padding: 12px; } .post-body { font-size: 14px; line-height: 1.6; } .post-actions { align-items: stretch; } }
+
+/* Batch 7.5 — mobile feed composer and dialogs */
+@media (max-width: 600px) { .floating-create { right: max(16px, env(safe-area-inset-right)); bottom: max(78px, calc(64px + env(safe-area-inset-bottom))); } .compose-modal, .comments-dialog, .report-post-modal { width: 100%; max-width: 100%; } .compose-modal textarea, .comment-composer textarea { font-size: 16px; } }
