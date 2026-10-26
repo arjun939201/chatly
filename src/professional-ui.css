@@ -1454,3 +1454,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) { z-index: 40; }
 .app-shell :is(.post-options-menu, .profile-dropdown, .global-profile-dropdown, [role="menu"]) :is(button, a) { min-height: 40px; text-align: left; }
 .app-shell [role="menuitem"]:focus-visible { outline-offset: -2px; background: var(--chatly-accent-soft); }
+
+/* Batch 8.6 — dialog focus clarity and readable scrolling */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog, [role="dialog"]) {
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog, [role="dialog"]) :is(button, input, textarea):focus-visible { z-index: 1; }
