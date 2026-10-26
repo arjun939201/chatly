@@ -1926,3 +1926,10 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.conversation-copy, .chat-list-copy, .chat-preview-copy) { flex: 1 1 auto; min-width: 0; }
 .app-shell :is(.message-bubble, .chat-message-bubble) { overflow-wrap: anywhere; }
 
+
+
+/* Batch 13.7 — profile action layout */
+.app-shell :is(.profile-actions, .profile-header-actions, .profile-action-row) { align-items: center; flex-wrap: wrap; }
+.app-shell :is(.profile-bio, .profile-description, .profile-meta) { overflow-wrap: anywhere; }
+.app-shell :is(.profile-stats, .profile-stat-row) { font-variant-numeric: tabular-nums; }
+
