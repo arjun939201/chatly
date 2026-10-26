@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const source = await readFile(new URL("../src/components/Feed.jsx", import.meta.url), "utf8");
-const styles = await readFile(new URL("../src/styles.css", import.meta.url), "utf8");
+const styles = await readFile(new URL("../src/professional-ui.css", import.meta.url), "utf8");
 
 test("feed load is bounded and deduplicates post records", () => {
   assert.match(source, /\.order\("created_at",\s*\{\s*ascending:\s*false\s*\}\)\.limit\(100\)/);
@@ -76,9 +76,8 @@ test("hidden-post undo is only offered for the active hide notice", () => {
 
 test("post engagement controls use the expected layout and right alignment", () => {
   assert.match(source, /className="post-actions-primary"/);
-  assert.match(source, /className="post-actions-secondary"/);
-  // Assert against the stylesheet, not Feed.jsx. The stylesheet scopes this
-  // rule to the feed card, so the full selector intentionally has prefixes.
-  assert.match(styles, /\.post-actions-secondary\{display:flex;align-items:center;justify-content:flex-end/);
-  assert.match(styles, /\.post-actions-secondary[^}]*padding-right:0/);
+  assert.match(source, /className="post-engagement-meta"/);
+  assert.match(source, /<time dateTime=\{post\.created_at\}>[\s\S]*?<span className="post-view-count"/);
+  // Metadata stays in the engagement row and is pushed to the right.
+  assert.match(styles, /\.post-actions \.post-engagement-meta\{display:flex;align-items:center;justify-content:flex-end;[^}]*margin:0 0 0 auto/);
 });
