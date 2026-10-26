@@ -32,7 +32,24 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
   const [filter, setFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(20);
 
-  const filteredItems = items.filter(item => filter === "all" || item.type === filter);
+  const filteredItems = items.filter(item => filter === "all" || (filter === "unread" ? !item.read_at : item.type === filter));
+  const unreadCount = items.filter(item => !item.read_at).length;
+
+  async function markRead(id) {
+    if (!session?.user?.id) return;
+    const readAt = new Date().toISOString();
+    const { error: updateError } = await supabase.from("notifications").update({ read_at: readAt }).eq("id", id).eq("recipient_id", session.user.id).is("read_at", null);
+    if (updateError) { setError(updateError.message || "Could not mark notification as read."); return; }
+    setItems(current => current.map(item => item.id === id && !item.read_at ? { ...item, read_at: readAt } : item));
+  }
+
+  async function markAllRead() {
+    if (!session?.user?.id || unreadCount === 0) return;
+    const readAt = new Date().toISOString();
+    const { error: updateError } = await supabase.from("notifications").update({ read_at: readAt }).eq("recipient_id", session.user.id).is("read_at", null);
+    if (updateError) { setError(updateError.message || "Could not mark notifications as read."); return; }
+    setItems(current => current.map(item => item.read_at ? item : { ...item, read_at: readAt }));
+  }
 
   const loadNotifications = useCallback(async (silent = false) => {
     if (!session?.user?.id) { setItems([]); setLoading(false); return; }
@@ -100,8 +117,8 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     <section className="destination-page notification-destination-page" aria-label="Notification activity">
       <div className="notification-content">
         <section className="notification-feed" aria-label="Recent activity">
-          <div className="notification-feed-heading"><h2>Activity</h2><div className="notification-heading-actions"><button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
-          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div>
+          <div className="notification-feed-heading"><h2>Activity</h2><div className="notification-heading-actions">{unreadCount > 0 && <button type="button" className="notification-mark-all-read" onClick={markAllRead}>Mark all read <span>{unreadCount}</span></button>}<button type="button" className="notification-refresh-button" onClick={loadNotifications} disabled={loading} aria-label="Refresh activity" title="Refresh activity"><RefreshCw size={16} className={loading ? "is-spinning" : ""}/></button></div></div>
+          <div className="notification-filter-row" role="group" aria-label="Filter notifications">{["all","unread","like","comment","follow"].map(value => <button type="button" key={value} className={filter === value ? "active" : ""} aria-pressed={filter === value} onClick={() => { setFilter(value); setVisibleCount(20); }}>{value === "all" ? "All" : value === "unread" ? `Unread${unreadCount ? ` · ${unreadCount}` : ""}` : value === "like" ? "Likes" : value === "comment" ? "Comments" : "Follows"}</button>)}</div>
           {loading ? (
             <div className="notification-empty-state" role="status"><span className="notification-empty-icon"><Bell size={21}/></span><h3>Loading activity</h3><p>Checking for likes, comments, and new followers…</p></div>
           ) : error ? (
@@ -114,7 +131,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                 const others = item.type === "like" ? Math.max(0, (item.actors?.length || 1) - 1) : 0;
                 const previous = filteredItems[index - 1];
                 const showDate = !previous || dateLabel(previous.created_at || previous.post?.created_at) !== dateLabel(item.created_at || item.post?.created_at);
-                return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
+                return <React.Fragment key={item.id}>{showDate && <h3 className="notification-date-heading">{dateLabel(item.created_at || item.post?.created_at)}</h3>}<article className={`notification-activity-item notification-item-${item.type}${item.read_at ? "" : " is-unread"}`} key={item.id} aria-label={`${actorName} ${item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "followed you"}`}>
                   <span className={`notification-activity-icon ${item.type}`} aria-hidden="true">{item.type === "like" ? <Heart size={18} fill="currentColor"/> : item.type === "comment" ? <MessageCircle size={18}/> : <UserPlus size={18}/>}</span>
                   <div className="notification-activity-copy">
                     <button type="button" className="notification-actor-avatar" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id} aria-label={`Open ${actorName}'s profile`} title={`Open ${actorName}'s profile`} style={{ width: 36, height: 36, flex: "0 0 36px", borderRadius: "50%", overflow: "hidden", border: 0, padding: 0, background: "var(--surface, #eee)", color: "var(--text, #333)", display: "inline-flex", alignItems: "center", justifyContent: "center", cursor: item.actor?.id ? "pointer" : "default", fontWeight: 600 }}>
@@ -123,7 +140,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                     <p><button type="button" className="notification-actor-link" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id}>{actorName}</button>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
                     
-                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}
+                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}{!item.read_at && <button type="button" className="notification-mark-read" onClick={() => markRead(item.id)}>Mark read</button>}
                   </div>
                 </article></React.Fragment>;
               })}
