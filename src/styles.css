@@ -4833,3 +4833,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 18 — card border-box sizing */
 .post-card,.chat-card,.profile-card,.notification-card{box-sizing:border-box;max-width:100%;}
+
+/* Round 3 / 19 — dropdown layering */
+.global-profile-dropdown,.profile-menu-dropdown{z-index:30;}
