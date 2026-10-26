@@ -1413,3 +1413,6 @@ html { -webkit-text-size-adjust: 100%; }
 /* Batch 7.8 — chat message and composer ergonomics */
 .message, .bubble { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
 @media (max-width: 600px) { .bubble { padding: 10px 12px; } .composer textarea, .composer input { min-width: 0; font-size: 16px; } .composer button { flex: 0 0 auto; } .send-button { min-width: 42px; min-height: 42px; } }
+
+/* Batch 7.9 — settings and notifications narrow layouts */
+@media (max-width: 480px) { .st-settings, .notifications-page { width: calc(100% - 20px); } .st-subheader { gap: 9px; } .st-subheader h1, .notifications-page h1 { overflow-wrap: anywhere; } .st-theme-options { gap: 6px; } .st-theme-options button { padding-inline: 5px; } .notifications-page .notification-item, .notifications-page .notification-card { align-items: flex-start; } }
