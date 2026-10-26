@@ -1331,3 +1331,12 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page .notification-actions .primary, .notifications-page .notification-actions button[ data-primary="true" ] { border-color: var(--chatly-accent); background: var(--chatly-accent); color: #fff; }
 .notifications-page .notification-actions button:hover, .notifications-page .notification-actions a:hover { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
 .notifications-page .notification-item button:focus-visible, .notifications-page .notification-card button:focus-visible { outline-offset: 3px; }
+
+
+/* Batch 6.6 — notification filters and bulk controls */
+.notifications-page .notification-filters { display: flex; gap: 7px; overflow-x: auto; padding: 3px 0; scrollbar-width: none; }
+.notifications-page .notification-filters::-webkit-scrollbar { display: none; }
+.notifications-page .notification-filters button { flex: 0 0 auto; min-height: 36px; padding: 8px 12px; border: 1px solid var(--chatly-border); border-radius: 999px; color: var(--chatly-muted); white-space: nowrap; }
+.notifications-page .notification-filters button[aria-pressed="true"], .notifications-page .notification-filters button.active { border-color: var(--chatly-accent); color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.notifications-page .notification-bulk-actions { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.notifications-page .notification-bulk-actions button { min-height: 36px; padding: 7px 11px; border-radius: 9px; color: var(--chatly-accent); font-size: 12px; font-weight: 650; }
