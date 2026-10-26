@@ -460,3 +460,11 @@
 .auth-card :is(input, select):focus, .setup-card :is(input, select):focus { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); outline: 0; }
 .auth-card label, .setup-card label { color: #555568; font-size: 13px; font-weight: 600; }
 .auth-card form, .setup-card form { gap: 13px; }
+
+
+/* Batch 2.2 — discovery and people search */
+.search-page { min-height: 100%; padding: clamp(18px, 3vw, 32px) 16px 96px; }
+.search-page :is(input, textarea) { border: 1px solid var(--chatly-border); border-radius: 12px; background: var(--surface, #fff); color: var(--text, var(--chatly-ink)); }
+.search-page :is(input, textarea):focus { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); outline: 0; }
+.search-page .person-row { border: 1px solid transparent; }
+.search-page .person-row:hover { border-color: var(--chatly-border); background: var(--surface, #fff); }
