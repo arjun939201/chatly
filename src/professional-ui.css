@@ -1810,3 +1810,10 @@ html { -webkit-text-size-adjust: 100%; }
   .person-card, .st-card) { transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
 .app-shell :is(.post-card, .profile-post, .person-card):hover { transform: translateY(-1px); }
 
+
+
+/* Batch 12.2 — button interaction feedback */
+.app-shell button:not(:disabled):active { transform: translateY(1px); }
+.app-shell :is(.post-actions button, .notification-actions button, .profile-actions button):active { opacity: .82; }
+.app-shell button:disabled { cursor: not-allowed; }
+
