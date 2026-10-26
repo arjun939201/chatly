@@ -4747,3 +4747,9 @@ label{min-width:0}
 .post-actions button:hover,.post-engagement button:hover{background:#f2f0ff}
 .post-actions button:focus-visible,.post-engagement button:focus-visible{outline-offset:1px}
 
+
+/* Round 2 / 06 — dialogs and modal spacing */
+.modal-backdrop{padding:clamp(12px,3vw,28px)}
+.profile-modal,.edit-profile-dialog{max-width:min(100%,560px);max-height:calc(100dvh - 32px);overflow:auto;border:1px solid rgba(232,232,241,.9);border-radius:20px}
+.modal-header{position:sticky;top:0;z-index:2;background:inherit}
+
