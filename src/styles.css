@@ -5340,3 +5340,91 @@ textarea{max-width:100%;resize:vertical;}
   max-width: 100%;
   box-sizing: border-box;
 }
+
+
+/* Comment presentation: one text-sized bubble; timestamp and reserved action slots share a row. */
+.feed-page .comments-modal .comment-message {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 11px 14px;
+}
+.feed-page .comments-modal .comment-message p {
+  width: auto;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.feed-page .comments-modal .comment-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  margin-top: 7px;
+  width: fit-content;
+  max-width: 100%;
+}
+.feed-page .comments-modal .comment-timestamp {
+  flex: 0 0 auto;
+  color: var(--muted, #858597);
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.feed-page .comments-modal .comment-actions-reserved {
+  display: flex;
+  align-items: center;
+  flex: 0 0 148px;
+  width: 148px;
+  min-height: 30px;
+}
+.feed-page .comments-modal .comment-message .comment-own-actions {
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: none;
+  pointer-events: none;
+  transition: opacity .14s ease, visibility .14s ease;
+}
+.feed-page .comments-modal .comment-item-own:hover .comment-own-actions,
+.feed-page .comments-modal .comment-item-own:focus-within .comment-own-actions,
+.feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.feed-page .comments-modal .comment-own-actions .comment-action-button {
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+}
+@media (hover: none), (pointer: coarse) {
+  .feed-page .comments-modal .comment-own-actions {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .feed-page .comments-modal .comment-actions-reserved {
+    flex-basis: 132px;
+    width: 132px;
+  }
+}
+@media (max-width: 420px) {
+  .feed-page .comments-modal .comment-footer { gap: 6px; flex-wrap: wrap; }
+  .feed-page .comments-modal .comment-actions-reserved { flex-basis: 132px; width: 132px; }
+  .feed-page .comments-modal .comment-timestamp { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .comments-modal .comment-own-actions { transition: none; }
+}
