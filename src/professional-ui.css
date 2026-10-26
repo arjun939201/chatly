@@ -1048,3 +1048,15 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
   .chat-layout .message-list { padding-inline: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { .chat-layout *, .chat-layout *::before, .chat-layout *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+
+/* Batch 4.1 — Explore search page foundation */
+.search-page { min-width: 0; }
+.search-page .search-page-header { display: grid; gap: 8px; }
+.search-page .search-page-header h1 { margin: 0; }
+.search-page .search-page-header p { margin: 0; color: var(--chatly-muted); font-size: 13px; line-height: 1.55; }
+.search-page .search-page-content { min-width: 0; }
+.search-page #explore-results { min-width: 0; }
+.search-page .search-start-prompt { display: grid; justify-items: center; gap: 12px; padding: clamp(24px, 6vw, 56px) 18px; text-align: center; }
+.search-page .search-start-prompt > svg { color: var(--chatly-accent); }
+.search-page .search-start-prompt p { max-width: 48ch; margin: 0; color: var(--chatly-muted); line-height: 1.65; }
