@@ -4735,3 +4735,9 @@ textarea{resize:vertical;line-height:1.55}
 input::placeholder,textarea::placeholder{color:#9898aa;opacity:1}
 label{min-width:0}
 
+
+/* Round 2 / 04 — composer and send feedback */
+.composer, .chat-composer{border-top:1px solid var(--chatly-border);background:rgba(255,255,255,.97)}
+.composer button,.chat-composer button{min-width:40px;min-height:40px}
+.composer button:active,.chat-composer button:active{transform:scale(.96)}
+
