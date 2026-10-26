@@ -1649,3 +1649,13 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.notifications-retry, .error-banner button, .chat-action-notice button) { min-height: 38px; border-radius: 10px; }
 .app-shell :is(.notifications-error, .error-banner) :is(p, span) { line-height: 1.55; overflow-wrap: anywhere; }
 
+
+
+/* Batch 10.5 — success and confirmation notices */
+.app-shell :is(.success-banner, .success-notice, [data-status="success"]) {
+  border: 1px solid color-mix(in srgb, #21865b 25%, var(--chatly-border));
+  border-radius: 12px; background: color-mix(in srgb, #21865b 7%, var(--surface, #fff));
+  color: color-mix(in srgb, #176b49 90%, var(--text, #20202b));
+}
+.app-shell :is(.success-banner, .success-notice) { padding: 11px 14px; line-height: 1.5; }
+
