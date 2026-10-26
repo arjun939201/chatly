@@ -187,9 +187,20 @@ export default function App() {
   useEffect(() => {
     if (!supabase) { setConfigError(true); setLoading(false); return; }
     let alive = true;
-    supabase.auth.getSession().then(({ data }) => {
-      if (alive) { setSession(data.session); setLoading(false); }
-    });
+    supabase.auth.getSession()
+      .then(({ data, error }) => {
+        if (!alive) return;
+        if (error) console.warn("Could not restore the saved session:", error.message);
+        setSession(data?.session || null);
+        setLoading(false);
+      })
+      .catch(error => {
+        if (!alive) return;
+        console.error("Session bootstrap failed:", error);
+        // Never leave the app stuck on its loading screen if local auth storage fails.
+        setSession(null);
+        setLoading(false);
+      });
     const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
     return () => { alive = false; listener.subscription.unsubscribe(); };
   }, []);
