@@ -451,3 +451,12 @@
   .bubble { max-width: 90%; padding: 10px 12px; }
   .composer textarea, .composer input { font-size: 16px; }
 }
+
+
+/* Batch 2.1 — authentication surfaces */
+.auth-screen, .setup-screen { padding: clamp(16px, 4vw, 32px); }
+.auth-card, .setup-card { color: var(--chatly-ink); }
+.auth-card :is(input, select), .setup-card :is(input, select) { width: 100%; min-height: 46px; border: 1px solid var(--chatly-border); border-radius: 12px; padding: 11px 13px; background: #fff; transition: border-color .16s ease, box-shadow .16s ease; }
+.auth-card :is(input, select):focus, .setup-card :is(input, select):focus { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); outline: 0; }
+.auth-card label, .setup-card label { color: #555568; font-size: 13px; font-weight: 600; }
+.auth-card form, .setup-card form { gap: 13px; }
