@@ -1859,3 +1859,11 @@ html { -webkit-text-size-adjust: 100%; }
 }
 @keyframes chatly-menu-in { from { opacity: 0; transform: translateY(-4px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
+
+
+/* Batch 12.8 — modal entrance refinement */
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) {
+  animation: chatly-dialog-in 170ms cubic-bezier(.2,.75,.25,1) both;
+}
+@keyframes chatly-dialog-in { from { opacity: .65; transform: translateY(6px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
