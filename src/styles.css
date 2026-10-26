@@ -6252,3 +6252,25 @@ button.header-notifications,
 .explore-open-search { display:flex; align-items:center; gap:10px; width:100%; min-height:46px; padding:0 14px; border:1px solid var(--border,#e4e4e9); border-radius:13px; color:var(--muted,#777); background:var(--surface,#fff); font:inherit; text-align:left; cursor:pointer; margin:16px 0 20px; }
 .explore-open-search:hover { border-color:#b8b0f4; background:color-mix(in srgb, var(--surface,#fff) 94%, #7566e8); }
 @media(max-width:600px) { .dedicated-search-tabs button { flex:1; min-height:44px; } .dedicated-search-empty { min-height:180px; } }
+
+
+/* Mobile post action menu: keep the active card and menu above feed content. */
+.feed-page .posts-list > .post-card.post-card-menu-open {
+  z-index: 40;
+  border-color: color-mix(in srgb, var(--chatly-brand, #7566e8) 34%, var(--border, #e7e7ef));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--chatly-brand, #7566e8) 14%, transparent), 0 12px 30px rgba(30, 25, 70, .08);
+}
+.feed-page .post-card-menu-open .post-options-wrap { z-index: 42; }
+.feed-page .post-card-menu-open .post-options-menu {
+  z-index: 60;
+  max-height: min(55vh, 340px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.feed-page .post-card-menu-open .post-options-menu-below { top: calc(100% + 7px); bottom: auto; transform-origin: top right; }
+.feed-page .post-card-menu-open .post-options-menu-above { top: auto; bottom: calc(100% + 7px); transform-origin: bottom right; }
+.feed-page .post-card-menu-open .post-options-menu button { min-height: 44px; }
+.feed-page:has(.post-card-menu-open) .create-menu-wrap { z-index: 20; }
+@media (max-width: 600px) {
+  .feed-page .post-card-menu-open .post-options-menu { min-width: 180px; max-width: calc(100vw - 36px); }
+}
