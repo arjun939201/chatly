@@ -2118,3 +2118,12 @@ html { -webkit-text-size-adjust: 100%; }
   min-width: 0; align-items: center; flex-wrap: wrap;
 }
 
+
+
+/* Batch 16.5 — compact viewport control QA */
+@media (max-width: 600px) {
+  .app-shell :is(.post-options-trigger, .profile-menu-trigger, .chat-new-button, .send-button) {
+    min-width: 40px; min-height: 40px;
+  }
+}
+
