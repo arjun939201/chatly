@@ -1358,3 +1358,12 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .notifications-page .notifications-empty p, .notifications-page .notifications-error p { max-width: 42ch; margin: 0; color: var(--chatly-muted); font-size: 13px; }
 .notifications-page .notifications-error { color: var(--chatly-danger); }
 .notifications-page .notifications-retry { min-height: 40px; margin-top: 5px; padding: 8px 14px; border-radius: 10px; }
+
+
+/* Batch 6.9 — activity pagination and accessible interaction */
+.notifications-page .notifications-load-more { display: flex; justify-content: center; padding: 10px 0; }
+.notifications-page .notifications-load-more button { min-height: 42px; padding: 9px 16px; border: 1px solid var(--chatly-border); border-radius: 11px; }
+.notifications-page :is(button, a):focus-visible { outline-offset: 3px; }
+.notifications-page :is(.notification-item, .notification-card) { scroll-margin-block: 80px; }
+.notifications-page button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.notifications-page [aria-live] { overflow-wrap: anywhere; }
