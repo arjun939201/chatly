@@ -4645,3 +4645,10 @@ html:has(.feed-page){scrollbar-width:none}html:has(.feed-page)::-webkit-scrollba
 @keyframes group-spin{to{transform:rotate(360deg)}}
 .group-create-dialog .spin{animation:group-spin .9s linear infinite}
 @media(max-width:540px){.group-create-backdrop{padding:0;align-items:end}.group-create-dialog{width:100%;max-height:92dvh;border-radius:22px 22px 0 0;padding:20px 16px calc(18px + env(safe-area-inset-bottom));}.group-member-options{max-height:32dvh}}
+
+/* Chatly UI batch 01: shared design tokens */
+:root{--chatly-ink:#24243a;--chatly-muted:#77788f;--chatly-border:#e8e8f1;--chatly-surface:#fff;--chatly-soft:#f7f7fc;--chatly-accent:#6757e8;--chatly-accent-hover:#5747d6;--chatly-focus:#8b7cf6;--chatly-radius-sm:10px;--chatly-radius-md:14px;--chatly-radius-lg:20px;--chatly-shadow-soft:0 12px 34px rgba(42,36,89,.08)}
+html{scroll-behavior:smooth}
+body{color:var(--chatly-ink);background:#f6f6fb}
+::selection{background:rgba(103,87,232,.18)}
+
