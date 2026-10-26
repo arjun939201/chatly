@@ -1033,3 +1033,18 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .chat-action-notice, .chat-layout .error-banner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 13px; border-radius: 12px; }
 .chat-layout .chat-action-notice button, .chat-layout .error-banner button { display: inline-grid; place-items: center; min-width: 32px; min-height: 32px; }
 .chat-layout .error-banner { color: var(--chatly-danger); }
+
+
+/* Batch 3.10 — mobile and keyboard accessibility finishing */
+.chat-layout :is(button, a, input, textarea):focus-visible { outline-offset: 3px; }
+.chat-layout button { -webkit-tap-highlight-color: transparent; }
+.chat-layout .sidebar, .chat-layout .conversation, .chat-layout .message-list { overscroll-behavior: contain; }
+.chat-layout .chat-row, .chat-layout .message { scroll-margin-block: 80px; }
+.chat-layout :is(.chat-new-button, .chat-feed-back, .conversation-close, .send-button) { touch-action: manipulation; }
+@media (max-width: 760px) {
+  .chat-layout .sidebar-heading { gap: 8px; }
+  .chat-layout .conversation-header { padding-inline: 10px; }
+  .chat-layout .conversation-header :is(.conversation-mute, .conversation-pin, .conversation-archive, .conversation-close) { min-width: 38px; min-height: 38px; }
+  .chat-layout .message-list { padding-inline: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .chat-layout *, .chat-layout *::before, .chat-layout *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
