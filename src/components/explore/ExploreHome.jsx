@@ -35,7 +35,7 @@ export default function ExploreHome({ onSearch, onPlayVideo }) {
   const [activeCategory, setActiveCategory] = useState("");
   const [gameRound, setGameRound] = useState(null);
   const [videoQuery, setVideoQuery] = useState("");
-  const { videos, loading: videosLoading, error: videosError } = useYouTubeSearch(videoQuery, activeCategory === "videos" ? "songs" : "");
+  const { videos, loading: videosLoading, error: videosError } = useYouTubeSearch(videoQuery, activeCategory === "videos" ? "videos" : "");
   const requestId = useRef(0);
   const postsSectionRef = useRef(null);
 
