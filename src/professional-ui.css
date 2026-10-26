@@ -1833,3 +1833,12 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.post-actions button, .notification-actions button):hover svg { transform: scale(1.06); }
 
+
+
+/* Batch 12.5 — active tab feedback */
+.app-shell :is(.feed-filter-tabs button, .chat-filter-row button, .notification-filters button) {
+  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
+}
+.app-shell :is(.feed-filter-tabs button[aria-selected="true"], .chat-filter-row button[aria-selected="true"],
+  .notification-filters button[aria-selected="true"]) { font-weight: 750; }
+
