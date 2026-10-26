@@ -1784,3 +1784,12 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .app-shell :is(.modal-backdrop, .comment-modal-backdrop, .st-overlay) { overscroll-behavior: contain; }
 
+
+
+/* Batch 11.9 — responsive component harmonization */
+@media (max-width: 600px) {
+  .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { min-width: 0; }
+  .app-shell :is(.compose-footer, .comment-composer, .notification-actions, .profile-actions) { flex-wrap: wrap; }
+  .app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .st-dialog) { max-width: 100%; }
+}
+
