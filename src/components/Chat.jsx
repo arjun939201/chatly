@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy, Archive, Pin, Bell, BellOff, Pencil, Check } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import CreateGroupDialog from "./CreateGroupDialog";
 
 function Avatar({ person, className = "" }) {
   const label = (person?.display_name || person?.username || "?").slice(0, 1).toUpperCase();
@@ -23,6 +24,7 @@ function formatMessageDateTime(value) {
 
 export default function Chat({ session, profile, targetId, enterToSend = true, onBackToFeed, onOpenProfile }) {
   const [people, setPeople] = useState([]);
+  const [showGroupCreate, setShowGroupCreate] = useState(false);
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -437,9 +439,9 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       return bTime - aTime || (a.display_name || a.username || "").localeCompare(b.display_name || b.username || "");
     });
 
-  return <main className={`chat-layout ${active ? "has-active" : ""}`}>
+  return <><main className={`chat-layout ${active ? "has-active" : ""}`}>
     <aside className="sidebar">
-      <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); }}><SquarePen size={18}/></button></div>
+      <div className="sidebar-heading"><div className="chat-heading-title"><button className="chat-feed-back" onClick={onBackToFeed} aria-label="Back to feed"><ChevronLeft size={20}/></button><MessageCircle size={20}/> <span>Chats</span></div><button className="chat-new-button" aria-label="New chat" onClick={() => { setFilter("all"); setQuery(""); setActive(null); setShowGroupCreate(true); }}><SquarePen size={18}/></button></div>
       <div className="search-box"><Search size={17}/><input aria-label="Search conversations by name, username, or latest message" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search chats…"/>{query && <button type="button" className="chat-search-clear" aria-label="Clear chat search" title="Clear search" onClick={() => setQuery("")}><X size={15}/></button>}</div>
       <div className="chat-filter-row">{[["all","All"],["people","People"],["saved","Saved"],["unread","Unread"],["archived","Archived"]].map(([key,label])=><button key={key} type="button" aria-pressed={filter===key} className={filter===key?"active":""} onClick={()=>setFilter(key)}>{label}{key === "unread" && Object.values(unreadCounts).reduce((sum, count) => sum + count, 0) > 0 ? ` · ${Object.values(unreadCounts).reduce((sum, count) => sum + count, 0)}` : ""}</button>)}</div><div className="people-list">
         {visiblePeople.map(person => <button key={person.id} type="button" aria-current={active?.id === person.id ? "true" : undefined} className={`person-row ${active?.id === person.id ? "selected" : ""}`} onClick={() => { setDrafts(current => ({ ...current, [active?.id || "__none"]: draft })); setDraft(drafts[person.id] || ""); setActive(person); setError(""); }}>
@@ -471,5 +473,5 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
       </> : <div className="welcome-chat"><span className="welcome-icon"><MessageCircle size={32}/></span><h2>Your conversations, together.</h2><p>Choose a conversation or open Saved messages to keep notes to yourself.</p></div>}
       {error && <div className="error-banner" role="alert">{error}<button onClick={() => setError("")}>Dismiss</button></div>}{actionNotice && <div className="chat-action-notice" role="status">{actionNotice}<button type="button" aria-label="Dismiss notification" onClick={() => setActionNotice("")}><X size={14}/></button></div>}
     </section>
-  </main>;
+  </main>{showGroupCreate && <CreateGroupDialog session={session} people={people} onClose={() => setShowGroupCreate(false)} onCreated={() => setActionNotice("Group created. Group conversations will appear after the group list is connected.")}/>}</>;
 }
