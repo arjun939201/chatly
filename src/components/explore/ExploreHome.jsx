@@ -73,12 +73,15 @@ export default function ExploreHome({ onSearch }) {
     return () => { requestId.current += 1; };
   }, []);
 
+  function scrollToCommunity() {
+    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    postsSectionRef.current?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+  }
+
   function selectCategory(category) {
     setActiveCategory(current => current === category ? "" : category);
     setGameRound(null);
-    if (category === "trending") {
-      window.setTimeout(() => postsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
-    }
+    if (category === "trending") scrollToCommunity();
   }
 
   function playRound(player) {
@@ -127,7 +130,7 @@ export default function ExploreHome({ onSearch }) {
         <div className="explore-game-heading"><span className="explore-game-badge"><Gamepad2 size={19} /></span><div><h4>Rock, Paper, Scissors</h4><p>A quick round while you explore.</p></div></div>
         <div className="explore-game-choices">{gameChoices.map(choice => <button type="button" key={choice.id} onClick={() => playRound(choice.id)} aria-label={`Choose ${choice.label}`}><span>{choice.emoji}</span><b>{choice.label}</b></button>)}</div>
         {gameRound && <div className="explore-game-result" role="status"><p>{gameRound.result}</p><span>You: {gameChoices.find(item => item.id === gameRound.player)?.emoji} <span aria-hidden="true">·</span> Chatly: {gameChoices.find(item => item.id === gameRound.computer)?.emoji}</span></div>}
-      </div> : activeCategory === "trending" ? <div className="explore-category-message"><TrendingUp size={21} /><div><b>Fresh from the community</b><p>See the latest public conversations below. Popularity rankings can come later when reliable engagement signals are available.</p></div><button type="button" onClick={() => postsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>View posts <ArrowRight size={15} /></button></div>
+      </div> : activeCategory === "trending" ? <div className="explore-category-message"><TrendingUp size={21} /><div><b>Fresh from the community</b><p>See the latest public conversations below. Popularity rankings can come later when reliable engagement signals are available.</p></div><button type="button" onClick={scrollToCommunity}>View posts <ArrowRight size={15} /></button></div>
       : activeCategory === "people" ? <div className="explore-category-message"><Users size={21} /><div><b>Find your people</b><p>Search names, usernames, or shared interests to discover Chatly members.</p></div><button type="button" onClick={() => onSearch?.("")}>Open search <ArrowRight size={15} /></button></div>
       : <div className="explore-category-message"><Sparkles size={21} /><div><b>{activeCategory === "videos" ? "Video discovery is on the roadmap" : activeCategory === "rooms" ? "Rooms are on the roadmap" : "More ways to connect are coming"}</b><p>{activeCategory === "videos" ? "A dedicated watch experience needs a reliable video source and playback flow." : activeCategory === "rooms" ? "We're laying the groundwork for room membership, realtime conversations, and moderation." : "Events and interactive community activities will arrive in a later phase."}</p></div><span className="explore-coming-label">In development</span></div>}
     </section>}
@@ -147,7 +150,7 @@ export default function ExploreHome({ onSearch }) {
       {loading ? <p role="status" className="explore-home-status">Loading recent posts…</p>
         : error ? <div className="explore-home-status" role="alert"><span>{error}</span><button type="button" onClick={loadRecentPosts} disabled={loading}>Retry</button></div>
         : posts.length ? <div className="explore-home-posts">{posts.map(post => <article className="explore-home-post" key={post.id}>
-            <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
+            <div className="explore-home-post-author"><span className="explore-home-post-avatar">{post.author.avatar_url ? <img src={post.author.avatar_url} alt="" loading="lazy" onError={event => { event.currentTarget.style.display = "none"; event.currentTarget.parentElement.dataset.avatarFallback = (post.author.display_name || post.author.username || "C").slice(0, 1).toUpperCase(); }} /> : (post.author.display_name || post.author.username || "C").slice(0,1).toUpperCase()}</span><span>{post.author.display_name || post.author.username || "Chatly member"}{post.author.username ? <small> @{post.author.username}</small> : null}</span></div>
             <p>{post.body}</p>
             <time dateTime={post.created_at || undefined}>{formatRecentDate(post.created_at)}</time>
           </article>)}</div>
