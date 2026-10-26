@@ -6605,7 +6605,7 @@ html,body,#root{min-width:0;max-width:100%;overflow-x:clip}
 /* 19. Make form placeholders legible but secondary. */
 .app-shell :is(input,textarea)::placeholder{color:var(--muted,#858593);opacity:.85}
 /* 20. Avoid media and long user-generated content escaping their containers. */
-.app-shell :is(img,video,iframe){height:auto}
+.app-shell img{height:auto}
 .app-shell :is(.post-card,.comment-item,.message-bubble,.profile-bio){overflow-wrap:anywhere}
 @media(max-width:600px){
  .app-shell{overflow-wrap:break-word}
