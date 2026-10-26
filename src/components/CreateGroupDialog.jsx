@@ -76,6 +76,18 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
     if (groupName.length < 2) { setError("Enter a group name with at least 2 characters."); return; }
     if (!memberIds.length) { setError("Select at least one person to create a group."); return; }
 
+    if (avatarFile) {
+      const supportedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+      if (!supportedTypes.includes(avatarFile.type)) {
+        setError("Choose a JPG, PNG, WEBP, or GIF group image.");
+        return;
+      }
+      if (avatarFile.size > 5 * 1024 * 1024) {
+        setError("Group image must be 5 MB or smaller.");
+        return;
+      }
+    }
+
     setBusy(true);
     setError("");
     try {
