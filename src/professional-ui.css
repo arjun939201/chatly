@@ -730,3 +730,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell :is(.post-body, .message-body, .profile-bio) { overflow-wrap: anywhere; word-break: normal; }
 .app-shell time, .app-shell .numeric { font-variant-numeric: tabular-nums; }
 
+
+
+/* Batch 1.8 — overlays, dialogs, and popovers */
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop) { background: var(--chatly-overlay); backdrop-filter: blur(4px); }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .report-post-modal, .group-create-dialog) { background: var(--surface, #fff); border: 1px solid var(--border, var(--chatly-border)); box-shadow: var(--chatly-shadow-modal); }
+.app-shell :is(.compose-modal, .comments-dialog, .profile-modal, .report-post-modal, .group-create-dialog) { overscroll-behavior: contain; }
+.app-shell :is(.modal-header, .comments-dialog-header) { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-shell :is(.modal-header, .comments-dialog-header) :is(h2, h3) { margin: 0; min-width: 0; }
+.app-shell :is(.modal-close, .dialog-close) { min-width: 40px; min-height: 40px; display: inline-grid; place-items: center; }
+.app-shell :is(.popover, .dropdown-menu, .post-options-menu, .global-profile-dropdown) { z-index: 30; background: var(--surface, #fff); border: 1px solid var(--border, var(--chatly-border)); box-shadow: var(--chatly-shadow-popover); }
+.app-shell :is(.popover, .dropdown-menu, .post-options-menu, .global-profile-dropdown) { max-width: min(92vw, 360px); }
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop) { isolation: isolate; }
+.app-shell :is(.modal-backdrop, .comment-modal-backdrop) > :is(dialog, .modal, .compose-modal, .comments-dialog) { max-width: calc(100vw - 24px); }
+
