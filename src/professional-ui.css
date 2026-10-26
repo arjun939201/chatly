@@ -1098,3 +1098,12 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .post-result .post-result-body { margin: 12px 0 8px; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
 .search-page .post-result time { color: var(--chatly-muted); font-size: 11px; }
 .search-page .post-result mark { padding: 0 2px; border-radius: 3px; color: inherit; background: var(--chatly-accent-soft); }
+
+
+/* Batch 4.6 — query match highlighting */
+.search-page mark { color: inherit; background: var(--chatly-accent-soft); border-radius: 3px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.search-page .result-match-context { color: var(--chatly-muted); font-size: 12px; line-height: 1.55; }
+.search-page .result-match-context mark { color: var(--chatly-ink); font-weight: 650; }
+.search-page .search-result-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.search-page .search-result-heading h2 { margin: 0; font-size: 16px; }
+.search-page .search-result-heading small { color: var(--chatly-muted); font-size: 11px; }
