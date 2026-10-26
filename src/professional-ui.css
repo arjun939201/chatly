@@ -1496,3 +1496,16 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(button, a, input, textarea, select):focus-visible { outline: 2px solid Highlight; }
   .app-shell :is(.post-card, .notification-item, .notification-card, .st-nav-card) { border: 1px solid CanvasText; }
 }
+
+
+/* Batch 9.1 — shared spacing and surface tokens */
+:root {
+  --chatly-space-1: 4px; --chatly-space-2: 8px; --chatly-space-3: 12px;
+  --chatly-space-4: 16px; --chatly-space-5: 20px; --chatly-space-6: 24px;
+  --chatly-control-height: 40px; --chatly-control-radius: 11px;
+}
+.app-shell :is(.post-card, .profile-summary, .profile-hero, .st-card) {
+  border-color: var(--border, var(--chatly-border));
+}
+.app-shell :is(.feed-notice, .error-banner, .chat-action-notice) { line-height: 1.5; }
+
