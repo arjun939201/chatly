@@ -4714,3 +4714,10 @@ img,video{max-width:100%}
 @media(max-width:760px){.topbar{height:62px;padding-inline:14px;gap:10px}.brand{font-size:27px}.chat-layout{width:100%;height:calc(100dvh - 62px);min-height:0;margin:0;border-radius:0;border-inline:0}.feed-page,.search-page{padding:14px}.notification-destination-page,.settings-page{padding:14px}.profile-stats{flex-wrap:wrap}}
 @media(max-width:420px){.topbar{padding-inline:10px}.account-copy{max-width:110px}.feed-page,.search-page{padding:10px}.post-card{border-radius:14px}.profile-post-grid{gap:4px}}
 
+
+/* Round 2 / 01 — typography rhythm and content readability */
+.app-shell{line-height:1.45}
+.destination-current-title,.profile-page-head h2{letter-spacing:-.025em}
+.profile-bio p,.post-content,.comment-body{line-height:1.65;overflow-wrap:anywhere}
+small,.muted-text{letter-spacing:.005em}
+
