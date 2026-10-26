@@ -5332,3 +5332,11 @@ textarea{max-width:100%;resize:vertical;}
     min-height: 30px;
   }
 }
+
+
+/* Expand comment bubbles across the available content column. */
+.feed-page .comments-modal .comment-message {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
