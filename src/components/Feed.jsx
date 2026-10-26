@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, MessageCircle, Plus, X, MoreHorizontal, Trash2, Bookmark, Eye, Share2, Pencil, Copy, Reply, Search, MessagesSquare, Compass } from "lucide-react";
 import { supabase } from "../lib/supabase";
-import "./FeedHeader.css";
 
 export default function Feed({ session, profile, onFindFriends, onOpenExplore, onOpenSearch, onOpenChats, onOpenProfile, onPostsChanged }) {
   const [posts, setPosts] = useState([]);
