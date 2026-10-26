@@ -508,3 +508,10 @@
 .app-shell button:disabled { cursor: not-allowed; filter: saturate(.65); }
 .app-shell ::selection { background: var(--chatly-accent-soft); color: var(--chatly-ink); }
 @media (prefers-reduced-motion: reduce) { .app-shell :is(button, a, input, textarea, select) { transition: none !important; } }
+
+
+/* Batch 2.8 — loading feedback */
+.feed-loading-state > *, .profile-loading-state > *, .search-loading-state > * { border-radius: 12px; }
+.skeleton, .loading-skeleton { background: linear-gradient(90deg, var(--chatly-canvas) 20%, var(--chatly-border) 45%, var(--chatly-canvas) 70%); background-size: 220% 100%; animation: chatly-skeleton 1.35s ease-in-out infinite; }
+@keyframes chatly-skeleton { to { background-position: -220% 0; } }
+@media (prefers-reduced-motion: reduce) { .skeleton, .loading-skeleton { animation: none; } }
