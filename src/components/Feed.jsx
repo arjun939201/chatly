@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Heart, MessageCircle, Plus, X, MoreHorizontal, Trash2, Bookmark, Eye, Share2, Pencil, Copy, Reply, Search, MessagesSquare, Compass, Users } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
-export default function Feed({ session, profile, onFindFriends, onOpenChats, onOpenProfile, onPostsChanged }) {
+export default function Feed({ session, profile, onFindFriends, onOpenExplore, onOpenSearch, onOpenChats, onOpenProfile, onPostsChanged }) {
   const [posts, setPosts] = useState([]);
   const [feedLoading, setFeedLoading] = useState(true);
   const [feedError, setFeedError] = useState("");
@@ -411,8 +411,8 @@ const commentComposerRef = useRef(null);
   const avatar = (p) => <span className="mini-avatar">{p?.avatar_url ? <img src={p.avatar_url} alt=""/> : (p?.display_name || "C").slice(0,1).toUpperCase()}</span>;
   return <main className="feed-page"><div className="feed-column">
     <section className="feed-header-section" aria-label={savedView ? "Saved posts view" : "Feed views"}>
-      <div className="feed-heading-row"><div className="feed-heading-title"><h1>{savedView ? "Saved posts" : "Your feed"}</h1><p aria-hidden={!savedView}>{savedView ? "Posts you bookmarked for later" : "\u00a0"}</p></div>{!savedView && <div className="feed-header-shortcuts" aria-label="Quick navigation"><button type="button" onClick={onFindFriends}><Compass size={17}/><span>Explore</span></button><button type="button" onClick={onOpenChats}><MessagesSquare size={17}/><span>Chats</span></button></div>}</div>
-      {!savedView && <div className="feed-discovery-row"><button type="button" className="feed-discovery-search" onClick={onFindFriends}><Search size={18}/><span>Search people and posts</span></button><button type="button" className="feed-find-friends" onClick={onFindFriends}><Users size={17}/><span>Find friends</span></button></div>}
+      <div className="feed-heading-row"><div className="feed-heading-title"><h1>{savedView ? "Saved posts" : "Your feed"}</h1><p aria-hidden={!savedView}>{savedView ? "Posts you bookmarked for later" : "\u00a0"}</p></div>{!savedView && <div className="feed-header-shortcuts" aria-label="Quick navigation"><button type="button" onClick={onOpenExplore || onFindFriends}><Compass size={17}/><span>Explore</span></button><button type="button" onClick={onOpenChats}><MessagesSquare size={17}/><span>Chats</span></button></div>}</div>
+      {!savedView && <div className="feed-discovery-row"><button type="button" className="feed-discovery-search" onClick={onOpenSearch || onFindFriends}><Search size={18}/><span>Search people and posts</span></button><button type="button" className="feed-find-friends" onClick={onFindFriends}><Users size={17}/><span>Find friends</span></button></div>}
       <nav className="feed-filter-tabs" aria-label="Feed views">{[["latest","Latest"],["popular","Popular"],["following","Following"],["saved","Saved"]].map(([value,label]) => <button type="button" key={value} className={(value === "saved" ? savedView : !savedView && feedFilter === value) ? "active" : ""} aria-pressed={value === "saved" ? savedView : !savedView && feedFilter === value} onClick={() => { setSavedView(value === "saved"); if (value !== "saved") setFeedFilter(value); setVisibleLimit(20); }}>{label}</button>)}</nav>
     </section>
     {feedError && <div className="feed-notice" role="alert"><span>{feedError}</span><button type="button" onClick={loadFeed} disabled={feedLoading}>{feedLoading ? "Retrying…" : "Try again"}</button></div>}
