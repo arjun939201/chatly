@@ -1958,3 +1958,9 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) { transform: none !important; }
 }
 
+
+
+/* Batch 14.1 — long text edge cases */
+.app-shell :is(.username, .profile-handle, .chat-title, .person-copy, .notification-copy) { min-width: 0; overflow-wrap: anywhere; }
+.app-shell :is(.post-card, .profile-post, .notification-item, .notification-card) :is(h1,h2,h3,p) { max-width: 100%; }
+
