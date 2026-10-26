@@ -2928,3 +2928,6 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell .profile-counts { width: 100%; }
   .app-shell .profile-counts > div { padding-inline: 2px; }
 }
+
+/* Profile layout correction — ensure statistic cells use the intended responsive grid. */
+.app-shell .profile-counts { display: grid; }
