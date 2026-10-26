@@ -51,6 +51,25 @@ $;
 revoke all on function public.is_group_member(uuid, uuid) from public, anon;
 grant execute on function public.is_group_member(uuid, uuid) to authenticated;
 
+-- Avoid recursive membership-table RLS when checking admin roles.
+create or replace function public.is_group_admin(p_conversation_id uuid, p_user_id uuid default auth.uid())
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $function$
+  select exists (
+    select 1 from public.group_conversation_members m
+    where m.conversation_id = p_conversation_id
+      and m.user_id = p_user_id
+      and m.role in ('owner', 'admin')
+  );
+$function$;
+revoke all on function public.is_group_admin(uuid, uuid) from public, anon;
+grant execute on function public.is_group_admin(uuid, uuid) to authenticated;
+
+
 drop policy if exists "Members can view group conversations" on public.group_conversations;
 create policy "Members can view group conversations" on public.group_conversations
   for select to authenticated using (
@@ -64,8 +83,7 @@ create policy "Authenticated users can create groups" on public.group_conversati
 drop policy if exists "Group admins can update group details" on public.group_conversations;
 create policy "Group admins can update group details" on public.group_conversations
   for update to authenticated using (
-    exists (select 1 from public.group_conversation_members m
-      where m.conversation_id = id and m.user_id = auth.uid() and m.role in ('owner', 'admin'))
+    public.is_group_admin(id, auth.uid())
   ) with check (
     exists (select 1 from public.group_conversation_members m
       where m.conversation_id = id and m.user_id = auth.uid() and m.role in ('owner', 'admin'))
@@ -88,16 +106,13 @@ create policy "Users can join groups they create" on public.group_conversation_m
 drop policy if exists "Group admins can add members" on public.group_conversation_members;
 create policy "Group admins can add members" on public.group_conversation_members
   for insert to authenticated with check (
-    exists (select 1 from public.group_conversation_members m
-      where m.conversation_id = conversation_id and m.user_id = auth.uid() and m.role in ('owner', 'admin'))
+    public.is_group_admin(conversation_id, auth.uid())
   );
 
 drop policy if exists "Admins manage membership and users may leave" on public.group_conversation_members;
 create policy "Admins manage membership and users may leave" on public.group_conversation_members
   for delete to authenticated using (
-    user_id = auth.uid() or exists (
-      select 1 from public.group_conversation_members m
-      where m.conversation_id = conversation_id and m.user_id = auth.uid() and m.role in ('owner', 'admin'))
+    user_id = auth.uid() or public.is_group_admin(conversation_id, auth.uid())
   );
 
 drop policy if exists "Members can read group messages" on public.group_messages;
