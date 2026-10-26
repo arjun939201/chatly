@@ -35,19 +35,19 @@ export default function CreateGroupDialog({ session, people = [], onClose, onCre
         throw new Error("Your session changed. Refresh Chatly and try creating the group again.");
       }
 
-      const { data: group, error: groupError } = await supabase.from("group_conversations")
-        .insert({ name: groupName, description: description.trim(), created_by: authUser.id })
-        .select("*").single();
+      // Create the group and invitees atomically through a narrowly scoped database RPC.
+      // This avoids client-side INSERT RLS/RETURNING policy mismatches.
+      const { data: groupId, error: groupError } = await supabase.rpc("create_group_conversation", {
+        p_name: groupName,
+        p_description: description.trim(),
+        p_member_ids: selected,
+      });
       if (groupError) throw groupError;
-      // The database trigger inserts the creator as owner. Insert only the invited members here.
-      const members = selected.map(user_id => ({ conversation_id: group.id, user_id, role: "member" }));
-      const { error: membersError } = await supabase.from("group_conversation_members").insert(members);
-      if (membersError) {
-        // Best-effort cleanup; the database may restrict deleting the group for this client.
-        const { error: cleanupError } = await supabase.from("group_conversations").delete().eq("id", group.id);
-        if (cleanupError) console.error("Group cleanup after member insert failure failed:", cleanupError);
-        throw membersError;
-      }
+      if (!groupId) throw new Error("The group was not created. Please try again.");
+
+      const { data: group, error: loadGroupError } = await supabase.from("group_conversations")
+        .select("*").eq("id", groupId).single();
+      if (loadGroupError) throw loadGroupError;
       onCreated?.(group);
       onClose?.();
     } catch (err) {
