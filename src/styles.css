@@ -5265,3 +5265,32 @@ textarea{max-width:100%;resize:vertical;}
     max-width: calc(100vw - 28px);
   }
 }
+
+
+/* Mobile finishing pass for feed post actions and menu dismissal affordances. */
+.feed-page .post-options-trigger {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.feed-page .post-card-menu-open .post-options-menu button {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+.feed-page .post-card-menu-open .post-options-menu button:active {
+  background: var(--accent-soft, #f2efff);
+}
+@media (max-width: 600px) {
+  .feed-page .post-card-menu-open .post-options-menu {
+    right: 0;
+    inset-inline-end: 0;
+    padding: 6px;
+    border-radius: 14px;
+    box-shadow: 0 16px 38px rgba(24, 20, 48, .18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .post-card-menu-open .post-options-menu {
+    animation: none !important;
+    scroll-behavior: auto;
+  }
+}
