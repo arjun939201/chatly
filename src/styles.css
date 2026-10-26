@@ -4668,3 +4668,11 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .post-body{overflow-wrap:anywhere;line-height:1.65}
 .post-media{overflow:hidden;border-radius:var(--chatly-radius-md)}
 
+
+/* Chatly UI batch 04: messaging affordances */
+.person-row{min-height:64px;transition:background .16s ease}
+.person-row:hover{background:#f8f7ff}
+.message-list{scroll-behavior:smooth}
+.bubble{overflow-wrap:anywhere;line-height:1.5}
+.composer input{min-height:42px}
+
