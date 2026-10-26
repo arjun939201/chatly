@@ -4782,3 +4782,6 @@ label{min-width:0}
 
 /* Round 3 / 01 — page-width containment */
 .app-shell,.feed-page,.destination-page,.profile-page,.search-page,.settings-page{box-sizing:border-box;max-width:100%;}
+
+/* Round 3 / 02 — long-content wrapping */
+.post-card,.message-bubble,.profile-bio,.notification-item{overflow-wrap:anywhere;word-break:normal;}
