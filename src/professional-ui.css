@@ -715,3 +715,18 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .app-shell .avatar-status { position: absolute; right: 0; bottom: 0; width: 10px; height: 10px; border: 2px solid var(--surface, #fff); border-radius: 50%; background: #2eaa70; }
 .app-shell :is(.avatar, .profile-avatar) img[alt=""] { user-select: none; }
 
+
+
+/* Batch 1.7 — type scale and readable content */
+.app-shell { font-size: var(--chatly-font-md); line-height: var(--chatly-line-normal); }
+.app-shell :is(h1, h2, h3, h4) { color: var(--text, var(--chatly-ink)); line-height: var(--chatly-line-tight); text-wrap: balance; }
+.app-shell h1 { font-size: clamp(24px, 3vw, 32px); letter-spacing: -.04em; }
+.app-shell h2 { font-size: clamp(20px, 2.5vw, 26px); letter-spacing: -.03em; }
+.app-shell h3 { font-size: clamp(16px, 2vw, 19px); letter-spacing: -.02em; }
+.app-shell :is(p, li, blockquote) { line-height: var(--chatly-line-relaxed); }
+.app-shell :is(small, .text-small, .metadata) { font-size: var(--chatly-font-xs); }
+.app-shell :is(.muted, .text-muted, .metadata) { color: var(--muted, var(--chatly-muted)); }
+.app-shell :is(.text-strong, .username, .display-name) { color: var(--text, var(--chatly-ink)); font-weight: 700; }
+.app-shell :is(.post-body, .message-body, .profile-bio) { overflow-wrap: anywhere; word-break: normal; }
+.app-shell time, .app-shell .numeric { font-variant-numeric: tabular-nums; }
+
