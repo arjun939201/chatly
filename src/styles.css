@@ -4800,3 +4800,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* Round 3 / 07 — responsive action rows */
 .post-actions,.chat-header-actions,.profile-action-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+
+/* Round 3 / 08 — touch target minimums */
+@media(hover:none){.bottom-nav button,.post-actions button,.chat-header button{min-height:42px;min-width:42px;}}
