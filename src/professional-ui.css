@@ -468,3 +468,11 @@
 .search-page :is(input, textarea):focus { border-color: var(--chatly-accent); box-shadow: var(--chatly-focus); outline: 0; }
 .search-page .person-row { border: 1px solid transparent; }
 .search-page .person-row:hover { border-color: var(--chatly-border); background: var(--surface, #fff); }
+
+
+/* Batch 2.3 — notifications */
+.notifications-page { width: min(100% - 28px, 760px); margin: 24px auto 96px; }
+.notification-item { display: flex; align-items: flex-start; gap: 12px; padding: 15px 16px; border-bottom: 1px solid var(--chatly-border); background: var(--surface, #fff); transition: background .15s ease; }
+.notification-item:hover { background: var(--chatly-canvas); }
+.notification-item.is-unread, .notification-item[aria-current="true"] { background: var(--chatly-accent-soft); }
+.notification-item :is(p, small) { overflow-wrap: anywhere; }
