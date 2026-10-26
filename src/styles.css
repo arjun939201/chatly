@@ -4721,3 +4721,10 @@ img,video{max-width:100%}
 .profile-bio p,.post-content,.comment-body{line-height:1.65;overflow-wrap:anywhere}
 small,.muted-text{letter-spacing:.005em}
 
+
+/* Round 2 / 02 — navigation dropdown touch and focus */
+.global-profile-dropdown{border:1px solid var(--chatly-border);border-radius:16px;box-shadow:var(--chatly-shadow-soft);padding:6px;background:#fff}
+.global-profile-dropdown button{min-width:42px;min-height:42px;border-radius:11px;transition:background .15s ease,color .15s ease}
+.global-profile-dropdown button:hover{background:#f0edff;color:var(--chatly-accent)}
+.global-profile-trigger{min-width:44px;min-height:44px}
+
