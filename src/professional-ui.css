@@ -1468,3 +1468,9 @@ html { -webkit-text-size-adjust: 100%; }
   outline-offset: 2px;
 }
 .app-shell :is(.post-actions button[aria-pressed="true"], .notification-filters button[aria-pressed="true"]) { font-weight: 750; }
+
+/* Batch 8.8 — link readability and content navigation */
+.app-shell a { text-underline-offset: .18em; }
+.app-shell :is(.post-body, .comment-message, .notification-copy, .person-copy) { overflow-wrap: anywhere; }
+.app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 84px; }
+@media (max-width: 600px) { .app-shell :is(h1, h2, h3, [id]) { scroll-margin-top: 68px; } }
