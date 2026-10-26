@@ -1149,3 +1149,14 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .search-page .explore-home-post time { display: block; margin-top: 7px; }
 .search-page .search-page-input, .search-page .search-kind-tabs { max-width: 100%; }
 @media (min-width: 900px) { .search-page .search-page-content { max-width: 860px; margin-inline: auto; } }
+
+
+/* Batch 5.1 — profile page structure and visual hierarchy */
+.profile-page { display: grid; gap: 18px; }
+.profile-page-head { min-height: 44px; }
+.profile-page-head h2 { font-weight: 780; }
+.profile-summary { position: relative; }
+.profile-summary .profile-avatar { width: clamp(76px, 12vw, 112px); height: clamp(76px, 12vw, 112px); display: grid; place-items: center; overflow: hidden; border-radius: 50%; font-size: clamp(28px, 5vw, 42px); font-weight: 750; }
+.profile-summary .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-bio { margin: 0; padding-inline: 4px; }
+.profile-bio > strong { font-size: 17px; font-weight: 750; }
