@@ -941,3 +941,14 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .chat-layout .conversation-header { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .chat-layout .conversation-header > * { min-width: 0; }
 .chat-layout .conversation-title-copy { flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; }
+
+
+/* Batch 3.2 — conversation search and filters */
+.chat-layout .search-box { display: flex; align-items: center; gap: 8px; min-height: 42px; }
+.chat-layout .search-box input { flex: 1 1 auto; min-width: 0; }
+.chat-layout .chat-search-clear { display: inline-grid; place-items: center; min-width: 32px; min-height: 32px; }
+.chat-layout .chat-filter-row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.chat-layout .chat-filter-row::-webkit-scrollbar { display: none; }
+.chat-layout .chat-filter-row button { flex: 0 0 auto; min-height: 36px; padding: 7px 11px; white-space: nowrap; }
+.chat-layout .chat-filter-row button[aria-pressed="true"], .chat-layout .chat-filter-row button.active { color: var(--chatly-accent); background: var(--chatly-accent-soft); }
+.chat-layout .chat-search-empty { padding: 22px 14px; text-align: center; }
