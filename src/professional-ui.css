@@ -1628,3 +1628,14 @@ html { -webkit-text-size-adjust: 100%; }
 @keyframes chatly-skeleton-wave { from { background-position: 100% 0; } to { background-position: -100% 0; } }
 @media (prefers-reduced-motion: reduce) { .app-shell :is(.skeleton, .loading-skeleton, [data-skeleton="true"]) { animation: none; } }
 
+
+
+/* Batch 10.3 — empty-state hierarchy */
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty, .empty-chat) {
+  color: var(--chatly-muted); line-height: 1.55;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty) :is(h2, h3) {
+  margin: 0; color: var(--text, var(--chatly-ink)); font-size: 16px; font-weight: 750; letter-spacing: -.02em;
+}
+.app-shell :is(.feed-empty, .profile-posts-empty, .comments-empty-state, .notifications-empty) p { margin: 5px 0 0; }
+
