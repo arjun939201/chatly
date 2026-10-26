@@ -5949,3 +5949,21 @@ button.header-notifications,
 .header-notifications::after { content:none!important; display:none!important; }
 .header-notifications:hover,
 .header-notifications:active { background-color:transparent!important; box-shadow:none!important; }
+
+
+/* Profile page: tighten vertical rhythm without reducing component dimensions. */
+.profile-page .profile-page-head { margin-bottom: 0; }
+.profile-page .profile-summary { padding-top: 12px; padding-bottom: 8px; }
+.profile-page .profile-bio { margin-top: 0; }
+.profile-page .profile-bio p { margin-bottom: 8px; }
+.profile-page .profile-edit-button { margin-top: 0; }
+.profile-page .profile-grid-heading { margin-top: 14px; padding-top: 12px; padding-bottom: 12px; }
+.profile-page .profile-post-grid { margin-top: 8px; }
+@media (max-width: 600px) {
+  .profile-page { padding-top: 0; }
+  .profile-page .profile-summary { padding-top: 10px; padding-bottom: 8px; }
+  .profile-page .profile-bio { margin-bottom: 8px; }
+  .profile-page .profile-bio p { margin-bottom: 8px; }
+  .profile-page .profile-grid-heading { margin-top: 12px; padding-top: 10px; padding-bottom: 10px; }
+  .profile-page .profile-post-grid { margin-top: 8px; }
+}
