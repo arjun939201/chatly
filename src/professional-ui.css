@@ -898,3 +898,17 @@ body { min-width: 320px; min-height: 100dvh; text-rendering: optimizeLegibility;
 .feed-page .comment-item .comment-avatar-link { min-width: 34px; min-height: 34px; }
 .feed-page .comment-own-actions { display: flex; align-items: center; gap: 4px; }
 .feed-page .comment-action-button { min-width: 34px; min-height: 34px; }
+
+
+/* Batch 2.9 — comment composer and inline editing */
+.feed-page .comment-composer { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 8px; padding-top: 12px; border-top: 1px solid var(--chatly-border); }
+.feed-page .comment-composer textarea { flex: 1 1 160px; min-height: 42px; max-height: 140px; padding: 10px 12px; border: 1px solid var(--chatly-border); border-radius: 14px; }
+.feed-page .comment-composer textarea:focus-visible { border-color: var(--chatly-accent); }
+.feed-page .comment-composer button[type="submit"] { min-height: 42px; padding-inline: 15px; }
+.feed-page .comment-character-count { flex: 0 0 100%; text-align: right; color: var(--muted, var(--chatly-muted)); font-size: 11px; }
+.feed-page .comment-submit-error { flex: 0 0 100%; margin: 0; color: var(--chatly-danger); font-size: 12px; }
+.feed-page .comment-edit-form { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 7px; }
+.feed-page .comment-edit-form textarea { grid-column: 1 / -1; width: 100%; min-height: 70px; }
+.feed-page .comment-edit-form button { min-height: 36px; padding-inline: 10px; }
+.feed-page .comment-edit-form button:disabled { opacity: .55; }
+.feed-page .comment-message.comment-actions-open { position: relative; }
