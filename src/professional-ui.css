@@ -2618,3 +2618,11 @@ html { -webkit-text-size-adjust: 100%; }
  .app-shell .notification-activity-copy p{margin:4px 0;line-height:1.4}
  .app-shell .notification-post-preview{margin-top:4px;padding:8px 10px;line-height:1.4}
 }
+
+
+/* Global notifications shortcut sits immediately before the profile avatar. */
+.app-shell .topbar{display:flex;align-items:center;}
+.app-shell .global-notification-trigger{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;flex:0 0 42px;margin-left:auto;margin-right:10px;border:0;border-radius:50%;background:#17171b;color:#fff;box-shadow:0 2px 7px rgba(0,0,0,.14);cursor:pointer;}
+.app-shell .global-notification-trigger svg{width:20px;height:20px;}
+.app-shell .topbar .global-profile-menu{margin-left:0;}
+@media(max-width:480px){.app-shell .global-notification-trigger{width:38px;height:38px;flex-basis:38px;margin-right:8px}}
