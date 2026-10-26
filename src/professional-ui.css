@@ -1842,3 +1842,11 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(.feed-filter-tabs button[aria-selected="true"], .chat-filter-row button[aria-selected="true"],
   .notification-filters button[aria-selected="true"]) { font-weight: 750; }
 
+
+
+/* Batch 12.6 — link and text action polish */
+.app-shell :is(.post-follow-button, .notification-link, .profile-link, .chat-link) {
+  transition: color 140ms ease, opacity 140ms ease;
+}
+.app-shell :is(.post-follow-button, .notification-link, .profile-link, .chat-link):hover { opacity: .86; }
+
