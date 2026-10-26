@@ -5346,3 +5346,69 @@ textarea{max-width:100%;resize:vertical;}
     padding: 17px 18px 15px;
   }
 }
+
+
+/* Comment rows and message bubbles — tighten metadata and improve readable rhythm. */
+.feed-page .comments-modal .comment-item {
+  align-items: start;
+  column-gap: 12px;
+  margin-bottom: 20px;
+}
+.feed-page .comments-modal .comment-meta {
+  min-width: 0;
+  column-gap: 7px;
+  row-gap: 4px;
+}
+.feed-page .comments-modal .comment-name {
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+.feed-page .comments-modal .comment-username,
+.feed-page .comments-modal .comment-meta time {
+  font-size: 11px;
+  line-height: 1.4;
+}
+.feed-page .comments-modal .comment-you-label {
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--chatly-brand, #8172e9) 12%, transparent);
+  color: var(--chatly-brand, #7565db);
+  font-size: 10px;
+  font-weight: 700;
+}
+.feed-page .comments-modal .comment-message {
+  max-width: min(100%, 540px);
+  padding: 12px 15px 54px;
+  border-radius: 5px 16px 16px 16px;
+  box-shadow: 0 1px 1px rgba(30, 25, 55, .025);
+}
+.feed-page .comments-modal .comment-item-own .comment-message {
+  border-radius: 16px 5px 16px 16px;
+}
+.feed-page .comments-modal .comment-message > p {
+  font-size: 14px;
+  line-height: 1.55;
+}
+.feed-page .comments-modal .comment-message .comment-actions-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  border-color: color-mix(in srgb, var(--border, #e7e7ef) 80%, transparent);
+  box-shadow: 0 1px 2px rgba(24, 20, 48, .04);
+}
+.feed-page .comments-modal .comment-message .comment-own-actions {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--border, #e7e7ef);
+  border-radius: 12px;
+  background: var(--surface, #fff);
+  box-shadow: 0 8px 24px rgba(24, 20, 48, .12);
+}
+@media (max-width: 600px) {
+  .feed-page .comments-modal .comment-item { column-gap: 10px; margin-bottom: 18px; }
+  .feed-page .comments-modal .comment-message { max-width: 100%; padding: 11px 13px 52px; }
+  .feed-page .comments-modal .comment-message > p { font-size: 13.5px; }
+}
