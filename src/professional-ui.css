@@ -2286,3 +2286,14 @@ html { -webkit-text-size-adjust: 100%; }
   overscroll-behavior: contain; isolation: isolate;
 }
 
+
+
+/* Batch 20.3 — responsive layout foundation */
+.app-shell :is(.feed-page, .chat-layout, .profile-page, .search-page, .destination-page) {
+  width: auto; max-width: 100%; min-width: 0;
+}
+@media (max-width: 600px) {
+  .app-shell :is(.feed-page, .profile-page, .search-page, .destination-page) { padding-inline: 12px; }
+  .app-shell :is(.feed-heading-row, .profile-page-head, .notification-feed-heading) { flex-wrap: wrap; }
+}
+
