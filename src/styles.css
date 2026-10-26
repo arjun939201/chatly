@@ -4661,3 +4661,10 @@ body{color:var(--chatly-ink);background:#f6f6fb}
 .icon-button:hover{background:#e9e6ff;color:var(--chatly-accent-hover)}
 .icon-button:active,.account-profile:active{transform:scale(.97)}
 
+
+/* Chatly UI batch 03: feed surfaces */
+.post-card{border:1px solid var(--chatly-border);border-radius:var(--chatly-radius-lg);background:var(--chatly-surface);box-shadow:0 3px 14px rgba(42,36,89,.035);transition:box-shadow .2s ease,border-color .2s ease}
+.post-card:hover{border-color:#dedaf8;box-shadow:var(--chatly-shadow-soft)}
+.post-body{overflow-wrap:anywhere;line-height:1.65}
+.post-media{overflow:hidden;border-radius:var(--chatly-radius-md)}
+
