@@ -1997,3 +1997,9 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell :is(button:disabled, [aria-disabled="true"]) { opacity: .58; }
 .app-shell [aria-busy="true"] { pointer-events: none; }
 
+
+
+/* Batch 14.7 — minimal content layout */
+.app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) { min-width: 0; max-width: 100%; }
+.app-shell :is(.empty-state, .no-results, .empty-notifications, .empty-chat-state) :is(p, h2, h3) { overflow-wrap: anywhere; }
+
