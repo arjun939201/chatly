@@ -10,13 +10,13 @@ test("global account trigger opens a dedicated side navigation", () => {
   assert.match(app, /setProfileMenuOpen\(v => !v\)/);
   assert.match(app, /global-profile-drawer/);
   assert.match(app, /global-profile-backdrop/);
-  assert.match(app, /aria-label="Close account menu"/);
+  assert.match(app, /aria-label="Close navigation menu"/);
 });
 
 test("account drawer exposes only the agreed destinations", () => {
   const drawerStart = app.indexOf('className="global-profile-drawer"');
   assert.notEqual(drawerStart, -1);
-  const drawerEnd = app.indexOf("</aside>", drawerStart);
+  const drawerEnd = app.indexOf("</nav>", drawerStart);
   assert.notEqual(drawerEnd, -1);
   const drawer = app.slice(drawerStart, drawerEnd);
   for (const label of ["Profile", "History", "Settings", "Log out"]) {
