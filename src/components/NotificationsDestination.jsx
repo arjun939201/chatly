@@ -56,11 +56,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
     setUnreadCount(0);
   }
 
-  // Opening Notifications marks all currently unread activity as read.
-  useEffect(() => {
-    if (!loading && unreadCount > 0) markAllRead();
-  }, [loading, unreadCount, session?.user?.id]);
-
+  // Keep unread activity unread until the user explicitly marks it read.
   const loadNotifications = useCallback(async (silent = false, append = false) => {
     if (!session?.user?.id) {
       setItems([]);
