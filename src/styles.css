@@ -6637,3 +6637,75 @@ html,body,#root{min-width:0;max-width:100%;overflow-x:clip}
 @media(prefers-reduced-motion:reduce){
  .feed-page .comments-modal .comment-item .comment-own-actions{transition:none}
 }
+
+
+/* Comment actions mirror chat messages: reveal controls only for the active comment. */
+.feed-page .comments-modal .comment-message .comment-own-actions {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(3px) !important;
+}
+.feed-page .comments-modal .comment-item:hover .comment-message .comment-own-actions,
+.feed-page .comments-modal .comment-item:focus-within .comment-message .comment-own-actions,
+.feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+}
+.feed-page .comments-modal .comment-message .comment-actions-toggle {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .feed-page .comments-modal .comment-item:hover .comment-message .comment-own-actions {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(3px) !important;
+  }
+  .feed-page .comments-modal .comment-message .comment-actions-toggle {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    z-index: 6;
+    right: 7px;
+    bottom: 7px;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    border: 1px solid var(--chatly-border, #e8e7f0);
+    border-radius: 10px;
+    background: var(--surface, #fff);
+    color: var(--muted, #77778b);
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    right: 48px;
+    max-width: calc(100% - 58px);
+  }
+  .feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .feed-page .comments-modal .comment-message .comment-actions-toggle {
+    display: none !important;
+  }
+}
+.feed-page .comments-modal .comment-message .comment-actions-toggle:focus-visible,
+.feed-page .comments-modal .comment-message .comment-own-actions .comment-action-button:focus-visible {
+  outline: 2px solid var(--chatly-accent, #6557e8);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    transition: none !important;
+  }
+}
