@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { MessageCircle, LogOut, UserRound, MessagesSquare, Settings, X, Camera, Save, KeyRound, Search, Bell, Heart, Users, MoreHorizontal, Grid3X3, Minimize2, Maximize2, ArrowLeft } from "lucide-react";
 import { supabase } from "./lib/supabase";
+import { getStoredValue, getStoredJSON, setStoredValue, setStoredJSON } from "./lib/safeStorage.js";
 import Auth from "./components/Auth.jsx";
 import Chat from "./components/Chat.jsx";
 import Feed from "./components/Feed.jsx";
@@ -23,21 +24,21 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsView, setSettingsView] = useState("home");
   const [settingsSubpage, setSettingsSubpage] = useState(false);
-  const [fontSize, setFontSize] = useState(() => localStorage.getItem("chatly-font-size") || "medium");
-  const [fontFamily, setFontFamily] = useState(() => localStorage.getItem("chatly-font-family") || "system");
+  const [fontSize, setFontSize] = useState(() => getStoredValue("chatly-font-size", "medium"));
+  const [fontFamily, setFontFamily] = useState(() => getStoredValue("chatly-font-family", "system"));
   const [fontSizeExpanded, setFontSizeExpanded] = useState(false);
   const [fontFamilyExpanded, setFontFamilyExpanded] = useState(false);
   const [passwordExpanded, setPasswordExpanded] = useState(false);
   const [settingsExpanded, setSettingsExpanded] = useState({ chats: false, notifications: false, privacy: false });
-  const [chatPrefs, setChatPrefs] = useState(() => { const defaults = { enterToSend: true, mediaPreview: true, readReceipts: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, privateProfile: false, messageRequests: true, autoDownloadMedia: true }; try { return { ...defaults, ...JSON.parse(localStorage.getItem("chatly-chat-prefs") || "{}") }; } catch { return defaults; } });
-  useEffect(() => { localStorage.setItem("chatly-chat-prefs", JSON.stringify(chatPrefs)); }, [chatPrefs]);
+  const [chatPrefs, setChatPrefs] = useState(() => { const defaults = { enterToSend: true, mediaPreview: true, readReceipts: true, messageAlerts: true, activityAlerts: true, likesAlerts: true, commentAlerts: true, mentionAlerts: true, privateProfile: false, messageRequests: true, autoDownloadMedia: true }; return { ...defaults, ...(getStoredJSON("chatly-chat-prefs", {}) || {}) }; });
+  useEffect(() => { setStoredJSON("chatly-chat-prefs", chatPrefs); }, [chatPrefs]);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [tab, setTab] = useState("feed");
   const [searchInitialQuery, setSearchInitialQuery] = useState("");
-  const [theme, setTheme] = useState(() => localStorage.getItem("chatly-theme") || "system");
+  const [theme, setTheme] = useState(() => getStoredValue("chatly-theme", "system"));
   const [systemDark, setSystemDark] = useState(() => window.matchMedia?.("(prefers-color-scheme: dark)").matches || false);
   useEffect(() => {
-    localStorage.setItem("chatly-theme", theme);
+    setStoredValue("chatly-theme", theme);
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const update = () => setSystemDark(media.matches);
     update();
@@ -45,7 +46,7 @@ export default function App() {
     return () => media.removeEventListener?.("change", update);
   }, [theme]);
   const effectiveTheme = theme === "system" ? (systemDark ? "dark" : "light") : theme;
-  useEffect(() => { localStorage.setItem("chatly-font-size", fontSize); localStorage.setItem("chatly-font-family", fontFamily); }, [fontSize, fontFamily]);
+  useEffect(() => { setStoredValue("chatly-font-size", fontSize); setStoredValue("chatly-font-family", fontFamily); }, [fontSize, fontFamily]);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
   useEffect(() => {
     if (!session?.user?.id) { setUnreadNotifications(0); return undefined; }
