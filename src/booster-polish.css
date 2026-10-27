@@ -2,7 +2,6 @@
    Imported after existing page styles so this stays a small, reversible polish layer. */
 
 :root {
-  color-scheme: light;
   --chatly-hit-target: 40px;
 }
 
