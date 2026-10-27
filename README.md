@@ -51,6 +51,20 @@ Chatly/
 - Run `npm test` for source-level regression checks and `npm run build` for the production bundle. GitHub Actions runs both on pushes and pull requests targeting `main`.
 - Only configure public Supabase keys and a referrer-restricted YouTube API key in frontend variables. Never expose a service-role key in a `VITE_*` variable.
 
+## Release verification checklist
+
+Before promoting a deployment, verify these items against the actual Supabase project:
+
+- [ ] Confirm the latest GitHub Actions run has passed both `npm test` and `npm run build`.
+- [ ] Confirm the frontend has `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` configured in the target environment.
+- [ ] Apply the SQL schema and unapplied migrations in order; verify the required tables and RPCs exist before testing the UI.
+- [ ] Verify Row Level Security policies for posts, comments, likes, saves, notifications, direct messages, and group membership using separate test accounts.
+- [ ] Test unread/read transitions, live message delivery, and notification updates with two accounts in separate sessions.
+- [ ] Check mobile widths and keyboard-only navigation on the deployed site.
+- [ ] Never place a Supabase service-role key in browser variables or commit secrets to the repository.
+
+A green build confirms compilation and repository regression checks only; it does not prove that production credentials, database schema, RLS policies, or realtime publication settings are correct.
+
 ## Important notes
 
 - This is a starter app, not a production-audited messaging platform.
