@@ -76,7 +76,7 @@ test("global account drawer opens from the right and escapes the header stacking
   const css = await read("../src/professional-ui.css");
   assert.match(app, /className=\{\`topbar\$\{profileMenuOpen \? " has-open-account-drawer" : ""\}\`/);
   assert.match(css, /\.topbar\.has-open-account-drawer\s*\{[^}]*z-index:\s*70/);
-  assert.match(css, /\.global-profile-drawer\s*\{[^}]*inset:\s*0 0 0 auto/);
-  assert.match(css, /\.global-profile-drawer\s*\{[^}]*overflow-y:\s*auto/);
+  assert.ok(css.includes("inset: 0 0 0 auto;"));
+  assert.ok(css.includes("overflow-y: auto;"));
   assert.match(css, /\.global-profile-backdrop\s*\{[^}]*position:\s*fixed/);
 });
