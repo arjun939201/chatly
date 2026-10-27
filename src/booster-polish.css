@@ -138,3 +138,34 @@
     transition: none;
   }
 }
+
+
+/* Feed comment actions: reveal the trigger only when its own comment is targeted. */
+@media (hover: hover) and (pointer: fine) {
+  .feed-page .comments-modal .comment-message .comment-actions-toggle {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 140ms ease, visibility 140ms ease;
+  }
+  .feed-page .comments-modal .comment-message:hover .comment-actions-toggle,
+  .feed-page .comments-modal .comment-message:focus-within .comment-actions-toggle,
+  .feed-page .comments-modal .comment-message.comment-actions-open .comment-actions-toggle,
+  .feed-page .comments-modal .comment-message .comment-actions-toggle:focus-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .feed-page .comments-modal .comment-message .comment-actions-toggle {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .comments-modal .comment-message .comment-actions-toggle {
+    transition: none;
+  }
+}
