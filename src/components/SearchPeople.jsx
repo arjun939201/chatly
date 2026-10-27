@@ -30,8 +30,8 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
     <section className="search-people dedicated-search-page">
       <ExploreSearchInput query={query} onQueryChange={setQuery} />
       <div className="dedicated-search-tabs" role="tablist" aria-label="Search categories">
-        <button type="button" role="tab" id="explore-tab-people" aria-selected={kind === "people"} className={kind === "people" ? "active" : ""} onClick={() => setKind("people")}><Users size={16}/> People</button>
-        <button type="button" role="tab" id="explore-tab-posts" aria-selected={kind === "posts"} className={kind === "posts" ? "active" : ""} onClick={() => setKind("posts")}><FileText size={16}/> Posts</button>
+        <button type="button" role="tab" id="explore-tab-people" aria-controls="explore-results" tabIndex={kind === "people" ? 0 : -1} aria-selected={kind === "people"} className={kind === "people" ? "active" : ""} onClick={() => setKind("people")}><Users size={16}/> People</button>
+        <button type="button" role="tab" id="explore-tab-posts" aria-controls="explore-results" tabIndex={kind === "posts" ? 0 : -1} aria-selected={kind === "posts"} className={kind === "posts" ? "active" : ""} onClick={() => setKind("posts")}><FileText size={16}/> Posts</button>
       </div>
       {!hasQuery ? <div className="dedicated-search-empty"><SearchIcon size={24}/><h3>What are you looking for?</h3><p>Enter a name, username, or words from a post above.</p></div>
       : <div id="explore-results" role="tabpanel" aria-labelledby={`explore-tab-${kind}`}>

@@ -192,7 +192,7 @@ export default function NotificationsDestination({ session, onOpenProfile }) {
                     <p><button type="button" className="notification-actor-link" onClick={() => onOpenProfile?.(item.actor)} disabled={!item.actor?.id}>{actorName}</button>{others > 0 && <>, <strong>{others} {others === 1 ? "other" : "others"}</strong></>} {item.type === "like" ? "liked your post" : item.type === "comment" ? "commented on your post" : "started following you"}{item.type === "comment" && item.body ? `: “${item.body.length > 180 ? `${item.body.slice(0, 177)}…` : item.body}”` : ""}</p>
                     <span>{relativeTime(item.created_at || item.post.created_at)}</span>
                     
-                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}{!item.read_at && <button type="button" className="notification-mark-read" onClick={() => markRead(item.id)}>Mark read</button>}
+                    {item.type !== "follow" && item.post.body && <small className="notification-post-preview">{item.post.body}</small>}{!item.read_at && <button type="button" className="notification-mark-read" aria-label="Mark notification as read" onClick={() => markRead(item.id)}>Mark read</button>}
                   </div>
                 </article></React.Fragment>;
               })}

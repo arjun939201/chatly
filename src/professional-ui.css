@@ -3870,3 +3870,164 @@ html { -webkit-text-size-adjust: 100%; }
     transition: none !important;
   }
 }
+
+
+/* Focused destination polish: search, public profiles, notifications, and settings. */
+.app-shell .dedicated-search-page {
+  width: min(100% - 32px, 760px);
+  margin-inline: auto;
+  min-width: 0;
+}
+.app-shell .dedicated-search-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--chatly-border);
+  border-radius: 14px;
+  background: var(--chatly-surface);
+}
+.app-shell .dedicated-search-tabs [role="tab"] {
+  min-height: 38px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: var(--chatly-muted);
+  font-weight: 600;
+  transition: background-color .16s ease, color .16s ease;
+}
+.app-shell .dedicated-search-tabs [role="tab"].active {
+  color: var(--chatly-ink);
+  background: var(--chatly-accent-soft);
+}
+.app-shell .dedicated-search-empty {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: clamp(28px, 6vw, 56px) 18px;
+  text-align: center;
+  color: var(--chatly-muted);
+}
+.app-shell .dedicated-search-empty h3,
+.app-shell .notification-empty-state h3 {
+  margin: 0;
+  color: var(--chatly-ink);
+  font-size: 1rem;
+  font-weight: 650;
+}
+.app-shell .dedicated-search-empty p,
+.app-shell .notification-empty-state p {
+  max-width: 42ch;
+  margin: 0;
+  line-height: 1.55;
+}
+.app-shell .public-profile-page .profile-view {
+  width: min(100% - 32px, 820px);
+  margin-inline: auto;
+  min-width: 0;
+}
+.app-shell .public-profile-page .profile-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--chatly-border);
+  border-radius: 11px;
+  background: var(--chatly-surface);
+  color: var(--chatly-ink);
+  font-weight: 600;
+}
+.app-shell .public-profile-page .profile-back:hover {
+  background: var(--chatly-canvas);
+}
+.app-shell .public-profile-page .profile-identity,
+.app-shell .public-profile-page .profile-post {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .public-profile-page .profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.app-shell .public-profile-page .profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.app-shell .public-profile-page .profile-post-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.app-shell .public-profile-page .profile-post {
+  padding: 14px;
+  border: 1px solid var(--chatly-border);
+  border-radius: var(--chatly-radius-md);
+  background: var(--chatly-surface);
+}
+.app-shell .notification-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+.app-shell .notification-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+.app-shell .notification-filter-row button,
+.app-shell .notification-heading-actions button {
+  min-height: 36px;
+}
+.app-shell .notification-heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.app-shell .notification-activity-item {
+  min-width: 0;
+}
+.app-shell .notification-activity-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.app-shell .st-settings .st-nav-row {
+  min-height: 64px;
+}
+.app-shell .st-settings .st-nav-row:focus-visible,
+.app-shell .dedicated-search-tabs [role="tab"]:focus-visible,
+.app-shell .public-profile-page .profile-back:focus-visible,
+.app-shell .notification-controls-row button:focus-visible {
+  outline: 2px solid var(--chatly-accent);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .app-shell .dedicated-search-page,
+  .app-shell .public-profile-page .profile-view {
+    width: calc(100% - 24px);
+  }
+  .app-shell .notification-controls-row {
+    align-items: stretch;
+  }
+  .app-shell .notification-heading-actions {
+    justify-content: flex-end;
+  }
+  .app-shell .public-profile-page .profile-post-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .app-shell .dedicated-search-tabs [role="tab"] {
+    flex: 1 1 auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .dedicated-search-tabs [role="tab"] {
+    transition: none;
+  }
+}
