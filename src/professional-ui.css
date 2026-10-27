@@ -4103,3 +4103,34 @@ html { -webkit-text-size-adjust: 100%; }
   overflow-y: auto !important;
   overscroll-behavior: contain;
 }
+
+
+/* Chat batch 1 — keep message controls quiet until the message is engaged. */
+.chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(2px);
+  transition: opacity 140ms ease, transform 140ms ease, background-color 140ms ease;
+}
+.chat-layout .message:is(:hover,:focus-within) .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete):focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+@media (hover: none), (pointer: coarse) {
+  .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+    transition: none;
+  }
+}
