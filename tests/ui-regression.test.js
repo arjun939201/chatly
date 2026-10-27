@@ -69,3 +69,14 @@ test("notification filter controls remain horizontally usable on small screens",
   assert.match(css, /\.notification-filter-row button\s*\{[^}]*white-space:\s*nowrap/);
   assert.match(css, /@media \(max-width: 520px\)/);
 });
+
+
+test("global account drawer opens from the right and escapes the header stacking layer", async () => {
+  const app = await read("../src/App.jsx");
+  const css = await read("../src/professional-ui.css");
+  assert.match(app, /className=\{\`topbar\$\{profileMenuOpen \? " has-open-account-drawer" : ""\}\`/);
+  assert.match(css, /\.topbar\.has-open-account-drawer\s*\{[^}]*z-index:\s*70/);
+  assert.match(css, /\.global-profile-drawer\s*\{[^}]*inset:\s*0 0 0 auto/);
+  assert.match(css, /\.global-profile-drawer\s*\{[^}]*overflow-y:\s*auto/);
+  assert.match(css, /\.global-profile-backdrop\s*\{[^}]*position:\s*fixed/);
+});
