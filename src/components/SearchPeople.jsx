@@ -13,6 +13,9 @@ export default function SearchPeople({ session, requestedProfile, onProfileReque
   } = useExploreData(query);
   const hasQuery = Boolean(query.trim());
 
+  // Keep search state in sync when navigation opens this page with a new query.
+  useEffect(() => { setQuery(initialQuery || ""); }, [initialQuery]);
+
   useEffect(() => {
     if (!requestedProfile) return;
     onOpenProfile?.(requestedProfile);
