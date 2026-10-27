@@ -62,7 +62,7 @@ export default function App() {
   useEffect(() => {
     if (!profileMenuOpen) return;
     function closeOnOutsideClick(event) {
-      if (!event.target.closest(".global-profile-menu, .profile-page-head")) setProfileMenuOpen(false);
+      if (!event.target.closest(".global-profile-menu, .global-profile-drawer, .profile-page-head, .profile-dropdown")) setProfileMenuOpen(false);
     }
     document.addEventListener("pointerdown", closeOnOutsideClick);
     function closeOnEscape(event) { if (event.key === "Escape") setProfileMenuOpen(false); }

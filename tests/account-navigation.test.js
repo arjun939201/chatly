@@ -85,3 +85,9 @@ test("history styling includes author identity and narrow-screen adjustments", (
   assert.match(styles, /\.history-author-avatar/);
   assert.match(styles, /@media \(max-width: 600px\)[\s\S]*?\.history-post/);
 });
+
+
+test("portal-rendered account drawer clicks are not mistaken for outside clicks", () => {
+  assert.match(app, /closest\("\.global-profile-menu, \.global-profile-drawer, \.profile-page-head, \.profile-dropdown"\)/);
+  assert.match(app, /createPortal\([\s\S]*?className="global-profile-drawer"/);
+});
