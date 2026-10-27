@@ -80,3 +80,15 @@ test("global account drawer opens from the right and escapes the header stacking
   assert.ok(css.includes("overflow-y: auto;"));
   assert.match(css, /\.global-profile-backdrop\s*\{[^}]*position:\s*fixed/);
 });
+
+
+test("account drawer is portalled to the document body and layered above the app", async () => {
+  const app = await read("../src/App.jsx");
+  const css = await read("../src/professional-ui.css");
+  assert.match(app, /import \{ createPortal \} from "react-dom"/);
+  assert.match(app, /profileMenuOpen && createPortal\(<>/);
+  assert.match(app, /createPortal\([\s\S]*?document\.body\)/);
+  assert.match(css, /\.global-profile-backdrop\s*\{[^}]*z-index:\s*9998\s*!important/);
+  assert.match(css, /\.global-profile-drawer\s*\{[^}]*z-index:\s*9999\s*!important/);
+  assert.match(css, /height:\s*100dvh/);
+});
