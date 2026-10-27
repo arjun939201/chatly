@@ -44,5 +44,5 @@ test("deployment documentation explains migration order and live RLS limits", as
   const readme = await read("../README.md");
   assert.match(readme, /ascending filename order/);
   assert.match(readme, /does not execute SQL migrations or verify live Row Level Security policies/);
-  assert.match(readme, /Never expose a service-role key in a VITE_/);
+  assert.match(readme, /Never expose a service-role key in a `VITE_/);
 });
