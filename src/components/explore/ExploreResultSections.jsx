@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Heart, MessageCircle, UserRound, Users, Youtube } from "lucide-react";
+import { Heart, MessageCircle, UserRound, Users, Video } from "lucide-react";
 
 function Avatar({ person }) {
   return <span className="mini-avatar">{person?.avatar_url ? <img src={person.avatar_url} alt="" /> : (person?.display_name || person?.username || "?").slice(0, 1).toUpperCase()}</span>;
@@ -84,10 +84,10 @@ export function RoomsResults() {
 
 export function YouTubeResults({ videos, loading, error, onPlayVideo }) {
   return <section className="explore-result-section">
-    <h2 className="search-section-title"><Youtube size={17} /> Videos on YouTube</h2>
+    <h2 className="search-section-title"><Video size={17} /> Videos on YouTube</h2>
     <div className="youtube-results">
       {loading ? <p role="status">Searching YouTube…</p> : error ? <p role="alert">{error}</p> : videos.length ? videos.map(video => <button className="youtube-result" type="button" key={video?.id?.videoId || video?.snippet?.title || "video"} onClick={() => onPlayVideo?.(video)} disabled={!video?.id?.videoId}>
-        {(video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url) ? <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url} alt="" loading="lazy" /> : <span className="youtube-result-thumbnail-fallback" aria-hidden="true"><Youtube size={22} /><small>No preview</small></span>}
+        {(video?.snippet?.thumbnails?.medium?.url || video?.snippet?.thumbnails?.default?.url) ? <img src={video.snippet.thumbnails.medium?.url || video.snippet.thumbnails.default.url} alt="" loading="lazy" /> : <span className="youtube-result-thumbnail-fallback" aria-hidden="true"><Video size={22} /><small>No preview</small></span>}
         <span><b>{video?.snippet?.title || "Untitled video"}</b><small>{video?.snippet?.channelTitle || "YouTube"}</small></span>
       </button>) : <p>No YouTube videos found.</p>}
     </div>
