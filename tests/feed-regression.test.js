@@ -186,3 +186,12 @@ test("profile uses a stable responsive layout and has explicit back-to-feed navi
   assert.match(profileStyles, /@media \(max-width: 640px\)[\s\S]*?\.profile-summary \{[\s\S]*?grid-template-columns: clamp\(88px, 23vw, 112px\) minmax\(0, 1fr\)/);
   assert.match(profileStyles, /@media \(max-width: 380px\)[\s\S]*?\.profile-back-button span \{ display: none/);
 });
+
+
+test("comment action trigger stays contextual on desktop and reachable on touch", async () => {
+  const styles = await readFile(new URL("../src/booster-polish.css", import.meta.url), "utf8");
+  assert.match(styles, /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?\.comment-message \.comment-actions-toggle \{[\s\S]*?opacity: 0;[\s\S]*?visibility: hidden/);
+  assert.match(styles, /\.comment-message:hover \.comment-actions-toggle/);
+  assert.match(styles, /\.comment-message:focus-within \.comment-actions-toggle/);
+  assert.match(styles, /@media \(hover: none\), \(pointer: coarse\)[\s\S]*?\.comment-message \.comment-actions-toggle \{[\s\S]*?opacity: 1;[\s\S]*?visibility: visible/);
+});
