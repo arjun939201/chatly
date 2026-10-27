@@ -4058,3 +4058,30 @@ html { -webkit-text-size-adjust: 100%; }
   .notification-filter-row { width: 100%; }
   .notification-heading-actions { width: 100%; justify-content: flex-end; }
 }
+
+
+/* Account navigation opens from the same right edge as the global avatar.
+   Elevate the entire header stacking context so the fixed overlay is not
+   clipped to the header or painted beneath feed cards. */
+.app-shell .topbar.has-open-account-drawer {
+  z-index: 70;
+}
+.app-shell .global-profile-drawer {
+  inset: 0 0 0 auto;
+  border-right: 0;
+  border-left: 1px solid var(--border, #e4e4e9);
+  box-shadow: -14px 0 42px rgb(0 0 0 / 12%);
+  padding-top: max(18px, env(safe-area-inset-top));
+  padding-bottom: max(18px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.app-shell .global-profile-backdrop {
+  touch-action: manipulation;
+}
+@media (max-width: 600px) {
+  .app-shell .global-profile-drawer {
+    width: min(320px, 88vw);
+    padding-inline: 14px;
+  }
+}
