@@ -3,18 +3,21 @@ import { Bell, Heart, MessageCircle, RefreshCw, UserPlus } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 function relativeTime(value) {
-  const seconds = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 1000));
+  const date = new Date(value);
+  if (!value || Number.isNaN(date.getTime())) return "Earlier";
+  const seconds = Math.max(0, Math.floor((Date.now() - date.getTime()) / 1000));
   if (seconds < 60) return "just now";
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
   if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
   if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
-  return new Date(value).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
 
 function dateLabel(value) {
   if (!value) return "Earlier";
   const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Earlier";
   const today = new Date();
   const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const target = new Date(date.getFullYear(), date.getMonth(), date.getDate());
