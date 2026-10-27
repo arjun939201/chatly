@@ -50,3 +50,10 @@ test("Chat conversation preferences use guarded storage helpers", () => {
   assert.match(chat, /chatly-read-markers-/);
   assert.doesNotMatch(chat, /localStorage\.(getItem|setItem)/);
 });
+
+test("unsent chat drafts are restored per signed-in user", () => {
+  const chat = readFileSync(new URL("../src/components/Chat.jsx", import.meta.url), "utf8");
+  assert.match(chat, /chatly-message-drafts-/);
+  assert.match(chat, /setStoredJSON/);
+  assert.match(chat, /getStoredJSON/);
+});

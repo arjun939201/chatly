@@ -31,7 +31,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [active, setActive] = useState(null);
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState("");
-  const [drafts, setDrafts] = useState({});
+  const [drafts, setDrafts] = useState(() => getStoredJSON(`chatly-message-drafts-${session.user.id}`, {}));
   const [historyBusy, setHistoryBusy] = useState(false);
   const [hasOlderMessages, setHasOlderMessages] = useState(false);
   const [replyTo, setReplyTo] = useState(null);
@@ -50,6 +50,8 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [lastMessages, setLastMessages] = useState({});
   const [recentMessages, setRecentMessages] = useState([]);
   const [readMarkers, setReadMarkers] = useState(() => getStoredJSON(`chatly-read-markers-${session.user.id}`, {}));
+  useEffect(() => { setStoredJSON(`chatly-message-drafts-${session.user.id}`, drafts); }, [drafts, session.user.id]);
+
   const bottomRef = useRef(null);
   const messageListRef = useRef(null);
   const shouldAutoScrollRef = useRef(true);
