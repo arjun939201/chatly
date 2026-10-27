@@ -46,3 +46,17 @@ test("deployment documentation explains migration order and live RLS limits", as
   assert.match(readme, /does not execute SQL migrations or verify live Row Level Security policies/);
   assert.match(readme, /Never expose a service-role key in a `VITE_/);
 });
+
+
+test("app shell recovers from render failures without exposing internals", async () => {
+  const [main, boundary] = await Promise.all([
+    read("../src/main.jsx"),
+    read("../src/components/AppErrorBoundary.jsx")
+  ]);
+  assert.match(main, /<AppErrorBoundary>[\\s\\S]*?<App \/>[\\s\\S]*?<\\/AppErrorBoundary>/);
+  assert.match(boundary, /getDerivedStateFromError/);
+  assert.match(boundary, /Something went wrong/);
+  assert.match(boundary, /Try again/);
+  assert.match(boundary, /window\\.location\\.reload\(\)/);
+  assert.doesNotMatch(boundary, /this\\.state\\.error\\.message/);
+});
