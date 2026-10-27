@@ -3623,3 +3623,35 @@ html { -webkit-text-size-adjust: 100%; }
 @media(prefers-reduced-motion:reduce){
  .app-shell *, .app-shell *::before, .app-shell *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+/* Mobile profile polish: compact the summary and remove excess vertical whitespace. */
+.app-shell .profile-page { gap: 14px; }
+.app-shell .profile-page .profile-summary {
+  align-items: start;
+  gap: 18px;
+  padding: 16px;
+}
+.app-shell .profile-page .profile-details { gap: 12px; }
+.app-shell .profile-page > .profile-edit-button {
+  margin-top: 0;
+  min-height: 48px;
+}
+.app-shell .profile-page .profile-grid-heading {
+  margin-top: 0;
+}
+@media (max-width: 640px) {
+  .app-shell .profile-page { gap: 12px; }
+  .app-shell .profile-page .profile-summary {
+    gap: 12px;
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .app-shell .profile-page .profile-details { gap: 10px; }
+  .app-shell .profile-page .profile-details .profile-bio p {
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+  .app-shell .profile-page > .profile-edit-button { min-height: 46px; }
+  .app-shell .profile-page .profile-grid-heading { min-height: 38px; padding-block: 8px; }
+}
