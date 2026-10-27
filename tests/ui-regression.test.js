@@ -55,3 +55,10 @@ test("opening notifications does not silently mark every unread item as read", a
   assert.match(source, /onClick=\{\(\) => markRead\(item\.id\)\}/);
   assert.match(source, /onClick=\{markAllRead\}/);
 });
+
+test("notifications expose an unread-only filter and keep its count visible", async () => {
+  const source = await read("../src/components/NotificationsDestination.jsx");
+  assert.match(source, /\["all",\s*"unread",\s*"like",\s*"comment",\s*"follow"\]/);
+  assert.match(source, /filter === "unread" \? !item\.read_at/);
+  assert.match(source, /Unread\$\{unreadCount/);
+});
