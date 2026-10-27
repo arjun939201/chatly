@@ -19,3 +19,10 @@ test("follow interactions remain disabled while loading or saving", () => {
   assert.match(profile, /if \(ownProfile \|\| busy \|\| loading \|\| !person\?\.id \|\| !session\?\.user\?\.id\) return/);
   assert.match(profile, /disabled=\{busy \|\| loading\}/);
 });
+
+const settings = await readFile(new URL("../src/components/SettingsDestination.jsx", import.meta.url), "utf8");
+
+test("account email settings use a correctly escaped email validation pattern", () => {
+  assert.ok(settings.includes(String.raw`/^[^\s@]+@[^\s@]+\.[^\s@]+$/`));
+  assert.ok(!settings.includes(String.raw`/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/`));
+});
