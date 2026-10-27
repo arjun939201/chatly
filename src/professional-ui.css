@@ -4180,3 +4180,51 @@ html { -webkit-text-size-adjust: 100%; }
     }
   }
 }
+
+
+/* Chatly correction: actions must not consume message layout space or show permanently on touch devices. */
+.chat-layout .message .bubble { position: relative; }
+.chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+  position: absolute;
+  top: -36px;
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(2px);
+}
+.chat-layout .message.mine .bubble > .message-delete { right: 0; }
+.chat-layout .message.mine .bubble > .message-edit { right: 36px; }
+.chat-layout .message.mine .bubble > .message-reply { right: 72px; }
+.chat-layout .message.mine .bubble > .message-copy { right: 108px; }
+.chat-layout .message.theirs .bubble > .message-reply { right: 0; }
+.chat-layout .message.theirs .bubble > .message-copy { right: 36px; }
+.chat-layout .message:is(:hover,:focus-within) .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete),
+.chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete):focus-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.chat-layout .message-list { row-gap: 8px; }
+@media (hover: none), (pointer: coarse) {
+  .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .chat-layout .message:is(:hover,:focus-within) .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete),
+  .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete):focus-visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) { transition: none; }
+}
