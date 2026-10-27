@@ -10,6 +10,7 @@ import SettingsDestination from "./components/SettingsDestination.jsx";
 import NotificationsDestination from "./components/NotificationsDestination.jsx";
 import PublicProfile from "./components/PublicProfile.jsx";
 import DestinationHeader from "./components/DestinationHeader.jsx";
+import HistoryDestination from "./components/HistoryDestination.jsx";
 
 const initialProfile = { display_name: "", username: "", avatar_url: "", bio: "" };
 
@@ -354,6 +355,7 @@ export default function App() {
     </header>}
     {["explore", "search", "notifications"].includes(tab) && <DestinationHeader title={tab === "explore" ? "Explore" : tab === "search" ? "Search" : "Notifications"} subtitle={tab === "explore" ? "Discover conversations, topics, and communities." : tab === "search" ? "Find people to connect with and posts worth reading." : "Stay up to date with your Chatly community."} variant={tab} onBack={() => { setTab("feed"); setProfileMenuOpen(false); }} onLogout={async () => { const { error } = await supabase.auth.signOut(); if (error) setNotice("Could not log out. Please try again."); }} />}
     {tab === "notifications" && <NotificationsDestination session={session} onOpenProfile={openPublicProfile} />}
+    {tab === "history" && <HistoryDestination session={session} onBack={() => setTab("feed")} />}
     {tab === "explore" && <ExploreDestination onOpenSearch={(topic = "") => { setSearchInitialQuery(topic); setTab("search"); }} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} />}
     {tab === "search" && <SearchPeople session={session} initialQuery={searchInitialQuery} requestedProfile={requestedProfile} onProfileRequestHandled={() => setRequestedProfile(null)} onOpenProfile={openPublicProfile} onOpenChats={openChat} onPlayVideo={video => { setGlobalVideo(video); setGlobalPlayerMinimized(false); }} /> }
     {tab === "public-profile" && viewedProfile && <PublicProfile person={viewedProfile} session={session} onBack={() => { setViewedProfile(null); setTab(profileReturnTab); }} onOpenChats={openChat} />}{tab === "feed" && <Feed session={session} profile={profile} onOpenProfile={openPublicProfile} onPostsChanged={refreshMyProfilePosts} onFindFriends={() => setTab("search")} onOpenExplore={() => setTab("explore")} onOpenSearch={() => setTab("search")} onOpenChats={() => { setChatTarget(null); setTab("chats"); }}/>}
