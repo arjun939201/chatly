@@ -43,6 +43,14 @@ Chatly/
    ```
 6. To deploy, push the project to a Git repository and create a Render **Static Site**. Build command: `npm install && npm run build`; publish directory: `dist`. Add the two `VITE_SUPABASE_*` environment variables in Render.
 
+
+## Database migrations and checks
+
+- For a fresh Supabase project, run `supabase/schema.sql` first, then apply every file in `supabase/migrations/` in ascending filename order using the Supabase SQL Editor. For an existing deployment, apply only migrations that have not already been applied.
+- Keep the migration files in version control and apply them to staging before production. The frontend build does not execute SQL migrations or verify live Row Level Security policies.
+- Run `npm test` for source-level regression checks and `npm run build` for the production bundle. GitHub Actions runs both on pushes and pull requests targeting `main`.
+- Only configure public Supabase keys and a referrer-restricted YouTube API key in frontend variables. Never expose a service-role key in a `VITE_*` variable.
+
 ## Important notes
 
 - This is a starter app, not a production-audited messaging platform.
