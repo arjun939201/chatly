@@ -48,3 +48,10 @@ test("CI runs production build and regression tests with a bounded runner", asyn
   assert.match(workflow, /npm test/);
   assert.match(workflow, /cancel-in-progress:\s*true/);
 });
+
+test("opening notifications does not silently mark every unread item as read", async () => {
+  const source = await read("../src/components/NotificationsDestination.jsx");
+  assert.doesNotMatch(source, /Opening Notifications marks all currently unread activity as read/);
+  assert.match(source, /onClick=\{\(\) => markRead\(item\.id\)\}/);
+  assert.match(source, /onClick=\{markAllRead\}/);
+});
