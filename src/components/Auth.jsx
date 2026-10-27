@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, Chrome, ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { MessageCircle, Globe, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { supabase } from "../lib/supabase";
 
 const authRedirectUrl = () => import.meta.env.VITE_AUTH_REDIRECT_URL || window.location.origin;
@@ -126,7 +126,7 @@ export default function Auth() {
       </div>
       {!verificationPending && <>
         <button type="button" className="oauth-button" onClick={googleSignIn} disabled={busy}>
-          <Chrome size={18}/> {busy ? "Connecting…" : "Continue with Google"}
+          <Globe size={18}/> {busy ? "Connecting…" : "Continue with Google"}
         </button>
         <div className="auth-divider"><span>or continue with email</span></div>
         <form onSubmit={submitEmailAuth} className="auth-traditional-form">
