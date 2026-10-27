@@ -6610,3 +6610,30 @@ html,body,#root{min-width:0;max-width:100%;overflow-x:clip}
 @media(max-width:600px){
  .app-shell{overflow-wrap:break-word}
 }
+
+
+/* Match chat message actions: reveal comment tools only for the hovered/focused comment. */
+.feed-page .comments-modal .comment-item{position:relative;min-width:0}
+.feed-page .comments-modal .comment-item .comment-own-actions{
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .14s ease,visibility .14s ease;
+}
+.feed-page .comments-modal .comment-item:hover .comment-own-actions,
+.feed-page .comments-modal .comment-item:focus-within .comment-own-actions,
+.feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions{
+  opacity:1;visibility:visible;pointer-events:auto;
+}
+.feed-page .comments-modal .comment-item .comment-action-button{
+  width:30px;height:30px;min-width:30px;padding:0;border-radius:8px;
+}
+.feed-page .comments-modal .comment-item .comment-action-button:focus-visible{
+  outline:2px solid var(--chatly-brand,#7566e8);outline-offset:2px;
+}
+@media(hover:none){
+ .feed-page .comments-modal .comment-item .comment-own-actions{
+   opacity:1;visibility:visible;pointer-events:auto;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .feed-page .comments-modal .comment-item .comment-own-actions{transition:none}
+}
