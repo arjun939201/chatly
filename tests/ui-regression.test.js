@@ -62,3 +62,10 @@ test("notifications expose an unread-only filter and keep its count visible", as
   assert.match(source, /filter === "unread" \? !item\.read_at/);
   assert.match(source, /Unread\$\{unreadCount/);
 });
+
+test("notification filter controls remain horizontally usable on small screens", async () => {
+  const css = await read("../src/professional-ui.css");
+  assert.match(css, /\.notification-filter-row\s*\{[^}]*overflow-x:\s*auto/);
+  assert.match(css, /\.notification-filter-row button\s*\{[^}]*white-space:\s*nowrap/);
+  assert.match(css, /@media \(max-width: 520px\)/);
+});
