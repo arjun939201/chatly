@@ -4134,3 +4134,49 @@ html { -webkit-text-size-adjust: 100%; }
     transition: none;
   }
 }
+
+
+/* Chat batch 2 — stable composer layout, including reply previews and phone safe areas. */
+.chat-layout .composer {
+  flex-wrap: wrap;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+.chat-layout .composer textarea {
+  flex: 1 1 0%;
+  width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+.chat-layout .composer .send-button {
+  align-self: flex-end;
+}
+.chat-layout .composer .composer-reply-preview {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .app-shell .chat-layout {
+    height: calc(100dvh - 64px - env(safe-area-inset-bottom));
+    max-height: calc(100dvh - 64px - env(safe-area-inset-bottom));
+  }
+  .chat-layout .composer {
+    padding-inline: 10px;
+    gap: 8px;
+  }
+  .chat-layout .composer textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+}
+@supports (height: 100svh) {
+  @media (max-width: 600px) {
+    .app-shell .chat-layout {
+      min-height: 0;
+      height: calc(100svh - 64px - env(safe-area-inset-bottom));
+      max-height: calc(100svh - 64px - env(safe-area-inset-bottom));
+    }
+  }
+}
