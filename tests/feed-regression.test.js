@@ -180,6 +180,7 @@ test("profile uses a stable responsive layout and has explicit back-to-feed navi
   assert.match(profileStyles, /\.app-shell \.profile-page \{[\s\S]*?width: min\(100% - 32px, 820px\)/);
   assert.match(app, /className="profile-details"><div className="profile-counts"/);
   assert.match(app, /className="profile-bio"><strong>/);
+  assert.equal((app.match(/className="profile-bio"/g) || []).length, 1, "profile identity should appear only beside the avatar and stats");
   assert.match(profileStyles, /Profile identity row v2: larger avatar with stats and identity grouped to its right/);
   assert.match(profileStyles, /\.profile-summary > \.profile-avatar \{[\s\S]*?width: clamp\(124px, 17vw, 156px\)/);
   assert.match(profileStyles, /@media \(max-width: 640px\)[\s\S]*?\.profile-summary \{[\s\S]*?grid-template-columns: clamp\(88px, 23vw, 112px\) minmax\(0, 1fr\)/);
