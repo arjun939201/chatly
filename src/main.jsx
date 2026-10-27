@@ -5,6 +5,7 @@ import AppErrorBoundary from "./components/AppErrorBoundary.jsx";
 import "./styles.css";
 import "./professional-ui.css";
 import "./components/FeedHeader.css";
+import "./booster-polish.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
