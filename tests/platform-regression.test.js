@@ -87,3 +87,14 @@ test("notification date formatting handles malformed timestamps safely", async (
   assert.ok(notifications.includes('if (!value || Number.isNaN(date.getTime())) return "Earlier";'));
   assert.ok(notifications.includes('if (Number.isNaN(date.getTime())) return "Earlier";'));
 });
+
+
+test("group creation RPC rejects self-only invites and validates invitee profiles", async () => {
+  const sql = await read("../supabase/migrations/202610270004_harden_group_creation_validation.sql");
+  assert.ok(sql.includes("Select at least one other member to create a group"));
+  assert.ok(sql.includes("requested.user_id <> v_creator"));
+  assert.ok(sql.includes("One or more selected members are unavailable"));
+  assert.ok(sql.includes("from public.profiles p where p.id = v_invitee"));
+  assert.ok(sql.includes("REVOKE ALL ON FUNCTION public.create_group_conversation(text, text, uuid[]) FROM public, anon"));
+  assert.ok(sql.includes("GRANT EXECUTE ON FUNCTION public.create_group_conversation(text, text, uuid[]) TO authenticated"));
+});
