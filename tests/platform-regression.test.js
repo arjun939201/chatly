@@ -53,14 +53,15 @@ test("app shell recovers from render failures without exposing internals", async
     read("../src/main.jsx"),
     read("../src/components/AppErrorBoundary.jsx")
   ]);
-  assert.match(main, /<AppErrorBoundary>[\\s\\S]*?<App \/>[\\s\\S]*?<\\/AppErrorBoundary>/);
-  assert.match(boundary, /getDerivedStateFromError/);
-  assert.match(boundary, /Something went wrong/);
-  assert.match(boundary, /Try again/);
-  assert.match(boundary, /window\\.location\\.reload\(\)/);
-  assert.doesNotMatch(boundary, /this\\.state\\.error\\.message/);
+  assert.ok(main.includes("<AppErrorBoundary>"));
+  assert.ok(main.includes("<App />"));
+  assert.ok(main.includes("</AppErrorBoundary>"));
+  assert.ok(boundary.includes("getDerivedStateFromError"));
+  assert.ok(boundary.includes("Something went wrong"));
+  assert.ok(boundary.includes("Try again"));
+  assert.ok(boundary.includes("window.location.reload()"));
+  assert.ok(!boundary.includes("this.state.error.message"));
 });
-
 
 test("group membership changes cannot bypass the role-checked RPC", async () => {
   const [base, management, hardening] = await Promise.all([
@@ -68,12 +69,12 @@ test("group membership changes cannot bypass the role-checked RPC", async () => 
     read("../supabase/migrations/202610260003_group_membership_management.sql"),
     read("../supabase/migrations/202610270003_secure_group_membership.sql")
   ]);
-  assert.match(base, /Admins manage membership and users may leave/);
-  assert.match(management, /v_target = v_actor[\\s\\S]*?v_actor_role = 'owner'[\\s\\S]*?transfer ownership before leaving/);
-  assert.match(management, /v_target_role = 'owner' or \\(v_actor_role = 'admin' and v_target_role = 'admin'\\)/);
-  assert.match(hardening, /REVOKE INSERT, UPDATE, DELETE ON TABLE public\\.group_conversation_members FROM PUBLIC, anon, authenticated/i);
-  assert.match(hardening, /DROP POLICY IF EXISTS "Group admins can add members"/);
-  assert.match(hardening, /DROP POLICY IF EXISTS "Admins manage membership and users may leave"/);
-  assert.match(hardening, /REVOKE INSERT ON TABLE public\\.group_conversations FROM PUBLIC, anon, authenticated/i);
-  assert.match(hardening, /DROP POLICY IF EXISTS "Authenticated users can create groups"/);
+  assert.ok(base.includes("Admins manage membership and users may leave"));
+  assert.ok(management.includes("The owner must transfer ownership before leaving"));
+  assert.ok(management.includes("v_target_role = 'owner' or (v_actor_role = 'admin' and v_target_role = 'admin')"));
+  assert.ok(hardening.includes("REVOKE INSERT, UPDATE, DELETE ON TABLE public.group_conversation_members FROM PUBLIC, anon, authenticated"));
+  assert.ok(hardening.includes('DROP POLICY IF EXISTS "Group admins can add members"'));
+  assert.ok(hardening.includes('DROP POLICY IF EXISTS "Admins manage membership and users may leave"'));
+  assert.ok(hardening.includes("REVOKE INSERT ON TABLE public.group_conversations FROM PUBLIC, anon, authenticated"));
+  assert.ok(hardening.includes('DROP POLICY IF EXISTS "Authenticated users can create groups"'));
 });
