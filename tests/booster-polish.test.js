@@ -30,3 +30,23 @@ test("long dialogs fit mobile viewports and respect safe areas", () => {
 test("native controls are not forced into a fixed color scheme", () => {
   assert.doesNotMatch(polish, /color-scheme:\s*(light|dark)\s*;/);
 });
+
+
+test("secondary feed actions appear on hover or keyboard focus, not permanently", () => {
+  assert.match(polish, /@media \(hover: hover\) and \(pointer: fine\)/);
+  assert.match(polish, /\.post-card:hover \.post-options-trigger/);
+  assert.match(polish, /\.comment-message:hover \.comment-own-actions/);
+  assert.match(polish, /\.comment-message:focus-within \.comment-own-actions/);
+  assert.match(polish, /@media \(hover: none\), \(pointer: coarse\)/);
+  assert.match(polish, /\.comment-actions-open \.comment-own-actions/);
+});
+
+test("Chat conversation preferences use guarded storage helpers", () => {
+  const chat = readFileSync(new URL("../src/components/Chat.jsx", import.meta.url), "utf8");
+  assert.match(chat, /import \{ getStoredJSON, setStoredJSON \}/);
+  assert.match(chat, /chatly-archived-chats-/);
+  assert.match(chat, /chatly-pinned-chats-/);
+  assert.match(chat, /chatly-muted-chats-/);
+  assert.match(chat, /chatly-read-markers-/);
+  assert.doesNotMatch(chat, /localStorage\.(getItem|setItem)/);
+});

@@ -79,3 +79,62 @@
     min-width: 0;
   }
 }
+
+
+/* Keep secondary feed actions quiet until their post/comment is targeted.
+   Keyboard focus and touch controls remain fully discoverable. */
+@media (hover: hover) and (pointer: fine) {
+  .feed-page .post-card .post-options-trigger {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 140ms ease, visibility 140ms ease;
+  }
+  .feed-page .post-card:hover .post-options-trigger,
+  .feed-page .post-card:focus-within .post-options-trigger,
+  .feed-page .post-card-menu-open .post-options-trigger,
+  .feed-page .post-options-trigger:focus-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .feed-page .comments-modal .comment-message {
+    position: relative;
+  }
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 140ms ease, visibility 140ms ease;
+  }
+  .feed-page .comments-modal .comment-message:hover .comment-own-actions,
+  .feed-page .comments-modal .comment-message:focus-within .comment-own-actions,
+  .feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .feed-page .post-card .post-options-trigger {
+    opacity: 1;
+    visibility: visible;
+  }
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .feed-page .comments-modal .comment-message.comment-actions-open .comment-own-actions {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .post-card .post-options-trigger,
+  .feed-page .comments-modal .comment-message .comment-own-actions {
+    transition: none;
+  }
+}

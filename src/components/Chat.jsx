@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Search, Send, MessageCircle, Users, ArrowLeft, Bookmark, SquarePen, ChevronLeft, Trash2, X, Reply, Copy, Archive, Pin, Bell, BellOff, Pencil, Check } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { getStoredJSON, setStoredJSON } from "../lib/safeStorage.js";
 import CreateGroupDialog from "./CreateGroupDialog";
 
 function Avatar({ person, className = "" }) {
@@ -43,15 +44,12 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
   const [realtimeStatus, setRealtimeStatus] = useState("connecting");
   const [realtimeRetry, setRealtimeRetry] = useState(0);
   const [filter, setFilter] = useState("all");
-  const [archivedChats, setArchivedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-archived-chats-${session.user.id}`) || "[]"); } catch { return []; } });
-  const [pinnedChats, setPinnedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-pinned-chats-${session.user.id}`) || "[]"); } catch { return []; } });
-  const [mutedChats, setMutedChats] = useState(() => { try { return JSON.parse(localStorage.getItem(`chatly-muted-chats-${session.user.id}`) || "[]"); } catch { return []; } });
+  const [archivedChats, setArchivedChats] = useState(() => getStoredJSON(`chatly-archived-chats-${session.user.id}`, []));
+  const [pinnedChats, setPinnedChats] = useState(() => getStoredJSON(`chatly-pinned-chats-${session.user.id}`, []));
+  const [mutedChats, setMutedChats] = useState(() => getStoredJSON(`chatly-muted-chats-${session.user.id}`, []));
   const [lastMessages, setLastMessages] = useState({});
   const [recentMessages, setRecentMessages] = useState([]);
-  const [readMarkers, setReadMarkers] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(`chatly-read-markers-${session.user.id}`) || "{}"); }
-    catch { return {}; }
-  });
+  const [readMarkers, setReadMarkers] = useState(() => getStoredJSON(`chatly-read-markers-${session.user.id}`, {}));
   const bottomRef = useRef(null);
   const messageListRef = useRef(null);
   const shouldAutoScrollRef = useRef(true);
@@ -143,13 +141,12 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     return () => { alive = false; supabase.removeChannel(channel); };
   }, [session.user.id]);
 
-  useEffect(() => { try { localStorage.setItem(`chatly-archived-chats-${session.user.id}`, JSON.stringify(archivedChats)); } catch { /* Session-only fallback. */ } }, [archivedChats, session.user.id]);
-  useEffect(() => { try { localStorage.setItem(`chatly-pinned-chats-${session.user.id}`, JSON.stringify(pinnedChats)); } catch { /* Session-only fallback. */ } }, [pinnedChats, session.user.id]);
-  useEffect(() => { try { localStorage.setItem(`chatly-muted-chats-${session.user.id}`, JSON.stringify(mutedChats)); } catch { /* Session-only fallback. */ } }, [mutedChats, session.user.id]);
+  useEffect(() => { setStoredJSON(`chatly-archived-chats-${session.user.id}`, archivedChats); }, [archivedChats, session.user.id]);
+  useEffect(() => { setStoredJSON(`chatly-pinned-chats-${session.user.id}`, pinnedChats); }, [pinnedChats, session.user.id]);
+  useEffect(() => { setStoredJSON(`chatly-muted-chats-${session.user.id}`, mutedChats); }, [mutedChats, session.user.id]);
 
   useEffect(() => {
-    try { localStorage.setItem(`chatly-read-markers-${session.user.id}`, JSON.stringify(readMarkers)); }
-    catch { /* Browser storage may be unavailable; unread tracking remains session-local. */ }
+    setStoredJSON(`chatly-read-markers-${session.user.id}`, readMarkers);
   }, [readMarkers, session.user.id]);
 
   useEffect(() => {
