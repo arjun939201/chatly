@@ -147,7 +147,6 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
 
   useEffect(() => {
     setStoredJSON(`chatly-read-markers-${session.user.id}`, readMarkers);
-    catch { /* Browser storage may be unavailable; unread tracking remains session-local. */ }
   }, [readMarkers, session.user.id]);
 
   useEffect(() => {
