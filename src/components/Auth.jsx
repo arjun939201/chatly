@@ -98,6 +98,10 @@ export default function Auth() {
   }
 
   async function resetPassword() {
+    if (!supabase) {
+      showMessage("Account services are not configured. Please try again later.", "error");
+      return;
+    }
     if (busy || !email.trim()) {
       showMessage("Enter your email address first.", "error");
       return;
