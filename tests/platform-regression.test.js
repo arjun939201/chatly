@@ -78,3 +78,10 @@ test("group membership changes cannot bypass the role-checked RPC", async () => 
   assert.ok(hardening.includes("REVOKE INSERT ON TABLE public.group_conversations FROM PUBLIC, anon, authenticated"));
   assert.ok(hardening.includes('DROP POLICY IF EXISTS "Authenticated users can create groups"'));
 });
+
+
+test("notification date formatting handles malformed timestamps safely", async () => {
+  const notifications = await read("../src/components/NotificationsDestination.jsx");
+  assert.match(notifications, /function relativeTime\(value\)[\s\S]*?Number\.isNaN\(date\.getTime\(\)\) return "Earlier"/);
+  assert.match(notifications, /function dateLabel\(value\)[\s\S]*?Number\.isNaN\(date\.getTime\(\)\) return "Earlier"/);
+});
