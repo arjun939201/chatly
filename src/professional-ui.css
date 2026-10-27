@@ -3659,34 +3659,34 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* Global account navigation and History destination. */
 .app-shell .global-profile-menu { position: relative; z-index: 61; }
-.app-shell .global-profile-backdrop {
+.global-profile-backdrop {
   position: fixed; inset: 0; z-index: 59; width: 100%; height: 100%;
   border: 0; border-radius: 0; background: rgb(12 12 20 / 42%);
   animation: chatly-nav-fade .16s ease-out;
 }
-.app-shell .global-profile-drawer {
+.global-profile-drawer {
   position: fixed; z-index: 60; inset: 0 auto 0 0; width: min(320px, 86vw);
   padding: 18px 14px; background: var(--surface, #fff); color: var(--text, #17171b);
   border-right: 1px solid var(--border, #e4e4e9); box-shadow: 14px 0 42px rgb(0 0 0 / 12%);
   display: flex; flex-direction: column; gap: 6px; animation: chatly-nav-slide .2s ease-out;
 }
-.app-shell .global-profile-drawer-head {
+.global-profile-drawer-head {
   display: flex; align-items: center; gap: 12px; padding: 8px 4px 18px;
   margin-bottom: 8px; border-bottom: 1px solid var(--border, #e4e4e9);
 }
-.app-shell .global-profile-drawer-head > div { display:flex; flex:1; min-width:0; flex-direction:column; gap:3px; }
-.app-shell .global-profile-drawer-head strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.app-shell .global-profile-drawer-head span:not(.global-profile-avatar) { color:var(--muted,#888894); font-size:13px; }
-.app-shell .global-profile-drawer-head > button,
-.app-shell .global-profile-drawer > button {
+.global-profile-drawer-head > div { display:flex; flex:1; min-width:0; flex-direction:column; gap:3px; }
+.global-profile-drawer-head strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.global-profile-drawer-head span:not(.global-profile-avatar) { color:var(--muted,#888894); font-size:13px; }
+.global-profile-drawer-head > button,
+.global-profile-drawer > button {
   min-height: 46px; display:flex; align-items:center; gap:13px; padding:11px 12px;
   border:0; border-radius:11px; background:transparent; color:inherit; text-align:left; font:inherit; cursor:pointer;
 }
-.app-shell .global-profile-drawer > button:hover,
-.app-shell .global-profile-drawer-head > button:hover { background:var(--app-bg,#f5f5f7); }
-.app-shell .global-profile-drawer .global-profile-logout { margin-top:auto; color:#c43c4b; }
-.app-shell .global-profile-drawer .global-profile-avatar { flex:0 0 42px; width:42px; height:42px; }
-.app-shell .global-profile-drawer .global-profile-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+.global-profile-drawer > button:hover,
+.global-profile-drawer-head > button:hover { background:var(--app-bg,#f5f5f7); }
+.global-profile-drawer .global-profile-logout { margin-top:auto; color:#c43c4b; }
+.global-profile-drawer .global-profile-avatar { flex:0 0 42px; width:42px; height:42px; }
+.global-profile-drawer .global-profile-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
 .app-shell .history-page { box-sizing:border-box; width:min(100%,760px); min-height:70vh; margin-inline:auto; padding:18px 18px 90px; color:var(--text,#17171b); }
 .app-shell .history-page-header { display:flex; align-items:center; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--border,#e4e4e9); }
 .app-shell .history-page-header > button { display:grid; place-items:center; width:42px; height:42px; border:0; border-radius:12px; background:transparent; color:inherit; }
@@ -3706,10 +3706,10 @@ html { -webkit-text-size-adjust: 100%; }
 @keyframes chatly-nav-slide { from { transform:translateX(-12px); opacity:.8; } to { transform:translateX(0); opacity:1; } }
 @media (max-width: 600px) {
   .app-shell .history-page { padding:12px 12px 86px; }
-  .app-shell .global-profile-drawer { padding:14px 12px; }
+  .global-profile-drawer { padding:14px 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .global-profile-backdrop, .app-shell .global-profile-drawer { animation:none; }
+  .global-profile-backdrop, .global-profile-drawer { animation:none; }
 }
 
 
@@ -4066,7 +4066,7 @@ html { -webkit-text-size-adjust: 100%; }
 .app-shell .topbar.has-open-account-drawer {
   z-index: 70;
 }
-.app-shell .global-profile-drawer {
+.global-profile-drawer {
   inset: 0 0 0 auto;
   border-right: 0;
   border-left: 1px solid var(--border, #e4e4e9);
@@ -4076,12 +4076,30 @@ html { -webkit-text-size-adjust: 100%; }
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.app-shell .global-profile-backdrop {
+.global-profile-backdrop {
   touch-action: manipulation;
 }
 @media (max-width: 600px) {
-  .app-shell .global-profile-drawer {
+  .global-profile-drawer {
     width: min(320px, 88vw);
     padding-inline: 14px;
   }
+}
+
+
+/* The account overlay is portalled to body so no header transform or stacking
+   context can clip it. Keep it above every app surface and below browser UI. */
+.global-profile-backdrop { position: fixed !important; inset: 0 !important; z-index: 9998 !important; }
+.global-profile-drawer {
+  position: fixed !important;
+  inset: 0 0 0 auto !important;
+  z-index: 9999 !important;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  box-sizing: border-box;
+  padding-top: max(18px, env(safe-area-inset-top)) !important;
+  padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
 }
