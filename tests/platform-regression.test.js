@@ -98,3 +98,16 @@ test("group creation RPC rejects self-only invites and validates invitee profile
   assert.ok(sql.toLowerCase().includes("revoke all on function public.create_group_conversation(text, text, uuid[]) from public, anon"));
   assert.ok(sql.toLowerCase().includes("grant execute on function public.create_group_conversation(text, text, uuid[]) to authenticated"));
 });
+
+
+test("post-view SECURITY DEFINER RPCs use an empty search_path and authenticated-only grants", async () => {
+  const sql = await read("../supabase/migrations/202610270005_harden_post_view_rpc_search_path.sql");
+  assert.equal((sql.match(/set search_path = ''/g) || []).length, 2);
+  assert.ok(sql.includes("from public.posts p"));
+  assert.ok(sql.includes("from public.post_views v"));
+  assert.ok(sql.includes("pg_catalog.count(*)"));
+  assert.ok(sql.toLowerCase().includes("revoke all on function public.record_post_view(bigint) from public, anon"));
+  assert.ok(sql.toLowerCase().includes("grant execute on function public.record_post_view(bigint) to authenticated"));
+  assert.ok(sql.toLowerCase().includes("revoke all on function public.get_post_view_counts(bigint[]) from public, anon"));
+  assert.ok(sql.toLowerCase().includes("grant execute on function public.get_post_view_counts(bigint[]) to authenticated"));
+});
