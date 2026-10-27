@@ -3711,3 +3711,41 @@ html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .app-shell .global-profile-backdrop, .app-shell .global-profile-drawer { animation:none; }
 }
+
+
+/* Remaining UI pass: keep notification navigation quiet and consistent. */
+.app-shell .destination-header-back{
+  display:inline-grid;place-items:center;
+  width:40px;height:40px;min-width:40px;flex:0 0 40px;
+  padding:0;border:1px solid var(--border,#e5e5ec);
+  border-radius:12px;background:var(--surface,#fff);
+  color:var(--text,#24242b);box-shadow:none;
+}
+.app-shell .destination-header-back:hover{
+  background:var(--app-bg,#f6f6fa);border-color:var(--border,#d9d9e3);
+}
+.app-shell .destination-header-back svg{width:19px;height:19px;flex:none}
+.app-shell .notification-destination-page .notification-controls-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+}
+.app-shell .notification-destination-page .notification-filter-row{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 12px;
+}
+.app-shell .notification-destination-page .notification-filter-row button{
+  min-height:34px;padding:7px 11px;border-radius:10px;font-size:12px;box-shadow:none;
+}
+.app-shell .notification-destination-page .notification-heading-actions{
+  display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0;
+}
+.app-shell .notification-destination-page .notification-mark-all-read{
+  min-height:34px;padding:7px 10px;border-radius:9px;font-size:12px;
+}
+.app-shell .notification-destination-page .notification-refresh-button{
+  width:36px;height:36px;border-radius:10px;box-shadow:none;
+}
+@media(max-width:420px){
+ .app-shell .destination-header-back{width:38px;height:38px;min-width:38px;flex-basis:38px;border-radius:11px}
+ .app-shell .notification-destination-page .notification-controls-row{align-items:flex-start}
+ .app-shell .notification-destination-page .notification-filter-row{gap:5px;margin:6px 0 10px}
+ .app-shell .notification-destination-page .notification-filter-row button{padding-inline:9px;min-height:32px}
+}
