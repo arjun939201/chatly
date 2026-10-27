@@ -4228,3 +4228,30 @@ html { -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) {
   .chat-layout .message .bubble > :is(.message-copy,.message-reply,.message-edit,.message-delete) { transition: none; }
 }
+
+/* Optimization — reveal post-level overflow actions on hover, focus, or touch devices. */
+@media (hover: hover) and (pointer: fine) {
+  .feed-page .post-card .post-options-trigger {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 140ms ease, background-color 140ms ease, color 140ms ease;
+  }
+  .feed-page .post-card:hover .post-options-trigger,
+  .feed-page .post-card:focus-within .post-options-trigger,
+  .feed-page .post-card .post-options-trigger[aria-expanded="true"],
+  .feed-page .post-card .post-options-trigger:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .feed-page .post-card .post-options-trigger {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-page .post-card .post-options-trigger {
+    transition: none;
+  }
+}
