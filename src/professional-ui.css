@@ -3655,3 +3655,59 @@ html { -webkit-text-size-adjust: 100%; }
   .app-shell .profile-page > .profile-edit-button { min-height: 46px; }
   .app-shell .profile-page .profile-grid-heading { min-height: 38px; padding-block: 8px; }
 }
+
+
+/* Global account navigation and History destination. */
+.app-shell .global-profile-menu { position: relative; z-index: 61; }
+.app-shell .global-profile-backdrop {
+  position: fixed; inset: 0; z-index: 59; width: 100%; height: 100%;
+  border: 0; border-radius: 0; background: rgb(12 12 20 / 42%);
+  animation: chatly-nav-fade .16s ease-out;
+}
+.app-shell .global-profile-drawer {
+  position: fixed; z-index: 60; inset: 0 auto 0 0; width: min(320px, 86vw);
+  padding: 18px 14px; background: var(--surface, #fff); color: var(--text, #17171b);
+  border-right: 1px solid var(--border, #e4e4e9); box-shadow: 14px 0 42px rgb(0 0 0 / 12%);
+  display: flex; flex-direction: column; gap: 6px; animation: chatly-nav-slide .2s ease-out;
+}
+.app-shell .global-profile-drawer-head {
+  display: flex; align-items: center; gap: 12px; padding: 8px 4px 18px;
+  margin-bottom: 8px; border-bottom: 1px solid var(--border, #e4e4e9);
+}
+.app-shell .global-profile-drawer-head > div { display:flex; flex:1; min-width:0; flex-direction:column; gap:3px; }
+.app-shell .global-profile-drawer-head strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.app-shell .global-profile-drawer-head span:not(.global-profile-avatar) { color:var(--muted,#888894); font-size:13px; }
+.app-shell .global-profile-drawer-head > button,
+.app-shell .global-profile-drawer > button {
+  min-height: 46px; display:flex; align-items:center; gap:13px; padding:11px 12px;
+  border:0; border-radius:11px; background:transparent; color:inherit; text-align:left; font:inherit; cursor:pointer;
+}
+.app-shell .global-profile-drawer > button:hover,
+.app-shell .global-profile-drawer-head > button:hover { background:var(--app-bg,#f5f5f7); }
+.app-shell .global-profile-drawer .global-profile-logout { margin-top:auto; color:#c43c4b; }
+.app-shell .global-profile-drawer .global-profile-avatar { flex:0 0 42px; width:42px; height:42px; }
+.app-shell .global-profile-drawer .global-profile-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+.app-shell .history-page { box-sizing:border-box; width:min(100%,760px); min-height:70vh; margin-inline:auto; padding:18px 18px 90px; color:var(--text,#17171b); }
+.app-shell .history-page-header { display:flex; align-items:center; gap:12px; padding-bottom:16px; border-bottom:1px solid var(--border,#e4e4e9); }
+.app-shell .history-page-header > button { display:grid; place-items:center; width:42px; height:42px; border:0; border-radius:12px; background:transparent; color:inherit; }
+.app-shell .history-page-header h1 { margin:0; font-size:22px; }
+.app-shell .history-page-header p { margin:3px 0 0; color:var(--muted,#888894); font-size:13px; }
+.app-shell .history-tabs { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--border,#e4e4e9); }
+.app-shell .history-tabs button { display:flex; align-items:center; justify-content:center; gap:8px; min-height:52px; border:0; border-bottom:3px solid transparent; background:transparent; color:var(--muted,#888894); font:inherit; cursor:pointer; }
+.app-shell .history-tabs button.active { border-bottom-color:var(--chatly-brand,#6757e8); color:var(--text,#17171b); font-weight:700; }
+.app-shell .history-post { padding:16px 4px; border-bottom:1px solid var(--border,#e4e4e9); overflow-wrap:anywhere; }
+.app-shell .history-post p { margin:0 0 10px; line-height:1.55; white-space:pre-wrap; }
+.app-shell .history-post small { color:var(--muted,#888894); }
+.app-shell .history-state { min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; color:var(--muted,#888894); }
+.app-shell .history-state h2 { margin:0; color:var(--text,#17171b); font-size:19px; }
+.app-shell .history-state p { margin:0; max-width:340px; }
+.app-shell .history-state button { display:flex; align-items:center; gap:8px; border:1px solid var(--border,#e4e4e9); border-radius:10px; padding:9px 12px; background:var(--surface,#fff); color:inherit; }
+@keyframes chatly-nav-fade { from { opacity:0; } to { opacity:1; } }
+@keyframes chatly-nav-slide { from { transform:translateX(-12px); opacity:.8; } to { transform:translateX(0); opacity:1; } }
+@media (max-width: 600px) {
+  .app-shell .history-page { padding:12px 12px 86px; }
+  .app-shell .global-profile-drawer { padding:14px 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .global-profile-backdrop, .app-shell .global-profile-drawer { animation:none; }
+}
