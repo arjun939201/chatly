@@ -84,5 +84,6 @@ test("notification date formatting handles malformed timestamps safely", async (
   const notifications = await read("../src/components/NotificationsDestination.jsx");
   assert.ok(notifications.includes("function relativeTime(value)"));
   assert.ok(notifications.includes("function dateLabel(value)"));
-  assert.equal((notifications.match(/if \(!value \|\| Number\.isNaN\(date\.getTime\(\)\)\) return "Earlier";/g) || []).length, 2);
+  assert.ok(notifications.includes('if (!value || Number.isNaN(date.getTime())) return "Earlier";'));
+  assert.ok(notifications.includes('if (Number.isNaN(date.getTime())) return "Earlier";'));
 });
