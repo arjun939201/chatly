@@ -56,3 +56,32 @@ test("account navigation and history have responsive and reduced-motion styling"
   assert.match(styles, /@media\s*\(max-width:\s*600px\)/);
   assert.match(styles, /prefers-reduced-motion:\s*reduce/);
 });
+
+
+test("history posts show author identity and preserve author/date fallbacks", () => {
+  assert.match(history, /from\("profiles"\)\.select\("id,username,display_name,avatar_url"\)/);
+  assert.match(history, /author\.display_name \|\| author\.username \|\| "Chatly member"/);
+  assert.match(history, /author\.username \? `@\$\{author\.username\}` : "Community post"/);
+  assert.match(history, /history-author-avatar/);
+  assert.match(history, /history-post-date/);
+});
+
+test("history tabs are associated with an accessible busy tab panel", () => {
+  assert.match(history, /role="tablist"/);
+  assert.match(history, /aria-controls="history-post-panel"/);
+  assert.match(history, /role="tabpanel"/);
+  assert.match(history, /aria-busy=\{loading\}/);
+  assert.match(history, /tabIndex=\{view === "bookmarks" \? 0 : -1\}/);
+});
+
+test("history gives actionable guidance when an optional history table is missing", () => {
+  assert.match(history, /rowsError\.code === "PGRST205"/);
+  assert.match(history, /Bookmarks are not available yet because saved-post storage is not configured/);
+  assert.match(history, /Liked-post history is not available yet because like storage is not configured/);
+});
+
+test("history styling includes author identity and narrow-screen adjustments", () => {
+  assert.match(styles, /\.history-post-author/);
+  assert.match(styles, /\.history-author-avatar/);
+  assert.match(styles, /@media \(max-width: 600px\)[\s\S]*?\.history-post/);
+});
