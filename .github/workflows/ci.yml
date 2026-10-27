@@ -6,8 +6,17 @@ on:
   pull_request:
     branches: [main]
 
+# Avoid wasting runner time on superseded pushes to the same branch.
+concurrency:
+  group: chatly-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build:
+    timeout-minutes: 10
     name: Production build
     runs-on: ubuntu-latest
     steps:
