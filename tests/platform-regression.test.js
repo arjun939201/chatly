@@ -95,6 +95,6 @@ test("group creation RPC rejects self-only invites and validates invitee profile
   assert.ok(sql.includes("requested.user_id <> v_creator"));
   assert.ok(sql.includes("One or more selected members are unavailable"));
   assert.ok(sql.includes("from public.profiles p where p.id = v_invitee"));
-  assert.ok(sql.includes("REVOKE ALL ON FUNCTION public.create_group_conversation(text, text, uuid[]) FROM public, anon"));
-  assert.ok(sql.includes("GRANT EXECUTE ON FUNCTION public.create_group_conversation(text, text, uuid[]) TO authenticated"));
+  assert.ok(sql.toLowerCase().includes("revoke all on function public.create_group_conversation(text, text, uuid[]) from public, anon"));
+  assert.ok(sql.toLowerCase().includes("grant execute on function public.create_group_conversation(text, text, uuid[]) to authenticated"));
 });
