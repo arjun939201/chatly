@@ -82,6 +82,7 @@ test("group membership changes cannot bypass the role-checked RPC", async () => 
 
 test("notification date formatting handles malformed timestamps safely", async () => {
   const notifications = await read("../src/components/NotificationsDestination.jsx");
-  assert.match(notifications, /function relativeTime\(value\)[\s\S]*?Number\.isNaN\(date\.getTime\(\)\) return "Earlier"/);
-  assert.match(notifications, /function dateLabel\(value\)[\s\S]*?Number\.isNaN\(date\.getTime\(\)\) return "Earlier"/);
+  assert.ok(notifications.includes("function relativeTime(value)"));
+  assert.ok(notifications.includes("function dateLabel(value)"));
+  assert.equal((notifications.match(/if \(!value \|\| Number\.isNaN\(date\.getTime\(\)\)\) return "Earlier";/g) || []).length, 2);
 });
