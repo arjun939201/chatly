@@ -169,7 +169,7 @@ export default function Chat({ session, profile, targetId, enterToSend = true, o
     // only persisted messages whose IDs are numeric PostgreSQL bigint values.
     const ids = unreadIncoming
       .map(message => message.id)
-      .filter(id => typeof id === "number" || (typeof id === "string" && /^\\d+$/.test(id)));
+      .filter(id => typeof id === "number" || (typeof id === "string" && /^\d+$/.test(id)));
     if (!ids.length) return;
 
     const readAt = new Date().toISOString();
