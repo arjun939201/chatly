@@ -1,0 +1,82 @@
+/* Chatly Booster — cross-surface usability and accessibility refinements.
+   Imported after existing page styles so this stays a small, reversible polish layer. */
+
+:root {
+  color-scheme: light;
+  --chatly-hit-target: 40px;
+}
+
+/* Keyboard users get one consistent, high-contrast focus treatment. */
+.app-shell :is(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--chatly-accent, #6557e8);
+  outline-offset: 3px;
+}
+.app-shell :is(button, a, input, textarea, select):focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Keep narrow screens from being forced wider by long names, URLs, or controls. */
+.app-shell :is(main, section, article, aside, header, footer, nav, form) {
+  min-width: 0;
+}
+.app-shell :is(img, video, iframe, canvas, svg) {
+  max-width: 100%;
+}
+.app-shell :is(button, a) {
+  touch-action: manipulation;
+}
+.app-shell :is(.icon-button, .modal-header .icon-button, .comments-dialog-header button,
+  .compose-modal > header button, .profile-page-head button) {
+  min-width: var(--chatly-hit-target);
+  min-height: var(--chatly-hit-target);
+}
+
+/* Long dialogs remain usable on short mobile screens and respect device cutouts. */
+.app-shell :is(.compose-modal, .profile-modal, .comments-modal, .profile-connections-dialog) {
+  max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.app-shell .modal-backdrop {
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  overscroll-behavior: contain;
+}
+
+/* Avoid animation for people who have requested reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *,
+  .app-shell *::before,
+  .app-shell *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
+
+/* Preserve keyboard visibility and system contrast in forced-colors mode. */
+@media (forced-colors: active) {
+  .app-shell :is(button, a, input, textarea, select):focus-visible {
+    outline: 2px solid Highlight;
+  }
+  .app-shell :is(.post-card, .compose-modal, .profile-modal, .chat-layout) {
+    border: 1px solid CanvasText;
+  }
+}
+
+/* Keep small phones comfortable without changing established page layouts. */
+@media (max-width: 600px) {
+  .app-shell :is(.compose-modal, .profile-modal, .comments-modal, .profile-connections-dialog) {
+    width: min(100%, 560px);
+    border-radius: 18px;
+  }
+  .app-shell :is(.compose-modal > header, .modal-header, .comments-dialog-header) {
+    padding-inline: 16px;
+  }
+  .app-shell :is(.post-card, .comment-item, .message, .notification-activity-item) {
+    min-width: 0;
+  }
+}
