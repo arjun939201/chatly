@@ -4031,3 +4031,30 @@ html { -webkit-text-size-adjust: 100%; }
     transition: none;
   }
 }
+
+
+/* Notification filters stay usable on compact screens without wrapping the header. */
+.notification-controls-row { min-width: 0; gap: 12px; }
+.notification-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  padding: 2px 1px 5px;
+}
+.notification-filter-row button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  min-height: 38px;
+}
+.notification-heading-actions { flex: 0 0 auto; }
+.notification-mark-all-read { white-space: nowrap; }
+@media (max-width: 520px) {
+  .notification-controls-row { align-items: flex-start; flex-direction: column; }
+  .notification-filter-row { width: 100%; }
+  .notification-heading-actions { width: 100%; justify-content: flex-end; }
+}
