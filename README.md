@@ -54,4 +54,4 @@ Chatly/
 
 ## YouTube discovery
 
-Explore can search YouTube videos using the YouTube Data API v3. Create an API key in Google Cloud Console, enable **YouTube Data API v3**, and configure `VITE_YOUTUBE_API_KEY` in `.env.local` for local development and in Render's Static Site environment variables for deployment. The browser app uses this key, so restrict it to the Chatly site referrers and YouTube Data API v3 in Google Cloud. Never use a service-account or other private credential in frontend code.\n
+Explore can search YouTube videos using the YouTube Data API v3. Create an API key in Google Cloud Console, enable **YouTube Data API v3**, and configure `VITE_YOUTUBE_API_KEY` in `.env.local` for local development and in Render's Static Site environment variables for deployment. The browser app uses this key, so restrict it to the Chatly site referrers and YouTube Data API v3 in Google Cloud. Never use a service-account or other private credential in frontend code.
