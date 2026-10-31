@@ -77,3 +77,41 @@ A green build confirms compilation and repository regression checks only; it doe
 ## YouTube discovery
 
 Explore can search YouTube videos using the YouTube Data API v3. Create an API key in Google Cloud Console, enable **YouTube Data API v3**, and configure `VITE_YOUTUBE_API_KEY` in `.env.local` for local development and in Render's Static Site environment variables for deployment. The browser app uses this key, so restrict it to the Chatly site referrers and YouTube Data API v3 in Google Cloud. Never use a service-account or other private credential in frontend code.
+
+
+## Docker deployment
+
+Chatly can also be built as a production container. The image uses a Node.js build
+stage and a small Nginx runtime stage; Supabase remains the managed authentication,
+PostgreSQL, storage, and realtime provider.
+
+### Build the image
+
+Pass the public browser configuration as build arguments. These values are embedded
+in the frontend bundle by Vite and are **not secrets**. Never pass a Supabase
+service-role key or other private credential to this build.
+
+```bash
+docker build \
+  --build-arg VITE_SUPABASE_URL=https://your-project.supabase.co \
+  --build-arg VITE_SUPABASE_ANON_KEY=your-public-anon-key \
+  --build-arg VITE_YOUTUBE_API_KEY=your-restricted-youtube-api-key \
+  -t chatly:local .
+```
+
+### Run locally
+
+```bash
+docker run --rm -p 8080:80 chatly:local
+```
+
+Open http://localhost:8080. The Nginx `/health` endpoint returns `200 ok`.
+
+### Docker notes
+
+- `Dockerfile` builds the Vite production bundle and serves it with Nginx.
+- `docker/nginx/default.conf` supports client-side route fallback and static asset caching.
+- `.dockerignore` excludes local dependencies, Git history, environment files, and test output.
+- Values prefixed with `VITE_` are public browser configuration, not server-side secrets.
+- The existing Render Static Site deployment remains unchanged.
+- This container does not run Supabase or PostgreSQL; those remain managed services.
