@@ -32,3 +32,17 @@ jobs:
         run: npm test
       - name: Build application
         run: npm run build
+
+  container-build:
+    timeout-minutes: 15
+    name: Docker production image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Build production container
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: chatly:ci
